@@ -17,7 +17,7 @@ export default function SignUp(props) {
     const classes = Style();
     //userContext
     const userContext = useContext(UserContext)
-    const { authenticated, registerUser} = userContext
+    const { authenticated, error, msg,severity, ShowError, registerUser, closeError} = userContext
 
 
     // hook de create user
@@ -31,15 +31,6 @@ export default function SignUp(props) {
     // destroyoning del hook user
     const {firstName, lastName, email, password, confirmar} = user
     
-    // activa el snackbar si hay un error
-    const [showError, setShowError] = useState({
-      open: false,
-      msg: "",
-      severity: ""
-    })
-
-    //destroynoning del hook error
-    const {open, msg, severity} = showError
 
     useEffect(() => {
       if(authenticated){
@@ -47,7 +38,7 @@ export default function SignUp(props) {
       }
       
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authenticated,showError ])
+    }, [authenticated])
 
   const onChange = (e) =>{
     setUser({
@@ -68,10 +59,10 @@ export default function SignUp(props) {
     e.preventDefault()
 
     if(password !== confirmar){
-      setShowError({open: true, msg: "las contraseñas no coinciden", severity:'error'})
+      ShowError("las contraseñas no coinciden")
     }
     else{
-      setShowError({open: false, msg: "", severity:'error'})
+      closeError()
       registerUser({firstName,lastName,email,password})
     }
 
@@ -82,7 +73,7 @@ export default function SignUp(props) {
       return;
     }
 
-    setShowError({open: false, msg: "", severity:'error'})
+    closeError()
   };
 
   return (
@@ -93,7 +84,7 @@ export default function SignUp(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Registrate
         </Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container spacing={2}>
@@ -182,7 +173,7 @@ export default function SignUp(props) {
               </Link>
             </Grid>
           </Grid>
-        <SnackbarOpen msg={msg} open={open} severity={severity} handleClose={handleClose}/>
+        <SnackbarOpen msg={msg} open={error} severity={severity} handleClose={handleClose}/>
         </form>
       </div>
     </Container>

@@ -8,6 +8,7 @@ export default (state, action) => {
         ...state,
         products: action.payload,
       };
+
     default:
       return state;
   }

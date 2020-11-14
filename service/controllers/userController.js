@@ -4,7 +4,6 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 exports.createUser = async (req, res) => {
   //revisar si hay errores
-  console.log(req)
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -15,6 +14,7 @@ exports.createUser = async (req, res) => {
     // revisar que el usauirio registrado sea unico
     let user = await User.findOne({ email });
 
+    console.log(req)
     if (user) {
       return res.status(400).json({ msg: "el usuario ya existe" });
     }

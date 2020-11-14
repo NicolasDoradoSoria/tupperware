@@ -3,7 +3,12 @@ import clienteAxios from "../../../config/axios";
 import UserContext from "./UserContext";
 import UserReducer from "./UserReducer";
 
-import { REGISTER_SUCESS, GET_USER, REGISTER_ERROR } from "../../../types";
+import {
+  REGISTER_SUCESS,
+  GET_USER,
+  REGISTER_ERROR,
+  CLOSE_SNACKBAR,
+} from "../../../types";
 import tokenAuth from "../../../config/token";
 const UserState = (props) => {
   const initialState = {
@@ -11,30 +16,23 @@ const UserState = (props) => {
     authenticated: null,
     user: null,
     msg: null,
-    error: false
+    error: false,
+    severity: "",
   };
-
 
   const [state, dispatch] = useReducer(UserReducer, initialState);
 
-
-
-  const registerUser = async date => {
+  const registerUser = async (date) => {
     try {
       const response = await clienteAxios.post("/api/usuarios", date);
-      
+      console.log(response);
       dispatch({
         type: REGISTER_SUCESS,
-        payload: response.data
+        payload: response.data,
       });
       authenticatedUser();
     } catch (error) {
-      console.log(error.response.data.msg)
-      dispatch({
-        type: REGISTER_ERROR,
-        payload: error.response.data.msg
-
-      });
+      ShowError(error.response.data.errors[0].msg)
     }
   };
 
@@ -54,13 +52,32 @@ const UserState = (props) => {
       console.log(error.response);
     }
   };
+
+  const ShowError = (msg) => {
+
+    dispatch({
+      type: REGISTER_ERROR,
+      payload: msg
+    });
+  };
+
+  const closeError = () => {
+    dispatch({
+      type: CLOSE_SNACKBAR,
+    });
+  }
   return (
     <UserContext.Provider
       value={{
         token: state.token,
         user: state.user,
         authenticated: state.authenticated,
+        error: state.error,
+        msg: state.msg,
+        severity: state.severity,
         registerUser,
+        ShowError,
+        closeError
       }}
     >
       {props.children}
