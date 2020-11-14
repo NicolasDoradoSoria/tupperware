@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import clienteAxios from "../../../config/axios";
 import UserContext from "./UserContext";
 import UserReducer from "./UserReducer";
@@ -21,19 +21,18 @@ const UserState = (props) => {
 
   const registerUser = async date => {
     try {
-      
       const response = await clienteAxios.post("/api/usuarios", date);
-
+      
       dispatch({
         type: REGISTER_SUCESS,
         payload: response.data
       });
       authenticatedUser();
     } catch (error) {
-      // console.log(error.response.data.msg)
+      console.log(error.response.data.msg)
       dispatch({
         type: REGISTER_ERROR,
-
+        payload: error.response.data.msg
 
       });
     }

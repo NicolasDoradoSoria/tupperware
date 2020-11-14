@@ -19,6 +19,7 @@ export default (state, action) => {
     case REGISTER_ERROR:
       return {
         ...state,
+        error:true,
         token: null,
         mensaje: action.payload,
       };

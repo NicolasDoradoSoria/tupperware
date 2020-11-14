@@ -9,9 +9,18 @@ import ProductDescription from "./components/productDescription/ProductDescripti
 import ShoppingCart from "./components/shoppingCart/ShoppingCart";
 import ProductState from "./context/productsContext/ProductState";
 import UserState from "./context/productsContext/userContext/UserState";
+
+var divStyle = {
+  backgroundImage: "url('https://www.klaviyo.com/wp-content/uploads/2016/09/abstract-background-1024x273.jpg')",
+  width: "100%",
+  height: "100vh",
+}
+
 function App() {
   return (
-    <UserState>
+    <div style={divStyle} >
+
+          <UserState>
       <ProductState>
         <Router>
           <Appbar />
@@ -23,7 +32,7 @@ function App() {
               exact
               path="/main/descripcion-producto"
               component={ProductDescription}
-            />
+              />
             <Route exact path="/main/carrito" component={ShoppingCart} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/nueva-cuenta" component={SignUp} />
@@ -33,6 +42,7 @@ function App() {
         </Router>
       </ProductState>
     </UserState>
+              </div>
   );
 }
 

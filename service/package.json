@@ -1,13 +1,13 @@
 {
-  "name": "panialeraservice",
+  "name": "tupperware",
   "version": "1.0.0",
-  "description": "panialera APi para panialera",
+  "description": "proyecto para crear pagina web de tupperware",
   "main": "index.js",
   "scripts": {
     "start": "node .",
     "dev": "nodemon ."
   },
-  "author": "Nicolas Andres Dorado Soria",
+  "author": "Nicolas A. Dorado Soria",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.6"

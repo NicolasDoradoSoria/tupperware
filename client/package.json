@@ -14,10 +14,15 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "cli": "^1.0.1",
     "date-fns": "^2.8.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "installed": "^3.3.1",
     "jquery": "^3.5.1",
     "moment": "^2.29.1",
+    "mongoose": "^5.10.13",
+    "nodemon": "^2.0.6",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
@@ -48,5 +53,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "main": "index.js",
+  "devDependencies": {},
+  "author": "nicolas a dorado soria",
+  "license": "ISC",
+  "description": ""
 }

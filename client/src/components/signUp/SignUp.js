@@ -11,13 +11,16 @@ import Container from "@material-ui/core/Container";
 import Style from "./Style";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/productsContext/userContext/UserContext";
-// import SnackBar from "../snackbar/SnackBar";
+import SnackbarOpen from "../snackbar/SnackBar";
 
 export default function SignUp(props) {
     const classes = Style();
+    //userContext
     const userContext = useContext(UserContext)
     const { authenticated, registerUser} = userContext
 
+
+    // hook de create user
     const [user, setUser] = useState({
       firstName: "",
       lastName: "",
@@ -25,8 +28,18 @@ export default function SignUp(props) {
       password: "",
       confirmar: "",
     })
-
+    // destroyoning del hook user
     const {firstName, lastName, email, password, confirmar} = user
+    
+    // activa el snackbar si hay un error
+    const [showError, setShowError] = useState({
+      open: false,
+      msg: "",
+      severity: ""
+    })
+
+    //destroynoning del hook error
+    const {open, msg, severity} = showError
 
     useEffect(() => {
       if(authenticated){
@@ -34,8 +47,7 @@ export default function SignUp(props) {
       }
       
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authenticated])
-
+    }, [authenticated,showError ])
 
   const onChange = (e) =>{
     setUser({
@@ -44,25 +56,37 @@ export default function SignUp(props) {
     })
   }
 
+  
+  const loginButtonDisabled = () =>{
+    return isEmpty(firstName) || isEmpty(lastName) || isEmpty(email) ||isEmpty(password) || isEmpty(confirmar) 
+  }
+
+  const isEmpty = (aField) => {
+    return aField === "";
+  }
   const onSubmit = (e) => {
     e.preventDefault()
 
-    // if (
-    //   firstName.trim() === "" ||
-    //   lastName.trim() === "" ||
-    //   email.trim() === "" ||
-    //   password.trim() === "" ||
-    //   confirmar.trim() === ""
-    // ){
-  
-    // }
-
-    registerUser({firstName,lastName,email,password})
+    if(password !== confirmar){
+      setShowError({open: true, msg: "las contraseñas no coinciden", severity:'error'})
+    }
+    else{
+      setShowError({open: false, msg: "", severity:'error'})
+      registerUser({firstName,lastName,email,password})
+    }
 
   }
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setShowError({open: false, msg: "", severity:'error'})
+  };
+
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" style={{backgroundColor: "#E2E8E7"}}>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -149,6 +173,7 @@ export default function SignUp(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={loginButtonDisabled()}
           >REGISTRARME</Button>
           <Grid container justify="flex-end">
             <Grid item>
@@ -157,7 +182,7 @@ export default function SignUp(props) {
               </Link>
             </Grid>
           </Grid>
-        {/* {error ? <SnackBar msg={msg} /> : null}  */}
+        <SnackbarOpen msg={msg} open={open} severity={severity} handleClose={handleClose}/>
         </form>
       </div>
     </Container>
