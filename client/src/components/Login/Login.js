@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useContext, useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -11,24 +11,80 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Style from './Style';
 import Copyright from './Copyright';
-import AppBar from '@material-ui/core/AppBar';
+import Avatar from "@material-ui/core/Avatar";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import './Login.css';
 import { Link } from "react-router-dom";
+import UserContext from '../../context/productsContext/userContext/UserContext';
+import SnackbarOpen from "../snackbar/SnackBar";
 
-export default function Login() {
+
+export default function Login(props) {
   const classes = Style()
 
+    //userContext
+    const userContext = useContext(UserContext)
+    const { authenticated, error, msg,severity, ShowError, login, closeError} = userContext
+
+    
+    // hook de create user
+    const [user, setUser] = useState({
+      email: "",
+      password: "",
+    })
+
+    // destroyoning del hook user
+    const {email, password } = user
+
+    useEffect(() => {
+      if(authenticated){
+        props.history.push("/");
+      }
+      
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authenticated])
+  
+  const onChange = (e) =>{
+      setUser({
+        ...user,
+        [e.target.name]: e.target.value
+      })
+    }
+  const onSubmit = (e) => {
+      e.preventDefault()
+
+      // manda los datos de usuario al userContext
+      login({email, password})
+      
+    }
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      closeError()
+    };
+
+    const loginButtonDisabled = () =>{
+      return isEmpty(email) || isEmpty(password) 
+    }
+
+    
+  const isEmpty = (aField) => {
+    return aField === "";
+  }
   return (
-    <Container  component="main" maxWidth="xs" style={{ backgroundColor: '#cfe8fc', height: '60%' }} >
+    <Container  component="main" maxWidth="xs" style={{backgroundColor: "#E2E8E7"}} >
       <CssBaseline />
       <div className={classes.paper}>
-      <AppBar position="static" className="AppBar">
+      <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
         <Typography component="h1" variant="h5" className="AppBar">
           Login
         </Typography>
       
-      </AppBar>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -39,6 +95,7 @@ export default function Login() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={onChange}
           />
           <TextField
             variant="outlined"
@@ -50,6 +107,7 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={onChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -62,6 +120,7 @@ export default function Login() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={loginButtonDisabled()}
           >
             Login
           </Button>
@@ -77,6 +136,7 @@ export default function Login() {
               </Link>
             </Grid>
           </Grid>
+          <SnackbarOpen msg={msg} open={error} severity={severity} handleClose={handleClose}/>
         </form>
       </div>
       <Box mt={8}>

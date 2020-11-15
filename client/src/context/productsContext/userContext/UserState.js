@@ -8,6 +8,7 @@ import {
   GET_USER,
   REGISTER_ERROR,
   CLOSE_SNACKBAR,
+  LOGIN_SUCCESSFUL
 } from "../../../types";
 import tokenAuth from "../../../config/token";
 const UserState = (props) => {
@@ -66,6 +67,22 @@ const UserState = (props) => {
       type: CLOSE_SNACKBAR,
     });
   }
+  // pide una peticon a la api para iniciar sesion 
+  const login = async (data) => {
+    try {
+      const response = await clienteAxios.post("/api/auth", data);
+      dispatch({
+        type: LOGIN_SUCCESSFUL,
+        payload: response.data
+      })
+      authenticatedUser();
+    } catch (error) {
+      dispatch({
+        type: REGISTER_ERROR,
+        payload: error.response.data.msg
+      })
+    }
+  }
   return (
     <UserContext.Provider
       value={{
@@ -77,7 +94,8 @@ const UserState = (props) => {
         severity: state.severity,
         registerUser,
         ShowError,
-        closeError
+        closeError,
+        login
       }}
     >
       {props.children}
