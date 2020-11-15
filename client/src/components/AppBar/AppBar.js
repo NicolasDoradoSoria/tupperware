@@ -15,14 +15,22 @@ import "./Style.css";
 import DraWer from "../Drawer/Drawer";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Link } from "react-router-dom";
+import { createMuiTheme,ThemeProvider} from '@material-ui/core';
+  
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#212121',
+    },
+  },
+});
+
 export default function Appbar() {
   const classes = Style();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-
-  
-  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -101,8 +109,8 @@ export default function Appbar() {
   );
 
   return (
-    <div className={classes.grow}>
-      <AppBar position="static">
+    <div className={classes.grow} >
+      <AppBar position="static" style={{ background: '#212121' }}>
         <Toolbar>
           <DraWer />
 
