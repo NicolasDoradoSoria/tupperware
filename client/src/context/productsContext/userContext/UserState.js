@@ -8,7 +8,8 @@ import {
   GET_USER,
   REGISTER_ERROR,
   CLOSE_SNACKBAR,
-  LOGIN_SUCCESSFUL
+  LOGIN_SUCCESSFUL,
+  SIGN_OFF
 } from "../../../types";
 import tokenAuth from "../../../config/token";
 const UserState = (props) => {
@@ -83,6 +84,17 @@ const UserState = (props) => {
       })
     }
   }
+
+  const signOff = () =>{
+    try {
+      dispatch({
+        type: SIGN_OFF,
+      })
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
   return (
     <UserContext.Provider
       value={{
@@ -95,7 +107,8 @@ const UserState = (props) => {
         registerUser,
         ShowError,
         closeError,
-        login
+        login,
+        signOff
       }}
     >
       {props.children}

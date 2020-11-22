@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,24 +15,26 @@ import "./Style.css";
 import DraWer from "../Drawer/Drawer";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Link } from "react-router-dom";
-import { createMuiTheme,ThemeProvider} from '@material-ui/core';
-  
+import UserContext from "../../context/productsContext/userContext/UserContext";
+import Button from '@material-ui/core/Button';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#212121',
-    },
-  },
-});
 
 export default function Appbar() {
   const classes = Style();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
+  //userContext
+  const userContext = useContext(UserContext)
+  const { authenticated, error, msg,severity, ShowError, login, closeError} = userContext
+
+  
+  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -47,9 +49,9 @@ export default function Appbar() {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+ useEffect(() => {
+    console.log(window.location.href)
+ }, [])
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -112,7 +114,22 @@ export default function Appbar() {
     <div className={classes.grow} >
       <AppBar position="static" style={{ background: '#212121' }}>
         <Toolbar>
-          <DraWer />
+        { authenticated?
+         <DraWer /> : 
+         ( <Link to={"/login"} >
+           <Button
+            
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            // className={classes.submit}
+            
+            >
+            Iniciar Secion
+          </Button>
+            </Link>
+          )}
 
           <div className={classes.search} style={{ width: "50%" }}>
             <div className={classes.searchIcon}>

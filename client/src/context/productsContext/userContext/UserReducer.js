@@ -1,4 +1,11 @@
-import { REGISTER_SUCESS, GET_USER, REGISTER_ERROR,CLOSE_SNACKBAR, LOGIN_SUCCESSFUL } from "../../../types";
+import {
+  REGISTER_SUCESS,
+  GET_USER,
+  REGISTER_ERROR,
+  CLOSE_SNACKBAR,
+  LOGIN_SUCCESSFUL,
+  SIGN_OFF,
+} from "../../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
@@ -10,7 +17,7 @@ export default (state, action) => {
         ...state,
         authenticated: true,
         mensaje: null,
-        error: false
+        error: false,
       };
     case GET_USER:
       return {
@@ -18,24 +25,32 @@ export default (state, action) => {
         authenticated: true,
         user: action.payload,
       };
+    
     case REGISTER_ERROR:
       localStorage.removeItem("token");
       return {
         ...state,
-        error:true,
+        error: true,
         token: null,
         user: null,
         authenticated: null,
         msg: action.payload,
-        severity: "error"
+        severity: "error",
       };
-
-      case CLOSE_SNACKBAR:
+    case SIGN_OFF:
+      localStorage.removeItem("token");
       return{
+        ...state,
+        token: null,
+        user: null,
+        authenticated: null,
+      }
+    case CLOSE_SNACKBAR:
+      return {
         ...state,
         error: false,
         msg: "",
-      }
+      };
     default:
       return state;
   }
