@@ -35,7 +35,7 @@ const UserState = (props) => {
       });
       authenticatedUser();
     } catch (error) {
-      ShowError(error.response.data.errors[0].msg);
+      ShowError(error.response.data.msg);
     }
   };
   // au8thenticated user
@@ -78,6 +78,7 @@ const UserState = (props) => {
       });
       authenticatedUser();
     } catch (error) {
+      console.log(error)
       dispatch({
         type: REGISTER_ERROR,
         payload: error.response.data.msg,

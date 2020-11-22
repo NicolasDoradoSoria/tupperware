@@ -21,13 +21,16 @@ export default function DraWer() {
   const [drawer, setDrawer] = useState(false);
   //userContext
   const userContext = useContext(UserContext);
-  const { signOff, user } = userContext;
+  const {authenticated, signOff, user } = userContext;
 
   const location = useLocation();
   const [drawerLocation, setDrawerLocation] = useState("")
 
 useEffect(() => {
+
   setDrawerLocation(location.pathname)
+  
+
 
 }, [location])
   const routes = [
@@ -109,7 +112,7 @@ useEffect(() => {
       </a>
       <div className={classNames(classes.logoName)}>
 
-      {"Hola " + user.firstName}
+      {user? <div>Hola  {user.firstName}</div>: null}
       </div>
     </div>
   );
