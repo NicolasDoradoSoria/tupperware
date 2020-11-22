@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment, useState, useContext,useEffect } from "react";
 import classNames from "classnames";
 import Drawer from "@material-ui/core/Drawer";
@@ -14,14 +15,13 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import { NavLink } from "react-router-dom";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Icon from "@material-ui/core/Icon";
 import { useLocation } from 'react-router-dom'
 export default function DraWer() {
   const classes = Style();
   const [drawer, setDrawer] = useState(false);
   //userContext
   const userContext = useContext(UserContext);
-  const { signOff } = userContext;
+  const { signOff, user } = userContext;
 
   const location = useLocation();
   const [drawerLocation, setDrawerLocation] = useState("")
@@ -69,7 +69,7 @@ useEffect(() => {
     return drawerLocation.indexOf(routeName) > -1 ? true : false;
   }
   var list = (
-    <List className={classes.list}>
+    <List>
       {routes.map((route, key) => {
         var listItemClasses;
         listItemClasses = classNames({
@@ -80,21 +80,14 @@ useEffect(() => {
         return (
           <NavLink
             to={route.path}
-            className={classes.item}
             activeClassName="active"
             key={key}
           >
-            <ListItem button className={classes.itemLink}>
-              {typeof route.icon === "string" ? (
-                <Icon className={classNames(classes.itemIcon)}>
-                  {route.icon}
-                </Icon>
-              ) : (
+            <ListItem button className={classes.itemLink + listItemClasses}>
                 <route.icon className={classNames(classes.itemIcon)} />
-              )}
               <ListItemText
                 primary={route.name}
-                className={classNames(classes.itemText + listItemClasses)}
+                className={classNames(classes.itemText)}
                 disableTypography={true}
               />
             </ListItem>
@@ -104,6 +97,22 @@ useEffect(() => {
     </List>
   );
 
+  var brand = (
+    <div className={classes.logo}>
+      <a
+        href="#"
+        className={classNames(classes.logoLink)}
+        target="_blank"
+      >
+        TUPPERWARE
+        
+      </a>
+      <div className={classNames(classes.logoName)}>
+
+      {"Hola " + user.firstName}
+      </div>
+    </div>
+  );
   return (
       <Fragment>
         <IconButton
@@ -118,12 +127,9 @@ useEffect(() => {
         <Drawer
           open={drawer}
           onClose={toggleDrawer(false)}
-          classes={{
-            paper: classNames(classes.drawerPaper),
-          }}
         >
-          <div className={classes.sidebarWrapper}>{list}</div>
-          <div className={classes.signOff}>
+          {brand}
+          <div className={classes.sidebarWrapper}>{list}
             <ListItem button className={classes.itemLink}>
               <ListItemIcon className={classNames(classes.itemIcon)}>
                 <ExitToAppIcon />

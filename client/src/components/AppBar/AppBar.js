@@ -26,7 +26,7 @@ export default function Appbar() {
 
   //userContext
   const userContext = useContext(UserContext)
-  const { authenticated, error, msg,severity, ShowError, login, closeError} = userContext
+  const { authenticated} = userContext
 
   
   
@@ -48,10 +48,6 @@ export default function Appbar() {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-
- useEffect(() => {
-    console.log(window.location.href)
- }, [])
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (

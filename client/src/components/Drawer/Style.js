@@ -4,18 +4,10 @@ import {
   blackColor,
   defaultFont,
   hexToRgb,
-  infoColor
+  infoColor,
+  grayColor
 } from "./material-dashboard-react";
 export default makeStyles({
-  list: {
-    marginTop: "20px",
-    paddingLeft: "0",
-    paddingTop: "0",
-    paddingBottom: "0",
-    marginBottom: "0",
-    listStyle: "none",
-    position: "unset"
-  },
     fullList: {
       width: 'auto',
     },
@@ -41,14 +33,6 @@ export default makeStyles({
         opacity: ".8"
       }
     },
-    signOff:{
-      position: "relative",
-      height: "calc(100vh - 75px)",
-      overflow: "auto",
-      width: "260px",
-      zIndex: "4",
-      overflowScrolling: "touch"
-    },
     sidebarWrapper: {
       position: "relative",
       height: "calc(100vh - 75px)",
@@ -56,14 +40,6 @@ export default makeStyles({
       width: "260px",
       zIndex: "4",
       overflowScrolling: "touch"
-    },
-    item: {
-      position: "relative",
-      display: "block",
-      textDecoration: "none",
-      "&:hover,&:focus,&:visited,&": {
-        color: whiteColor
-      }
     },
     itemLink: {
       width: "auto",
@@ -76,6 +52,12 @@ export default makeStyles({
       backgroundColor: "transparent",
       ...defaultFont
     },
+    logoName:{
+     color: "white",
+     fontSize: "20px",
+     textAlign:"center"
+    },
+
     itemIcon: {
       width: "24px",
       height: "30px",
@@ -94,6 +76,52 @@ export default makeStyles({
       fontSize: "18px",
       color: whiteColor
     },
+    logo: {
+      position: "relative",
+      padding: "15px 15px",
+      zIndex: "4",
+      "&:after": {
+        content: '""',
+        position: "absolute",
+        bottom: "0",
+  
+        height: "1px",
+        right: "15px",
+        width: "calc(100% - 30px)",
+        backgroundColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)"
+      }
+    },
+    logoLink: {
+      ...defaultFont,
+      textTransform: "uppercase",
+      padding: "5px 0",
+      display: "block",
+      fontSize: "18px",
+      textAlign: "center",
+      fontWeight: "400",
+      lineHeight: "30px",
+      textDecoration: "none",
+      backgroundColor: "transparent",
+      "&,&:hover": {
+        color: whiteColor
+      }
+    },
+    logoImage: {
+      width: "30px",
+      display: "inline-block",
+      maxHeight: "30px",
+      marginLeft: "10px",
+      marginRight: "15px"
+    },
+
+    img: {
+      width: "35px",
+      top: "22px",
+      position: "absolute",
+      verticalAlign: "middle",
+      border: "0"
+    },
+    
     blue: {
       backgroundColor: infoColor[0],
       boxShadow:
