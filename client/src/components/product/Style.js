@@ -11,5 +11,17 @@ export default makeStyles((theme) => ({
       height: 0,
       paddingTop: "56.25%", // 16:9
     },
-   
+    actionArea: {
+      borderRadius: 16,
+      transition: '0.2s',
+      '&:hover': {
+        transform: 'scale(1.1)',
+      },
+    },
+    join: {
+      background: 'linear-gradient(to top, #638ef0, #82e7fe)',
+      '& > *': {
+        textTransform: 'none !important',
+      },
+    },
   }));

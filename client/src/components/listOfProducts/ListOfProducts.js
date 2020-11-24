@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import Product from "../product/Product";
 import { Box, Grid } from "@material-ui/core";
@@ -17,17 +17,16 @@ const ListOfProducts = () => {
 
   if (products.length === 0) return null
   return (
-    <Fragment>
       <Box bgcolor="text.secondary" boxShadow={3}>
         <Grid container spacing={4}>
           {products.map((product) => (
-            <Grid item xs={12} sm={6} md={3} className={classes.root}>
-              <Product product={product} key={product.id} />
+            <Grid item xs={12} sm={6} md={3} className={classes.root} key={product._id}>
+              <Product product={product} />
             </Grid>
           ))}
         </Grid>
       </Box>
-    </Fragment>
+    
   );
 };
 

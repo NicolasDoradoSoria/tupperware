@@ -13,49 +13,62 @@ import "./Style.css";
 import Style from "./Style";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import CardActionArea from "@material-ui/core/CardActionArea";
+function convertDate(inputFormat) {
+  function pad(s) {
+    return s < 10 ? "0" + s : s;
+  }
+  var d = new Date(inputFormat);
+  return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join("/");
+}
+
 const Product = ({ product }) => {
   const classes = Style();
 
-  const { name, descripcion, date, photoURL } = product;
+  const { name, descripcion, date, photoURL, price } = product;
   return (
     <div className="card">
-      <Card className={classes.root}>
-        <Link
-          to="/main/descripcion-producto"
-          style={{ textDecoration: "none" }}
-        >
-          <CardHeader title={name} subheader={date} />
-        </Link>
-        <CardMedia
-          className={classes.media}
-          image={photoURL}
-          title="Paella dish"
-        />
-        <Link
-          to="/main/descripcion-producto"
-          style={{ textDecoration: "none" }}
-        >
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {descripcion}
-            </Typography>
-          </CardContent>
-        </Link>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
+      <CardActionArea className={classes.actionArea}>
+        <Card className={classes.root}>
+          <Link
+            to="/main/descripcion-producto"
+            style={{ textDecoration: "none" }}
+          >
+            <CardHeader title={name} subheader={convertDate(date)} />
+          </Link>
+          <CardMedia
+            className={classes.media}
+            image={photoURL}
+            title="Paella dish"
+          />
+          <Link
+            to="/main/descripcion-producto"
+            style={{ textDecoration: "none" }}
+          >
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {descripcion}
+              </Typography>
 
-          <IconButton>
-            <Button variant="contained" color="primary">
+              <Typography variant="h5" component="h2">
+                ${price}
+              </Typography>
+            </CardContent>
+          </Link>
+          <CardActions disableSpacing>
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton aria-label="share">
+              <ShareIcon />
+            </IconButton>
+
+            <Button variant="contained" color="primary" className={classes.join} disableRipple>
               agregar carrito
             </Button>
-          </IconButton>
-        </CardActions>
-      </Card>
+          </CardActions>
+        </Card>
+      </CardActionArea>
     </div>
   );
 };
