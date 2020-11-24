@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 const Product = ({ product }) => {
   const classes = Style();
 
-  const { name, descripcion, date, urlImg } = product;
+  const { name, descripcion, date, photoURL } = product;
   return (
     <div className="card">
       <Card className={classes.root}>
@@ -28,7 +28,7 @@ const Product = ({ product }) => {
         </Link>
         <CardMedia
           className={classes.media}
-          image={urlImg}
+          image={photoURL}
           title="Paella dish"
         />
         <Link
