@@ -26,7 +26,6 @@ const Product = ({ product }) => {
 
   const { name, descripcion, date, photoURL, price, _id } = product;
   return (
-    <CardActionArea className={classes.actionArea}>
       <Card className={classes.root}>
         <Link
           to={`/main/descripcion-producto/${_id}`}
@@ -75,7 +74,6 @@ const Product = ({ product }) => {
           </Button>
         </CardActions>
       </Card>
-    </CardActionArea>
   );
 };
 

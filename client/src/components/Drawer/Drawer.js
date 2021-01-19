@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment, useState, useContext, useEffect } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import classNames from "classnames";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -14,8 +14,6 @@ import CategoryIcon from "@material-ui/icons/Category";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import { NavLink } from "react-router-dom";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import { useLocation } from "react-router-dom";
 export default function DraWer() {
   const classes = Style();
   const [drawer, setDrawer] = useState(false);
@@ -23,12 +21,6 @@ export default function DraWer() {
   const userContext = useContext(UserContext);
   const { authenticated, signOff, user } = userContext;
 
-  const location = useLocation();
-  const [drawerLocation, setDrawerLocation] = useState("");
-
-  useEffect(() => {
-    setDrawerLocation(location.pathname);
-  }, [location]);
   const routes = [
     {
       id: 1,
@@ -65,9 +57,9 @@ export default function DraWer() {
   };
 
   var list = (
-    <List>
+
+    <List onClick={toggleDrawer(false)}>
       {routes.map((route, key) => {
-      
         return (
           <NavLink to={route.path} activeClassName="active" key={key}>
             <ListItem button className={classes.itemLink}>
@@ -111,18 +103,20 @@ export default function DraWer() {
         classes={{ paper: classes.paper }}
       >
         {brand}
-       
+
         <div className={classes.sidebarWrapper}>
-            {list}
-            <ListItem button className={classes.itemLink}>
-              <ListItemIcon className={classNames(classes.itemIcon)}>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText className={classNames(classes.itemText)} onClick={onCLickSignOff}>
-                Cerrar Sesion
-              </ListItemText>
-            </ListItem>
-          </div>
+          {list}
+          <ListItem button className={classes.itemLink}>
+            <ExitToAppIcon className={classNames(classes.itemIcon)} />
+            <ListItemText
+              onClick={onCLickSignOff}
+              className={classNames(classes.itemText)}
+              disableTypography={true}
+            >
+              Cerrar Sesion
+            </ListItemText>
+          </ListItem>
+        </div>
       </Drawer>
     </Fragment>
   );

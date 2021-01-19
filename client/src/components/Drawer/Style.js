@@ -19,6 +19,7 @@ export default makeStyles({
       width: "260px",
     },
     itemLink: {
+      
       width: "auto",
       transition: "all 300ms linear",
       margin: "10px 15px 0",
@@ -29,7 +30,8 @@ export default makeStyles({
       backgroundColor: "transparent",
       ...defaultFont,
       "&:hover": {
-        backgroundColor: "blue"
+        backgroundColor: "#B23A17",
+        textDecoration:"none",
       }
     },
    
