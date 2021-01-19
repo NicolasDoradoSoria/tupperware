@@ -1,0 +1,12 @@
+.ListOfProducts{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem ;
+}
+
+.BoxProducts {
+    background-color: #CCC6C4;
+    padding: 1rem;
+
+}
+

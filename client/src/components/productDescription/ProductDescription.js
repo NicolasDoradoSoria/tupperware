@@ -9,7 +9,7 @@ import PriceProduct from "../priceProduct/PriceProduct";
 import Button from "@material-ui/core/Button";
 import './Style.css';
 
-const ProductDescription = () => {
+const ProductDescription = ({ match }) => {
   const classes = Style();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (

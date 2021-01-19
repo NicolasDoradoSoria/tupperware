@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment, useState, useContext,useEffect } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import classNames from "classnames";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -15,24 +15,20 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import { NavLink } from "react-router-dom";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import { useLocation } from 'react-router-dom'
+import { useLocation } from "react-router-dom";
 export default function DraWer() {
   const classes = Style();
   const [drawer, setDrawer] = useState(false);
   //userContext
   const userContext = useContext(UserContext);
-  const {authenticated, signOff, user } = userContext;
+  const { authenticated, signOff, user } = userContext;
 
   const location = useLocation();
-  const [drawerLocation, setDrawerLocation] = useState("")
+  const [drawerLocation, setDrawerLocation] = useState("");
 
-useEffect(() => {
-
-  setDrawerLocation(location.pathname)
-  
-
-
-}, [location])
+  useEffect(() => {
+    setDrawerLocation(location.pathname);
+  }, [location]);
   const routes = [
     {
       id: 1,
@@ -68,26 +64,14 @@ useEffect(() => {
     signOff();
   };
 
-  function activeRoute(routeName) {
-    return drawerLocation.indexOf(routeName) > -1 ? true : false;
-  }
   var list = (
     <List>
       {routes.map((route, key) => {
-        var listItemClasses;
-        listItemClasses = classNames({
-          [" " + classes["blue"]]: activeRoute(route.path),
-        });
-
-
+      
         return (
-          <NavLink
-            to={route.path}
-            activeClassName="active"
-            key={key}
-          >
-            <ListItem button className={classes.itemLink + listItemClasses}>
-                <route.icon className={classNames(classes.itemIcon)} />
+          <NavLink to={route.path} activeClassName="active" key={key}>
+            <ListItem button className={classes.itemLink}>
+              <route.icon className={classNames(classes.itemIcon)} />
               <ListItemText
                 primary={route.name}
                 className={classNames(classes.itemText)}
@@ -102,37 +86,34 @@ useEffect(() => {
 
   var brand = (
     <div className={classes.logo}>
-      <a
-        href="#"
-        className={classNames(classes.logoLink)}
-        target="_blank"
-      >
+      <a href="#" className={classNames(classes.logoLink)} target="_blank">
         TUPPERWARE
-        
       </a>
       <div className={classNames(classes.logoName)}>
-
-      {user? <div>Hola  {user.firstName}</div>: null}
+        {user ? <div>Hola {user.firstName}</div> : null}
       </div>
     </div>
   );
   return (
-      <Fragment>
-        <IconButton
-          onClick={toggleDrawer(true)}
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="open drawer"
-        >
-          <MenuIcon />
-        </IconButton>
-        <Drawer
-          open={drawer}
-          onClose={toggleDrawer(false)}
-        >
-          {brand}
-          <div className={classes.sidebarWrapper}>{list}
+    <Fragment>
+      <IconButton
+        onClick={toggleDrawer(true)}
+        edge="start"
+        className={classes.menuButton}
+        color="inherit"
+        aria-label="open drawer"
+      >
+        <MenuIcon />
+      </IconButton>
+      <Drawer
+        open={drawer}
+        onClose={toggleDrawer(false)}
+        classes={{ paper: classes.paper }}
+      >
+        {brand}
+       
+        <div className={classes.sidebarWrapper}>
+            {list}
             <ListItem button className={classes.itemLink}>
               <ListItemIcon className={classNames(classes.itemIcon)}>
                 <ExitToAppIcon />
@@ -142,8 +123,7 @@ useEffect(() => {
               </ListItemText>
             </ListItem>
           </div>
-          <div className={classes.background} />
-        </Drawer>
-      </Fragment>
+      </Drawer>
+    </Fragment>
   );
 }

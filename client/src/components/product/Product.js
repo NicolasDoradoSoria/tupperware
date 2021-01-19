@@ -1,7 +1,6 @@
 import React from "react";
 import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -25,51 +24,58 @@ function convertDate(inputFormat) {
 const Product = ({ product }) => {
   const classes = Style();
 
-  const { name, descripcion, date, photoURL, price } = product;
+  const { name, descripcion, date, photoURL, price, _id } = product;
   return (
-    <div className="card">
-      <CardActionArea className={classes.actionArea}>
-        <Card className={classes.root}>
-          <Link
-            to="/main/descripcion-producto"
-            style={{ textDecoration: "none" }}
-          >
-            <CardHeader title={name} subheader={convertDate(date)} />
-          </Link>
-          <CardMedia
-            className={classes.media}
-            image={photoURL}
-            title="Paella dish"
+    <CardActionArea className={classes.actionArea}>
+      <Card className={classes.root}>
+        <Link
+          to={`/main/descripcion-producto/${_id}`}
+          style={{ textDecoration: "none" }}
+        >
+          <h1 className={classes.title}>{name}</h1>
+          <CardHeader
+            subheader={convertDate(date)}
+            className={classes.subheader}
           />
-          <Link
-            to="/main/descripcion-producto"
-            style={{ textDecoration: "none" }}
+        </Link>
+        <CardMedia
+          className={classes.media}
+          image={photoURL}
+          title="Paella dish"
+        />
+        <Link
+          to={`/main/descripcion-producto/${_id}`}
+          style={{ textDecoration: "none" }}
+        >
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p" >
+              {descripcion}
+            </Typography>
+
+            <Typography variant="h5" component="h2" className={classes.price}>
+              ${price}
+            </Typography>
+          </CardContent>
+        </Link>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.join}
+            disableRipple
           >
-            <CardContent>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {descripcion}
-              </Typography>
-
-              <Typography variant="h5" component="h2">
-                ${price}
-              </Typography>
-            </CardContent>
-          </Link>
-          <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-
-            <Button variant="contained" color="primary" className={classes.join} disableRipple>
-              agregar carrito
-            </Button>
-          </CardActions>
-        </Card>
-      </CardActionArea>
-    </div>
+            agregar carrito
+          </Button>
+        </CardActions>
+      </Card>
+    </CardActionArea>
   );
 };
 
