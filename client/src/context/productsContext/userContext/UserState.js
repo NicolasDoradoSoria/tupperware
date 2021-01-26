@@ -25,10 +25,9 @@ const UserState = (props) => {
   const [state, dispatch] = useReducer(UserReducer, initialState);
 
   // registra un usuario
-  const registerUser = async (date) => {
+  const registerUser = async (data) => {
     try {
-      const response = await clienteAxios.post("/api/usuarios", date);
-      console.log(response);
+      const response = await clienteAxios.post("/api/usuarios/signUp", data);
       dispatch({
         type: REGISTER_SUCESS,
         payload: response.data,
@@ -71,7 +70,7 @@ const UserState = (props) => {
   // pide una peticon a la api para iniciar sesion
   const login = async (data) => {
     try {
-      const response = await clienteAxios.post("/api/auth", data);
+      const response = await clienteAxios.post("/api/auth/signin", data);
       dispatch({
         type: LOGIN_SUCCESSFUL,
         payload: response.data,

@@ -1,3 +1,5 @@
+//coneccion a mongoDB
+
 const mongoose = require('mongoose')
 require('dotenv').config({path: 'variables.env'})
 

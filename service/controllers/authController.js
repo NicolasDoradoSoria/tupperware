@@ -1,14 +1,12 @@
 const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
-const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const { validationResultFunction } = require("../libs/validationResult");
+//sigin
+exports.signin = async (req, res) => {
 
-exports.authenticateUser = async (req, res) => {
-  //revisar si hay errores
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+  validationResultFunction(req)
+
 
   //extrear el email y password
 
@@ -16,7 +14,9 @@ exports.authenticateUser = async (req, res) => {
 
   try {
     //revisar que sea un usuario registrado
-    let user = await User.findOne({ email });
+    const user = await User.findOne({ email: email }).populate(
+      "roles"
+    );
     if (!user) {
       return res.status(400).json({ msg: "el usuario no existe" });
     }
@@ -52,14 +52,15 @@ exports.authenticateUser = async (req, res) => {
   }
 };
 
- //obtiene que usuario esta autenticado
 
+ //obtiene que usuario esta autenticado
  exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password')
+    const user = await User.findById(req.userId).select('-password')
     res.json({user})
   } catch (error) {
     console.log(error)
     res.status(500).json({msg:'hubo un error'})
   }
 }
+

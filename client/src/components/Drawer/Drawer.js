@@ -14,12 +14,13 @@ import CategoryIcon from "@material-ui/icons/Category";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 export default function DraWer() {
   const classes = Style();
   const [drawer, setDrawer] = useState(false);
   //userContext
   const userContext = useContext(UserContext);
-  const { authenticated, signOff, user } = userContext;
+  const { signOff, user } = userContext;
 
   const routes = [
     {
@@ -40,6 +41,12 @@ export default function DraWer() {
       path: "/main/categoria",
       icon: CategoryIcon,
     },
+    {
+      id: 4,
+      name: "Administracion de Productos",
+      path: "productos",
+      icon: CategoryIcon,
+    },
   ];
   const toggleDrawer = (open) => (event) => {
     if (
@@ -57,7 +64,6 @@ export default function DraWer() {
   };
 
   var list = (
-
     <List onClick={toggleDrawer(false)}>
       {routes.map((route, key) => {
         return (
@@ -78,9 +84,15 @@ export default function DraWer() {
 
   var brand = (
     <div className={classes.logo}>
-      <a href="#" className={classNames(classes.logoLink)} target="_blank">
+      <Link
+        to={`/`}
+        className={classNames(classes.logoLink)}
+        style={{ textDecoration: "none" }}
+        onClick={toggleDrawer(false)}
+      >
         TUPPERWARE
-      </a>
+      </Link>
+
       <div className={classNames(classes.logoName)}>
         {user ? <div>Hola {user.firstName}</div> : null}
       </div>
@@ -106,6 +118,7 @@ export default function DraWer() {
 
         <div className={classes.sidebarWrapper}>
           {list}
+
           <ListItem button className={classes.itemLink}>
             <ExitToAppIcon className={classNames(classes.itemIcon)} />
             <ListItemText

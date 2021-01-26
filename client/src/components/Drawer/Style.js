@@ -1,4 +1,3 @@
-import { blue } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   whiteColor,
@@ -28,10 +27,10 @@ export default makeStyles({
       display: "block",
       padding: "10px 15px",
       backgroundColor: "transparent",
+      
       ...defaultFont,
       "&:hover": {
         backgroundColor: "#B23A17",
-        textDecoration:"none",
       }
     },
    
@@ -76,17 +75,12 @@ export default makeStyles({
     },
     logoLink: {
       ...defaultFont,
-      textTransform: "uppercase",
       padding: "5px 0",
       display: "block",
       fontSize: "18px",
       textAlign: "center",
-      fontWeight: "400",
-      lineHeight: "30px",
-      textDecoration: "none",
-      backgroundColor: "transparent",
       "&,&:hover": {
-        color: whiteColor
+        color: whiteColor,
       }
     },
     logoImage: {

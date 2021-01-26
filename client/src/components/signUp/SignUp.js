@@ -27,9 +27,10 @@ export default function SignUp(props) {
       email: "",
       password: "",
       confirmar: "",
+      admin: false
     })
     // destroyoning del hook user
-    const {firstName, lastName, email, password, confirmar} = user
+    const {firstName, lastName, email, password, confirmar, admin} = user
     
 
     useEffect(() => {
@@ -63,7 +64,7 @@ export default function SignUp(props) {
     }
     else{
       closeError()
-      registerUser({firstName,lastName,email,password})
+      registerUser({firstName,lastName,email,password, admin})
     }
 
   }
