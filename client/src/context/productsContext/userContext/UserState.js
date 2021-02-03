@@ -62,6 +62,7 @@ const UserState = (props) => {
     });
   };
 
+//TODO: revisar esto
   const closeError = () => {
     dispatch({
       type: CLOSE_SNACKBAR,

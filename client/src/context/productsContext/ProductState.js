@@ -2,13 +2,16 @@ import React, { useReducer } from "react";
 import ProductReducer from "./ProductReducer";
 import ProductContext from "./ProductContext";
 import clienteAxios from "../../config/axios";
-import {GET_PRODUCTS, DELETE_PRODUCT
+import {GET_PRODUCTS, DELETE_PRODUCT, CLOSE_SNACKBAR, REGISTER_ERROR, ADD_PRUDUCT_SUCCESSFUL
 } from '../../types'
 
 const ProductState = (props) => {
   const initialState = {
     products: [],
     errorProducts: false,
+    msg: null,
+    error: false,
+    severity: "",
   };
 
   const [state, dispatch] = useReducer(ProductReducer, initialState);
@@ -36,7 +39,7 @@ const deleteProduct = async (id) =>{
       payload: id
     })
   } catch (error) {
-    console.log(error)
+    ShowError(error.response.data.msg);
   }
     
 }
@@ -44,17 +47,38 @@ const deleteProduct = async (id) =>{
 // agrega un producto
 const addProduct = async (data) => {
   try {
-    await clienteAxios.post(`api/productos`, data)
+   await clienteAxios.post(`api/productos`, data)
+    dispatch({
+      type: ADD_PRUDUCT_SUCCESSFUL,
+      payload: "todo salio ok"
+    })
   } catch (error) {
-    console.log(error)
+    ShowError(error.response.data.msg);
   }
 }
+
+const closeError = () => {
+  dispatch({
+    type: CLOSE_SNACKBAR,
+  });
+};
+
+const ShowError = (msg) => {
+  dispatch({
+    type: REGISTER_ERROR,
+    payload: msg,
+  });
+};
   return (
     <ProductContext.Provider value={{
         products: state.products,
         getProducts,
         deleteProduct,
-        addProduct
+        addProduct,
+        error: state.error,
+        msg: state.msg,
+        severity: state.severity,
+        closeError,
     }}>
       {props.children}
     </ProductContext.Provider>

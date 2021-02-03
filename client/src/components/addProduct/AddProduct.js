@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -8,35 +8,55 @@ import Style from "./Style";
 import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
+import SnackbarOpen from "../snackbar/SnackBar";
 const AddProduct = () => {
   const classes = Style();
 
-//productContext
-const productContext = useContext(ProductContext);
-const {
-  addProduct
-} = productContext;
+  //productContext
+  const productContext = useContext(ProductContext);
+  const { addProduct, error, msg, severity, closeError} = productContext;
 
-// hook de create user
-const [product, setProduct] = useState({
-  name: "",
-  photoURL: "",
-  price: 0,
-  descripcion: ""
-});
+  // hook de create user
+  const [product, setProduct] = useState({
+    name: "",
+    photoURL: "",
+    price: 0,
+    descripcion: "",
+  });
 
-  const productChange= (e) => {
+  // destroyoning del hook product
+  const { name, photoURL, price, descripcion } = product;
+
+  const productChange = (e) => {
     setProduct({
       ...product,
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
   const productSubmit = (e) => {
     e.preventDefault();
 
     // manda los datos de usuario a productContext
     addProduct(product);
+
+    setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
+  };
+
+  const addProductButtonDisabled = () => {
+    return isEmpty(name) || isEmpty(photoURL) || isEmpty(descripcion);
+  };
+
+  const isEmpty = (aField) => {
+    return aField === "";
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    closeError();
   };
   return (
     <Card className={classes.root}>
@@ -56,6 +76,7 @@ const [product, setProduct] = useState({
                 fullWidth
                 name="name"
                 required
+                value={name}
                 onChange={productChange}
               />
             </Grid>
@@ -64,7 +85,7 @@ const [product, setProduct] = useState({
                 id="outlined-basic"
                 label="Url de la Imagen"
                 variant="outlined"
-                
+                value={photoURL}
                 fullWidth
                 name="photoURL"
                 required
@@ -91,6 +112,7 @@ const [product, setProduct] = useState({
                 placeholder="ingrese precio"
                 fullWidth
                 required
+                value={price}
                 name="price"
                 onChange={productChange}
               />
@@ -104,6 +126,7 @@ const [product, setProduct] = useState({
                 fullWidth
                 required
                 variant="outlined"
+                value={descripcion}
                 name="descripcion"
                 onChange={productChange}
               />
@@ -116,10 +139,17 @@ const [product, setProduct] = useState({
             color="primary"
             className={classes.button}
             type="submit"
+            disabled={addProductButtonDisabled()}
           >
             Agregar Producto
           </Button>
         </CardActions>
+        <SnackbarOpen
+          msg={msg}
+          open={error}
+          severity={severity}
+          handleClose={handleClose}
+        />
       </form>
     </Card>
   );
