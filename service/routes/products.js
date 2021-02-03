@@ -8,6 +8,6 @@ router.post("/",[auth.verifyToken, auth.isModerator ], productsController.postPr
 router.get("/", productsController.getProducts);
 router.get("/:productId", productsController.getProductById);
 router.put("/:productId",auth.verifyToken, productsController.updateProductById);
-router.delete("/:productId",[auth.verifyToken , auth.isModerator], productsController.deleteProductById);
+router.delete("/:productId",[auth.verifyToken, auth.isModerator], productsController.deleteProductById);
 
 module.exports = router;

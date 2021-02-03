@@ -13,37 +13,40 @@ import "./App.css";
 import ProductManagement from "./components/productManagement/ProductManagement";
 var divStyle = {
   backgroundColor: "#D8CEB0",
-}
+  marginRight: "-1rem",
+};
 
 function App() {
+  
   return (
-    <div style={divStyle} >
-
-          <UserState>
-      <ProductState>
-        <Router>
-          <Appbar />
-          <Switch>
-         
-            <Route exact path="/" component={Main} />
-            <Route exact path="/main/categoria" component={Categoria} />
-            <Route
-              exact
-              path="/main/descripcion-producto/:id"
-              component={ProductDescription}
+    <div style={divStyle}>
+      <UserState>
+        <ProductState>
+          <Router>
+            <Appbar />
+            <Switch>
+              <Route exact path="/" component={Main} />
+              <Route exact path="/main/categoria" component={Categoria} />
+              <Route
+                exact
+                path="/main/descripcion-producto/:id"
+                component={ProductDescription}
               />
-            <Route exact path="/main/carrito" component={ShoppingCart} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/nueva-cuenta" component={SignUp} />
-            <Route exact path="/perfil" component={Profile} />
-
-            <Route exact path="/Administracion-productos" component={ProductManagement} />
-            descripcion-producto
-          </Switch>
-        </Router>
-      </ProductState>
-    </UserState>
-              </div>
+              <Route exact path="/main/carrito" component={ShoppingCart} />
+                <Route exact path="/login" component={Login} />
+              <Route exact path="/nueva-cuenta" component={SignUp} />
+              <Route exact path="/perfil" component={Profile} />
+              <Route
+                exact
+                path="/Administracion-productos"
+                component={ProductManagement}
+              />
+              descripcion-producto
+            </Switch>
+          </Router>
+        </ProductState>
+      </UserState>
+    </div>
   );
 }
 

@@ -152,10 +152,10 @@ export default function Login(props) {
             />
           </form>
         </div>
-        <Box mt={8}>
+      </Container>
+        <Box mt={8}  className={classes.boxCopyright}>
           <Copyright />
         </Box>
-      </Container>
     </div>
   );
 }

@@ -20,10 +20,8 @@ export default makeStyles((theme) => ({
       margin: theme.spacing(3, 0, 2),
     },
     container: {
-      backgroundColor: "#E2E8E7"
-    },
-    login: {
-      padding: "0 0 5rem 0"
+      backgroundColor: "#E2E8E7",
+      height: '66vh',
     },
     marginRight: theme.spacing(1),
     

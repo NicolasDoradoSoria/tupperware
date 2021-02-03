@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Role = require("../models/Role");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validationResultFunction } = require("../libs/validationResult");
@@ -57,7 +58,8 @@ exports.signin = async (req, res) => {
  exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select('-password')
-    res.json({user})
+    const roles =await Role.find({_id: {$in: user.roles}})
+    res.json({user, roles})
   } catch (error) {
     console.log(error)
     res.status(500).json({msg:'hubo un error'})

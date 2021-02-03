@@ -30,7 +30,7 @@ const UserState = (props) => {
       const response = await clienteAxios.post("/api/usuarios/signUp", data);
       dispatch({
         type: REGISTER_SUCESS,
-        payload: response.data,
+        payload: response.data.user,
       });
       authenticatedUser();
     } catch (error) {
@@ -48,7 +48,7 @@ const UserState = (props) => {
       const respuesta = await clienteAxios.get("/api/auth");
       dispatch({
         type: GET_USER,
-        payload: respuesta.data.user,
+        payload: respuesta.data,
       });
     } catch (error) {
       console.log(error.response);

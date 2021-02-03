@@ -41,12 +41,6 @@ export default function DraWer() {
       path: "/main/categoria",
       icon: CategoryIcon,
     },
-    {
-      id: 4,
-      name: "Administracion de Productos",
-      path: "productos",
-      icon: CategoryIcon,
-    },
   ];
   const toggleDrawer = (open) => (event) => {
     if (
@@ -94,10 +88,11 @@ export default function DraWer() {
       </Link>
 
       <div className={classNames(classes.logoName)}>
-        {user ? <div>Hola {user.firstName}</div> : null}
+        {user ? <div>Hola {user.user.firstName}</div> : null}
       </div>
     </div>
   );
+  if (user === null) return null
   return (
     <Fragment>
       <IconButton
@@ -118,6 +113,25 @@ export default function DraWer() {
 
         <div className={classes.sidebarWrapper}>
           {list}
+
+          <List>
+            {user.roles.map((role, key) => {
+              if (role.name === "moderator") {
+                return (
+                  <NavLink to="Administracion-productos" activeClassName="active" key={key}>
+                    <ListItem button className={classes.itemLink}>
+                      <CategoryIcon className={classNames(classes.itemIcon)} />
+                      <ListItemText
+                        primary="Administracion de Productos"
+                        className={classNames(classes.itemText)}
+                        disableTypography={true}
+                      />
+                    </ListItem>
+                  </NavLink>
+                );
+              }
+            })}
+          </List>
 
           <ListItem button className={classes.itemLink}>
             <ExitToAppIcon className={classNames(classes.itemIcon)} />

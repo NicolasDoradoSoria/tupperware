@@ -7,7 +7,7 @@ exports.postProducts = async (req, res) => {
   try {
     const product = new Products(req.body);
 
-    //guardamos el proyecto
+    //guardamos el producto
     await product.save();
     res.json(product);
   } catch (error) {
@@ -62,7 +62,16 @@ exports.deleteProductById = async (req, res) => {
 
   try {
     const { productId } = req.params;
+    console.log(productId)
+    
+    //si el producto existe o no
+    let product = await Products.findById(productId);
+    if (!product) {
+      return res.status(404).json({ msg: "no existe ese producto" });
+    }
     await Products.findByIdAndDelete(productId);
+    
+  
     res.status(204).json();
   } catch (error) {
     res.status(500).send("hubo un error");

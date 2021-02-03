@@ -14,7 +14,7 @@ exports.verifyToken  =  (req, res, next) =>{
 
     try {
         const cifrado =  jwt.verify(token, process.env.SECRETA)
-        req.userId = cifrado.id
+        req.userId = cifrado.user.id
         next()
     } catch (error) {
         res.status(401).json({msg: "token no valido"})
@@ -24,8 +24,8 @@ exports.verifyToken  =  (req, res, next) =>{
 
 
 exports.isModerator  = async (req, res, next) =>{
+
   const user=  await User.findById(req.userId)
-//   console.log(user)
   const roles =await Role.find({_id: {$in: user.roles}})
   for (let i = 0; i< roles.length; i++){
       if(roles[i].name === "moderator"){
