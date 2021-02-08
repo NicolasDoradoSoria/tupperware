@@ -4,6 +4,7 @@ export default makeStyles((theme) => ({
   root: {
     minWidth: 330,
     marginLeft: "2rem",
+    marginRight: "2rem",
     marginTop: "2rem",
   },
   title: {

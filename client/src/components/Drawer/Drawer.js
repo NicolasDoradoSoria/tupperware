@@ -42,6 +42,21 @@ export default function DraWer() {
       icon: CategoryIcon,
     },
   ];
+
+  const routesModerator = [
+    {
+      id: 1,
+      name: "Administracion de Productos",
+      path: "todos-Productos",
+      icon: CategoryIcon,
+    },
+    {
+      id: 2,
+      name: "Agregar un Producto",
+      path: "agregar-producto",
+      icon: CategoryIcon,
+    },
+  ];
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -76,6 +91,25 @@ export default function DraWer() {
     </List>
   );
 
+  var moderatorList = (
+    <List onClick={toggleDrawer(false)}>
+      {routesModerator.map((route, key) => {
+        return (
+          <NavLink to={route.path} activeClassName="active" key={key}>
+            <ListItem button className={classes.itemLink}>
+              <route.icon className={classNames(classes.itemIcon)} />
+              <ListItemText
+                primary={route.name}
+                className={classNames(classes.itemText)}
+                disableTypography={true}
+              />
+            </ListItem>
+          </NavLink>
+        );
+      })}
+    </List>
+  );
+
   var brand = (
     <div className={classes.logo}>
       <Link
@@ -92,7 +126,12 @@ export default function DraWer() {
       </div>
     </div>
   );
-  if (user === null) return null
+
+  if (user === null) return null;
+
+const roleFilter = user.roles.map((role) => role.name);
+
+
   return (
     <Fragment>
       <IconButton
@@ -113,25 +152,7 @@ export default function DraWer() {
 
         <div className={classes.sidebarWrapper}>
           {list}
-
-          <List>
-            {user.roles.map((role, key) => {
-              if (role.name === "moderator") {
-                return (
-                  <NavLink to="Administracion-productos" activeClassName="active" key={key}>
-                    <ListItem button className={classes.itemLink}>
-                      <CategoryIcon className={classNames(classes.itemIcon)} />
-                      <ListItemText
-                        primary="Administracion de Productos"
-                        className={classNames(classes.itemText)}
-                        disableTypography={true}
-                      />
-                    </ListItem>
-                  </NavLink>
-                );
-              }
-            })}
-          </List>
+          {(roleFilter[0] !== "moderator") ? null : moderatorList}
 
           <ListItem button className={classes.itemLink}>
             <ExitToAppIcon className={classNames(classes.itemIcon)} />

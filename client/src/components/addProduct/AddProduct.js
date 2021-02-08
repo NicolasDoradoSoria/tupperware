@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,7 +14,8 @@ const AddProduct = () => {
 
   //productContext
   const productContext = useContext(ProductContext);
-  const { addProduct, error, msg, severity, closeError} = productContext;
+  const { addProduct, selectedProduct, updateProduct, error,
+    msg, severity} = productContext;
 
   // hook de create user
   const [product, setProduct] = useState({
@@ -22,10 +23,18 @@ const AddProduct = () => {
     photoURL: "",
     price: 0,
     descripcion: "",
+    
   });
-
-  // destroyoning del hook product
   const { name, photoURL, price, descripcion } = product;
+
+  useEffect(() => {
+    if(selectedProduct !== null){
+      setProduct(selectedProduct)
+    }else {
+      // name: ""
+    }
+  }, [selectedProduct])
+  // destroyoning del hook product
 
   const productChange = (e) => {
     setProduct({
@@ -37,8 +46,13 @@ const AddProduct = () => {
   const productSubmit = (e) => {
     e.preventDefault();
 
-    // manda los datos de usuario a productContext
-    addProduct(product);
+    if(selectedProduct=== null){
+
+      // manda los datos de usuario a productContext
+      addProduct(product);
+    }else {
+      updateProduct(product)
+    }
 
     setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
   };
@@ -51,13 +65,6 @@ const AddProduct = () => {
     return aField === "";
   };
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    closeError();
-  };
   return (
     <Card className={classes.root}>
       <form noValidate onSubmit={productSubmit}>
@@ -144,13 +151,13 @@ const AddProduct = () => {
             Agregar Producto
           </Button>
         </CardActions>
-        <SnackbarOpen
-          msg={msg}
-          open={error}
-          severity={severity}
-          handleClose={handleClose}
-        />
       </form>
+      {error ?
+            <SnackbarOpen
+            msg={msg}
+            severity={severity}
+            /> : null
+          } 
     </Card>
   );
 };

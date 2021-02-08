@@ -10,12 +10,14 @@ import ShoppingCart from "./components/shoppingCart/ShoppingCart";
 import ProductState from "./context/productsContext/ProductState";
 import UserState from "./context/productsContext/userContext/UserState";
 import "./App.css";
-import ProductManagement from "./components/productManagement/ProductManagement";
+import ListProductsTable from './components/listProductsTable/ListProductsTable'
+import AddProduct from "./components/addProduct/AddProduct";
 var divStyle = {
   backgroundColor: "#D8CEB0",
   marginRight: "-1rem",
+  minHeight: "950px"
 };
-
+  
 function App() {
   
   return (
@@ -33,14 +35,11 @@ function App() {
                 component={ProductDescription}
               />
               <Route exact path="/main/carrito" component={ShoppingCart} />
-                <Route exact path="/login" component={Login} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/nueva-cuenta" component={SignUp} />
               <Route exact path="/perfil" component={Profile} />
-              <Route
-                exact
-                path="/Administracion-productos"
-                component={ProductManagement}
-              />
+              <Route exact path="/todos-Productos" component={ListProductsTable}/>
+              <Route exact path="/agregar-producto" component={AddProduct}/>
               descripcion-producto
             </Switch>
           </Router>

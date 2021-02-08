@@ -2,8 +2,15 @@ import React, { useReducer } from "react";
 import ProductReducer from "./ProductReducer";
 import ProductContext from "./ProductContext";
 import clienteAxios from "../../config/axios";
-import {GET_PRODUCTS, DELETE_PRODUCT, CLOSE_SNACKBAR, REGISTER_ERROR, ADD_PRUDUCT_SUCCESSFUL
-} from '../../types'
+import {
+  GET_PRODUCTS,
+  DELETE_PRODUCT,
+  CLOSE_SNACKBAR,
+  REGISTER_ERROR,
+  ADD_PRUDUCT_SUCCESSFUL,
+  EDIT_PRODUCT,
+  CURRENT_PRODUCT
+} from "../../types";
 
 const ProductState = (props) => {
   const initialState = {
@@ -12,65 +19,91 @@ const ProductState = (props) => {
     msg: null,
     error: false,
     severity: "",
+    selectedProduct: null
   };
 
   const [state, dispatch] = useReducer(ProductReducer, initialState);
 
   // obtener los productos
-  const getProducts = async () =>{
+  const getProducts = async () => {
     try {
-      const result = await clienteAxios.get("/api/productos")
+      const result = await clienteAxios.get("/api/productos");
       dispatch({
         type: GET_PRODUCTS,
-        payload: result.data.products
+        payload: result.data.products,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // eliminar el producto seleccionado
+  const deleteProduct = async (id) => {
+    
+    
+    try {
+      const result = await clienteAxios.delete(`/api/productos/${id}`);
+      console.log(result)
+
+      dispatch({
+        type: DELETE_PRODUCT,
+        payload: result,
+      });
+    } catch (error) {
+      console.log(error)
+      // ShowError(error.response.data.msg);
+    }
+  };
+
+  // agrega un producto
+  const addProduct = async (data) => {
+    try {
+      const result = await clienteAxios.post(`api/productos`, data);
+
+      dispatch({
+        type: ADD_PRUDUCT_SUCCESSFUL,
+        payload: result.data,
+      });
+      
+    } catch (error) {
+      ShowError(error.response.data.msg);
+    }
+  };
+
+  const updateProduct = async (data, id) => {
+    try {
+      const result = await clienteAxios.put(`api/productos/${id}`, data)
+      console.log(result)
+      dispatch({
+        type: EDIT_PRODUCT,
       })
     } catch (error) {
       console.log(error)
     }
-      
   }
-// eliminar el producto seleccionado
-const deleteProduct = async (id) =>{
-  try {
 
-    await clienteAxios.delete(`/api/productos/${id}`)
+  const saveCurrentProduct = async (product) =>{
     dispatch({
-      type: DELETE_PRODUCT,
-      payload: id
+      type: CURRENT_PRODUCT,
+      payload: product
     })
-  } catch (error) {
-    ShowError(error.response.data.msg);
   }
-    
-}
-
-// agrega un producto
-const addProduct = async (data) => {
-  try {
-   await clienteAxios.post(`api/productos`, data)
+  const closeError = () => {
     dispatch({
-      type: ADD_PRUDUCT_SUCCESSFUL,
-      payload: "todo salio ok"
-    })
-  } catch (error) {
-    ShowError(error.response.data.msg);
-  }
-}
+      type: CLOSE_SNACKBAR,
+    });
+  };
 
-const closeError = () => {
-  dispatch({
-    type: CLOSE_SNACKBAR,
-  });
-};
+  const ShowError = (msg) => {
+    dispatch({
+      type: REGISTER_ERROR,
+      payload: msg,
+    });
+  };
 
-const ShowError = (msg) => {
-  dispatch({
-    type: REGISTER_ERROR,
-    payload: msg,
-  });
-};
+
   return (
-    <ProductContext.Provider value={{
+    <ProductContext.Provider
+      value={{
         products: state.products,
         getProducts,
         deleteProduct,
@@ -79,7 +112,11 @@ const ShowError = (msg) => {
         msg: state.msg,
         severity: state.severity,
         closeError,
-    }}>
+        updateProduct,
+        saveCurrentProduct,
+        selectedProduct: state.selectedProduct,
+      }}
+    >
       {props.children}
     </ProductContext.Provider>
   );

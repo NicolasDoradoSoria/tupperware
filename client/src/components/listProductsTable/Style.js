@@ -2,25 +2,29 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles(theme =>({
     table: {
-        minWidth: 300,
-        
+        minWidth: 650,
       },
       root: {
-        maxWidth: 700,
-        // marginLeft: "4rem",
-        marginTop: "2rem",
+        marginTop: "3rem",
+        width: "85%",
+        margin: "auto",
       },
-      nameProducts: {
-          display:"flex",
-      },
-      tableName: {
-          paddingLeft: "0"
-      },
+    column: {
+          paddingLeft: 0,
+    },
       title: {
+          marginTop: "1rem",
           textAlign: "center",
           marginBottom: "2rem",
       },
       removeIcon: {
           marginRight: "1rem",
+      },
+      actionBox: {
+        textAlign: "center",
+        paddingRight: 0
+      },
+      columnAction: {
+          width: "25%"
       }
 }));

@@ -69,14 +69,6 @@ export default function SignUp(props) {
 
   }
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    closeError()
-  };
-
   return (
     <Container component="main" maxWidth="xs" style={{backgroundColor: "#E2E8E7"}}>
       <CssBaseline />
@@ -174,7 +166,12 @@ export default function SignUp(props) {
               </Link>
             </Grid>
           </Grid>
-        <SnackbarOpen msg={msg} open={error} severity={severity} handleClose={handleClose}/>
+          {error ?
+            <SnackbarOpen
+            msg={msg}
+            severity={severity}
+            /> : null
+          } 
         </form>
       </div>
     </Container>

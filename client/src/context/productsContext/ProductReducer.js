@@ -3,7 +3,9 @@ import {
   DELETE_PRODUCT,
   CLOSE_SNACKBAR,
   REGISTER_ERROR,
-  ADD_PRUDUCT_SUCCESSFUL
+  ADD_PRUDUCT_SUCCESSFUL,
+  EDIT_PRODUCT,
+  CURRENT_PRODUCT
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -23,12 +25,19 @@ export default (state, action) => {
         ...state,
         products: action.payload,
       };
+      
+    case CURRENT_PRODUCT:
+      return {
+        ...state,
+        selectedProduct: action.payload
+      }
     case DELETE_PRODUCT:
       return {
         ...state,
-        products: state.products.filter(
-          (product) => product._id !== action.payload
-        ),
+        products: action.payload.data.products,
+        error: true,
+        msg: "hola todo ok?",
+        severity: "success",
       };
     case CLOSE_SNACKBAR:
       return {

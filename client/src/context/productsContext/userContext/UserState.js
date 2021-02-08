@@ -30,7 +30,7 @@ const UserState = (props) => {
       const response = await clienteAxios.post("/api/usuarios/signUp", data);
       dispatch({
         type: REGISTER_SUCESS,
-        payload: response.data.user,
+        payload: response.data,
       });
       authenticatedUser();
     } catch (error) {

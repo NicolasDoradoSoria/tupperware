@@ -23,14 +23,13 @@ export default function Login(props) {
 
   //userContext
   const userContext = useContext(UserContext);
+
   const {
     authenticated,
     error,
     msg,
     severity,
-    ShowError,
     login,
-    closeError,
   } = userContext;
 
   // hook de create user
@@ -62,14 +61,7 @@ export default function Login(props) {
     // manda los datos de usuario al userContext
     login({ email, password });
   };
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    closeError();
-  };
-
+  
   const loginButtonDisabled = () => {
     return isEmpty(email) || isEmpty(password);
   };
@@ -144,12 +136,12 @@ export default function Login(props) {
                 </Link>
               </Grid>
             </Grid>
+          {error ?
             <SnackbarOpen
-              msg={msg}
-              open={error}
-              severity={severity}
-              handleClose={handleClose}
-            />
+            msg={msg}
+            severity={severity}
+            /> : null
+          } 
           </form>
         </div>
       </Container>

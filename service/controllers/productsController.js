@@ -9,7 +9,8 @@ exports.postProducts = async (req, res) => {
 
     //guardamos el producto
     await product.save();
-    res.json(product);
+
+    res.status(200).send("producto agregado correctamente");
   } catch (error) {
     console.log(error);
     res.status(500).send("hubo un error");
@@ -57,13 +58,12 @@ exports.updateProductById = async (req, res) => {
 };
 
 //elimina producto por id
-exports.deleteProductById = async (req, res) => {
+exports.deleteProductById = async (req, res, next) => {
   validationResultFunction(req)
 
   try {
     const { productId } = req.params;
-    console.log(productId)
-    
+    const products = await Products.find();
     //si el producto existe o no
     let product = await Products.findById(productId);
     if (!product) {
@@ -71,8 +71,9 @@ exports.deleteProductById = async (req, res) => {
     }
     await Products.findByIdAndDelete(productId);
     
-  
-    res.status(204).json();
+    
+    
+    res.json({ products });
   } catch (error) {
     res.status(500).send("hubo un error");
   }
