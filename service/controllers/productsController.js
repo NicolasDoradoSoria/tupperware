@@ -39,19 +39,27 @@ exports.getProductById = async (req, res) => {
     res.status(500).send("hubo un error");
   }
 };
-
+ 
 //actualiza producto por id
-exports.updateProductById = async (req, res) => {
-  validationResultFunction(req)
+exports.updateProductById = async (req, res, next) => {
+
   try {
+    //si el producto existe o no
+    let products = await Products.findById(req.params.productId);
+  
+    if (!products) {
+      return res.status(404).json({ msg: "no existe ese producto" });
+    }
+    
     const updatedProduct = await Products.findByIdAndUpdate(
-      req.params.productId,
+      { _id: req.params.productId },
       req.body,
       {
         new: true,
       }
-    );
-    res.status(200).json(updatedProduct);
+      );
+      res.status(200).json(updatedProduct);
+      res.status(200).send({msg: "hubo un error"});
   } catch (error) {
     res.status(500).send("hubo un error");
   }

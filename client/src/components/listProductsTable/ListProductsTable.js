@@ -38,6 +38,7 @@ const ListProductsTable = () => {
     setOpen(true);
     saveCurrentProduct(product);
   };
+
   if (products.length === 0) return null;
   return (
     <>
@@ -110,7 +111,8 @@ const ListProductsTable = () => {
         </Table>
       </TableContainer>
 
-      <UpdateProduct open={open} setOpen={setOpen}></UpdateProduct>
+      <UpdateProduct open={open} onClose={() => setOpen(false)}></UpdateProduct>
+      
     </>
   );
 };

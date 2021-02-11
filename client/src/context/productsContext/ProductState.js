@@ -9,7 +9,8 @@ import {
   REGISTER_ERROR,
   ADD_PRUDUCT_SUCCESSFUL,
   EDIT_PRODUCT,
-  CURRENT_PRODUCT
+  CURRENT_PRODUCT,
+  REMOVE_SELECTED_PRODUCT
 } from "../../types";
 
 const ProductState = (props) => {
@@ -36,9 +37,9 @@ const ProductState = (props) => {
       console.log(error);
     }
   };
+
   // eliminar el producto seleccionado
   const deleteProduct = async (id) => {
-    
     
     try {
       const result = await clienteAxios.delete(`/api/productos/${id}`);
@@ -68,16 +69,17 @@ const ProductState = (props) => {
       ShowError(error.response.data.msg);
     }
   };
-
-  const updateProduct = async (data, id) => {
+// actualizar un producto
+  const updateProduct = async (data) => {
     try {
-      const result = await clienteAxios.put(`api/productos/${id}`, data)
-      console.log(result)
+      
+      const result = await clienteAxios.put(`api/productos/${data._id}`, data)
       dispatch({
         type: EDIT_PRODUCT,
+        payload: result.data
       })
     } catch (error) {
-      console.log(error)
+      console.log(error.request)
     }
   }
 
@@ -87,6 +89,8 @@ const ProductState = (props) => {
       payload: product
     })
   }
+
+
   const closeError = () => {
     dispatch({
       type: CLOSE_SNACKBAR,

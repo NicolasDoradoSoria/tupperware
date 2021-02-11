@@ -9,13 +9,19 @@ import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
-const AddProduct = () => {
+const AddProduct = ({onClose, open}) => {
   const classes = Style();
 
   //productContext
   const productContext = useContext(ProductContext);
-  const { addProduct, selectedProduct, updateProduct, error,
-    msg, severity} = productContext;
+  const {
+    addProduct,
+    selectedProduct,
+    updateProduct,
+    error,
+    msg,
+    severity,
+  } = productContext;
 
   // hook de create user
   const [product, setProduct] = useState({
@@ -23,17 +29,16 @@ const AddProduct = () => {
     photoURL: "",
     price: 0,
     descripcion: "",
-    
   });
   const { name, photoURL, price, descripcion } = product;
 
   useEffect(() => {
-    if(selectedProduct !== null){
-      setProduct(selectedProduct)
-    }else {
-      // name: ""
+    if (open) {
+      setProduct(selectedProduct);
+    } else {
+      setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
     }
-  }, [selectedProduct])
+  }, []);
   // destroyoning del hook product
 
   const productChange = (e) => {
@@ -46,12 +51,12 @@ const AddProduct = () => {
   const productSubmit = (e) => {
     e.preventDefault();
 
-    if(selectedProduct=== null){
-
+    if (selectedProduct === null) {
       // manda los datos de usuario a productContext
       addProduct(product);
-    }else {
-      updateProduct(product)
+    } else {
+      updateProduct(product);
+      onClose(false)
     }
 
     setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
@@ -141,23 +146,19 @@ const AddProduct = () => {
           </Grid>
         </CardContent>
         <CardActions className={classes.addProductButton}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            type="submit"
-            disabled={addProductButtonDisabled()}
-          >
-            Agregar Producto
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              type="submit"
+              disabled={addProductButtonDisabled()}
+            >
+              Agregar Producto
+            </Button>
+           
         </CardActions>
       </form>
-      {error ?
-            <SnackbarOpen
-            msg={msg}
-            severity={severity}
-            /> : null
-          } 
+      {error ? <SnackbarOpen msg={msg} severity={severity} /> : null}
     </Card>
   );
 };
