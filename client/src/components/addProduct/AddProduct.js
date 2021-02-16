@@ -19,6 +19,7 @@ const AddProduct = ({onClose, open}) => {
     selectedProduct,
     updateProduct,
     error,
+    closeError,
     msg,
     severity,
   } = productContext;
@@ -33,11 +34,14 @@ const AddProduct = ({onClose, open}) => {
   const { name, photoURL, price, descripcion } = product;
 
   useEffect(() => {
+    closeError()
     if (open) {
       setProduct(selectedProduct);
     } else {
       setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
     }
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // destroyoning del hook product
 
@@ -56,10 +60,10 @@ const AddProduct = ({onClose, open}) => {
       addProduct(product);
     } else {
       updateProduct(product);
-      onClose(false)
     }
 
     setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
+
   };
 
   const addProductButtonDisabled = () => {

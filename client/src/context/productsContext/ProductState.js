@@ -5,12 +5,11 @@ import clienteAxios from "../../config/axios";
 import {
   GET_PRODUCTS,
   DELETE_PRODUCT,
-  CLOSE_SNACKBAR,
   REGISTER_ERROR,
   ADD_PRUDUCT_SUCCESSFUL,
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
-  REMOVE_SELECTED_PRODUCT
+  CLOSE_SNACKBAR
 } from "../../types";
 
 const ProductState = (props) => {
@@ -43,7 +42,6 @@ const ProductState = (props) => {
     
     try {
       const result = await clienteAxios.delete(`/api/productos/${id}`);
-      console.log(result)
 
       dispatch({
         type: DELETE_PRODUCT,
@@ -74,6 +72,7 @@ const ProductState = (props) => {
     try {
       
       const result = await clienteAxios.put(`api/productos/${data._id}`, data)
+      console.log(result)
       dispatch({
         type: EDIT_PRODUCT,
         payload: result.data
@@ -89,13 +88,13 @@ const ProductState = (props) => {
       payload: product
     })
   }
-
-
   const closeError = () => {
     dispatch({
       type: CLOSE_SNACKBAR,
     });
   };
+
+
 
   const ShowError = (msg) => {
     dispatch({

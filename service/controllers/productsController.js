@@ -59,7 +59,6 @@ exports.updateProductById = async (req, res, next) => {
       }
       );
       res.status(200).json(updatedProduct);
-      res.status(200).send({msg: "hubo un error"});
   } catch (error) {
     res.status(500).send("hubo un error");
   }

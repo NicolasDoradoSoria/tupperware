@@ -1,12 +1,11 @@
 import {
   GET_PRODUCTS,
   DELETE_PRODUCT,
-  CLOSE_SNACKBAR,
   REGISTER_ERROR,
   ADD_PRUDUCT_SUCCESSFUL,
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
-  REMOVE_SELECTED_PRODUCT,
+  CLOSE_SNACKBAR
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -34,6 +33,9 @@ export default (state, action) => {
           product._id === action.payload._id ? action.payload : product
         ),
         selectedProduct: null,
+        error: true,
+        msg: "todo ok",
+        severity: "success",
       };
 
     case CURRENT_PRODUCT:
@@ -49,12 +51,7 @@ export default (state, action) => {
         msg: "hola todo ok?",
         severity: "success",
       };
-    case CLOSE_SNACKBAR:
-      return {
-        ...state,
-        error: false,
-        msg: "",
-      };
+    
     case REGISTER_ERROR:
       return {
         ...state,
@@ -62,6 +59,13 @@ export default (state, action) => {
         msg: action.payload,
         severity: "error",
       };
+      case CLOSE_SNACKBAR:
+      return {
+        ...state,
+        error: false,
+        msg: "",
+      };
+   
     default:
       return state;
   }
