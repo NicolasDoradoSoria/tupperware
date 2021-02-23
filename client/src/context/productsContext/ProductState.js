@@ -72,7 +72,6 @@ const ProductState = (props) => {
     try {
       
       const result = await clienteAxios.put(`api/productos/${data._id}`, data)
-      console.log(result)
       dispatch({
         type: EDIT_PRODUCT,
         payload: result.data

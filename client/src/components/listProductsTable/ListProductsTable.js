@@ -4,7 +4,6 @@ import TableBody from "@material-ui/core/TableBody";
 import Box from "@material-ui/core/Box";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Style from "./Style";
@@ -16,12 +15,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import SnackbarOpen from "../snackbar/SnackBar";
 import UpdateProduct from "../updateProduct/UpdateProduct";
 import TablePagination from "@material-ui/core/TablePagination";
-import Checkbox from "@material-ui/core/Checkbox";
-import Toolbar from "@material-ui/core/Toolbar";
-import clsx from "clsx";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
+import TableColumnName from "./TableColumnName";
 
 const ListProductsTable = () => {
   const classes = Style();
@@ -30,7 +24,8 @@ const ListProductsTable = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selected, setSelected] = useState([]);
+  const [orderBy, setOrderBy] = useState("name");
+  const [order, setOrder] = useState("asc");
 
   //context de products
   const productsContext = useContext(ProductContext);
@@ -64,124 +59,59 @@ const ListProductsTable = () => {
     setPage(0);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+  const stableSort = (array, comparator) => {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+
+  const getComparator = (order, orderBy) => {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+
+  const descendingComparator =(a, b, orderBy) => {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
     }
-
-    setSelected(newSelected);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = products.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
     }
-    setSelected([]);
-  };
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  const EnhancedTableToolbar = (props) => {
-    const classes = Style();
-    const { numSelected } = props;
-
-    return (
-      <Toolbar
-        className={clsx(classes.enhancedTableToolbarRoot, {
-          [classes.highlight]: numSelected > 0,
-        })}
-      >
-        {numSelected > 0 ? (
-          <Typography
-            className={classes.enhancedTableToolbarRootTitle}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        ) : null}
-
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : null}
-      </Toolbar>
-    );
-  };
+    return 0;
+  }
+  
   if (products.length === 0) return null;
   return (
     <>
-      <EnhancedTableToolbar numSelected={selected.length} />
       <TableContainer component={Paper} className={classes.root}>
         <Typography variant="h4" component="h2" className={classes.title}>
           Lista de productos
         </Typography>
         <Table aria-label="simple table" pageSize={5}>
-          <TableHead>
-            <TableRow>
-            <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={selected.length > 0 && selected.length < products.length}
-            checked={products.length > 0 && selected.length === products.length}
-            onChange={handleSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
+          <TableColumnName
+            classes={classes}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
           />
-        </TableCell>
-              <TableCell align="right" className={classes.column}>
-                Productos
-              </TableCell>
-              <TableCell align="right" className={classes.column}>
-                Categoria
-              </TableCell>
-              <TableCell align="right" className={classes.column}>
-                precio
-              </TableCell>
-              <TableCell align="right" className={classes.column}>
-                Stock
-              </TableCell>
-              <TableCell align="center" className={classes.column}>
-                Accion
-              </TableCell>
-            </TableRow>
-          </TableHead>
+
           <TableBody>
-            {products
+            {stableSort(products, getComparator(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((product, index) => {
-                const isItemSelected = isSelected(product.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
+              .map((product) => {
                 return (
-                  <TableRow
-                    key={product._id}
-                    hover
-                    aria-checked={isItemSelected}
-                    selected={isItemSelected}
-                    role="checkbox"
-                    onClick={(event) => handleClick(event, product.name)}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    </TableCell>
+                  <TableRow key={product._id} hover>
                     <TableCell
                       component="th"
                       scope="row"
@@ -191,7 +121,7 @@ const ListProductsTable = () => {
                       {product.name}
                     </TableCell>
                     <TableCell align="right" className={classes.column}>
-                      {product.calories}
+                      {product.descripcion}
                     </TableCell>
                     <TableCell align="right" className={classes.column}>
                       {product.price}
