@@ -14,11 +14,14 @@ app.use(cors())
 app.use(express.json({extended: true}))
 
 const PORT = process.env.PORT || 4000
-//importar rutas
+
+//rutas
 app.use('/api/usuarios', require('./routes/users'))
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/productos', require('./routes/products'))
-// arrrancar la app
+// app.use('/api/carritoCompras', require('./routes/shoppingCart'))
+app.use('/api/carritoCompras', require('./routes/paymentsInterntent'))
+// Start
 app.listen(PORT, () => {
     console.log(`el servidor esta funcionano correctamente en el puerto ${PORT}`)
 })

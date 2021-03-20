@@ -5,6 +5,7 @@ const auth = require("../middleware/auth");
 
 
 router.post("/",[auth.verifyToken, auth.isModerator ], productsController.postProducts);
+router.post("/searchProducts", productsController.searchProducts);
 router.get("/", productsController.getProducts);
 router.get("/:productId", productsController.getProductById);
 router.put("/:productId",auth.verifyToken, productsController.updateProductById);

@@ -46,13 +46,13 @@ export default function DraWer() {
   const routesModerator = [
     {
       id: 1,
-      name: "Administracion de Productos",
+      name: "Lista de Productos",
       path: "todos-Productos",
       icon: CategoryIcon,
     },
     {
       id: 2,
-      name: "Agregar un Producto",
+      name: "Agregar Producto",
       path: "agregar-producto",
       icon: CategoryIcon,
     },

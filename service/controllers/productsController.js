@@ -1,4 +1,5 @@
 const Products = require("../models/Products");
+const getProductByIdFunction = require("../data/getProductByIdFunction")
 const { validationResultFunction } = require("../libs/validationResult");
 // inserta productos a la BD
 exports.postProducts = async (req, res) => {
@@ -20,6 +21,8 @@ exports.postProducts = async (req, res) => {
 // devuelve todos los productos
 exports.getProducts = async (req, res) => {
   validationResultFunction(req)
+
+
   try {
     const products = await Products.find();
     res.json({ products });
@@ -33,7 +36,7 @@ exports.getProducts = async (req, res) => {
 exports.getProductById = async (req, res) => {
   validationResultFunction(req)
   try {
-    const product = await Products.findById(req.params.productId);
+    const product = await getProductByIdFunction(req.params.productId);
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -41,7 +44,7 @@ exports.getProductById = async (req, res) => {
 };
  
 //actualiza producto por id
-exports.updateProductById = async (req, res, next) => {
+exports.updateProductById = async (req, res) => {
 
   try {
     //si el producto existe o no
@@ -65,7 +68,7 @@ exports.updateProductById = async (req, res, next) => {
 };
 
 //elimina producto por id
-exports.deleteProductById = async (req, res, next) => {
+exports.deleteProductById = async (req, res) => {
   validationResultFunction(req)
 
   try {
@@ -86,3 +89,15 @@ exports.deleteProductById = async (req, res, next) => {
   }
 };
 
+// search de productos
+exports.searchProducts = async (req, res) => {
+  try {
+    const products = await Products.find()
+    const productfilter = products.filter(product => product.name.toLowerCase().includes(req.body.name))
+    console.log(productfilter)
+    res.status(200).json(productfilter);
+    
+  } catch (error) {
+    res.status(500).send("hubo un error");
+  }
+};

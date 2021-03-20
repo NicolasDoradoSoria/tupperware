@@ -42,7 +42,6 @@ const ProductState = (props) => {
     
     try {
       const result = await clienteAxios.delete(`/api/productos/${id}`);
-
       dispatch({
         type: DELETE_PRODUCT,
         payload: result,
@@ -81,6 +80,20 @@ const ProductState = (props) => {
     }
   }
 
+ //search de productos
+ 
+ const searchProducts = async (data) => {
+   try {
+     const filterproduct = await clienteAxios.post(`api/productos/searchProducts`,data)
+     dispatch({
+      type: GET_PRODUCTS,
+      payload: filterproduct.data,
+    });
+   } catch (error) {
+     console.log(error)
+   }
+ }
+
   const saveCurrentProduct = async (product) =>{
     dispatch({
       type: CURRENT_PRODUCT,
@@ -117,6 +130,7 @@ const ProductState = (props) => {
         updateProduct,
         saveCurrentProduct,
         selectedProduct: state.selectedProduct,
+        searchProducts,
       }}
     >
       {props.children}

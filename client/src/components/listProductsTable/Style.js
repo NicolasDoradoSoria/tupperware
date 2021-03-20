@@ -55,5 +55,22 @@ export default makeStyles((theme) => ({
     position: "absolute",
     top: 20,
     width: 1
-  }
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  
+  divider: {
+    height: 28,
+    margin: 4,
+  },
+  rootSearch: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: "80%",
+    margin: "auto",
+    marginTop: "2rem"
+  },
 }));

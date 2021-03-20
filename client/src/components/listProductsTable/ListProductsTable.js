@@ -16,6 +16,9 @@ import SnackbarOpen from "../snackbar/SnackBar";
 import UpdateProduct from "../updateProduct/UpdateProduct";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableColumnName from "./TableColumnName";
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 
 const ListProductsTable = () => {
   const classes = Style();
@@ -33,17 +36,17 @@ const ListProductsTable = () => {
     products,
     getProducts,
     deleteProduct,
-    addProduct,
     error,
     msg,
     severity,
     saveCurrentProduct,
+    searchProducts
   } = productsContext;
 
   useEffect(() => {
     getProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addProduct]);
+  }, []);
 
   const selectProduct = (product) => {
     setOpen(true);
@@ -91,9 +94,27 @@ const ListProductsTable = () => {
     return 0;
   }
   
+  const handleSearch = async e => {
+    e.preventDefault()
+    let target = e.target;
+    searchProducts({name: target.value})
+}
   if (products.length === 0) return null;
   return (
     <>
+    <Paper component="form" className={classes.rootSearch}>
+      <InputBase
+        className={classes.input}
+        placeholder="Buscar Producto"
+        inputProps={{ 'aria-label': 'Buscar Producto' }}
+        onChange={handleSearch}
+        
+      />
+      <IconButton >
+        <SearchIcon />
+      </IconButton>
+    </Paper>
+
       <TableContainer component={Paper} className={classes.root}>
         <Typography variant="h4" component="h2" className={classes.title}>
           Lista de productos
