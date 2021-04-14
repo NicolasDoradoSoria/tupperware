@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Role = require("../models/Role");
+const Cart = require("../models/Cart");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validationResultFunction } = require("../libs/validationResult");
@@ -24,7 +25,7 @@ exports.signin = async (req, res) => {
 
     const correctPass = await bcryptjs.compare(password, user.password);
     if (!correctPass) {
-      return res.status(400).json({ msg: "password incorrectp" });
+      return res.status(400).json({ msg: "password incorrecto" });
     }
 
     //si todo es correcto crear y firmar el JWT

@@ -36,6 +36,14 @@ const userSchema = mongoose.Schema(
         ref: "Role",
       },
     ],
+    order: [
+
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cart",
+      }
+    ]
+    
   },
   {
     timestamps: true,

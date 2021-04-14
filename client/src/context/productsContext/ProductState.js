@@ -28,6 +28,7 @@ const ProductState = (props) => {
   const getProducts = async () => {
     try {
       const result = await clienteAxios.get("/api/productos");
+      console.log(result)
       dispatch({
         type: GET_PRODUCTS,
         payload: result.data.products,

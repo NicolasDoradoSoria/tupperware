@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -12,6 +12,8 @@ import "./Style.css";
 import Style from "./Style";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import CartContext from "../../context/cartContext/CartContext";
+import UserContext from '../../context/productsContext/userContext/UserContext'
 function convertDate(inputFormat) {
   function pad(s) {
     return s < 10 ? "0" + s : s;
@@ -23,56 +25,78 @@ function convertDate(inputFormat) {
 const Product = ({ product }) => {
   const classes = Style();
 
+  //cartContext
+  const cartContext = useContext(CartContext);
+  const { addOrder } = cartContext
+
+  //userContext
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
+
+
   const { name, descripcion, date, photoURL, price, _id } = product;
+
+  const addCartClick = () => {
+
+
+    const order = {
+      "user": user.user._id,
+      "orders": {"product": product._id, "cant": 2},
+      "total": 133
+    }
+
+    addOrder(order)
+  }
   return (
-      <Card className={classes.root}>
-        <Link
-          to={`/main/descripcion-producto/${_id}`}
-          style={{ textDecoration: "none" }}
-        >
-          <h1 className={classes.title}>{name}</h1>
-          <CardHeader
-            subheader={convertDate(date)}
-            className={classes.subheader}
-          />
-        </Link>
-        <CardMedia
-          className={classes.media}
-          image={photoURL}
-          title="Paella dish"
+    <Card className={classes.root}>
+      <Link
+        to={`/main/descripcion-producto/${_id}`}
+        style={{ textDecoration: "none" }}
+      >
+        <h1 className={classes.title}>{name}</h1>
+        <CardHeader
+          subheader={convertDate(date)}
+          className={classes.subheader}
         />
-        <Link
-          to={`/main/descripcion-producto/${_id}`}
-          style={{ textDecoration: "none" }}
+      </Link>
+      <CardMedia
+        className={classes.media}
+        image={photoURL}
+        title="Paella dish"
+      />
+      <Link
+        to={`/main/descripcion-producto/${_id}`}
+        style={{ textDecoration: "none" }}
+      >
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p" >
+            {descripcion}
+          </Typography>
+
+          <Typography variant="h5" component="h2" className={classes.price}>
+            ${price}
+          </Typography>
+        </CardContent>
+      </Link>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.join}
+          disableRipple
+          onClick={addCartClick}
         >
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p" >
-              {descripcion}
-            </Typography>
-
-            <Typography variant="h5" component="h2" className={classes.price}>
-              ${price}
-            </Typography>
-          </CardContent>
-        </Link>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.join}
-            disableRipple
-          >
-            agregar carrito
+          agregar carrito
           </Button>
-        </CardActions>
-      </Card>
+      </CardActions>
+    </Card>
   );
 };
 

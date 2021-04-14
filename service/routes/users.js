@@ -5,6 +5,7 @@ const router = express.Router()
 const userController = require('../controllers/userController')
 const {check} = require('express-validator')
 const {checkduplicateUsernameOrEmail} = require('../middleware/verifySignup')
+
 //crear un usario
 //api/usaurios
 router.post('/signUp',

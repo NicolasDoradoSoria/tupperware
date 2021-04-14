@@ -37,6 +37,7 @@ const UserState = (props) => {
       ShowError(error.response.data.msg);
     }
   };
+  
   // au8thenticated user
   const authenticatedUser = async () => {
     const token = localStorage.getItem("token");

@@ -10,6 +10,7 @@ exports.verifyToken  =  (req, res, next) =>{
     //revisar si no hay token
     if(!token){
         return res.status(401).json({msg: 'no hay token, permiso no valido'})
+        
     }
 
     try {

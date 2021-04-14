@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import MainFeaturedPost from '../mainFeaturedPost/MainFeaturedPost'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import UserContext from "../../context/productsContext/userContext/UserContext";
+import CartContext from "../../context/cartContext/CartContext";
 
 const useStyles = makeStyles({
   table: {
@@ -15,52 +17,51 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 const ShoppingCart = () => {
   const classes = useStyles();
-    return (    
-      <Fragment>
 
-        <MainFeaturedPost />
-        <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Producto (100g serving)</TableCell>
-            <TableCell align="right">Precio Unitario</TableCell>
-            <TableCell align="right">Acciones&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Precio Total&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+  //userContext
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
+
+  //cartContext
+  const cartContext = useContext(CartContext);
+  const { getOrder, orders } = cartContext
+
+  useEffect(() => {
+    getOrder(user.user._id)
+  }, [getOrder, user.user._id])
+
+  if (orders === 0) return null;
+  return (
+    <Fragment>
+
+      <MainFeaturedPost />
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="right">Producto</TableCell>
+              <TableCell align="right">Descripcion</TableCell>
+              <TableCell align="right">Cantidad</TableCell>
+              <TableCell align="right">Precio</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-      </Fragment>
-      );
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <TableRow key={order.id._id}>
+
+                <TableCell align="right">{order.id.name}</TableCell>
+                <TableCell align="right">{order.id.descripcion}</TableCell>
+                <TableCell align="right">{order.cant}</TableCell>
+                <TableCell align="right">{order.id.price}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Fragment>
+  );
 }
- 
+
 export default ShoppingCart;

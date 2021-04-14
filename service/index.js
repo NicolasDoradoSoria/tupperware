@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 4000
 app.use('/api/usuarios', require('./routes/users'))
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/productos', require('./routes/products'))
-// app.use('/api/carritoCompras', require('./routes/shoppingCart'))
+app.use('/api/shopping_cart', require('./routes/cart'))
 app.use('/api/carritoCompras', require('./routes/paymentsInterntent'))
 // Start
 app.listen(PORT, () => {
