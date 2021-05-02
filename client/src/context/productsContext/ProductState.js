@@ -9,7 +9,7 @@ import {
   ADD_PRUDUCT_SUCCESSFUL,
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
-  CLOSE_SNACKBAR
+  CLOSE_SNACKBAR,
 } from "../../types";
 
 const ProductState = (props) => {
@@ -28,7 +28,6 @@ const ProductState = (props) => {
   const getProducts = async () => {
     try {
       const result = await clienteAxios.get("/api/productos");
-      console.log(result)
       dispatch({
         type: GET_PRODUCTS,
         payload: result.data.products,
@@ -82,19 +81,31 @@ const ProductState = (props) => {
   }
 
  //search de productos
- 
+
  const searchProducts = async (data) => {
    try {
-     const filterproduct = await clienteAxios.post(`api/productos/searchProducts`,data)
+     const filterProduct = await clienteAxios.post(`api/productos/searchProducts`,data)
      dispatch({
       type: GET_PRODUCTS,
-      payload: filterproduct.data,
+      payload: filterProduct.data,
     });
    } catch (error) {
      console.log(error)
    }
  }
 
+ //search de producto por ID
+ const getProduct = async (id) => {
+  try {
+    const product = await clienteAxios.get(`api/productos/${id}`)
+    dispatch({
+      type: CURRENT_PRODUCT,
+      payload: product.data,
+    });
+  } catch (error) {
+    console.log(error)
+  }
+}
   const saveCurrentProduct = async (product) =>{
     dispatch({
       type: CURRENT_PRODUCT,
@@ -122,6 +133,7 @@ const ProductState = (props) => {
       value={{
         products: state.products,
         getProducts,
+        getProduct,
         deleteProduct,
         addProduct,
         error: state.error,
@@ -129,7 +141,7 @@ const ProductState = (props) => {
         severity: state.severity,
         closeError,
         updateProduct,
-        saveCurrentProduct,
+        // saveCurrentProduct,
         selectedProduct: state.selectedProduct,
         searchProducts,
       }}

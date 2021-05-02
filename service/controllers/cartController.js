@@ -3,19 +3,40 @@ const User = require("../models/User");
 
 //agrega un pedido al carrito
 exports.generateOrder = async (req, res) => {
-  const products = req.body.products
-  const user = await User.findById(req.userId).select('-password')
-  const order = new Cart({user: user._id, products: products});
+  const { id, quantity, name, price } = req.body;
 
   try {
-    await order.save((resultingOrder) => {
-      req.order = resultingOrder
-    })
-    res.json(order);
+    const user = await User.findById(req.userId).select('-password')
+    let cart = await Cart.findOne({user: user._id });
+    if(cart){
+      let itemIndex = cart.products.findIndex(p => p.id == id);
+      if (itemIndex > -1) {
+         //product exists in the cart, update the quantity
+        let productItem = cart.products[itemIndex];
+        productItem.quantity = quantity;
+        cart.products[itemIndex] = productItem;
+      }
+      else{
+        //product does not exists in cart, add new item
+        cart.products.push({ id, quantity, name, price });
+      }
+      await cart.save();
+      return res.send("el producto a sido agregado correctamente");
+    }
+    else {
+      //no cart for user, create new cart
+
+      await Cart.create({
+        user: user._id,
+        products: [{ id, quantity, name, price }]
+      });
+      return res.send("el producto a sido agregado correctamente");
+    }
+        
   } catch (error) {
-    res.status(500).json({msg:'hubo un error'}, error)
+    res.status(500).json({ msg: 'hubo un error' }, error)
   }
- 
+
 
 };
 
@@ -32,29 +53,32 @@ exports.showAllOrders = async (req, res) => {
 
 //muestra un pedido por ID de usuario
 exports.showOrder = async (req, res, next) => {
-  
-  //aca tengo al usuario
-  const order = await Cart.find({user: req.params.idOrder}).populate({ path: "products.id", model: "Productos" });
-  if (!order) {
-    res.json({ mensaje: "este pedido no existe" });
-    return next();
-  }
+  try {
+    const order = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos" });
 
-  //mostrar el pedido
-  res.json(order);
+    if (order.length == 0) {
+      res.json({ mensaje: "este pedido no existe" });
+      next();
+    }
+
+    //mostrar el pedido
+    res.json(order);
+
+  } catch (error) {
+    res.status(500).send("hubo un error");
+  }
 };
+
 
 //actualiza un pedido por ID
 exports.updateOrder = async (req, res, next) => {
-  console.log(req.body)
+  const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos" })
   try {
     const order = await Cart.findOneAndUpdate(
-      { _id: req.params.idOrder },
+      { _id: orderUser[0]._id },
       req.body,
       { new: true }
     )
-      .populate("user")
-      .populate({ path: "orders.product", model: "Productos" });
 
     res.json(order);
   } catch (error) {
@@ -65,14 +89,14 @@ exports.updateOrder = async (req, res, next) => {
 
 
 //elimina un pedido por ID
-exports.deleteOrder = async(req, res, next) =>{
+exports.deleteOrder = async (req, res, next) => {
   try {
-       await Cart.findOneAndDelete({_id: req.params.idOrder})
+    await Cart.findOneAndDelete({ _id: req.params.idOrder })
 
-      res.json({mensaje: "el producto se a eliminado"})
+    res.json({ mensaje: "el producto se a eliminado" })
   } catch (error) {
-      console.log(error)
-      next()
+    console.log(error)
+    next()
   }
 }
 

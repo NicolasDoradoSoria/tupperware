@@ -7,6 +7,7 @@ import ProductContext from "../../context/productsContext/ProductContext";
 import "./Style.css";
 
 const ListOfProducts = () => {
+  // context products
   const productsContext = useContext(ProductContext)
   const {products, getProducts} = productsContext
   const classes = Style();
@@ -15,7 +16,7 @@ const ListOfProducts = () => {
     getProducts()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  
   if (products.length === 0) return null
   return (
     <div className="ListOfProducts">

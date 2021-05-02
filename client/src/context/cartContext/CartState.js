@@ -3,11 +3,15 @@ import clienteAxios from "../../config/axios";
 import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
 import {
-  GET_ORDERS
+  GET_ORDERS, GENERATE_ORDER, CLOSE_SNACKBAR
 } from "../../types";
 const CartState = (props) => {
   const initialState = {
     orders: [],
+    msg: null,
+    error: false,
+    severity: "",
+    ordersAvailable: false
   };
 
   const [state, dispatch] = useReducer(CartReducer, initialState);
@@ -26,16 +30,28 @@ const CartState = (props) => {
     }
   };
 
-  // agrega un pedido del user
-  const addOrder = async (data) => {
-    console.log(data)
+  // genera un pedido
+  const generateOrder = async (data) => {
     try {
-
       const result = await clienteAxios.post(`api/shopping_cart`, data)
+    
+      dispatch({
+        type: GENERATE_ORDER,
+        payload: result.data
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // actualiza un pedido
+  const updateOrder = async (data) => {
+    try {
+      const result = await clienteAxios.put(`api/shopping_cart/${data.user}`, data)
       console.log(result)
-      // // const result = await clienteAxios.get(`/api/shopping_cart/${orderId}`);
+    
       // dispatch({
-      //   type: GET_ORDERS,
+      //   type: GENERATE_ORDER,
       //   payload: result.data
       // });
     } catch (error) {
@@ -43,12 +59,23 @@ const CartState = (props) => {
     }
   };
 
+  const closeError = () => {
+    dispatch({
+      type: CLOSE_SNACKBAR,
+    });
+  };
   return (
     <CartContext.Provider
       value={{
         orders: state.orders,
+        msg: state.msg,
+        error: state.error,
+        severity: state.severity,
+        ordersAvailable: state.ordersAvailable,
         getOrder,
-        addOrder
+        generateOrder,
+        updateOrder,
+        closeError
       }}
     >
       {props.children}

@@ -30,8 +30,7 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     getOrder(user.user._id)
-  }, [getOrder, user.user._id])
-
+  }, [])
   if (orders === 0) return null;
   return (
     <Fragment>

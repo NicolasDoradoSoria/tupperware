@@ -5,7 +5,7 @@ import {
   ADD_PRUDUCT_SUCCESSFUL,
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
-  CLOSE_SNACKBAR
+  CLOSE_SNACKBAR,
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -25,7 +25,6 @@ export default (state, action) => {
         products: action.payload,
       };
 
-  
     case EDIT_PRODUCT:
       return {
         ...state,
@@ -59,7 +58,7 @@ export default (state, action) => {
         msg: action.payload,
         severity: "error",
       };
-      case CLOSE_SNACKBAR:
+    case CLOSE_SNACKBAR:
       return {
         ...state,
         error: false,

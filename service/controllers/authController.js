@@ -19,6 +19,7 @@ exports.signin = async (req, res) => {
     const user = await User.findOne({ email: email }).populate(
       "roles"
     );
+
     if (!user) {
       return res.status(400).json({ msg: "el usuario no existe" });
     }
