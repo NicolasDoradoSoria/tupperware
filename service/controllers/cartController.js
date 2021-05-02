@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 //agrega un pedido al carrito
 exports.generateOrder = async (req, res) => {
-  const { id, quantity, name, price } = req.body;
+  const { id, quantity} = req.body;
 
   try {
     const user = await User.findById(req.userId).select('-password')
@@ -18,7 +18,7 @@ exports.generateOrder = async (req, res) => {
       }
       else{
         //product does not exists in cart, add new item
-        cart.products.push({ id, quantity, name, price });
+        cart.products.push({ id, quantity});
       }
       await cart.save();
       return res.send("el producto a sido agregado correctamente");
@@ -28,7 +28,7 @@ exports.generateOrder = async (req, res) => {
 
       await Cart.create({
         user: user._id,
-        products: [{ id, quantity, name, price }]
+        products: [{ id, quantity}]
       });
       return res.send("el producto a sido agregado correctamente");
     }

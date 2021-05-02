@@ -30,8 +30,10 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     getOrder(user.user._id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  if (orders === 0) return null;
+  if (orders.length === 0) return null;
+  console.log(orders.length === 0)
   return (
     <Fragment>
 
@@ -48,11 +50,11 @@ const ShoppingCart = () => {
           </TableHead>
           <TableBody>
             {orders.map((order) => (
-              <TableRow key={order.id._id}>
-
+              <TableRow key={order._id}>
+                {console.log(order)}
                 <TableCell align="right">{order.id.name}</TableCell>
                 <TableCell align="right">{order.id.descripcion}</TableCell>
-                <TableCell align="right">{order.cant}</TableCell>
+                <TableCell align="right">{order.quantity}</TableCell>
                 <TableCell align="right">{order.id.price}</TableCell>
               </TableRow>
             ))}

@@ -31,10 +31,9 @@ const ProductDescription = ({ match }) => {
   const addCartClick = () => {
     const order = {
       "user": user.user._id,
-      "name": name,
-      "products": [{ "id": _id, "quantity": 2 }],
+      "id": _id,
+      "quantity": 2,
       "total": 133,
-      "price": price
     }
     generateOrder(order)
 
