@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
-import AddProduct from "../addProduct/AddProduct";
 import { Box, Grid } from "@material-ui/core";
 import Style from "./Style";
-import ListProductsTable from "../listProductsTable/ListProductsTable";
 import "./Style.css";
 import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";

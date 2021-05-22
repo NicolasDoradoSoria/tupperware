@@ -3,12 +3,11 @@ const router = express.Router();
 const productsController = require("../controllers/productsController");
 const auth = require("../middleware/auth");
 
-
-router.post("/",[auth.verifyToken, auth.isModerator ], productsController.postProducts);
+router.post("/", productsController.upload, [auth.verifyToken, auth.isModerator,], productsController.postProducts);
 router.post("/searchProducts", productsController.searchProducts);
 router.get("/", productsController.getProducts);
 router.get("/:productId", productsController.getProductById);
 router.put("/:productId",auth.verifyToken, productsController.updateProductById);
 router.delete("/:productId",[auth.verifyToken, auth.isModerator], productsController.deleteProductById);
-
+ 
 module.exports = router;

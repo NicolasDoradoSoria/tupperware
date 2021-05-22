@@ -33,7 +33,6 @@ const ShoppingCart = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   if (orders.length === 0) return null;
-  console.log(orders.length === 0)
   return (
     <Fragment>
 

@@ -8,7 +8,7 @@ const PriceProduct = ({price}) => {
     const classes = Style();
     return (
       <Fragment>
-        <Title>Recent Deposits</Title>
+        <Title>Precio</Title>
         <Typography component="p" variant="h4">
           {price}
         </Typography>

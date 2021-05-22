@@ -27,18 +27,18 @@ const AddProduct = ({onClose, open}) => {
   // hook de create user
   const [product, setProduct] = useState({
     name: "",
-    photoURL: "",
     price: 0,
     descripcion: "",
   });
-  const { name, photoURL, price, descripcion } = product;
+  const { name, price, descripcion } = product;
+  const [archivo, setArchivo] = useState("");
 
   useEffect(() => {
     closeError()
     if (open) {
       setProduct(selectedProduct);
     } else {
-      setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
+      setProduct({ name: "", price: 0, descripcion: "" });
     }
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,12 +52,18 @@ const AddProduct = ({onClose, open}) => {
     });
   };
 
+  const readFileChange = (e) => {
+    setArchivo(e.target.files[0]);
+
+  };
+
+
+
   const productSubmit = (e) => {
     e.preventDefault();
-
     if (selectedProduct === null) {
       // manda los datos de usuario a productContext
-      addProduct(product);
+      addProduct(product, archivo);
     } else {
       updateProduct(product);
     }
@@ -67,7 +73,7 @@ const AddProduct = ({onClose, open}) => {
   };
 
   const addProductButtonDisabled = () => {
-    return isEmpty(name) || isEmpty(photoURL) || isEmpty(descripcion);
+    return isEmpty(name)  || isEmpty(descripcion);
   };
 
   const isEmpty = (aField) => {
@@ -98,14 +104,13 @@ const AddProduct = ({onClose, open}) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+              type="file"
                 id="outlined-basic"
-                label="Url de la Imagen"
                 variant="outlined"
-                value={photoURL}
                 fullWidth
                 name="photoURL"
                 required
-                onChange={productChange}
+                onChange={readFileChange}
               />
             </Grid>
             <Grid item xs={6} className={classes.gridTextarea}>

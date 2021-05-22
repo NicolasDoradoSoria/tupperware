@@ -8,14 +8,12 @@ const userSchema = mongoose.Schema({
     },
     photoURL: {
         type: String,
-        required: true,
         trim: true
     },
     descripcion:{
         type: String,
         required: true,
         trim: true,
-        unique: true
     },
     date: {
         type: Date,

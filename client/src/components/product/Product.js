@@ -36,11 +36,11 @@ const Product = ({ product }) => {
           className={classes.subheader}
         />
       </Link>
-      <CardMedia
+      {photoURL ? (<CardMedia
         className={classes.media}
-        image={photoURL}
+        image={`http://localhost:4000/${photoURL}`}
         title="Paella dish"
-      />
+      />) : null } 
       <Link
         to={`/main/descripcion-producto/${_id}`}
         style={{ textDecoration: "none" }}

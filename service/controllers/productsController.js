@@ -1,12 +1,35 @@
 const Products = require("../models/Products");
 const getProductByIdFunction = require("../data/getProductByIdFunction")
 const { validationResultFunction } = require("../libs/validationResult");
+const multer = require('multer');
+const shortid = require('shortid');
+const path = require('path')
+
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, '../uploads'),
+  filename: (req, file, cb) => {
+    const extension = file.mimetype.split('/')[1];
+    cb(null, `${shortid.generate()}.${extension}`);
+  },
+  fileFilter(req, file, cb) {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+      cb(null, true);
+    } else {
+      cb(new Error('Formato No válido'))
+    }
+  }
+})
+
+exports.upload = multer({ storage, dest: path.join(__dirname, 'uploads') }).single("photoURL")
+
 // inserta productos a la BD
 exports.postProducts = async (req, res) => {
-  validationResultFunction(req)
- 
+  const product = new Products(req.body);
   try {
-    const product = new Products(req.body);
+    if (req.file.filename) {
+
+      product.photoURL = req.file.filename
+    }
 
     //guardamos el producto
     await product.save();
@@ -41,26 +64,26 @@ exports.getProductById = async (req, res) => {
     res.status(500).send("hubo un error");
   }
 };
- 
+
 //actualiza producto por id
 exports.updateProductById = async (req, res) => {
 
   try {
     //si el producto existe o no
     let products = await Products.findById(req.params.productId);
-  
+
     if (!products) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-    
+
     const updatedProduct = await Products.findByIdAndUpdate(
       { _id: req.params.productId },
       req.body,
       {
         new: true,
       }
-      );
-      res.status(200).json(updatedProduct);
+    );
+    res.status(200).json(updatedProduct);
   } catch (error) {
     res.status(500).send("hubo un error");
   }
@@ -79,9 +102,9 @@ exports.deleteProductById = async (req, res) => {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
     await Products.findByIdAndDelete(productId);
-    
-    
-    
+
+
+
     res.json({ products });
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -95,7 +118,7 @@ exports.searchProducts = async (req, res) => {
     const productfilter = products.filter(product => product.name.toLowerCase().includes(req.body.name))
     console.log(productfilter)
     res.status(200).json(productfilter);
-    
+
   } catch (error) {
     res.status(500).send("hubo un error");
   }
