@@ -45,7 +45,6 @@ const AddProduct = ({ history, open }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // destroyoning del hook product
-
   const productChange = (e) => {
     setProduct({
       ...product,

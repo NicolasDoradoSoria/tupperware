@@ -151,7 +151,7 @@ const ProductState = (props) => {
         severity: state.severity,
         closeError,
         updateProduct,
-        // saveCurrentProduct,
+        saveCurrentProduct,
         selectedProduct: state.selectedProduct,
         searchProducts,
       }}

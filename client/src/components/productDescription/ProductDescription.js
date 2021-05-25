@@ -11,7 +11,8 @@ import './Style.css';
 import SnackbarOpen from "../snackbar/SnackBar";
 import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/productsContext/userContext/UserContext'
-const ProductDescription = ({ match }) => {
+import {withRouter} from 'react-router-dom'
+const ProductDescription = ({ match, history }) => {
   const classes = Style();
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -37,6 +38,7 @@ const ProductDescription = ({ match }) => {
     }
     generateOrder(order)
 
+    history.push("/")
   }
 
   useEffect(() => {
@@ -92,4 +94,4 @@ const ProductDescription = ({ match }) => {
   );
 };
 
-export default ProductDescription;
+export default withRouter(ProductDescription);

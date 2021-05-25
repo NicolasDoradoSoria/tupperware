@@ -15,6 +15,10 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  orderListNull: {
+    marginTop: "1rem",
+    textAlign: "center"
+  }
 });
 
 const ShoppingCart = () => {
@@ -32,10 +36,8 @@ const ShoppingCart = () => {
     getOrder(user.user._id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  if (orders.length === 0) return null;
   return (
-    <Fragment>
-
+    <>
       <MainFeaturedPost />
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -48,19 +50,21 @@ const ShoppingCart = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => (
+            {(orders.length !== 0) ?(
+            orders.map((order) => (
               <TableRow key={order._id}>
-                {console.log(order)}
-                <TableCell align="right">{order.id.name}</TableCell>
-                <TableCell align="right">{order.id.descripcion}</TableCell>
-                <TableCell align="right">{order.quantity}</TableCell>
-                <TableCell align="right">{order.id.price}</TableCell>
+              <TableCell align="right">{order.id.name}</TableCell>
+              <TableCell align="right">{order.id.descripcion}</TableCell>
+              <TableCell align="right">{order.quantity}</TableCell>
+              <TableCell align="right">{order.id.price}</TableCell>
               </TableRow>
-            ))}
+              ))
+            ) : null}
           </TableBody>
         </Table>
+        {(orders.length === 0) ? <p className={classes.orderListNull}>NO hay productos en el carrito de compras</p>: null }
       </TableContainer>
-    </Fragment>
+    </>
   );
 }
 

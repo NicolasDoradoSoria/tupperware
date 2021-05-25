@@ -84,7 +84,7 @@ const ProductListManagement = () => {
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
-  const descendingComparator =(a, b, orderBy) => {
+  const descendingComparator = (a, b, orderBy) => {
     if (b[orderBy] < a[orderBy]) {
       return -1;
     }
@@ -93,27 +93,28 @@ const ProductListManagement = () => {
     }
     return 0;
   }
-  
+
   const handleSearch = async e => {
     e.preventDefault()
     let target = e.target;
-    searchProducts({name: target.value})
-}
+    searchProducts({ name: target.value })
+  }
+
   if (products.length === 0) return null;
   return (
     <>
-    <Paper component="form" className={classes.rootSearch}>
-      <InputBase
-        className={classes.input}
-        placeholder="Buscar Producto"
-        inputProps={{ 'aria-label': 'Buscar Producto' }}
-        onChange={handleSearch}
-        
-      />
-      <IconButton >
-        <SearchIcon />
-      </IconButton>
-    </Paper>
+      <Paper component="form" className={classes.rootSearch}>
+        <InputBase
+          className={classes.input}
+          placeholder="Buscar Producto"
+          inputProps={{ 'aria-label': 'Buscar Producto' }}
+          onChange={handleSearch}
+
+        />
+        <IconButton >
+          <SearchIcon />
+        </IconButton>
+      </Paper>
 
       <TableContainer component={Paper} className={classes.root}>
         <Typography variant="h4" component="h2" className={classes.title}>
