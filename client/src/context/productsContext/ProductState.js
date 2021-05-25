@@ -59,12 +59,14 @@ const ProductState = (props) => {
     formData.append("price", data.price);
     formData.append("descripcion", data.descripcion);
     formData.append("photoURL", image);
+
     try {
       const result = await clienteAxios.post(`api/productos`,formData, {
         headers: {
             'Content-Type' : 'multipart/form-data',
         }
     });
+    console.log(result)
       dispatch({
         type: ADD_PRUDUCT_SUCCESSFUL,
         payload: result.data,

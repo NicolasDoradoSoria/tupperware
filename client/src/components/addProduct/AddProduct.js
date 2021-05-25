@@ -9,7 +9,8 @@ import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
-const AddProduct = ({onClose, open}) => {
+import {withRouter} from 'react-router-dom'
+const AddProduct = ({ history, open }) => {
   const classes = Style();
 
   //productContext
@@ -40,8 +41,8 @@ const AddProduct = ({onClose, open}) => {
     } else {
       setProduct({ name: "", price: 0, descripcion: "" });
     }
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // destroyoning del hook product
 
@@ -57,8 +58,6 @@ const AddProduct = ({onClose, open}) => {
 
   };
 
-
-
   const productSubmit = (e) => {
     e.preventDefault();
     if (selectedProduct === null) {
@@ -70,10 +69,11 @@ const AddProduct = ({onClose, open}) => {
 
     setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
 
+    history.push("/")
   };
 
   const addProductButtonDisabled = () => {
-    return isEmpty(name)  || isEmpty(descripcion);
+    return isEmpty(name) || isEmpty(descripcion);
   };
 
   const isEmpty = (aField) => {
@@ -104,7 +104,7 @@ const AddProduct = ({onClose, open}) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-              type="file"
+                type="file"
                 id="outlined-basic"
                 variant="outlined"
                 fullWidth
@@ -155,16 +155,16 @@ const AddProduct = ({onClose, open}) => {
           </Grid>
         </CardContent>
         <CardActions className={classes.addProductButton}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              type="submit"
-              disabled={addProductButtonDisabled()}
-            >
-              Agregar Producto
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            type="submit"
+            disabled={addProductButtonDisabled()}
+          >
+            Agregar Producto
             </Button>
-           
+
         </CardActions>
       </form>
       {error ? <SnackbarOpen msg={msg} severity={severity} /> : null}
@@ -172,4 +172,4 @@ const AddProduct = ({onClose, open}) => {
   );
 };
 
-export default AddProduct;
+export default withRouter(AddProduct);

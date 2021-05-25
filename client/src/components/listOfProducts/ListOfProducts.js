@@ -5,13 +5,14 @@ import { Box, Grid } from "@material-ui/core";
 import Style from "./Style";
 import ProductContext from "../../context/productsContext/ProductContext";
 import "./Style.css";
-
+import SnackbarOpen from "../snackbar/SnackBar";
 const ListOfProducts = () => {
   // context products
   const productsContext = useContext(ProductContext)
-  const {products, getProducts} = productsContext
+  const {products, getProducts, error, msg, severity} = productsContext
   const classes = Style();
 
+  
   useEffect(() => {
     getProducts()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,6 +30,7 @@ const ListOfProducts = () => {
           ))}
         </Grid>
       </Box>
+      {error ? <SnackbarOpen msg={msg} severity={severity} /> : null}
       </div>
   );
 };
