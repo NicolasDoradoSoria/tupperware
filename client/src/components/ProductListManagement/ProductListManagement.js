@@ -20,7 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 
-const ListProductsTable = () => {
+const ProductListManagement = () => {
   const classes = Style();
 
   //hooks
@@ -190,4 +190,4 @@ const ListProductsTable = () => {
   );
 };
 
-export default ListProductsTable;
+export default ProductListManagement;

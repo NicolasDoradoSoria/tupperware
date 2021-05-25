@@ -10,7 +10,7 @@ import ShoppingCart from "./components/shoppingCart/ShoppingCart";
 import ProductState from "./context/productsContext/ProductState";
 import UserState from "./context/productsContext/userContext/UserState";
 import "./App.css";
-import ListProductsTable from './components/listProductsTable/ListProductsTable'
+import ProductListManagement from './components/ProductListManagement/ProductListManagement'
 import AddProduct from "./components/addProduct/AddProduct";
 import PaymentMethod from "./components/payment/paymentMethod";
 import CartState from "./context/cartContext/CartState";
@@ -44,7 +44,7 @@ function App() {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/nueva-cuenta" component={SignUp} />
                 <Route exact path="/perfil" component={Profile} />
-                <Route exact path="/todos-Productos" component={ListProductsTable} />
+                <Route exact path="/todos-Productos" component={ProductListManagement} />
                 <Route exact path="/agregar-producto" component={AddProduct} />
                 <Route exact path="/pagar" component={PaymentMethod} />
               descripcion-producto

@@ -15,8 +15,8 @@ const ListOfProducts = () => {
   
   useEffect(() => {
     getProducts()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   setTimeout(closeError, 3000)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
   if (products.length === 0) return null
