@@ -9,13 +9,14 @@ import SnackbarOpen from "../snackbar/SnackBar";
 const ListOfProducts = () => {
   // context products
   const productsContext = useContext(ProductContext)
-  const {products, getProducts, error, msg, severity} = productsContext
+  const {products, getProducts, error, msg, severity, closeError} = productsContext
   const classes = Style();
 
   
   useEffect(() => {
     getProducts()
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  setTimeout(closeError, 3000)
   }, [])
   
   if (products.length === 0) return null
