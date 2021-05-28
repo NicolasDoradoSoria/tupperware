@@ -19,6 +19,7 @@ import TableColumnName from "./TableColumnName";
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 
 const ProductListManagement = () => {
   const classes = Style();
@@ -36,12 +37,13 @@ const ProductListManagement = () => {
     products,
     getProducts,
     deleteProduct,
-    error,
-    msg,
-    severity,
     saveCurrentProduct,
     searchProducts
   } = productsContext;
+ 
+  // context Snakbar
+  const snackbarContext = useContext(SnackBarContext)
+  const { error, msg, severity} = snackbarContext
 
   useEffect(() => {
     getProducts();
@@ -185,7 +187,7 @@ const ProductListManagement = () => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </TableContainer>
-      {error ? <SnackbarOpen msg={msg} severity={severity} /> : null}
+      {error ? <SnackbarOpen /> : null}
       <UpdateProduct open={open} onClose={() => setOpen(false)}></UpdateProduct>
     </>
   );

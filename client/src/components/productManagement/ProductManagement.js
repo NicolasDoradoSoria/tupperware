@@ -11,7 +11,7 @@ const ProductManagement = () => {
   const productContext = useContext(ProductContext);
   const { error, msg, severity, closeError } = productContext;
 
-  
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -30,14 +30,10 @@ const ProductManagement = () => {
           <Grid item xs={6} className={classes.ListProductsGrid}>
             {/* <ListProductsTable /> */}
           </Grid>
-         
+
         </Grid>
 
         <SnackbarOpen
-          msg={msg}
-          open={error}
-          severity={severity}
-          handleClose={handleClose}
         />
       </Box>
     </>

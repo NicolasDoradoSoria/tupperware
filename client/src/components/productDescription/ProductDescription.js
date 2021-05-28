@@ -12,6 +12,7 @@ import SnackbarOpen from "../snackbar/SnackBar";
 import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/productsContext/userContext/UserContext'
 import {withRouter} from 'react-router-dom'
+import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 const ProductDescription = ({ match, history }) => {
   const classes = Style();
 
@@ -22,7 +23,11 @@ const ProductDescription = ({ match, history }) => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { generateOrder, msg, error, severity, closeError } = cartContext
+  const { generateOrder} = cartContext
+
+  // context Snakbar
+  const snackbarContext = useContext(SnackBarContext)
+  const { error, msg, severity, closeSnackbar } = snackbarContext
 
   //userContext
   const userContext = useContext(UserContext);
@@ -42,7 +47,7 @@ const ProductDescription = ({ match, history }) => {
   }
 
   useEffect(() => {
-    closeError()
+    closeSnackbar()
     const product = () => {
       const id = match.params.id
       getProduct(id)
@@ -89,7 +94,7 @@ const ProductDescription = ({ match, history }) => {
           </Grid>
         </Container>
       </main>
-      {error ? <SnackbarOpen msg={msg} severity={severity} /> : null}
+      {error ? <SnackbarOpen /> : null}
     </div>
   );
 };

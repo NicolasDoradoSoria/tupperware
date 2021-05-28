@@ -17,6 +17,7 @@ import "./Login.css";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import SnackbarOpen from "../snackbar/SnackBar";
+import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 
 export default function Login(props) {
   const classes = Style();
@@ -26,11 +27,13 @@ export default function Login(props) {
 
   const {
     authenticated,
-    error,
-    msg,
-    severity,
     login,
   } = userContext;
+
+  // context Snakbar
+  const snackbarContext = useContext(SnackBarContext)
+  const { error} = snackbarContext
+
 
   // hook de create user
   const [user, setUser] = useState({
@@ -61,7 +64,7 @@ export default function Login(props) {
     // manda los datos de usuario al userContext
     login({ email, password });
   };
-  
+
   const loginButtonDisabled = () => {
     return isEmpty(email) || isEmpty(password);
   };
@@ -70,7 +73,7 @@ export default function Login(props) {
     return aField === "";
   };
   return (
-    <div  className={classes.login}>
+    <div className={classes.login}>
       <Container
         component="main"
         maxWidth="xs"
@@ -136,18 +139,15 @@ export default function Login(props) {
                 </Link>
               </Grid>
             </Grid>
-          {error ?
-            <SnackbarOpen
-            msg={msg}
-            severity={severity}
-            /> : null
-          } 
+            {error ?
+              <SnackbarOpen/> : null
+            }
           </form>
         </div>
       </Container>
-        <Box mt={8}  className={classes.boxCopyright}>
-          <Copyright />
-        </Box>
+      <Box mt={8} className={classes.boxCopyright}>
+        <Copyright />
+      </Box>
     </div>
   );
 }

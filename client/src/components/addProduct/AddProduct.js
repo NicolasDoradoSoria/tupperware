@@ -8,7 +8,6 @@ import Style from "./Style";
 import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
-import SnackbarOpen from "../snackbar/SnackBar";
 import {withRouter} from 'react-router-dom'
 const AddProduct = ({ history, open }) => {
   const classes = Style();
@@ -19,10 +18,6 @@ const AddProduct = ({ history, open }) => {
     addProduct,
     selectedProduct,
     updateProduct,
-    error,
-    closeError,
-    msg,
-    severity,
   } = productContext;
 
   // hook de create user
@@ -35,7 +30,6 @@ const AddProduct = ({ history, open }) => {
   const [archivo, setArchivo] = useState("");
 
   useEffect(() => {
-    closeError()
     if (open) {
       setProduct(selectedProduct);
     } else {
@@ -62,6 +56,7 @@ const AddProduct = ({ history, open }) => {
     if (selectedProduct === null) {
       // manda los datos de usuario a productContext
       addProduct(product, archivo);
+
     } else {
       updateProduct(product);
     }
@@ -166,7 +161,6 @@ const AddProduct = ({ history, open }) => {
 
         </CardActions>
       </form>
-      {error ? <SnackbarOpen msg={msg} severity={severity} /> : null}
     </Card>
   );
 };

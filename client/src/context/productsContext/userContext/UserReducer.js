@@ -16,8 +16,6 @@ export default (state, action) => {
       return {
         ...state,
         authenticated: true,
-        mensaje: null,
-        error: false,
       };
     case GET_USER:
       return {
@@ -30,12 +28,9 @@ export default (state, action) => {
       localStorage.removeItem("token");
       return {
         ...state,
-        error: true,
         token: null,
         user: null,
         authenticated: null,
-        msg: action.payload,
-        severity: "error",
       };
     case SIGN_OFF:
       localStorage.removeItem("token");
@@ -44,14 +39,7 @@ export default (state, action) => {
         token: null,
         user: null,
         authenticated: null,
-      }
-    case CLOSE_SNACKBAR:
-      return {
-        ...state,
-        error: false,
-        msg: "",
-      };
-   
+      }   
     default:
       return state;
   }

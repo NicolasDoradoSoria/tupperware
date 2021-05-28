@@ -1,28 +1,31 @@
-import React, { useReducer } from "react";
+import React, { useReducer,useContext } from "react";
 import clienteAxios from "../../../config/axios";
 import UserContext from "./UserContext";
 import UserReducer from "./UserReducer";
+import tokenAuth from "../../../config/token";
+import SnackBarContext from "../../snackbarContext/SnackbarContext";
 
 import {
   REGISTER_SUCESS,
   GET_USER,
   REGISTER_ERROR,
-  CLOSE_SNACKBAR,
   LOGIN_SUCCESSFUL,
   SIGN_OFF,
 } from "../../../types";
-import tokenAuth from "../../../config/token";
 const UserState = (props) => {
   const initialState = {
     token: localStorage.getItem("token"),
     authenticated: null,
     user: null,
-    msg: null,
-    error: false,
-    severity: "",
   };
 
   const [state, dispatch] = useReducer(UserReducer, initialState);
+
+  //snackbarContext
+  const snackbarContext = useContext(SnackBarContext);
+  const {
+    openSnackbar
+  } = snackbarContext;
 
   // registra un usuario
   const registerUser = async (data) => {
@@ -32,12 +35,14 @@ const UserState = (props) => {
         type: REGISTER_SUCESS,
         payload: response.data,
       });
+
+      
       authenticatedUser();
     } catch (error) {
-      ShowError(error.response.data.msg);
+      openSnackbar(error.response.data.msg, "error")
     }
   };
-  
+
   // au8thenticated user
   const authenticatedUser = async () => {
     const token = localStorage.getItem("token");
@@ -51,23 +56,10 @@ const UserState = (props) => {
         type: GET_USER,
         payload: respuesta.data,
       });
+      openSnackbar("todo re piolaaaa", "success")
     } catch (error) {
       console.log(error.response);
     }
-  };
-
-  const ShowError = (msg) => {
-    dispatch({
-      type: REGISTER_ERROR,
-      payload: msg,
-    });
-  };
-
-//TODO: revisar esto
-  const closeError = () => {
-    dispatch({
-      type: CLOSE_SNACKBAR,
-    });
   };
   // pide una peticon a la api para iniciar sesion
   const login = async (data) => {
@@ -84,6 +76,8 @@ const UserState = (props) => {
         type: REGISTER_ERROR,
         payload: error.response.data.msg,
       });
+      openSnackbar(error.response.data.msg, "error")
+      
     }
   };
   //cerrar secion
@@ -104,12 +98,7 @@ const UserState = (props) => {
         token: state.token,
         user: state.user,
         authenticated: state.authenticated,
-        error: state.error,
-        msg: state.msg,
-        severity: state.severity,
         registerUser,
-        ShowError,
-        closeError,
         login,
         signOff,
       }}

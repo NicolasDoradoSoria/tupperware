@@ -1,4 +1,4 @@
-import React, { useState,useContext,useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,45 +12,48 @@ import Style from "./Style";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import SnackbarOpen from "../snackbar/SnackBar";
+import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 
 export default function SignUp(props) {
-    const classes = Style();
-    //userContext
-    const userContext = useContext(UserContext)
-    const { authenticated, error, msg,severity, ShowError, registerUser, closeError} = userContext
+  const classes = Style();
 
+  //userContext
+  const userContext = useContext(UserContext)
+  const { authenticated, registerUser } = userContext
 
-    // hook de create user
-    const [user, setUser] = useState({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmar: "",
-      admin: false
-    })
-    // destroyoning del hook user
-    const {firstName, lastName, email, password, confirmar, admin} = user
-    
+  // context Snakbar
+  const snackbarContext = useContext(SnackBarContext)
+  const { error, msg, severity,openSnackbar, closeSnackbar} = snackbarContext
 
-    useEffect(() => {
-      if(authenticated){
-        props.history.push("/");
-      }
-      
+  // hook de create user
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmar: "",
+    admin: false
+  })
+  // destroyoning del hook user
+  const { firstName, lastName, email, password, confirmar, admin } = user
+
+  useEffect(() => {
+    if (authenticated) {
+      props.history.push("/");
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authenticated])
+  }, [authenticated])
 
-  const onChange = (e) =>{
+  const onChange = (e) => {
     setUser({
       ...user,
       [e.target.name]: e.target.value
     })
   }
 
-  
-  const loginButtonDisabled = () =>{
-    return isEmpty(firstName) || isEmpty(lastName) || isEmpty(email) ||isEmpty(password) || isEmpty(confirmar) 
+  const loginButtonDisabled = () => {
+    return isEmpty(firstName) || isEmpty(lastName) || isEmpty(email) || isEmpty(password) || isEmpty(confirmar)
   }
 
   const isEmpty = (aField) => {
@@ -59,18 +62,18 @@ export default function SignUp(props) {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    if(password !== confirmar){
-      ShowError("las contraseñas no coinciden")
+    if (password !== confirmar) {
+      openSnackbar("las contraseñas no coinciden", "error")
     }
-    else{
-      closeError()
-      registerUser({firstName,lastName,email,password, admin})
+    else {
+      closeSnackbar()
+      registerUser({ firstName, lastName, email, password, admin })
     }
 
   }
 
   return (
-    <Container component="main" maxWidth="xs" style={{backgroundColor: "#E2E8E7"}}>
+    <Container component="main" maxWidth="xs" style={{ backgroundColor: "#E2E8E7" }}>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -149,7 +152,7 @@ export default function SignUp(props) {
                 onChange={onChange}
               />
             </Grid>
-            
+
           </Grid>
           <Button
             type="submit"
@@ -167,11 +170,8 @@ export default function SignUp(props) {
             </Grid>
           </Grid>
           {error ?
-            <SnackbarOpen
-            msg={msg}
-            severity={severity}
-            /> : null
-          } 
+            <SnackbarOpen /> : null
+          }
         </form>
       </div>
     </Container>

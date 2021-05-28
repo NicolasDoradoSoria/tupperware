@@ -1,21 +1,27 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import clienteAxios from "../../config/axios";
 import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
+import SnackBarContext from "../snackbarContext/SnackbarContext";
 import {
-  GET_ORDERS, GENERATE_ORDER, CLOSE_SNACKBAR
+  GET_ORDERS, GENERATE_ORDER
 } from "../../types";
+
 const CartState = (props) => {
   const initialState = {
     orders: [],
-    msg: null,
-    error: false,
-    severity: "",
     ordersAvailable: false
   };
 
   const [state, dispatch] = useReducer(CartReducer, initialState);
 
+    //snackbarContext
+    const snackbarContext = useContext(SnackBarContext);
+    const {
+      openSnackbar
+    } = snackbarContext;
+
+    
   // obtener los pedido del user
   const getOrder = async (userId) => {
 
@@ -39,6 +45,7 @@ const CartState = (props) => {
         type: GENERATE_ORDER,
         payload: result.data
       });
+      openSnackbar(result.data, "success")
     } catch (error) {
       console.log(error);
     }
@@ -58,24 +65,14 @@ const CartState = (props) => {
       console.log(error);
     }
   };
-
-  const closeError = () => {
-    dispatch({
-      type: CLOSE_SNACKBAR,
-    });
-  };
   return (
     <CartContext.Provider
       value={{
         orders: state.orders,
-        msg: state.msg,
-        error: state.error,
-        severity: state.severity,
         ordersAvailable: state.ordersAvailable,
         getOrder,
         generateOrder,
         updateOrder,
-        closeError
       }}
     >
       {props.children}
