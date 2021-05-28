@@ -23,7 +23,7 @@ export default function SignUp(props) {
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error, msg, severity,openSnackbar, closeSnackbar} = snackbarContext
+  const { error,openSnackbar, closeSnackbar} = snackbarContext
 
   // hook de create user
   const [user, setUser] = useState({

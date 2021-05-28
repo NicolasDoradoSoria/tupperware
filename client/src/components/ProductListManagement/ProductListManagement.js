@@ -43,7 +43,7 @@ const ProductListManagement = () => {
  
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error, msg, severity} = snackbarContext
+  const { error} = snackbarContext
 
   useEffect(() => {
     getProducts();

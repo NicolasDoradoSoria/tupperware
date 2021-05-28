@@ -20,4 +20,15 @@ export default makeStyles((theme) => ({
       overflow: 'auto',
       flexDirection: 'column ',
     },
+    image: {
+      width: "auto",
+      maxHeight: "30rem"
+    },
+    descripcion: {
+      marginLeft: "2rem",
+      marginBottom: "3rem"
+    },
+    name: {
+      textAlign: "center"
+    }
   }));

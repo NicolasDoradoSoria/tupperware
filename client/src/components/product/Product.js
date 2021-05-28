@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
 import CardMedia from "@material-ui/core/CardMedia";

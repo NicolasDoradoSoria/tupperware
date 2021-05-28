@@ -11,7 +11,7 @@ import './Style.css';
 import SnackbarOpen from "../snackbar/SnackBar";
 import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/productsContext/userContext/UserContext'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 const ProductDescription = ({ match, history }) => {
   const classes = Style();
@@ -23,11 +23,11 @@ const ProductDescription = ({ match, history }) => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { generateOrder} = cartContext
+  const { generateOrder } = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error, msg, severity, closeSnackbar } = snackbarContext
+  const { error, closeSnackbar } = snackbarContext
 
   //userContext
   const userContext = useContext(UserContext);
@@ -54,41 +54,58 @@ const ProductDescription = ({ match, history }) => {
     }
 
     product()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!selectedProduct) return null
 
-  const { descripcion, price, _id, name } = selectedProduct;
+  const { descripcion, price, _id, name, photoURL } = selectedProduct;
 
 
   return (
     <div className={classes.root}>
+      {console.log(selectedProduct)}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <img
-                  src="https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg"
-                  alt="imagen"
-                />
+                {photoURL ? <img src={`http://localhost:4000/${photoURL}`} alt="holiss" className={classes.image} /> :
+                  <img
+                    src="https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg"
+                    alt="imagen"
+                  />
+                }
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <PriceProduct price={price} />
-              </Paper>
+            <Grid item xs={12} sm container>
+              <Grid item xs container direction="column" spacing={3}>
+                <Grid item xs>
+                  <Paper className={fixedHeightPaper}>
+                    <h2 className={classes.name}>{name}</h2>
+                  </Paper>
+                </Grid>
+
+                <Grid item>
+                  <Paper className={fixedHeightPaper}>
+                    <PriceProduct price={price} />
+                  </Paper>
+                </Grid>
+                <Grid item>
+                  <Paper className={fixedHeightPaper}>
+                    <Button variant="contained" color="primary" onClick={addCartClick}>
+                      Agregar al carrito
+                    </Button>
+                  </Paper>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
+                <h2 className={classes.descripcion}>Descripcion</h2>
+                
                 {descripcion}
-                <div className="buttonCenter">
-                  <Button variant="contained" color="primary" onClick={addCartClick}>
-                    Agregar al carrito
-                  </Button>
-                </div>
               </Paper>
             </Grid>
           </Grid>

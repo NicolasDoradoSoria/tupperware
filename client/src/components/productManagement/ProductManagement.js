@@ -1,24 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Box, Grid } from "@material-ui/core";
 import Style from "./Style";
 import "./Style.css";
-import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 const ProductManagement = () => {
   const classes = Style();
 
   //productContext
-  const productContext = useContext(ProductContext);
-  const { error, msg, severity, closeError } = productContext;
 
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    closeError();
-  };
 
   return (
     <>
