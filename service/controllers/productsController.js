@@ -59,6 +59,7 @@ exports.getProductById = async (req, res) => {
   validationResultFunction(req)
   try {
     const product = await getProductByIdFunction(req.params.productId);
+    console.log(product.photoURL)
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send("hubo un error");

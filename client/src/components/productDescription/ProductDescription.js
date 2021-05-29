@@ -64,14 +64,13 @@ const ProductDescription = ({ match, history }) => {
 
   return (
     <div className={classes.root}>
-      {console.log(selectedProduct)}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                {photoURL ? <img src={`http://localhost:4000/${photoURL}`} alt="holiss" className={classes.image} /> :
+                {photoURL ? <img src={`http://localhost:4000/${photoURL}`} alt="imagen" className={classes.image} /> :
                   <img
                     src="https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg"
                     alt="imagen"

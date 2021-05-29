@@ -88,7 +88,7 @@ const ProductState = (props) => {
         type: EDIT_PRODUCT,
         payload: result.data
       })
-      
+      console.log(result)
       openSnackbar("todo ok", "success")
     } catch (error) {
       console.log(error.request)
@@ -121,6 +121,7 @@ const ProductState = (props) => {
     }
   }
   const saveCurrentProduct = async (product) => {
+    console.log(product)
     dispatch({
       type: CURRENT_PRODUCT,
       payload: product

@@ -16,10 +16,15 @@ export default makeStyles((theme) => ({
     textAlign: "center",
     marginTop: "1rem",
     marginBottom: "1rem",
+    display: "flex",
   },
   addProductButton: {
     display: "flex",
     justifyContent: "center",
     marginBottom: "1rem"
   },
+  img: {
+    marginLeft: "2rem",
+    
+  }
 }));

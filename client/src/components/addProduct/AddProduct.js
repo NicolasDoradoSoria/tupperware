@@ -8,7 +8,7 @@ import Style from "./Style";
 import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 const AddProduct = ({ history, open }) => {
   const classes = Style();
 
@@ -26,7 +26,7 @@ const AddProduct = ({ history, open }) => {
     price: 0,
     descripcion: "",
   });
-  const { name, price, descripcion } = product;
+  const { name, price, descripcion, photoURL } = product;
   const [archivo, setArchivo] = useState("");
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const AddProduct = ({ history, open }) => {
             Agregar Producto
           </Typography>
 
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField
                 id="name"
@@ -98,27 +98,6 @@ const AddProduct = ({ history, open }) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                type="file"
-                id="outlined-basic"
-                variant="outlined"
-                fullWidth
-                name="photoURL"
-                required
-                onChange={readFileChange}
-              />
-            </Grid>
-            <Grid item xs={6} className={classes.gridTextarea}>
-              {/* <TextField
-                id="standard-select-currency"
-                select
-                label="Categoria"
-                helperText="Ingrese la categoria"
-                fullWidth
-                
-              /> */}
-            </Grid>
-            <Grid item xs={6} className={classes.gridTextarea}>
-              <TextField
                 id="outlined-number"
                 label="Precio"
                 type="number"
@@ -131,6 +110,34 @@ const AddProduct = ({ history, open }) => {
                 name="price"
                 onChange={productChange}
               />
+            </Grid>
+
+            <Grid item xs={12} sm={6} className={classes.gridTextarea}>
+              {/* <TextField
+                id="standard-select-currency"
+                select
+                label="Categoria"
+                helperText="Ingrese la categoria"
+                fullWidth
+                
+              /> */}
+            </Grid>
+            <Grid item xs={12} sm={6} className={classes.gridTextarea} alignItems="center">
+                {photoURL ? (
+                  <img src={`http://localhost:4000/${photoURL}`} alt="imagen" width="150" />
+                ) : null}
+                <TextField
+                  type="file"
+                  id="outlined-basic"
+                  variant="outlined"
+                  fullWidth
+                  name="photoURL"
+                  required
+                  onChange={readFileChange}
+                  className={classes.img}
+                />
+
+
             </Grid>
             <Grid item xs={12} className={classes.gridTextarea}>
               <TextField
