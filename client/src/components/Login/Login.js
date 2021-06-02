@@ -73,7 +73,7 @@ export default function Login(props) {
     return aField === "";
   };
   return (
-    <div className={classes.login}>
+    <div>
       <Container
         component="main"
         maxWidth="xs"

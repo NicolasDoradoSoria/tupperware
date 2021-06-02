@@ -16,7 +16,7 @@ import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 const ProductDescription = ({ match, history }) => {
   const classes = Style();
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const fixedHeightPaper = clsx(classes.paper);
   // context products
   const productsContext = useContext(ProductContext)
   const { selectedProduct, getProduct } = productsContext

@@ -90,6 +90,7 @@ exports.updateProductById = async (req, res) => {
   }
 };
 
+
 //elimina producto por id
 exports.deleteProductById = async (req, res) => {
   validationResultFunction(req)

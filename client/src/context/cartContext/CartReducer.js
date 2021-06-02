@@ -9,6 +9,7 @@ export default (state, action) => {
       return {
         ...state,
         orders: action.payload,
+        products: action.payload.products
       }
     case GENERATE_ORDER:
       return {

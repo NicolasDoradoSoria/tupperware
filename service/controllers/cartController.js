@@ -8,6 +8,7 @@ exports.generateOrder = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select('-password')
     let cart = await Cart.findOne({user: user._id });
+    
     if(cart){
       let itemIndex = cart.products.findIndex(p => p.id == id);
       if (itemIndex > -1) {
@@ -20,12 +21,13 @@ exports.generateOrder = async (req, res) => {
         //product does not exists in cart, add new item
         cart.products.push({ id, quantity});
       }
+      console.log(Cart)
       await cart.save();
       return res.send("el producto a sido agregado correctamente");
     }
     else {
       //no cart for user, create new cart
-
+      
       await Cart.create({
         user: user._id,
         products: [{ id, quantity}]
@@ -54,8 +56,7 @@ exports.showAllOrders = async (req, res) => {
 //muestra un pedido por ID de usuario
 exports.showOrder = async (req, res, next) => {
   try {
-    const order = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos" });
-
+    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" });
     if (order.length == 0) {
       res.json({ mensaje: "este pedido no existe" });
       next();
@@ -81,6 +82,19 @@ exports.updateOrder = async (req, res, next) => {
     )
 
     res.json(order);
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+};
+//actualiza un pedido por ID
+exports.deleteProductOrder = async (req, res, next) => {
+  
+  try {
+    await Cart.findOneAndUpdate({user: req.params.idUser},
+   { $pull: { products : {_id : req.params.idOrder }}});
+    res.json({ msg: "el producto se a eliminado" })
+
   } catch (error) {
     console.log(error);
     next();

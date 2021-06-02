@@ -9,7 +9,8 @@ import {
 
 const CartState = (props) => {
   const initialState = {
-    orders: [],
+    orders: null,
+    products: [],
     ordersAvailable: false
   };
 
@@ -29,7 +30,7 @@ const CartState = (props) => {
       const result = await clienteAxios.get(`/api/shopping_cart/${userId}`);
       dispatch({
         type: GET_ORDERS,
-        payload: result.data[0].products
+        payload: result.data[0]
       });
     } catch (error) {
       console.log(error);
@@ -51,16 +52,13 @@ const CartState = (props) => {
     }
   };
 
-  // actualiza un pedido
-  const updateOrder = async (data) => {
+  // elimina producto de pedido
+  const removeOrderProduct = async (userId, idOrder) => {
     try {
-      const result = await clienteAxios.put(`api/shopping_cart/${data.user}`, data)
+      const result = await clienteAxios.delete(`api/shopping_cart/${userId}/${idOrder}`)
       console.log(result)
-    
-      // dispatch({
-      //   type: GENERATE_ORDER,
-      //   payload: result.data
-      // });
+      openSnackbar(result.data.msg, "success")
+     
     } catch (error) {
       console.log(error);
     }
@@ -69,10 +67,11 @@ const CartState = (props) => {
     <CartContext.Provider
       value={{
         orders: state.orders,
+        products: state.products,
         ordersAvailable: state.ordersAvailable,
         getOrder,
         generateOrder,
-        updateOrder,
+        removeOrderProduct,
       }}
     >
       {props.children}
