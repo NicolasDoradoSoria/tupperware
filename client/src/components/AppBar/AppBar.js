@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,14 +12,23 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import Button from "@material-ui/core/Button";
+import CartContext from "../../context/cartContext/CartContext";
 
 export default function Appbar() {
   const classes = Style();
 
   //userContext
   const userContext = useContext(UserContext);
-  const { authenticated } = userContext;
+  const { authenticated, user } = userContext;
 
+   //cartContext
+   const cartContext = useContext(CartContext);
+   const { products, getOrder} = cartContext
+ 
+useEffect(() => {
+  getOrder(user.user._id)
+
+}, [])
   return (
       <AppBar position="static" style={{ background: "#212121" }} >
         <Toolbar>
@@ -55,7 +64,7 @@ export default function Appbar() {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+              <Badge badgeContent={products.length} color="secondary">
                 <Link to={"/main/carrito"}>
                   <ShoppingCartIcon />
                 </Link>

@@ -19,9 +19,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SnackbarOpen() {
+
+
   const classes = useStyles();
   const [open, setOpen] = useState(true)
 
+
+  
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
   const {msg, severity} = snackbarContext
