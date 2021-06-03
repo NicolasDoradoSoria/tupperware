@@ -14,3 +14,4 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT'
 export const CURRENT_PRODUCT = 'CURRENT_PRODUCT'
 export const GET_ORDERS = 'GET_ORDERS'
 export const GENERATE_ORDER = "GENERATE_ORDER"
+export const CLEAN_CART = "CLEAN_CART"

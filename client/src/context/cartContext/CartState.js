@@ -4,7 +4,7 @@ import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
 import SnackBarContext from "../snackbarContext/SnackbarContext";
 import {
-  GET_ORDERS, GENERATE_ORDER
+  GET_ORDERS, GENERATE_ORDER, CLEAN_CART
 } from "../../types";
 
 const CartState = (props) => {
@@ -56,13 +56,26 @@ const CartState = (props) => {
   const removeOrderProduct = async (userId, idOrder) => {
     try {
       const result = await clienteAxios.delete(`api/shopping_cart/${userId}/${idOrder}`)
-      console.log(result)
       openSnackbar(result.data.msg, "success")
      
     } catch (error) {
       console.log(error);
     }
   };
+
+  //limpia el carrito
+  const cleanCart = async (userId) => {
+    try {
+      const result = await clienteAxios.delete(`api/shopping_cart/${userId}`)
+      dispatch({
+        type: CLEAN_CART,
+      });
+      console.log(result)
+      openSnackbar(result.data.msg, "success")
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <CartContext.Provider
       value={{
@@ -72,6 +85,7 @@ const CartState = (props) => {
         getOrder,
         generateOrder,
         removeOrderProduct,
+        cleanCart
       }}
     >
       {props.children}

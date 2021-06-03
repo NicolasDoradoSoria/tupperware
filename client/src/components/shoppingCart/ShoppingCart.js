@@ -7,7 +7,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Typography from '@material-ui/core/Typography';
@@ -15,38 +14,10 @@ import Button from "@material-ui/core/Button";
 import Delete from "@material-ui/icons/Delete";
 import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import SnackbarOpen from "../snackbar/SnackBar";
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 650,
-    justifyContent: "center"
-  },
-  orderListNull: {
-    marginTop: "1rem",
-    textAlign: "center"
-  },
-  TableContainer: {
-    width: '90%',
-    margin: "auto",
-  },
-  body: {
-    height: '100vh',
-  },
-  paper: {
-    padding: theme.spacing(1),
-    margin: "1rem",
-    width: "25%",
-    display: "flex",
-    justifyContent: "center",
-  },
-  divPaper: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginRight: "1rem"
-  }
-}));
+import Style from "./Style";
 
 const ShoppingCart = () => {
-  const classes = useStyles();
+  const classes = Style();
 
   //userContext
   const userContext = useContext(UserContext);
@@ -54,11 +25,11 @@ const ShoppingCart = () => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { getOrder, orders, removeOrderProduct, products } = cartContext
+  const { getOrder, orders, removeOrderProduct, products, cleanCart } = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error, closeSnackbar } = snackbarContext
+  const { error } = snackbarContext
 
   //hook  
   const [total, setTotal] = useState(0)
@@ -116,18 +87,36 @@ const ShoppingCart = () => {
             }
           </TableBody>
         </Table>
-        {(products.length === 0) ? <p className={classes.orderListNull}>NO hay productos en el carrito de compras</p> : null}
+        {(products.length === 0) ? <p className={classes.orderListNull}>No hay productos en el carrito de compras</p> : null}
 
       </TableContainer>
-      <div className={classes.divPaper}>
-        <Paper className={classes.paper}>
-          <Typography component="p" variant="h5">
-            Total a Pagar: <span>${total}</span>
-          </Typography>
-        </Paper>
+      <div className={classes.paperContainer}>
+        <div className={classes.paperTotal}>
+          <Paper className={classes.paper}>
+            <Typography component="p" variant="h5">
+              Limpiar carrito
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.cleanButton}
+              onClick={() => cleanCart(user.user._id)}
+            >
+              <Delete />
+            </Button>
+          </Paper>
+        </div>
+
+          <div className={classes.paperClean}>
+            <Paper className={classes.paper}>
+              <Typography component="p" variant="h5">
+                Total a Pagar: <span>${total}</span>
+              </Typography>
+            </Paper>
+          </div>
+        </div>
+        {error ? <SnackbarOpen /> : null}
       </div>
-      {error ? <SnackbarOpen /> : null}
-    </div>
   );
 }
 

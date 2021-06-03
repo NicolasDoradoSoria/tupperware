@@ -58,10 +58,8 @@ exports.showOrder = async (req, res, next) => {
   try {
     const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" });
     if (order.length == 0) {
-      res.json({ mensaje: "este pedido no existe" });
-      next();
+     return  res.status(404).json({ msg: "no posee pedidos aun" });
     }
-
     //mostrar el pedido
     res.json(order);
 
@@ -105,9 +103,9 @@ exports.deleteProductOrder = async (req, res, next) => {
 //elimina un pedido por ID
 exports.deleteOrder = async (req, res, next) => {
   try {
-    await Cart.findOneAndDelete({ _id: req.params.idOrder })
+    await Cart.findOneAndDelete({ user: req.params.idUser })
 
-    res.json({ mensaje: "el producto se a eliminado" })
+    res.json({ msg: "el carrito fue limpieado correctamente" })
   } catch (error) {
     console.log(error)
     next()
