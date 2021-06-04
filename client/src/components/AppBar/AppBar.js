@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import Button from "@material-ui/core/Button";
 import CartContext from "../../context/cartContext/CartContext";
+import ProductContext from "../../context/productsContext/ProductContext";
 
 export default function Appbar() {
   const classes = Style();
@@ -25,12 +26,24 @@ export default function Appbar() {
    const cartContext = useContext(CartContext);
    const { products, getOrder} = cartContext
  
+   //context de products
+  const productsContext = useContext(ProductContext);
+  const {
+    searchProducts
+  } = productsContext;
+ 
 useEffect(() => {
   if(user){
     getOrder(user.user._id)
   }
-
 }, [user])
+
+const handleSearch = async e => {
+  e.preventDefault()
+  let target = e.target;
+  searchProducts({ name: target.value })
+}
+
   return (
       <AppBar position="static" style={{ background: "#212121" }} >
         <Toolbar>
@@ -55,12 +68,13 @@ useEffect(() => {
             </div>
             <InputBase
               className="inputbase"
-              placeholder="Search…"
+              placeholder="Buscar Producto"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ "aria-label": "search" }}
+          onChange={handleSearch}
+              inputProps={{ "aria-label": "Buscar Producto" }}
             />
           </div>
           <div className={classes.grow} />

@@ -7,6 +7,8 @@ import ProductContext from "../../context/productsContext/ProductContext";
 import "./Style.css";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
+
+// lista de productos principal
 const ListOfProducts = () => {
   // context products
   const productsContext = useContext(ProductContext)
