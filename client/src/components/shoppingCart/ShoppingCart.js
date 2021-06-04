@@ -36,13 +36,13 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     getOrder(user.user._id)
-    if (!orders) return null
     updateTotalToPay()
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orders])
+  }, [products])
 
   const updateTotalToPay = () => {
-    if (orders.length === 0) {
+
+    if (products.length === 0) {
       setTotal(0)
       return
     }
@@ -52,62 +52,66 @@ const ShoppingCart = () => {
 
     setTotal(newTotal)
   }
+
+
   return (
     <div className={classes.body}>
+      <form>
 
-      <MainFeaturedPost />
-      <TableContainer component={Paper} className={classes.TableContainer} >
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="right">Producto</TableCell >
-              <TableCell align="right">Descripcion</TableCell>
-              <TableCell align="right">Cantidad</TableCell>
-              <TableCell align="right">Precio</TableCell>
-              <TableCell align="right">Accion</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {products.map((product) => (
-              <TableRow key={product._id}>
-                <TableCell align="right">{product.id.name}</TableCell>
-                <TableCell align="right">{product.id.descripcion}</TableCell>
-                <TableCell align="right">{product.quantity}</TableCell>
-                <TableCell align="right">{product.id.price}</TableCell>
-                <TableCell align="right">
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => removeOrderProduct(user.user._id, product._id)}
-                  >
-                    <Delete />
-                  </Button></TableCell>
+        <MainFeaturedPost />
+        <TableContainer component={Paper} className={classes.TableContainer} >
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">Producto</TableCell >
+                <TableCell align="right">Descripcion</TableCell>
+                <TableCell align="right">Cantidad</TableCell>
+                <TableCell align="right">Precio</TableCell>
+                <TableCell align="right">Accion</TableCell>
               </TableRow>
-            ))
-            }
-          </TableBody>
-        </Table>
-        {(products.length === 0) ? <p className={classes.orderListNull}>No hay productos en el carrito de compras</p> : null}
+            </TableHead>
+            <TableBody>
+              {products.map((product) => (
+                <TableRow key={product._id}>
+                  <TableCell align="right">{product.id.name}</TableCell>
+                  <TableCell align="right">{product.id.descripcion}</TableCell>
+                  <TableCell align="right">{product.quantity}</TableCell>
+                  <TableCell align="right">{product.id.price}</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => removeOrderProduct(user.user._id, product._id)}
+                    >
+                      <Delete />
+                    </Button></TableCell>
+                </TableRow>
+              ))
+              }
+            </TableBody>
+          </Table>
+          {(products.length === 0) ? <p className={classes.orderListNull}>No hay productos en el carrito de compras</p> : null}
 
-      </TableContainer>
-      <div className={classes.paperContainer}>
-        <div className={classes.paperTotal}>
-          <Paper className={classes.paper}>
-            <Typography component="p" variant="h5">
-              Limpiar carrito
+        </TableContainer>
+        <div className={classes.paperContainer}>
+          {(products.length !== 0) ?
+            <div className={classes.paperClean}>
+              <Paper className={classes.paper}>
+                <Typography component="p" variant="h5">
+                  vaciar carrito
             </Typography>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.cleanButton}
-              onClick={() => cleanCart(user.user._id)}
-            >
-              <Delete />
-            </Button>
-          </Paper>
-        </div>
-
-          <div className={classes.paperClean}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.cleanButton}
+                  onClick={() => cleanCart(user.user._id)}
+                >
+                  <Delete />
+                </Button>
+              </Paper>
+            </div> : null
+          }
+          <div className={classes.paperTotal}>
             <Paper className={classes.paper}>
               <Typography component="p" variant="h5">
                 Total a Pagar: <span>${total}</span>
@@ -116,7 +120,8 @@ const ShoppingCart = () => {
           </div>
         </div>
         {error ? <SnackbarOpen /> : null}
-      </div>
+      </form>
+    </div>
   );
 }
 

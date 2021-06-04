@@ -23,14 +23,15 @@ export default makeStyles((theme) => ({
     },
     paperTotal: {
       display: "flex",
-      justifyContent: "flex-start",
-      marginLeft: "3.3rem",
-      width: "65%",
-    },
-    paperClean: {
-      display: "flex",
       justifyContent: "flex-end",
       marginRight: "3.3rem",
+      width: "65%",
+    },
+    
+    paperClean: {
+      display: "flex",
+      justifyContent: "flex-start",
+      marginLeft: "3.3rem",
       width: "65%",
     },
     paperContainer: {
@@ -38,5 +39,9 @@ export default makeStyles((theme) => ({
     },
     cleanButton: {
       marginLeft: "1rem",
-    }
+    },
+    tableCellQuantity:{
+      display:"flex",
+      justifyContent: "center",
+    },
   }));

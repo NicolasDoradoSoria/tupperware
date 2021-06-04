@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
       padding: theme.spacing(2),
       display: 'flex',
       overflow: 'auto',
-      flexDirection: 'column ',
+      flexDirection: 'column',
     },
     image: {
       width: "auto",
@@ -30,5 +30,13 @@ export default makeStyles((theme) => ({
     },
     name: {
       textAlign: "center"
+    },
+    
+    paperQuantity: {
+      padding: theme.spacing(2),
+      display: 'flex',
+      overflow: 'auto',
+      flexDirection: 'column',
+      width: "30%"
     }
   }));

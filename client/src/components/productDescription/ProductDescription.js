@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -13,6 +13,7 @@ import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/productsContext/userContext/UserContext'
 import { withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
+import TextField from '@material-ui/core/TextField';
 const ProductDescription = ({ match, history }) => {
   const classes = Style();
 
@@ -33,13 +34,16 @@ const ProductDescription = ({ match, history }) => {
   const userContext = useContext(UserContext);
   const { user } = userContext;
 
+  //hooks 
+  const [quantity, setQuantity] = useState(1)
 
   const addCartClick = () => {
     const order = {
       "user": user.user._id,
       "id": _id,
-      "quantity": 2,
+      "quantity" : quantity,
       "total": 133,
+      
     }
     generateOrder(order)
 
@@ -57,6 +61,10 @@ const ProductDescription = ({ match, history }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+
+  const changeQuantity = (e) => {
+    setQuantity(e.target.value);
+  }
   if (!selectedProduct) return null
 
   const { descripcion, price, _id, name, photoURL } = selectedProduct;
@@ -79,7 +87,7 @@ const ProductDescription = ({ match, history }) => {
               </Paper>
             </Grid>
             <Grid item xs={12} sm container>
-              <Grid item xs container direction="column" spacing={3}>
+              <Grid item xs container direction="column" spacing={4}>
                 <Grid item xs>
                   <Paper className={fixedHeightPaper}>
                     <h2 className={classes.name}>{name}</h2>
@@ -90,6 +98,23 @@ const ProductDescription = ({ match, history }) => {
                   <Paper className={fixedHeightPaper}>
                     <PriceProduct price={price} />
                   </Paper>
+                </Grid>
+                <Grid item>
+                  <Paper className={classes.paperQuantity}>
+                    <TextField
+                      className={classes.textFieldQuantity}
+                      id="standard-number"
+                      type="number"
+                      name="quantity"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      onChange={changeQuantity}
+                      defaultValue="1"
+                      inputProps={{ min: "1" }}
+                    />
+                  </Paper>
+                  
                 </Grid>
                 <Grid item>
                   <Paper className={fixedHeightPaper}>
@@ -103,7 +128,7 @@ const ProductDescription = ({ match, history }) => {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <h2 className={classes.descripcion}>Descripcion</h2>
-                
+
                 {descripcion}
               </Paper>
             </Grid>

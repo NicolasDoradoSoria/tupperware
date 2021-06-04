@@ -26,9 +26,11 @@ export default function Appbar() {
    const { products, getOrder} = cartContext
  
 useEffect(() => {
-  getOrder(user.user._id)
+  if(user){
+    getOrder(user.user._id)
+  }
 
-}, [])
+}, [user])
   return (
       <AppBar position="static" style={{ background: "#212121" }} >
         <Toolbar>
@@ -62,7 +64,8 @@ useEffect(() => {
             />
           </div>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          {(user) ?
+            <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={products.length} color="secondary">
                 <Link to={"/main/carrito"}>
@@ -70,7 +73,8 @@ useEffect(() => {
                 </Link>
               </Badge>
             </IconButton>
-          </div>
+          </div> : null
+            }
         </Toolbar>
       </AppBar>
   );

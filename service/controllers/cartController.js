@@ -58,6 +58,7 @@ exports.showOrder = async (req, res, next) => {
   try {
     const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" });
     if (order.length == 0) {
+      console.log("hola")
      return  res.status(404).json({ msg: "no posee pedidos aun" });
     }
     //mostrar el pedido

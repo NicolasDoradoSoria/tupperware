@@ -25,9 +25,10 @@ const CartState = (props) => {
     
   // obtener los pedido del user
   const getOrder = async (userId) => {
+    const result = await clienteAxios.get(`/api/shopping_cart/${userId}`);
+    console.log(result)
 
     try {
-      const result = await clienteAxios.get(`/api/shopping_cart/${userId}`);
       dispatch({
         type: GET_ORDERS,
         payload: result.data[0]
@@ -70,7 +71,6 @@ const CartState = (props) => {
       dispatch({
         type: CLEAN_CART,
       });
-      console.log(result)
       openSnackbar(result.data.msg, "success")
     } catch (error) {
       console.log(error);

@@ -28,7 +28,7 @@ export default function SnackbarOpen() {
   
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const {msg, severity} = snackbarContext
+  const {msg, severity, closeSnackbar} = snackbarContext
 
 
   const handleClose = (event, reason) => {
@@ -37,6 +37,7 @@ export default function SnackbarOpen() {
     }
 
     setOpen(false);
+    closeSnackbar()
   };
 
   return (
