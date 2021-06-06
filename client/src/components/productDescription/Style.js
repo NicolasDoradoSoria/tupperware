@@ -31,12 +31,10 @@ export default makeStyles((theme) => ({
     name: {
       textAlign: "center"
     },
-    
-    paperQuantity: {
-      padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
-      width: "30%"
+    paperStock: {
+      padding: theme.spacing(1),
+      marginLeft: "1rem",
+      textAlign: "center",
+
     }
   }));

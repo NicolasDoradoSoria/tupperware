@@ -1,44 +1,69 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Product from "../product/Product";
 import { Box, Grid } from "@material-ui/core";
 import Style from "./Style";
 import ProductContext from "../../context/productsContext/ProductContext";
-import "./Style.css";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
-
+import TablePagination from "@material-ui/core/TablePagination";
+import Paper from "@material-ui/core/Paper";
 // lista de productos principal
 const ListOfProducts = () => {
   // context products
   const productsContext = useContext(ProductContext)
-  const {products, getProducts} = productsContext
+  const { products, getProducts } = productsContext
   const classes = Style();
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const {error, closeSnackbar} = snackbarContext
+  const { error, closeSnackbar } = snackbarContext
 
+  //hooks
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(6);
   useEffect(() => {
     getProducts()
-   setTimeout(closeSnackbar, 5000)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  
+    setTimeout(closeSnackbar, 5000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [products])
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   if (products.length === 0) return null
   return (
-    <div className="ListOfProducts">
-      <Box boxShadow={3} className="BoxProducts">
-        <Grid container spacing={4}>
-          {products.map((product) => (
-            <Grid item xs={12} sm={6} md={4} className={classes.root}  key={product._id}>
+    <div className={classes.root}>
+      <Box boxShadow={3} className={classes.boxProducts}>
+        <Grid container spacing={4} className={classes.gridProducts}>
+          {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
+
+            <Grid item xs={12} sm={6} md={4} className={classes.products} key={product._id} >
               <Product product={product} />
             </Grid>
           ))}
         </Grid>
+        <Paper className={classes.paperPagination}>
+
+        <TablePagination
+          rowsPerPageOptions={[6, 12, 24]}
+          component="div"
+          count={products.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+          </Paper>
       </Box>
       {error ? <SnackbarOpen /> : null}
-      </div>
+    </div>
   );
 };
 

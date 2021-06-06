@@ -50,7 +50,7 @@ const ProductListManagement = () => {
   useEffect(() => {
     getProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [products]);
 
   const selectProduct = (product) => {
     setOpen(true);
@@ -104,7 +104,6 @@ const ProductListManagement = () => {
     searchProducts({ name: target.value })
   }
 
-  if (products.length === 0) return null;
   return (
     <>
       <Paper component="form" className={classes.rootSearch}>
@@ -131,7 +130,8 @@ const ProductListManagement = () => {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
           />
-
+  {
+    products ? 
           <TableBody>
             {stableSort(products, getComparator(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -153,7 +153,7 @@ const ProductListManagement = () => {
                       {product.price}
                     </TableCell>
                     <TableCell align="right" className={classes.column}>
-                      {product.carbs}
+                      {product.stock}
                     </TableCell>
                     <TableCell align="right" className={classes.columnAction}>
                       <Box className={classes.actionBox}>
@@ -178,6 +178,7 @@ const ProductListManagement = () => {
                 );
               })}
           </TableBody>
+          : <p>no hay productos </p> }
         </Table>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}

@@ -1,19 +1,18 @@
 const Cart = require("../models/Cart");
 const User = require("../models/User");
-
+const Products = require("../models/Products");
 //agrega un pedido al carrito
 exports.generateOrder = async (req, res) => {
-  const { id, quantity} = req.body;
+  const { id, quantity, stock} = req.body;
 
   try {
     const user = await User.findById(req.userId).select('-password')
-    let cart = await Cart.findOne({user: user._id });
-    
+    let cart = await Cart.findOne({user: user._id })
     if(cart){
       let itemIndex = cart.products.findIndex(p => p.id == id);
       if (itemIndex > -1) {
-         //product exists in the cart, update the quantity
-        let productItem = cart.products[itemIndex];
+        //product exists in the cart, update the quantity
+        let productItem = cart.products[itemIndex]
         productItem.quantity = quantity;
         cart.products[itemIndex] = productItem;
       }
@@ -21,7 +20,7 @@ exports.generateOrder = async (req, res) => {
         //product does not exists in cart, add new item
         cart.products.push({ id, quantity});
       }
-      console.log(Cart)
+      await product.save()
       await cart.save();
       return res.send("el producto a sido agregado correctamente");
     }

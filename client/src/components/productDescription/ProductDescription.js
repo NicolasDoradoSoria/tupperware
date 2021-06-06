@@ -14,6 +14,7 @@ import UserContext from '../../context/productsContext/userContext/UserContext'
 import { withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 const ProductDescription = ({ match, history }) => {
   const classes = Style();
 
@@ -41,9 +42,8 @@ const ProductDescription = ({ match, history }) => {
     const order = {
       "user": user.user._id,
       "id": _id,
-      "quantity" : quantity,
+      "quantity": quantity,
       "total": 133,
-      
     }
     generateOrder(order)
 
@@ -67,7 +67,7 @@ const ProductDescription = ({ match, history }) => {
   }
   if (!selectedProduct) return null
 
-  const { descripcion, price, _id, name, photoURL } = selectedProduct;
+  const { descripcion, price, _id, name, photoURL, stock } = selectedProduct;
 
 
   return (
@@ -76,7 +76,7 @@ const ProductDescription = ({ match, history }) => {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={6} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 {photoURL ? <img src={`http://localhost:4000/${photoURL}`} alt="imagen" className={classes.image} /> :
                   <img
@@ -87,44 +87,48 @@ const ProductDescription = ({ match, history }) => {
               </Paper>
             </Grid>
             <Grid item xs={12} sm container>
-              <Grid item xs container direction="column" spacing={4}>
-                <Grid item xs>
-                  <Paper className={fixedHeightPaper}>
-                    <h2 className={classes.name}>{name}</h2>
-                  </Paper>
-                </Grid>
-
-                <Grid item>
-                  <Paper className={fixedHeightPaper}>
-                    <PriceProduct price={price} />
-                  </Paper>
-                </Grid>
-                <Grid item>
-                  <Paper className={classes.paperQuantity}>
-                    <TextField
-                      className={classes.textFieldQuantity}
-                      id="standard-number"
-                      type="number"
-                      name="quantity"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={changeQuantity}
-                      defaultValue="1"
-                      inputProps={{ min: "1" }}
-                    />
-                  </Paper>
-                  
-                </Grid>
-                <Grid item>
-                  <Paper className={fixedHeightPaper}>
-                    <Button variant="contained" color="primary" onClick={addCartClick}>
-                      Agregar al carrito
+              <Grid item xs>
+                <Paper className={fixedHeightPaper}>
+                  <h2 className={classes.name}>{name}</h2>
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper className={fixedHeightPaper}>
+                  <PriceProduct price={price} />
+                </Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <Paper className={fixedHeightPaper}>
+                  <TextField
+                    label="cantidad"
+                    id="standard-number"
+                    type="number"
+                    name="quantity"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={changeQuantity}
+                    defaultValue="1"
+                    inputProps={{ min: "1", max: "20"}}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <Paper className={classes.paperStock}>
+                  <Typography component="p" variant="h5" color="textSecondary" >
+                    <span>Stock</span>: {stock}
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper className={fixedHeightPaper}>
+                  <Button variant="contained" color="primary" onClick={addCartClick} >
+                    Agregar al carrito
                     </Button>
-                  </Paper>
-                </Grid>
+                </Paper>
               </Grid>
             </Grid>
+
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <h2 className={classes.descripcion}>Descripcion</h2>

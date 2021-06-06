@@ -11,7 +11,7 @@ const CarouSel = () => {
             src={fondo}
             alt="First slide"
             width="800"
-            height="400"
+            height="300"
           />
 
           <Carousel.Caption>
@@ -26,7 +26,7 @@ const CarouSel = () => {
             src={fondo}
             alt="First slide"
             width="800"
-            height="400"
+            height="300"
           />
 
           <Carousel.Caption>
@@ -40,7 +40,7 @@ const CarouSel = () => {
             src={fondo}
             alt="First slide"
             width="800"
-            height="400"
+            height="300"
           />
 
           <Carousel.Caption>

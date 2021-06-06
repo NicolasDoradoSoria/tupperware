@@ -63,6 +63,7 @@ const ProductState = (props) => {
     formData.append("name", data.name);
     formData.append("price", data.price);
     formData.append("descripcion", data.descripcion);
+    formData.append("stock", data.stock);
     formData.append("photoURL", image);
 
 
@@ -72,6 +73,7 @@ const ProductState = (props) => {
           'Content-Type': 'multipart/form-data',
         }
       });
+      console.log(result)
       openSnackbar(result.data, "success")
       openSnackbar(result.data, "success")
     } catch (error) {

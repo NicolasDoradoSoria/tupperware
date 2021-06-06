@@ -55,12 +55,13 @@ const AddProduct = ({ history, open }) => {
     e.preventDefault();
     if (selectedProduct === null) {
       // manda los datos de usuario a productContext
+      console.log(product)
       addProduct(product, archivo);
 
     } else {
       updateProduct(product);
     }
-
+    console.log(product)
     setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
 
     history.push("/")
@@ -112,32 +113,43 @@ const AddProduct = ({ history, open }) => {
               />
             </Grid>
 
-            <Grid item xs={12} sm={6} className={classes.gridTextarea}>
-              {/* <TextField
-                id="standard-select-currency"
-                select
-                label="Categoria"
-                helperText="Ingrese la categoria"
-                fullWidth
-                
-              /> */}
-            </Grid>
-            <Grid item xs={12} sm={6} className={classes.gridTextarea} alignItems="center">
-                {photoURL ? (
-                  <img src={`http://localhost:4000/${photoURL}`} alt="imagen" width="150" />
-                ) : null}
+
+
+            <Grid item xs={12} sm={6} >
+              <div>
+
+                <Typography variant="h6" component="h2" className={classes.TextFieldStock}>
+                  Stock
+              </Typography>
                 <TextField
-                  type="file"
-                  id="outlined-basic"
-                  variant="outlined"
-                  fullWidth
-                  name="photoURL"
-                  required
-                  onChange={readFileChange}
-                  className={classes.img}
+                className={classes.textFieldQuantity}
+                  id="standard-number"
+                  type="number"
+                  name="stock"
+                  flexDirection="column"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={productChange}
+                  defaultValue="1"
+                  inputProps={{ min: "1" }}
                 />
-
-
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6} className={classes.gridTextarea} alignItems="center" flexDirection="column">
+              {photoURL ? (
+                <img src={`http://localhost:4000/${photoURL}`} alt="imagen" width="150" />
+              ) : null}
+              <TextField
+                type="file"
+                id="outlined-basic"
+                variant="outlined"
+                fullWidth
+                name="photoURL"
+                required
+                onChange={readFileChange}
+                className={classes.img}
+              />
             </Grid>
             <Grid item xs={12} className={classes.gridTextarea}>
               <TextField

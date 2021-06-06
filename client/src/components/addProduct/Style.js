@@ -25,6 +25,18 @@ export default makeStyles((theme) => ({
   },
   img: {
     marginLeft: "2rem",
-    
+  },
+  textFieldQuantity: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    width: "30%"
+  },
+  TextFieldStock: {
+    marginLeft: "1rem",
+    marginBottom: "-1rem",
+    display: "flex",
+    flexDirection: "column"
   }
 }));

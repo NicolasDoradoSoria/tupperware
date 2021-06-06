@@ -40,6 +40,7 @@ const CartState = (props) => {
 
   // genera un pedido
   const generateOrder = async (data) => {
+    console.log(data)
     try {
       const result = await clienteAxios.post(`api/shopping_cart`, data)
     

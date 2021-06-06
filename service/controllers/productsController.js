@@ -59,7 +59,6 @@ exports.getProductById = async (req, res) => {
   validationResultFunction(req)
   try {
     const product = await getProductByIdFunction(req.params.productId);
-    console.log(product.photoURL)
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -118,7 +117,6 @@ exports.searchProducts = async (req, res) => {
   try {
     const products = await Products.find()
     const productfilter = products.filter(product => product.name.toLowerCase().includes(req.body.name))
-    console.log(productfilter)
     res.status(200).json(productfilter);
 
   } catch (error) {

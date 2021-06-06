@@ -36,6 +36,7 @@ useEffect(() => {
   if(user){
     getOrder(user.user._id)
   }
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [user])
 
 const handleSearch = async e => {
