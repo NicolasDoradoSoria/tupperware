@@ -19,7 +19,6 @@ import SnackbarState from "./context/snackbarContext/SnackbarState";
 var divStyle = {
   backgroundColor: "#D8CEB0",
   marginRight: "-1rem",
-  height: "auto"
 };
 
 function App() {

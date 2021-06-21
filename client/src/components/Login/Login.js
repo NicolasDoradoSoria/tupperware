@@ -145,7 +145,7 @@ export default function Login(props) {
           </form>
         </div>
       </Container>
-      <Box mt={8} className={classes.boxCopyright}>
+      <Box mt={8}>
         <Copyright />
       </Box>
     </div>

@@ -43,7 +43,7 @@ const UserState = (props) => {
     }
   };
 
-  // au8thenticated user
+  // devuelve el usuario autentificado
   const authenticatedUser = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -80,6 +80,7 @@ const UserState = (props) => {
       
     }
   };
+
   //cerrar secion
   const signOff = () => {
     try {
@@ -101,6 +102,7 @@ const UserState = (props) => {
         registerUser,
         login,
         signOff,
+        authenticatedUser
       }}
     >
       {props.children}

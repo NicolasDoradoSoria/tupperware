@@ -1,5 +1,4 @@
-import React, { Fragment, useState } from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import React, { useState, useContext } from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
@@ -16,10 +15,12 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from '@material-ui/core/MenuItem';
 import Style from './Style';
+import Paper from "@material-ui/core/Paper";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import UserContext from "../../context/productsContext/userContext/UserContext";
 
 
 const Profile = () => {
@@ -27,42 +28,34 @@ const Profile = () => {
   const [value, setValue] = useState("female");
   const [selectedDate, setSelectedDate] = useState(new Date("2020-08-18"));
 
+  //userContext
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
+
+  const { email, firstName, lastName } = user.user
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+
 
   const handleGerderChange = (event) => {
     setValue(event.target.value);
   };
   return (
-    <Fragment>
-      <CssBaseline />
-      <Container maxWidth="sm">
-        <Typography component="div" style={{ height: "100vh" }}>
-          <Grid container justify="center" alignItems="center">
+    
+      <Container maxWidth="sm" className={classes.container}>
+        <Typography component="div">
+          <Grid container justify="center">
             <div className={classes.root}>
               <Avatar src="/static/images/avatar/2.jpg" />
             </div>
           </Grid>
-          <h1 className="title">Nicolas</h1>
+          <Typography component="p" variant="h3" className={classes.title}>
+            {firstName} {lastName}
+          </Typography>
           <Box border={2} />
           <form className={classes.root}>
-            <Grid container spacing={3} className={classes.fonds}>
-              <Grid item xs={6}>
-                <TextField
-                  disabled
-                  id="standard-disabled"
-                  defaultValue="name"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  disabled
-                  id="standard-disabled"
-                  defaultValue="apellido"
-                />
-              </Grid>
-
+            <Grid container spacing={6} className={classes.fonds}>
               <Grid item xs={6}>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
                   <KeyboardDatePicker
@@ -81,77 +74,85 @@ const Profile = () => {
                 </MuiPickersUtilsProvider>
               </Grid>
               <Grid item xs={6}>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Genero</FormLabel>
-                  <RadioGroup
-                    aria-label="gender"
-                    name="gender1"
-                    value={value}
-                    onChange={handleGerderChange}
-                    row={true}
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Femenino"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Masculino"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid  item xs={6}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                <FormLabel component="legend">Genero</FormLabel>
+                <Typography component="p" variant="h5" >
+                  Genero
+             </Typography>
+                {/* <FormControl component="fieldset">
+                <FormLabel component="legend">Genero</FormLabel>
+                <RadioGroup
+                  aria-label="gender"
+                  name="gender1"
+                  value={value}
+                  onChange={handleGerderChange}
+                  row={true}
                 >
-                  <MenuItem>OPCIONES</MenuItem>
-                </Select>
-              </Grid>
-              <Grid  item xs={6}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                >
-                  <MenuItem>OPCIONES2</MenuItem>
-                </Select>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  disabled
-                  id="standard-disabled"
-                  defaultValue="Email"
-                />
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Femenino"
+                  />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Masculino"
+                  />
+                </RadioGroup>
+              </FormControl> */}
               </Grid>
               <Grid item xs={6}>
-                <TextField
-                  disabled
-                  id="standard-disabled"
-                  defaultValue="Documento"
-                />
+                <FormLabel component="legend">Email</FormLabel>
+                <Typography component="p" variant="h5" >
+                  {email}
+                </Typography>
               </Grid>
               <Grid item xs={6}>
-                <TextField
-                  disabled
-                  id="standard-disabled"
-                  defaultValue="Telefono"
-                />
+                <FormLabel component="legend">DNI</FormLabel>
+                <Typography component="p" variant="h5" >
+                  DNI
+             </Typography>
               </Grid>
               <Grid item xs={6}>
-                <TextField
-                  disabled
-                  id="standard-disabled"
-                  defaultValue="Telefono AL"
-                />
+                <FormLabel component="legend">Telefono</FormLabel>
+                <Typography component="p" variant="h5" >
+                  Tel
+             </Typography>
+              </Grid>
+              <Grid item xs={6} className={classes.gridTel}>
+                <FormLabel component="legend">Telefono Alternativo</FormLabel>
+                <Typography component="p" variant="h5" >
+                  TEl Alt
+             </Typography>
+              </Grid>
+              <Grid item xs={12} >
+                <Box border={2} />
+              </Grid>
+              <Grid item xs={12} >
+                <Typography component="p" variant="h4" color="primary">
+                  Envio
+             </Typography>
+              </Grid>
+              <Grid item xs={6} >
+                <Typography component="p" variant="h5">
+                  Direccion
+             </Typography>
+              </Grid>
+              <Grid item xs={6} >
+                <Typography component="p" variant="h5">
+                  Localidad
+             </Typography>
+              </Grid>
+              <Grid item xs={6} >
+                <Typography component="p" variant="h5">
+                  CP
+             </Typography>
               </Grid>
             </Grid>
+
           </form>
         </Typography>
+
       </Container>
-    </Fragment>
   );
 };
 

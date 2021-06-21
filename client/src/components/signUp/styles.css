@@ -1,0 +1,12 @@
+/* estos estilos son para el PhoneInput */
+
+.form-control {
+    /* background-color: rgb(253, 214, 214) !important; */
+    /* color: rgb(104, 7, 60); */
+    height: 55px !important;
+    width: 100% !important;
+  }
+  .react-tel-input {
+    margin-top: 2px !important;
+    margin-left: 10px !important;
+  }
