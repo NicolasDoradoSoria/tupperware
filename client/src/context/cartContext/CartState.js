@@ -10,7 +10,7 @@ import {
 const CartState = (props) => {
   const initialState = {
     orders: null,
-    products: [],
+    productsInCart: [],
     ordersAvailable: false
   };
 
@@ -26,7 +26,6 @@ const CartState = (props) => {
   // obtener los pedido del user
   const getOrder = async (userId) => {
     const result = await clienteAxios.get(`/api/shopping_cart/${userId}`);
-    console.log(result)
 
     try {
       dispatch({
@@ -40,7 +39,6 @@ const CartState = (props) => {
 
   // genera un pedido
   const generateOrder = async (data) => {
-    console.log(data)
     try {
       const result = await clienteAxios.post(`api/shopping_cart`, data)
     
@@ -81,7 +79,7 @@ const CartState = (props) => {
     <CartContext.Provider
       value={{
         orders: state.orders,
-        products: state.products,
+        productsInCart: state.productsInCart,
         ordersAvailable: state.ordersAvailable,
         getOrder,
         generateOrder,

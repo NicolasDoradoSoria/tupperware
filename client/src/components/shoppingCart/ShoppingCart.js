@@ -25,7 +25,7 @@ const ShoppingCart = () => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { getOrder, orders, removeOrderProduct, products, cleanCart } = cartContext
+  const { getOrder, removeOrderProduct, productsInCart, cleanCart } = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
@@ -37,18 +37,19 @@ const ShoppingCart = () => {
   useEffect(() => {
     getOrder(user.user._id)
     updateTotalToPay()
+    console.log(productsInCart)
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products])
+  }, [productsInCart])
 
   const updateTotalToPay = () => {
 
-    if (products.length === 0) {
+    if (productsInCart.length === 0) {
       setTotal(0)
       return
     }
 
     let newTotal = 0
-    products.map(product => newTotal += (product.quantity * product.id.price))
+    productsInCart.map(product => newTotal += (product.quantity * product.id.price))
 
     setTotal(newTotal)
   }
@@ -71,7 +72,7 @@ const ShoppingCart = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.map((product) => (
+              {productsInCart.map((product) => (
                 <TableRow key={product._id}>
                   <TableCell align="right">{product.id.name}</TableCell>
                   <TableCell align="right">{product.id.descripcion}</TableCell>
@@ -90,11 +91,11 @@ const ShoppingCart = () => {
               }
             </TableBody>
           </Table>
-          {(products.length === 0) ? <p className={classes.orderListNull}>No hay productos en el carrito de compras</p> : null}
+          {(productsInCart.length === 0) ? <p className={classes.orderListNull}>No hay productos en el carrito de compras</p> : null}
 
         </TableContainer>
         <div className={classes.paperContainer}>
-          {(products.length !== 0) ?
+          {(productsInCart.length !== 0) ?
             <div className={classes.paperClean}>
               <Paper className={classes.paper}>
                 <Typography component="p" variant="h5">

@@ -3,6 +3,7 @@ import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
+  SEARCH_PRODUCTS
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -13,8 +14,15 @@ export default (state, action) => {
       return {
         ...state,
         products: action.payload,
+        productsAll: action.payload,
       };
 
+      case SEARCH_PRODUCTS:
+        return {
+          ...state,
+          products: action.payload,
+        };
+   
     case EDIT_PRODUCT:
       return {
         ...state,

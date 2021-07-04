@@ -19,9 +19,15 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import PhoneInput from 'react-phone-input-2'
 import "./styles.css";
 import 'react-phone-input-2/lib/material.css'
+import * as moment  from 'moment';
 export default function SignUp(props) {
   const classes = Style();
 
@@ -45,10 +51,12 @@ export default function SignUp(props) {
     alternativePhone: "",
     cp: "",
     gender: "",
-    admin: false
+    admin: false,
+    dateOfBirth: null,
   })
+
   // destroyoning del hook user
-  const { firstName, lastName, email, password, confirmar, admin, phone, alternativePhone,cp,dni } = user
+  const { firstName, lastName, email, password, confirmar, admin, phone, alternativePhone, cp, dni, gender, dateOfBirth } = user
 
   useEffect(() => {
     if (authenticated) {
@@ -76,9 +84,18 @@ export default function SignUp(props) {
       alternativePhone: e
     })
   }
+  const handleDateChange = (date) => {
+    const beginDate = moment(date).format('DD-MM-YYYY')
+    console.log(beginDate);
+    setUser({
+      ...user,
+      dateOfBirth: beginDate
+    })
+  };
 
   const loginButtonDisabled = () => {
-    return isEmpty(firstName) || isEmpty(lastName) || isEmpty(email) || isEmpty(password) || isEmpty(confirmar)
+    return isEmpty(firstName) || isEmpty(lastName) || isEmpty(email) || isEmpty(password) || isEmpty(confirmar) || isEmpty(dni) || isEmpty(cp) || isEmpty(gender) || isEmpty(phone) || isEmpty(alternativePhone)
+
   }
 
   const isEmpty = (aField) => {
@@ -92,7 +109,7 @@ export default function SignUp(props) {
     }
     else {
       closeSnackbar()
-      registerUser({ firstName, lastName, email, password, admin })
+      registerUser({ firstName, lastName, email, password, admin, phone, alternativePhone, cp, dni, gender, dateOfBirth })
     }
 
   }
@@ -112,7 +129,7 @@ export default function SignUp(props) {
               Registrate
         </Typography>
             <form className={classes.form} noValidate onSubmit={onSubmit}>
-              <Grid container spacing={5}>
+              <Grid container spacing={7}>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoComplete="fname"
@@ -153,6 +170,23 @@ export default function SignUp(props) {
                     onChange={onChange}
                   />
                 </Grid>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item xs={12} sm={6}>
+                    <KeyboardDatePicker
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      id="date-picker-inline"
+                      label="ingrese fecha de nacimiento"
+                      value={dateOfBirth}
+                      onChange={handleDateChange}
+                      maxDate={new Date()}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
@@ -219,7 +253,7 @@ export default function SignUp(props) {
                   <FormControl component="fieldset" className={classes.genero}>
                     <FormLabel component="legend">Genero</FormLabel>
 
-                    <RadioGroup row aria-label="position" name="gender" className={classes.generoRadio} onChange={onChange}>
+                    <RadioGroup name="gender" className={classes.group} onChange={onChange}>
                       <FormControlLabel value="female" control={<Radio />} label="Femenino" />
                       <FormControlLabel value="male" control={<Radio />} label="Masculino" />
                       <FormControlLabel value="other" control={<Radio />} label="indefinido" />

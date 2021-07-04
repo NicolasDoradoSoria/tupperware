@@ -9,11 +9,13 @@ import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
+  SEARCH_PRODUCTS
 } from "../../types";
 
 const ProductState = (props) => {
   const initialState = {
     products: [],
+    productsAll: [], 
     errorProducts: false,
     selectedProduct: null
   };
@@ -102,7 +104,7 @@ const ProductState = (props) => {
     try {
       const filterProduct = await clienteAxios.post(`api/productos/searchProducts`, data)
       dispatch({
-        type: GET_PRODUCTS,
+        type: SEARCH_PRODUCTS,
         payload: filterProduct.data,
       });
     } catch (error) {
@@ -135,6 +137,7 @@ const ProductState = (props) => {
     <ProductContext.Provider
       value={{
         products: state.products,
+        productsAll: state.productsAll,
         getProducts,
         getProduct,
         deleteProduct,

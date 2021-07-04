@@ -14,6 +14,7 @@ router.post('/signUp',
     check('lastName', 'el apellido es obligatorio').not().isEmpty(),
     check('email', 'agrega un email valido').isEmail(),
     check('password', 'el password debe ser minimo de 6 caracteres').isLength({min: 6}),
+    check('password', 'el dni es obligatorio').not().isEmpty(),
 ], checkduplicateUsernameOrEmail
  ,userController.signUp)
 

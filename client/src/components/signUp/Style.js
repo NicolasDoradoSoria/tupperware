@@ -24,20 +24,27 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     display: 'flex',
     height: '93%',
+    [theme.breakpoints.down('sm')]: {
+      width: '85%',
+      height: '93%',
+    },
   },
   main: {
     display: 'flex',
     justifyContent: "center",
-    height: '150vh',
+    height: '145vh',
     alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      height: '195vh',
+    },
+    
   },
-
-  generoRadio: {
-    display: "flex",
-    flexDirection: "column"
-  },
-  genero: {
-    display: "flex",
-    flexDirection: "column"
-  }
+  group: {
+    width: 'auto',
+    height: 'auto',
+    display: 'flex',
+    flexWrap: 'nowrap',
+    flexDirection: 'row',
+    justifyContent: "center"
+}
 }));

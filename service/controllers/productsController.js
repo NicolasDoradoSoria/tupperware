@@ -3,7 +3,8 @@ const getProductByIdFunction = require("../data/getProductByIdFunction")
 const { validationResultFunction } = require("../libs/validationResult");
 const multer = require('multer');
 const shortid = require('shortid');
-const path = require('path')
+const path = require('path');
+const updateProduct = require("../data/updateProduct");
 
 const storage = multer.diskStorage({
   destination: path.join(__dirname, '../uploads'),
@@ -75,14 +76,8 @@ exports.updateProductById = async (req, res) => {
     if (!products) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-
-    const updatedProduct = await Products.findByIdAndUpdate(
-      { _id: req.params.productId },
-      req.body,
-      {
-        new: true,
-      }
-    );
+    updateProduct(req.body,  req.params.productId)
+    
     res.status(200).json(updatedProduct);
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -116,6 +111,9 @@ exports.deleteProductById = async (req, res) => {
 exports.searchProducts = async (req, res) => {
   try {
     const products = await Products.find()
+    if(!req.body.name) {
+      return res.status(200).json(products);
+    }
     const productfilter = products.filter(product => product.name.toLowerCase().includes(req.body.name))
     res.status(200).json(productfilter);
 

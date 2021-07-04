@@ -10,10 +10,10 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 // lista de productos principal
 const ListOfProducts = () => {
+  const classes = Style();
   // context products
   const productsContext = useContext(ProductContext)
   const { products, getProducts } = productsContext
-  const classes = Style();
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
@@ -26,7 +26,7 @@ const ListOfProducts = () => {
     getProducts()
     setTimeout(closeSnackbar, 5000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products])
+  }, [])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

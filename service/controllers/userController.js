@@ -5,18 +5,18 @@ const { validationResultFunction } = require("../libs/validationResult");
 const jwt = require("jsonwebtoken");
 exports.signUp = async (req, res) => {
   validationResultFunction(req)
-
+  console.log(req.body)
   //extraer email y password
   try {
+    console.log("holaaa")
     const {password, roles } = req.body;
-
     //crea el nuevo usuario
     user = new User(req.body);
-
+    
     //hashear el password
     const salt = await bcryptjs.genSalt(10);
     user.password = await bcryptjs.hash(password, salt);
-
+    
     if (roles) {
       const foundRoles = await Role.find({ name: { $in: roles } });
       user.roles = foundRoles.map((role) => role._id);
@@ -24,7 +24,9 @@ exports.signUp = async (req, res) => {
       const role = await Role.findOne({ name: "user" });
       user.roles = [role._id];
     }
-
+    
+    
+    console.log(user)
     //guardar usuario
     await user.save();
 
@@ -51,6 +53,7 @@ exports.signUp = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+    console.log("no funciiiiii");
     res.status(400).send("hubo un error");
   }
 };

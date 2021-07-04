@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useState, useContext} from "react";
 import classNames from "classnames";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -15,14 +15,13 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-export default function DraWer() {
+export default function DraWer({ history }) {
   const classes = Style();
   const [drawer, setDrawer] = useState(false);
   //userContext
   const userContext = useContext(UserContext);
-  const { signOff, user } = userContext;
+  const { signOff, user} = userContext;
 
-  
   const routes = [
     {
       id: 1,
@@ -70,7 +69,9 @@ export default function DraWer() {
   };
 
   const onCLickSignOff = () => {
+
     signOff();
+
   };
 
   var list = (
@@ -130,7 +131,7 @@ export default function DraWer() {
 
   if (user === null) return null;
 
-const roleFilter = user.roles.map((role) => role.name);
+  const roleFilter = user.roles.map((role) => role.name);
 
 
   return (
@@ -162,7 +163,16 @@ const roleFilter = user.roles.map((role) => role.name);
               className={classNames(classes.itemText)}
               disableTypography={true}
             >
-              Cerrar Sesion
+              <Link
+                to={`/`}
+                className={classNames(classes.itemText)}
+                disableTypography={true}
+                style={{ textDecoration: "none" }}
+                onClick={toggleDrawer(false)}
+              >
+                Cerrar Sesion
+               </Link>
+
             </ListItemText>
           </ListItem>
         </div>

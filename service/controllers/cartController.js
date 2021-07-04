@@ -1,39 +1,44 @@
 const Cart = require("../models/Cart");
 const User = require("../models/User");
 const Products = require("../models/Products");
+const updateProduct = require("../data/updateProduct");
 //agrega un pedido al carrito
 exports.generateOrder = async (req, res) => {
-  const { id, quantity, stock} = req.body;
+  const { id, quantity, stock } = req.body;
 
   try {
     const user = await User.findById(req.userId).select('-password')
-    let cart = await Cart.findOne({user: user._id })
-    if(cart){
+    let cart = await Cart.findOne({ user: user._id })
+    let product = await Products.findById(id)
+    if (cart) {
       let itemIndex = cart.products.findIndex(p => p.id == id);
       if (itemIndex > -1) {
         //product exists in the cart, update the quantity
         let productItem = cart.products[itemIndex]
         productItem.quantity = quantity;
         cart.products[itemIndex] = productItem;
+
       }
-      else{
+      else {
         //product does not exists in cart, add new item
-        cart.products.push({ id, quantity});
+        cart.products.push({ id, quantity });
       }
-      await product.save()
+      product.stock = product.stock - quantity
+      updateProduct(product, id)
+     
       await cart.save();
       return res.send("el producto a sido agregado correctamente");
     }
     else {
       //no cart for user, create new cart
-      
+
       await Cart.create({
         user: user._id,
-        products: [{ id, quantity}]
+        products: [{ id, quantity }]
       });
       return res.send("el producto a sido agregado correctamente");
     }
-        
+
   } catch (error) {
     res.status(500).json({ msg: 'hubo un error' }, error)
   }
@@ -58,7 +63,7 @@ exports.showOrder = async (req, res, next) => {
     const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" });
     if (order.length == 0) {
       console.log("hola")
-     return  res.status(404).json({ msg: "no posee pedidos aun" });
+      return res.status(404).json({ msg: "no posee pedidos aun" });
     }
     //mostrar el pedido
     res.json(order);
@@ -87,10 +92,10 @@ exports.updateOrder = async (req, res, next) => {
 };
 //actualiza un pedido por ID
 exports.deleteProductOrder = async (req, res, next) => {
-  
+
   try {
-    await Cart.findOneAndUpdate({user: req.params.idUser},
-   { $pull: { products : {_id : req.params.idOrder }}});
+    await Cart.findOneAndUpdate({ user: req.params.idUser },
+      { $pull: { products: { _id: req.params.idOrder } } });
     res.json({ msg: "el producto se a eliminado" })
 
   } catch (error) {

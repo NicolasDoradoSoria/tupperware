@@ -7,9 +7,6 @@ const { validationResultFunction } = require("../libs/validationResult");
 //sigin
 exports.signin = async (req, res) => {
 
-  validationResultFunction(req)
-
-
   //extrear el email y password
 
   const { email, password } = req.body;

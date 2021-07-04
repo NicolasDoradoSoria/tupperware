@@ -9,7 +9,7 @@ export default (state, action) => {
       return {
         ...state,
         orders: action.payload,
-        products: action.payload.products
+        productsInCart: action.payload.products
       }
     case GENERATE_ORDER:
       return {
@@ -19,7 +19,7 @@ export default (state, action) => {
     case CLEAN_CART:
       return{
         ...state,
-        products: [],
+        productsInCart: [],
         orders: null,
       }
     default:

@@ -30,12 +30,36 @@ const userSchema = mongoose.Schema(
     admin: {
       type: Boolean,
     },
+    dni: {
+      type: String,
+      required: true,
+    },
+    cp: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    }, 
+    alternativePhone: {
+      type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      required: true,
+    },
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Role",
       },
     ],
+    dateOfBirth: {
+      type: Date,
+      require
+    },
     order: [
 
       {

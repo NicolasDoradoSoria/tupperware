@@ -1,48 +1,33 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
 import "./style.css";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
-import MomentUtils from "@date-io/moment";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
+import * as moment from 'moment';
 import FormLabel from "@material-ui/core/FormLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from '@material-ui/core/MenuItem';
+
 import Style from './Style';
-import Paper from "@material-ui/core/Paper";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+
 import UserContext from "../../context/productsContext/userContext/UserContext";
 
 
 const Profile = () => {
   const classes = Style();
-  const [value, setValue] = useState("female");
-  const [selectedDate, setSelectedDate] = useState(new Date("2020-08-18"));
 
   //userContext
   const userContext = useContext(UserContext);
   const { user } = userContext;
 
-  const { email, firstName, lastName } = user.user
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+  const { email, firstName, lastName, dni, phone, cp, alternativePhone, gender, dateOfBirth } = user.user
+
+  const beginDate = moment(dateOfBirth).format('DD/MM/YYYY')
 
 
-  const handleGerderChange = (event) => {
-    setValue(event.target.value);
-  };
+
   return (
-    
+    <div className={classes.main}>
       <Container maxWidth="sm" className={classes.container}>
         <Typography component="div">
           <Grid container justify="center">
@@ -56,73 +41,44 @@ const Profile = () => {
           <Box border={2} />
           <form className={classes.root}>
             <Grid container spacing={6} className={classes.fonds}>
-              <Grid item xs={6}>
-                <MuiPickersUtilsProvider utils={MomentUtils}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker"
-                    label="Fecha de nacimiento"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
+              <Grid item xs={6} >
+                <FormLabel component="legend">Fecha de Nacimiento</FormLabel>
+                <Typography component="p" variant="h6">
+                  {beginDate}
+                </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} className={classes.gener}>
                 <FormLabel component="legend">Genero</FormLabel>
-                <Typography component="p" variant="h5" >
-                  Genero
-             </Typography>
-                {/* <FormControl component="fieldset">
-                <FormLabel component="legend">Genero</FormLabel>
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender1"
-                  value={value}
-                  onChange={handleGerderChange}
-                  row={true}
-                >
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Femenino"
-                  />
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="Masculino"
-                  />
-                </RadioGroup>
-              </FormControl> */}
+
+                {gender === "femer" ? <Typography component="p" variant="h6" >
+                  Femenino
+              </Typography> : <Typography component="p" variant="h6" >
+                  Masculino
+              </Typography>}
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} >
                 <FormLabel component="legend">Email</FormLabel>
-                <Typography component="p" variant="h5" >
+                <Typography component="p" variant="h6">
                   {email}
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} className={classes.dni}>
                 <FormLabel component="legend">DNI</FormLabel>
-                <Typography component="p" variant="h5" >
-                  DNI
-             </Typography>
+                <Typography component="p" variant="h6" >
+                  {dni}
+                </Typography>
               </Grid>
               <Grid item xs={6}>
                 <FormLabel component="legend">Telefono</FormLabel>
-                <Typography component="p" variant="h5" >
-                  Tel
-             </Typography>
+                <Typography component="p" variant="h6" >
+                  {phone}
+                </Typography>
               </Grid>
               <Grid item xs={6} className={classes.gridTel}>
                 <FormLabel component="legend">Telefono Alternativo</FormLabel>
-                <Typography component="p" variant="h5" >
-                  TEl Alt
-             </Typography>
+                <Typography component="p" variant="h6" >
+                  {alternativePhone}
+                </Typography>
               </Grid>
               <Grid item xs={12} >
                 <Box border={2} />
@@ -144,8 +100,8 @@ const Profile = () => {
               </Grid>
               <Grid item xs={6} >
                 <Typography component="p" variant="h5">
-                  CP
-             </Typography>
+                  {cp}
+                </Typography>
               </Grid>
             </Grid>
 
@@ -153,6 +109,8 @@ const Profile = () => {
         </Typography>
 
       </Container>
+
+    </div>
   );
 };
 
