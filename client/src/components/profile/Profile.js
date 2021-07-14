@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
@@ -7,23 +7,28 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import * as moment from 'moment';
 import FormLabel from "@material-ui/core/FormLabel";
-
+import { withRouter } from 'react-router-dom'
 import Style from './Style';
-
 import UserContext from "../../context/productsContext/userContext/UserContext";
 
 
-const Profile = () => {
+const Profile = ({ history }) => {
   const classes = Style();
 
   //userContext
   const userContext = useContext(UserContext);
-  const { user } = userContext;
+  const { authenticated } = userContext;
+ 
+  if (!authenticated) {
+    history.push("/login")
+    return null
+  }
 
+  //userContext
+  const { user } = userContext;
   const { email, firstName, lastName, dni, phone, cp, alternativePhone, gender, dateOfBirth } = user.user
 
   const beginDate = moment(dateOfBirth).format('DD/MM/YYYY')
-
 
 
   return (
@@ -114,4 +119,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withRouter(Profile);

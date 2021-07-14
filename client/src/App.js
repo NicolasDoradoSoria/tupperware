@@ -5,7 +5,7 @@ import Login from "./components/Login/Login";
 import Main from "./components/main/Main";
 import Profile from "./components/profile/Profile";
 import SignUp from "./components/signUp/SignUp";
-import ProductDescription from "./components/productDescription/ProductDescription";
+import Publication from "./components/publication/Publication";
 import ShoppingCart from "./components/shoppingCart/ShoppingCart";
 import ProductState from "./context/productsContext/ProductState";
 import UserState from "./context/productsContext/userContext/UserState";
@@ -39,7 +39,7 @@ function App() {
                   <Route
                     exact
                     path="/main/descripcion-producto/:id"
-                    component={ProductDescription}
+                    component={Publication}
                   />
                   <Route exact path="/main/carrito" component={ShoppingCart} />
                   <Route exact path="/login" component={Login} />

@@ -15,13 +15,13 @@ import Delete from "@material-ui/icons/Delete";
 import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import SnackbarOpen from "../snackbar/SnackBar";
 import Style from "./Style";
-
-const ShoppingCart = () => {
+import { withRouter } from 'react-router-dom'
+const ShoppingCart = ({history}) => {
   const classes = Style();
 
   //userContext
   const userContext = useContext(UserContext);
-  const { user } = userContext;
+  const { user} = userContext;
 
   //cartContext
   const cartContext = useContext(CartContext);
@@ -35,11 +35,21 @@ const ShoppingCart = () => {
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
-    getOrder(user.user._id)
-    updateTotalToPay()
-    console.log(productsInCart)
+    const consultarAPI = async() =>{
+
+      try {
+        getOrder(user.user._id)
+        updateTotalToPay()   
+      } catch (error) {
+        console.log(error)
+        history.push("/login")
+      }
+    }
+   
+    consultarAPI()
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsInCart])
+
 
   const updateTotalToPay = () => {
 
@@ -126,4 +136,4 @@ const ShoppingCart = () => {
   );
 }
 
-export default ShoppingCart;
+export default withRouter(ShoppingCart);

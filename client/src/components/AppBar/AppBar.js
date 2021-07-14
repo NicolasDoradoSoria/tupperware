@@ -69,7 +69,7 @@ const Appbar = ({history}) =>{
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { productsInCart } = cartContext
+  const { productsInCart, getOrder } = cartContext
 
   //context products
   const productsContext = useContext(ProductContext);
@@ -78,8 +78,11 @@ const Appbar = ({history}) =>{
 
   useEffect(() => {
     getProducts()
+    if(user){
+      getOrder(user.user._id)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [user])
 
   const handleSearch = async (e, values) => {
     e.preventDefault()

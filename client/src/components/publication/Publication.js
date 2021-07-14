@@ -15,7 +15,7 @@ import { withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-const ProductDescription = ({ match, history }) => {
+const Publication = ({ match, history }) => {
   const classes = Style();
 
   const fixedHeightPaper = clsx(classes.paper);
@@ -69,7 +69,7 @@ const ProductDescription = ({ match, history }) => {
 
   const { descripcion, price, _id, name, photoURL, stock } = selectedProduct;
 
-
+  
   return (
     <div className={classes.root}>
       <main className={classes.content}>
@@ -109,7 +109,7 @@ const ProductDescription = ({ match, history }) => {
                     }}
                     onChange={changeQuantity}
                     defaultValue="1"
-                    inputProps={{ min: "1", max: "20"}}
+                    inputProps={{ min: "1", max: stock }}
                   />
                 </Paper>
               </Grid>
@@ -122,9 +122,9 @@ const ProductDescription = ({ match, history }) => {
               </Grid>
               <Grid item xs={12}>
                 <Paper className={fixedHeightPaper}>
-                  <Button variant="contained" color="primary" onClick={addCartClick} >
+                  {stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> : <Button variant="contained" color="primary" onClick={addCartClick} >
                     Agregar al carrito
-                    </Button>
+                    </Button>}
                 </Paper>
               </Grid>
             </Grid>
@@ -144,4 +144,4 @@ const ProductDescription = ({ match, history }) => {
   );
 };
 
-export default withRouter(ProductDescription);
+export default withRouter(Publication);
