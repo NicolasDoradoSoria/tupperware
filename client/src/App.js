@@ -15,6 +15,7 @@ import AddProduct from "./components/addProduct/AddProduct";
 import PaymentMethod from "./components/payment/paymentMethod";
 import CartState from "./context/cartContext/CartState";
 import SnackbarState from "./context/snackbarContext/SnackbarState";
+import Footer from "./components/footer/Footer";
 
 var divStyle = {
   backgroundColor: "#D8CEB0",
@@ -48,8 +49,9 @@ function App() {
                   <Route exact path="/todos-Productos" component={ProductListManagement} />
                   <Route exact path="/agregar-producto" component={AddProduct} />
                   <Route exact path="/pagar" component={PaymentMethod} />
-              descripcion-producto
-            </Switch>
+                  descripcion-producto
+                </Switch>
+                <Footer />
               </Router>
             </CartState>
           </ProductState>

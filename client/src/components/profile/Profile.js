@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from "react";
+import React, { useContext } from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
