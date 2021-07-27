@@ -10,6 +10,25 @@ import ProductContext from "../../context/productsContext/ProductContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Style from "./Style";
 import MaterialTableCart from '../shoppingCart/MaterialTableCart';
+
+const columns= () => [
+    {
+  
+        title: "Nombre", field: "id.name"
+    },
+    {
+        title: "Precio", field: "id.price"
+    },
+    {
+        title: "Cantidad", field: "quantity"
+    },
+  ]
+
+  const options = {
+    paging: false,
+    search: false,
+    actionsColumnIndex: -1,
+  }
 const Cart = () => {
     const classes = Style();
     const [anchorEl, setAnchorEl] = useState(null)
@@ -70,7 +89,7 @@ const Cart = () => {
                 <MenuItem >
                     <Box className={classes.CartMenu}>
 
-                        <MaterialTableCart />
+                        <MaterialTableCart columns={columns()} options={options}/>
                     </Box>
                 </MenuItem>
             </Menu>

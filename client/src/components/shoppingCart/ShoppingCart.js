@@ -14,6 +14,31 @@ import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import MaterialTableCart from './MaterialTableCart';
 
+const columns= () => [
+  {
+
+      title: "Nombre", field: "id.name"
+  },
+  {
+      title: "Descripcion", field: "id.descripcion"
+  },
+  {
+      title: "Stock Disponible", field: "id.stock"
+  },
+  {
+      title: "Precio", field: "id.price"
+  },
+  {
+      title: "Cantidad", field: "quantity"
+  },
+
+]
+
+const options = {
+  paging: false,
+  actionsColumnIndex: -1,
+}
+
 const ShoppingCart = ({ history }) => {
   const classes = Style();
 
@@ -65,7 +90,7 @@ const ShoppingCart = ({ history }) => {
     <div className={classes.body}>
       
         <MainFeaturedPost />
-        <MaterialTableCart />
+        <MaterialTableCart columns={columns()} options={options}/>
         {error ? <SnackbarOpen /> : null}
         <div className={classes.paperContainer}>
             

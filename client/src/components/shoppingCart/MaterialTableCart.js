@@ -4,7 +4,9 @@ import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 
 import MaterialTable from "material-table"
-const MaterialTableCart = () => {
+
+
+const MaterialTableCart = ({columns, options}) => {
 
     //userContext
     const userContext = useContext(UserContext);
@@ -23,25 +25,7 @@ const MaterialTableCart = () => {
     }
     return (
         <>
-            <MaterialTable title="Carrito de compras" data={productsInCart} columns={[
-                {
-
-                    title: "Name", field: "id.name"
-                },
-                {
-                    title: "Name", field: "id.descripcion"
-                },
-                {
-                    title: "Stock", field: "id.stock"
-                },
-                {
-                    title: "Precio", field: "id.price"
-                },
-                {
-                    title: "Cantidad", field: "quantity"
-                },
-
-            ]} actions={[
+            <MaterialTable title="Carrito de compras" data={productsInCart} columns={columns} actions={[
                 {
                     icon: "delete",
                     tooltip: 'Eliminar producto',
@@ -63,10 +47,7 @@ const MaterialTableCart = () => {
                 }
                 
                 options={
-                    {
-                      paging: false,
-                      actionsColumnIndex: -1,
-                    }
+                    options
                   }
                   />
         </>
