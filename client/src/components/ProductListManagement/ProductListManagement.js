@@ -50,7 +50,7 @@ const ProductListManagement = () => {
   useEffect(() => {
     getProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products]);
+  }, []);
 
   const selectProduct = (product) => {
     setOpen(true);

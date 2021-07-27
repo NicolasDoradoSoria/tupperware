@@ -1,8 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles((theme) => ({
     table: {
-      minWidth: 650,
-      justifyContent: "center"
+      minWidth: 300,
+      justifyContent: "center",
+      [theme.breakpoints.up('xl')]: {
+        width: 'auto',
+      },
     },
     orderListNull: {
       marginTop: "1rem",
@@ -26,19 +29,6 @@ export default makeStyles((theme) => ({
       justifyContent: "flex-end",
       marginRight: "3.3rem",
       width: "65%",
-    },
-    
-    paperClean: {
-      display: "flex",
-      justifyContent: "flex-start",
-      marginLeft: "3.3rem",
-      width: "65%",
-    },
-    paperContainer: {
-      display: "flex",
-    },
-    cleanButton: {
-      marginLeft: "1rem",
     },
     tableCellQuantity:{
       display:"flex",

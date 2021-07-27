@@ -18,6 +18,8 @@ const AddProduct = ({ history, open }) => {
     addProduct,
     selectedProduct,
     updateProduct,
+    getProducts,
+    products
   } = productContext;
 
   // hook de create user
@@ -55,13 +57,11 @@ const AddProduct = ({ history, open }) => {
     e.preventDefault();
     if (selectedProduct === null) {
       // manda los datos de usuario a productContext
-      console.log(product)
       addProduct(product, archivo);
-
     } else {
       updateProduct(product);
     }
-    console.log(product)
+    getProducts()
     setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
 
     history.push("/")

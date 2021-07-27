@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import Product from "../product/Product";
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
 import Style from "./Style";
 import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
@@ -23,10 +23,12 @@ const ListOfProducts = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
   useEffect(() => {
-    getProducts()
+    if(products === null){
+      getProducts()
+    }
     setTimeout(closeSnackbar, 5000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [products])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -39,7 +41,13 @@ const ListOfProducts = () => {
 
   if (products.length === 0) return null
   return (
+    
     <div className={classes.root}>
+    <Box>
+      <Typography variant="h2" className={classes.title}>
+          Productos
+      </Typography>
+    </Box>
       <Box boxShadow={3} className={classes.boxProducts}>
         <Grid container spacing={4} className={classes.gridProducts}>
           {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (

@@ -26,7 +26,6 @@ const CartState = (props) => {
   // obtener los pedido del user
   const getOrder = async (userId) => {
     const result = await clienteAxios.get(`/api/shopping_cart/${userId}`);
-
     try {
       dispatch({
         type: GET_ORDERS,

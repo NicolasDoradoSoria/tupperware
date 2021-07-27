@@ -15,7 +15,7 @@ import {
 const ProductState = (props) => {
   const initialState = {
     products: [],
-    productsAll: [], 
+    productsAll: [],
     errorProducts: false,
     selectedProduct: null
   };
@@ -75,9 +75,8 @@ const ProductState = (props) => {
           'Content-Type': 'multipart/form-data',
         }
       });
-      console.log(result)
       openSnackbar(result.data, "success")
-      openSnackbar(result.data, "success")
+      getProducts()
     } catch (error) {
       openSnackbar(error.response.data.msg, "error")
 

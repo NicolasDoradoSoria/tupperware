@@ -4,7 +4,7 @@ const Products = require("../models/Products");
 const updateProduct = require("../data/updateProduct");
 //agrega un pedido al carrito
 exports.generateOrder = async (req, res) => {
-  const { id, quantity, stock } = req.body;
+  const { id, quantity} = req.body;
 
   try {
     const user = await User.findById(req.userId).select('-password')
@@ -17,7 +17,7 @@ exports.generateOrder = async (req, res) => {
         let productItem = cart.products[itemIndex]
         productItem.quantity = quantity;
         cart.products[itemIndex] = productItem;
-
+        
       }
       else {
         //product does not exists in cart, add new item
@@ -25,13 +25,13 @@ exports.generateOrder = async (req, res) => {
       }
       product.stock = product.stock - quantity
       updateProduct(product, id)
-     
+      
       await cart.save();
       return res.send("el producto a sido agregado correctamente");
     }
     else {
       //no cart for user, create new cart
-
+      
       await Cart.create({
         user: user._id,
         products: [{ id, quantity }]
@@ -60,9 +60,9 @@ exports.showAllOrders = async (req, res) => {
 //muestra un pedido por ID de usuario
 exports.showOrder = async (req, res, next) => {
   try {
-    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" });
+    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"});
+     
     if (order.length == 0) {
-      console.log("hola")
       return res.status(404).json({ msg: "no posee pedidos aun" });
     }
     //mostrar el pedido
@@ -76,7 +76,8 @@ exports.showOrder = async (req, res, next) => {
 
 //actualiza un pedido por ID
 exports.updateOrder = async (req, res, next) => {
-  const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos" })
+  const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"
+ })
   try {
     const order = await Cart.findOneAndUpdate(
       { _id: orderUser[0]._id },
@@ -116,4 +117,3 @@ exports.deleteOrder = async (req, res, next) => {
     next()
   }
 }
-

@@ -1,10 +1,10 @@
 import React from "react";
-import CarouSel from "../carousel/Carousel";
+import Carrousel from "../carousel/Carousel";
 import ListOfProducts from "../listOfProducts/ListOfProducts";
 const Main = () => {
   return (
     <>
-     <CarouSel />
+     <Carrousel />
      <ListOfProducts />
     </>
 
