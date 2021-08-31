@@ -10,10 +10,11 @@ import ProductContext from "../../context/productsContext/ProductContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Style from "./Style";
 import MaterialTableCart from '../shoppingCart/MaterialTableCart';
-
-const columns= () => [
+import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+const columns = () => [
     {
-  
+
         title: "Nombre", field: "id.name"
     },
     {
@@ -22,13 +23,14 @@ const columns= () => [
     {
         title: "Cantidad", field: "quantity"
     },
-  ]
+    { title: '', field: 'id.photoURL', render: item => <img src={`http://localhost:4000/${item.id.photoURL}`} alt="" border="3" height="100" width="100" /> },
+]
 
-  const options = {
+const options = {
     paging: false,
     search: false,
     actionsColumnIndex: -1,
-  }
+}
 const Cart = () => {
     const classes = Style();
     const [anchorEl, setAnchorEl] = useState(null)
@@ -89,8 +91,20 @@ const Cart = () => {
                 <MenuItem >
                     <Box className={classes.CartMenu}>
 
-                        <MaterialTableCart columns={columns()} options={options}/>
+                        <MaterialTableCart columns={columns()} options={options} />
                     </Box>
+                </MenuItem>
+                <MenuItem >
+                    <Link to={"/main/carrito"}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                        >
+                            Ir Al carrito
+                        </Button>
+                    </Link>
                 </MenuItem>
             </Menu>
         </div>

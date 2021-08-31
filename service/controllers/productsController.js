@@ -26,6 +26,7 @@ exports.upload = multer({ storage, dest: path.join(__dirname, 'uploads') }).sing
 // inserta productos a la BD
 exports.postProducts = async (req, res) => {
   const product = new Products(req.body);
+  console.log(req.body)
   try {
     if (req.file.filename) {
 

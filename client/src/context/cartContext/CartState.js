@@ -16,13 +16,13 @@ const CartState = (props) => {
 
   const [state, dispatch] = useReducer(CartReducer, initialState);
 
-    //snackbarContext
-    const snackbarContext = useContext(SnackBarContext);
-    const {
-      openSnackbar
-    } = snackbarContext;
+  //snackbarContext
+  const snackbarContext = useContext(SnackBarContext);
+  const {
+    openSnackbar
+  } = snackbarContext;
 
-    
+
   // obtener los pedido del user
   const getOrder = async (userId) => {
     const result = await clienteAxios.get(`/api/shopping_cart/${userId}`);
@@ -40,7 +40,7 @@ const CartState = (props) => {
   const generateOrder = async (data) => {
     try {
       const result = await clienteAxios.post(`api/shopping_cart`, data)
-    
+
       dispatch({
         type: GENERATE_ORDER,
         payload: result.data
@@ -56,7 +56,7 @@ const CartState = (props) => {
     try {
       const result = await clienteAxios.delete(`api/shopping_cart/${userId}/${idOrder}`)
       openSnackbar(result.data.msg, "success")
-     
+
     } catch (error) {
       console.log(error);
     }

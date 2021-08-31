@@ -22,7 +22,7 @@ app.use('/api/auth', require('./routes/auth'))
 app.use('/api/productos', require('./routes/products'))
 app.use('/api/shopping_cart', require('./routes/cart'))
 app.use('/api/carritoCompras', require('./routes/paymentsInterntent'))
-
+app.use('/api/images', require('./routes/images'))
 //carpeta publica
 app.use(express.static('uploads'))
  

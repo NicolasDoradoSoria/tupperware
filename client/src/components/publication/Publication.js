@@ -15,6 +15,7 @@ import { withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { Link } from "react-router-dom";
 const Publication = ({ match, history }) => {
   const classes = Style();
 
@@ -33,7 +34,7 @@ const Publication = ({ match, history }) => {
 
   //userContext
   const userContext = useContext(UserContext);
-  const { user } = userContext;
+  const { user, authenticated } = userContext;
 
   //hooks 
   const [quantity, setQuantity] = useState(1)
@@ -69,7 +70,7 @@ const Publication = ({ match, history }) => {
 
   const { descripcion, price, _id, name, photoURL, stock } = selectedProduct;
 
-  
+
   return (
     <div className={classes.root}>
       <main className={classes.content}>
@@ -122,9 +123,20 @@ const Publication = ({ match, history }) => {
               </Grid>
               <Grid item xs={12}>
                 <Paper className={fixedHeightPaper}>
-                  {stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> : <Button variant="contained" color="primary" onClick={addCartClick} >
+                  {authenticated ?
+                    stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> : <Button variant="contained" color="primary" onClick={addCartClick} >
                     Agregar al carrito
-                    </Button>}
+                  </Button> : <Link to={"/login"}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              Iniciar Secion
+              </Button>
+          </Link>
+                  }
                 </Paper>
               </Grid>
             </Grid>

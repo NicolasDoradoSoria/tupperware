@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
     marginLeft: "2rem",
     marginRight: "2rem",
     marginTop: "2rem",
+    marginBottom: "2rem"
   },
   title: {
     textAlign: "center",
@@ -17,6 +18,7 @@ export default makeStyles((theme) => ({
     marginTop: "1rem",
     marginBottom: "1rem",
     display: "flex",
+    justifyContent: "space-around",
   },
   addProductButton: {
     display: "flex",
@@ -25,6 +27,7 @@ export default makeStyles((theme) => ({
   },
   img: {
     marginLeft: "2rem",
+    display: "none"
   },
   textFieldQuantity: {
     padding: theme.spacing(2),
@@ -38,5 +41,47 @@ export default makeStyles((theme) => ({
     marginBottom: "-1rem",
     display: "flex",
     flexDirection: "column"
+  },
+  paperUploadedPhoto: {
+      margin: "auto",
+      [theme.breakpoints.up('sm')]: {
+        width: '30%',
+      },
+      [theme.breakpoints.up('xs')]: {
+        width: '70%',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: '85%',
+      },
+  },
+  imgUploaderImage: {
+    border: "3px solid gray",
+    margin: "0.3rem",
+    [theme.breakpoints.up('sm')]: {
+      width: '50',
+    },
+    [theme.breakpoints.up('xs')]: {
+      width: '80',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '120',
+    },
+  },
+  divUploaderImage: {
+    display: "flex",
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: "column",
+    },
+    [theme.breakpoints.up('xs')]: {
+      flexDirection: "column",
+    },
+    [theme.breakpoints.up('md')]: {
+      flexDirection: "row",
+    },
+  },
+  textImg: {
+    opacity: "0.3",
   }
+
+  
 }));

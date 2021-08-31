@@ -5,9 +5,10 @@ import CartContext from "../../context/cartContext/CartContext";
 
 import MaterialTable from "material-table"
 
+import Style from "./Style";
 
 const MaterialTableCart = ({columns, options}) => {
-
+    const classes = Style();
     //userContext
     const userContext = useContext(UserContext);
     const { user } = userContext;
@@ -24,7 +25,7 @@ const MaterialTableCart = ({columns, options}) => {
         cleanCart(user.user._id)
     }
     return (
-        <>
+        <div className={classes.materialTable}>
             <MaterialTable title="Carrito de compras" data={productsInCart} columns={columns} actions={[
                 {
                     icon: "delete",
@@ -50,7 +51,7 @@ const MaterialTableCart = ({columns, options}) => {
                     options
                   }
                   />
-        </>
+        </div>
     );
 }
 

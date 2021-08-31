@@ -37,7 +37,9 @@ export default makeStyles((theme) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
   },
-
+  titleBox: {
+    marginLeft: "2rem"
+  }
 
 }));
 

@@ -105,14 +105,14 @@ const ProductListManagement = () => {
   }
 
   return (
-    <>
+    <Box className={classes.rootBox}>
       <Paper component="form" className={classes.rootSearch}>
         <InputBase
           className={classes.input}
           placeholder="Buscar Producto"
           inputProps={{ 'aria-label': 'Buscar Producto' }}
           onChange={handleSearch}
-
+          
         />
         <IconButton >
           <SearchIcon />
@@ -129,10 +129,10 @@ const ProductListManagement = () => {
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
-          />
+            />
   {
     products ? 
-          <TableBody>
+    <TableBody>
             {stableSort(products, getComparator(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((product) => {
@@ -143,7 +143,7 @@ const ProductListManagement = () => {
                       scope="row"
                       align="right"
                       className={classes.column}
-                    >
+                      >
                       {product.name}
                     </TableCell>
                     <TableCell align="right" className={classes.column}>
@@ -188,11 +188,11 @@ const ProductListManagement = () => {
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+          />
       </TableContainer>
       {error ? <SnackbarOpen /> : null}
       <UpdateProduct open={open} onClose={() => setOpen(false)}></UpdateProduct>
-    </>
+      </Box>
   );
 };
 

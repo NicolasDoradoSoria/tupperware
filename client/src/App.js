@@ -14,9 +14,9 @@ import AddProduct from "./components/addProduct/AddProduct";
 import PaymentMethod from "./components/payment/paymentMethod";
 import CartState from "./context/cartContext/CartState";
 import SnackbarState from "./context/snackbarContext/SnackbarState";
-import Footer from "./components/footer/Footer";
 import Layout from "./components/layout/Layout";
 import Theme from "./components/theme/Theme";
+import FileState from "./context/fileContext/FileState";
 
 var divStyle = {
   backgroundColor: "#D8CEB0",
@@ -30,37 +30,39 @@ function App() {
     <div style={divStyle}>
 
       <SnackbarState>
-        <UserState>
-          <ProductState>
-            <CartState>
-              <Router>
-                <Theme>
+        <FileState>
+          <UserState>
+            <ProductState>
+              <CartState>
+                <Router>
+                  <Theme>
 
-                  <Layout>
+                    <Layout>
 
-                    <Switch>
-                      <Route exact path="/" component={Main} />
-                      <Route exact path="/main/categoria" component={Categoria} />
-                      <Route
-                        exact
-                        path="/main/descripcion-producto/:id"
-                        component={Publication}
-                      />
-                      <Route exact path="/main/carrito" component={ShoppingCart} />
-                      <Route exact path="/login" component={Login} />
-                      <Route exact path="/nueva-cuenta" component={SignUp} />
-                      <Route exact path="/perfil" component={Profile} />
-                      <Route exact path="/todos-Productos" component={ProductListManagement} />
-                      <Route exact path="/agregar-producto" component={AddProduct} />
-                      <Route exact path="/pagar" component={PaymentMethod} />
-                      descripcion-producto
-                    </Switch>
-                  </Layout>
-                </Theme>
-              </Router>
-            </CartState>
-          </ProductState>
-        </UserState>
+                      <Switch>
+                        <Route exact path="/" component={Main} />
+                        <Route exact path="/main/categoria" component={Categoria} />
+                        <Route
+                          exact
+                          path="/main/descripcion-producto/:id"
+                          component={Publication}
+                        />
+                        <Route exact path="/main/carrito" component={ShoppingCart} />
+                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/nueva-cuenta" component={SignUp} />
+                        <Route exact path="/perfil" component={Profile} />
+                        <Route exact path="/todos-Productos" component={ProductListManagement} />
+                        <Route exact path="/agregar-producto" component={AddProduct} />
+                        <Route exact path="/pagar" component={PaymentMethod} />
+                        descripcion-producto
+                      </Switch>
+                    </Layout>
+                  </Theme>
+                </Router>
+              </CartState>
+            </ProductState>
+          </UserState>
+        </FileState>
       </SnackbarState>
     </div>
   );

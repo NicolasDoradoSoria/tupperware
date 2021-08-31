@@ -17,6 +17,7 @@ export default makeStyles((theme) => ({
     },
     body: {
       height: '100vh',
+      marginBottom: "12rem"
     },
     paper: {
       padding: theme.spacing(1),
@@ -33,5 +34,6 @@ export default makeStyles((theme) => ({
     tableCellQuantity:{
       display:"flex",
       justifyContent: "center",
-    },
+    },inBottom: "auto"
+    
   }));

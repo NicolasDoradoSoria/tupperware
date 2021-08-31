@@ -73,4 +73,7 @@ export default makeStyles((theme) => ({
     margin: "auto",
     marginTop: "2rem"
   },
+  rootBox: {
+    marginBottom: "3rem"
+  }
 }));

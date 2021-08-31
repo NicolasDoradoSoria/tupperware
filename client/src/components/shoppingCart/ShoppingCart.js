@@ -13,25 +13,26 @@ import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import MaterialTableCart from './MaterialTableCart';
+import { Box } from '@material-ui/core';
 
-const columns= () => [
+const columns = () => [
   {
 
-      title: "Nombre", field: "id.name"
+    title: "Nombre", field: "id.name"
   },
   {
-      title: "Descripcion", field: "id.descripcion"
+    title: "Descripcion", field: "id.descripcion"
   },
   {
-      title: "Stock Disponible", field: "id.stock"
+    title: "Stock Disponible", field: "id.stock"
   },
   {
-      title: "Precio", field: "id.price"
+    title: "Precio", field: "id.price"
   },
   {
-      title: "Cantidad", field: "quantity"
+    title: "Cantidad", field: "quantity"
   },
-
+  { title: 'Imagen', field: 'id.photoURL', render: item => <img src={`http://localhost:4000/${item.id.photoURL}`} alt="" border="3" height="100" width="100" /> },
 ]
 
 const options = {
@@ -58,6 +59,7 @@ const ShoppingCart = ({ history }) => {
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
+
     const consultarAPI = async () => {
 
       try {
@@ -87,22 +89,22 @@ const ShoppingCart = ({ history }) => {
     setTotal(newTotal)
   }
   return (
-    <div className={classes.body}>
-      
-        <MainFeaturedPost />
-        <MaterialTableCart columns={columns()} options={options}/>
-        {error ? <SnackbarOpen /> : null}
-        <div className={classes.paperContainer}>
-            
-            <div className={classes.paperTotal}>
-                <Paper className={classes.paper}>
-                    <Typography component="p" variant="h5">
-                        Total a Pagar: <span>${total}</span>
-                    </Typography>
-                </Paper>
-            </div>
+    <Box className={classes.body} >
+
+      {/* <MainFeaturedPost /> */}
+      <MaterialTableCart columns={columns()} options={options} />
+      {error ? <SnackbarOpen /> : null}
+      <div className={classes.paperContainer}>
+
+        <div className={classes.paperTotal}>
+          <Paper className={classes.paper}>
+            <Typography component="p" variant="h5">
+              Total a Pagar: <span>${total}</span>
+            </Typography>
+          </Paper>
         </div>
-    </div>
+      </div>
+    </Box>
   );
 }
 
