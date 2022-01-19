@@ -23,8 +23,6 @@ var divStyle = {
 };
 
 function App() {
-
-
   return (
     <div style={divStyle}>
 

@@ -42,38 +42,38 @@ const ListOfProducts = () => {
 
   if (products.length === 0) return null
   return (
-<>
-<Carrousel />
-    <div className={classes.root}>
-      <Box>
-        <Typography variant="h2" className={classes.title}>
-          Productos
-        </Typography>
-      </Box>
-      <Box boxShadow={3} className={classes.boxProducts}>
-        <Grid container spacing={4} className={classes.gridProducts}>
-          {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
+    <>
+      <Carrousel />
+      <div className={classes.root}>
+        <Box>
+          <Typography variant="h2" className={classes.title}>
+            Productos
+          </Typography>
+        </Box>
+        <Box boxShadow={3} className={classes.boxProducts}>
+          <Grid container spacing={4} className={classes.gridProducts}>
+            {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
 
-            <Grid item xs={12} sm={6} md={4} className={classes.products} key={product._id} >
-              <Product product={product} />
-            </Grid>
-          ))}
-        </Grid>
-        <Paper className={classes.paperPagination}>
+              <Grid item xs={12} sm={6} md={4} className={classes.products} key={product._id} >
+                <Product product={product} />
+              </Grid>
+            ))}
+          </Grid>
+          <Paper className={classes.paperPagination}>
 
-          <TablePagination
-            rowsPerPageOptions={[6, 12, 24]}
-            component="div"
-            count={products.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>
-      {error ? <SnackbarOpen /> : null}
-    </div>
+            <TablePagination
+              rowsPerPageOptions={[6, 12, 24]}
+              component="div"
+              count={products.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Box>
+        {error ? <SnackbarOpen /> : null}
+      </div>
     </>
   );
 };

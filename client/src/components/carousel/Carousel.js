@@ -36,7 +36,7 @@ function Banner(props) {
                         {item.Name}
                     </Typography>
                     <div className={classes.productsDiv}>
-                    {i== 1 ?<Button variant="contained" className={classes.productsButton} color="secondary" onClick={handleClick}>
+                    {i=== 1 ?<Button variant="contained" className={classes.productsButton} color="secondary" onClick={handleClick}>
                         Ver Productos
                     </Button> : null}
                     </div>
