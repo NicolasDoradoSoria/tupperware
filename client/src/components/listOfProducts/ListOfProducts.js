@@ -8,6 +8,7 @@ import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
+import Carrousel from "../carousel/Carousel";
 // lista de productos principal
 const ListOfProducts = () => {
   const classes = Style();
@@ -23,7 +24,7 @@ const ListOfProducts = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
   useEffect(() => {
-    if(products === null){
+    if (products === null) {
       getProducts()
     }
     setTimeout(closeSnackbar, 5000)
@@ -41,13 +42,14 @@ const ListOfProducts = () => {
 
   if (products.length === 0) return null
   return (
-    
+<>
+<Carrousel />
     <div className={classes.root}>
-    <Box>
-      <Typography variant="h2" className={classes.title}>
+      <Box>
+        <Typography variant="h2" className={classes.title}>
           Productos
-      </Typography>
-    </Box>
+        </Typography>
+      </Box>
       <Box boxShadow={3} className={classes.boxProducts}>
         <Grid container spacing={4} className={classes.gridProducts}>
           {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
@@ -59,19 +61,20 @@ const ListOfProducts = () => {
         </Grid>
         <Paper className={classes.paperPagination}>
 
-        <TablePagination
-          rowsPerPageOptions={[6, 12, 24]}
-          component="div"
-          count={products.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          <TablePagination
+            rowsPerPageOptions={[6, 12, 24]}
+            component="div"
+            count={products.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
           />
-          </Paper>
+        </Paper>
       </Box>
       {error ? <SnackbarOpen /> : null}
     </div>
+    </>
   );
 };
 

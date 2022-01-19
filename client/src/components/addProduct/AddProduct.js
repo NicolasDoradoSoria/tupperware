@@ -38,6 +38,7 @@ const AddProduct = ({ history, open }) => {
   const { name, price, descripcion, photoURL } = product;
   const [archivo, setArchivo] = useState("");
   const [selectImage , setSelectImage] = useState("")
+  const [selectIdArrayImage , setSelectIdArrayImage] = useState("")
   useEffect(() => {
     if (open) {
       setProduct(selectedProduct);
@@ -94,12 +95,15 @@ const AddProduct = ({ history, open }) => {
     return aField === "";
   };
 
-  const selectImageClick = (img) => {
+  const selectImageClick = (img, idArray) => {
     setSelectImage(img._id)
+    setSelectIdArrayImage(idArray)
+    console.log(idArray)
   }
 
   const deleteFileButton = () => {
-    deleteImage(selectImage)
+
+    deleteImage(selectIdArrayImage, selectImage)
     
   }
   return (
@@ -251,14 +255,14 @@ const AddProduct = ({ history, open }) => {
                         {uploadedImage.files.map((image, index) =>
                           <div key={image._id}>
                             
-                            <Button onClick={() => selectImageClick(image)} name="img"  className={(selectImage=== image._id) ? classes.textImg : null} >
+                            <Button onClick={() => selectImageClick(image,image.filePath)} name="img"  className={(selectImage=== image._id) ? classes.textImg : null} >
 
                               <img src={`http://localhost:4000/${image.fileName}`} alt="uploaded_image" width="130" height="auto" />
                             </Button>
                           </div>
                         )}
                       </div>
-
+  
                     )}
                 </div>
                 : null

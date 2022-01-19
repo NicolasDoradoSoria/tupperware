@@ -37,8 +37,8 @@ export default class Service {
         return result
     }
 
-    async deleteImage(id) {
-        const result = await clienteAxios.delete(`/api/images/${id}`);
+    async deleteImage(idArray, idImage) {
+        const result = await clienteAxios.delete(`/api/images/${idArray}/${idImage}`);
         return result
     }
 

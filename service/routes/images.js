@@ -7,5 +7,5 @@ router.post("/single-upload", uploadMiddleware.uploadSingle, filesController.sin
 router.post("/multi-upload", uploadMiddleware.uploadMulti, filesController.multiUpload);
 router.get("/getSingleFiles", filesController.getallSingleFiles);
 router.get("/getMultipleFiles", filesController.getallMultipleFiles);
-router.delete("/:imageId", filesController.deleteFileById);
+router.delete("/:arrayId/:imageId", filesController.deleteFileById);
 module.exports = router;

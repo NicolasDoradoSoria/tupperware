@@ -21,7 +21,6 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 
-
 // esta es la lista de productos en formato tabla exclusiva para los admin
 const ProductListManagement = () => {
   const classes = Style();

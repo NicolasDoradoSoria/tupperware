@@ -39,9 +39,9 @@ const FileState = (props) => {
         }
     };
 
-    const deleteImage = async (id) => {
+    const deleteImage = async (idArray, idImage) => {
         try {
-          const result = await service.deleteImage(id)
+          const result = await service.deleteImage(idArray, idImage)
           console.log(result)
         //   dispatch({
         //     type: DELETE_IMAGE,

@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Categoria from "./components/categoria/Categoria";
 import Login from "./components/Login/Login";
-import Main from "./components/main/Main";
 import Profile from "./components/profile/Profile";
 import SignUp from "./components/signUp/SignUp";
 import Publication from "./components/publication/Publication";
@@ -17,7 +16,7 @@ import SnackbarState from "./context/snackbarContext/SnackbarState";
 import Layout from "./components/layout/Layout";
 import Theme from "./components/theme/Theme";
 import FileState from "./context/fileContext/FileState";
-
+import ListOfProducts from "./components/listOfProducts/ListOfProducts"
 var divStyle = {
   backgroundColor: "#D8CEB0",
   marginRight: "-1rem",
@@ -40,7 +39,7 @@ function App() {
                     <Layout>
 
                       <Switch>
-                        <Route exact path="/" component={Main} />
+                        <Route exact path="/" component={ListOfProducts} />
                         <Route exact path="/main/categoria" component={Categoria} />
                         <Route
                           exact
