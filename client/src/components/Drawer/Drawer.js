@@ -84,7 +84,6 @@ export default function DraWer({ history }) {
               <ListItemText
                 primary={route.name}
                 className={classNames(classes.itemText)}
-                disableTypography={true}
               />
             </ListItem>
           </NavLink>
@@ -103,7 +102,6 @@ export default function DraWer({ history }) {
               <ListItemText
                 primary={route.name}
                 className={classNames(classes.itemText)}
-                disableTypography={true}
               />
             </ListItem>
           </NavLink>
@@ -161,12 +159,10 @@ export default function DraWer({ history }) {
             <ListItemText
               onClick={onCLickSignOff}
               className={classNames(classes.itemText)}
-              disableTypography={true}
             >
               <Link
                 to={`/`}
                 className={classNames(classes.itemText)}
-                disableTypography={true}
                 style={{ textDecoration: "none" }}
                 onClick={toggleDrawer(false)}
               >

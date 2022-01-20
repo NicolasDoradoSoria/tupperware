@@ -96,6 +96,7 @@ const AddProduct = ({ history, open }) => {
   };
 
   const selectImageClick = (img, idArray) => {
+    console.log(img, idArray)
     setSelectImage(img._id)
     setSelectIdArrayImage(idArray)
     console.log(idArray)
@@ -158,7 +159,6 @@ const AddProduct = ({ history, open }) => {
                     id="standard-number"
                     type="number"
                     name="stock"
-                    flexDirection="column"
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -168,7 +168,7 @@ const AddProduct = ({ history, open }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={12} sm={6} className={classes.gridTextarea} alignItems="center" flexDirection="column">
+              <Grid item xs={12} sm={6} className={classes.gridTextarea} >
                 {photoURL ? (
                   <img src={`http://localhost:4000/${photoURL}`} alt="imagen" width="150" />
                 ) : null}
@@ -223,7 +223,7 @@ const AddProduct = ({ history, open }) => {
           Agregar imagenes del Carrousel
         </Typography>
         <Paper component="form" className={classes.paperUploadedPhoto}>
-          <Grid item xs={12} className={classes.gridTextarea} alignItems="center" >
+          <Grid item xs={12} className={classes.gridTextarea}>
             {photoURL ? (
               <img src={`http://localhost:4000/${photoURL}`} alt="imagen" width="50" />
             ) : null}

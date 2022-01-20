@@ -89,28 +89,27 @@ exports.getallMultipleFiles = async (req, res, next) => {
 }
 
 exports.deleteFileById = async (req, res, next) => {
-    message : "Error! in image upload.";
+    message: "Error! in image upload.";
     if (!req.params.arrayId) {
         message = "Error! in image delete.";
         return res.status(500).json('error in delete');
-    
-      } else {
+
+    } else {
         try {
 
-            await MultipleFile.updateOne({"_id": req.params.arrayId}, {$pull: {files: {_id: req.params.imageId}}})
-            
-            let arrayImages =await MultipleFile.findOne({"_id": req.params.arrayId})
-           if(arrayImages.files){
-               await MultipleFile.findByIdAndDelete({"_id":  req.params.arrayId})
-           }
+            await MultipleFile.updateOne({ "_id": req.params.arrayId }, { $pull: { files: { _id: req.params.imageId } } })
+
+            let arrayImages = await MultipleFile.findOne({ "_id": req.params.arrayId })
+            if (arrayImages.files) {
+                await MultipleFile.findByIdAndDelete({ "_id": req.params.arrayId })
+            }
             return res.status(200).send('Successfully! Image has been Deleted');
-          } catch (err) {
+        } catch (err) {
             // handle the error
             return res.status(400).send(err);
-          }
-        
-      }
-   
+        }
+    }
+
 }
 
 
