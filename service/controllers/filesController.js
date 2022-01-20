@@ -19,54 +19,53 @@ exports.singleUpload = async (req, res) => {
     }
 }
 exports.multiUpload = async (req, res, next) => {
-    try {
-        const reqFiles = [];
-        for (var i = 0; i < req.files.length; i++) {
-            const file = {
-                _id: shortid.generate(),
-                fileName: req.files[i].filename,
-                filePath: req.files[i].path,
-            }
-            reqFiles.push(file)
-        }
-
-        const multipleFiles = new MultipleFile({
-            files: reqFiles
-        });
-        await multipleFiles.save();
-
-    }
-    catch (error) {
-        res.status(400).send(error.message);
-    }
     // try {
-    //     let filesArray = [];
-    //     const files = await MultipleFile.find();
-    //     req.files.forEach(element => {
+    //     const reqFiles = [];
+    //     for (var i = 0; i < req.files.length; i++) {
     //         const file = {
     //             _id: shortid.generate(),
-    //             fileName: element.filename,
-    //             filePath: element.path,
+    //             fileName: req.files[i].filename,
+    //             filePath: req.files[i].path,
     //         }
-    //         filesArray.push(file);
-    //     });
-
-    //     filesArray.forEach(file => {
-    //         files.push(file)
-    //     })
+    //         reqFiles.push(file)
+    //     }
 
     //     const multipleFiles = new MultipleFile({
-    //         files: files
+    //         files: reqFiles
     //     });
-    //     // await multipleFiles.save();
-    //     await MultipleFiles.findOneAndUpdate(
-    //         files,
-    //         { new: true }
-    //       )
-    //     res.status(201).send('Files Upsloaded Successfully');
-    // } catch (error) {
-    //     res.status(400).send(error.message);
+    //     await multipleFiles.save();
 
+    // }
+    // catch (error) {
+    //     res.status(400).send(error.message);
+    // }
+    try {
+        let filesArray = [];
+        const files = await MultipleFile.find();
+        req.files.forEach(element => {
+            const file = {
+                _id: shortid.generate(),
+                fileName: element.filename,
+                filePath: element.path,
+            }
+            filesArray.push(file);
+        });
+        filesArray.forEach(file => {
+            files.push(file)
+        })
+
+        const multipleFiles = new MultipleFile({
+            files: files
+        });
+        await multipleFiles.save();
+        // await MultipleFiles.findOneAndUpdate(
+        //     files,
+        //     { new: true }
+        //   )
+        res.status(201).send('Files Upsloaded Successfully');
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 
 }
 
@@ -92,16 +91,18 @@ exports.getallMultipleFiles = async (req, res, next) => {
 exports.deleteFileById = async (req, res, next) => {
     message : "Error! in image upload.";
     if (!req.params.arrayId) {
-        console.log("No file received");
         message = "Error! in image delete.";
         return res.status(500).json('error in delete');
     
       } else {
-        console.log('file received');
-        console.log(req.params.arrayId);
         try {
-            fs.unlinkSync(DIR+'/'+req.params.arrayId+'.png');
-            console.log('successfully deleted /tmp/hello');
+
+            await MultipleFile.updateOne({"_id": req.params.arrayId}, {$pull: {files: {_id: req.params.imageId}}})
+            
+            let arrayImages =await MultipleFile.findOne({"_id": req.params.arrayId})
+           if(arrayImages.files){
+               await MultipleFile.findByIdAndDelete({"_id":  req.params.arrayId})
+           }
             return res.status(200).send('Successfully! Image has been Deleted');
           } catch (err) {
             // handle the error
@@ -109,6 +110,7 @@ exports.deleteFileById = async (req, res, next) => {
           }
         
       }
+   
 }
 
 
