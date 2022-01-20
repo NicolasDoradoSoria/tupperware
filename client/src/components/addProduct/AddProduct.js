@@ -96,10 +96,8 @@ const AddProduct = ({ history, open }) => {
   };
 
   const selectImageClick = (img, idArray) => {
-    console.log(img, idArray)
     setSelectImage(img._id)
     setSelectIdArrayImage(idArray)
-    console.log(idArray)
   }
 
   const deleteFileButton = () => {
@@ -255,7 +253,7 @@ const AddProduct = ({ history, open }) => {
                         {uploadedImage.files.map((image, index) =>
                           <div key={image._id}>
                             
-                            <Button onClick={() => selectImageClick(image,image.filePath)} name="img"  className={(selectImage=== image._id) ? classes.textImg : null} >
+                            <Button onClick={() => selectImageClick(image,uploadedImage._id)} name="img"  className={(selectImage=== image._id) ? classes.textImg : null} >
 
                               <img src={`http://localhost:4000/${image.fileName}`} alt="uploaded_image" width="130" height="auto" />
                             </Button>

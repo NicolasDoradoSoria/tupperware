@@ -4,7 +4,6 @@ import FileReducer from "./FileReducer";
 import Service from "../../service/Service"
 import {
     UPLOADER_MULTIPPLE_IMAGES,
-    DELETE_IMAGE
 } from "../../types";
 
 const FileState = (props) => {
@@ -41,12 +40,8 @@ const FileState = (props) => {
 
     const deleteImage = async (idArray, idImage) => {
         try {
-          const result = await service.deleteImage(idArray, idImage)
-          console.log(result)
-        //   dispatch({
-        //     type: DELETE_IMAGE,
-        //     payload: result,
-        //   });
+          await service.deleteImage(idArray, idImage)
+        
     
         } catch (error) {
             throw error
