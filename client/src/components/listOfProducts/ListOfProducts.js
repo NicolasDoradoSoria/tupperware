@@ -9,10 +9,15 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import Slideshow from "../slideshow/Slideshow";
 import logo from './logo.JPG';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 //context
 import ProductContext from "../../context/productsContext/ProductContext";
 
+import RestoreIcon from '@material-ui/icons/Restore';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 
 // lista de productos principal
@@ -31,6 +36,7 @@ const ListOfProducts = () => {
   //hooks
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
+  const [value, setValue] = React.useState(0);
   useEffect(() => {
     if (products === null) {
       getProducts()
@@ -52,9 +58,21 @@ const ListOfProducts = () => {
   if (products.length === 0) return null
   return (
     <>
-        <img src={logo} alt="" className={classes.logo}/>
+      <img src={logo} alt="" className={classes.logo} />
       <Slideshow />
 
+      <BottomNavigation
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        showLabels
+        className={classes.rootNavigation}
+      >
+        <BottomNavigationAction label="Inicio" className={classes.bottomNavigationAction} />
+        <BottomNavigationAction label="Producto" icon={<FavoriteIcon />} />
+        <BottomNavigationAction label="Carrito" icon={<LocationOnIcon />}  />
+      </BottomNavigation>
       <div className={classes.root}>
         <Box>
           <Typography variant="h2" className={classes.title}>

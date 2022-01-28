@@ -10,7 +10,7 @@ function Slideshows({ groupImages }) {
         groupImages.files.map(singleImage => {
             return <Slide key={singleImage._id}>
                 <a href="http://localhost:3000/">
-                    <img src={`http://localhost:4000/${singleImage.fileName}`} alt=''></img>
+                    <img src={`http://localhost:4000/${singleImage.fileName}`} alt='' height={"400px"} ></img>
                 </a>
                 <TextSlide backgroundColor="#2D9993" textColor="#000">
                     <p>15% descuentoooo aprobechala guacha</p>
@@ -26,7 +26,6 @@ const Slideshow = () => {
     const slideshow = useRef(null)
     const slideInterval = useRef(null);
     let currentSlide = slideshow.current
-    // context file
     const fileContext = useContext(FileContext);
     const { getMultipleImages, images } = fileContext;
 
@@ -38,7 +37,7 @@ const Slideshow = () => {
             const firstElement = currentSlide.children[0]
 
             //establecemos la transicion para el slideshow
-            slideshow.current.style.transition = `300ms ease-out all`
+            slideshow.current.style.transition = `500ms ease-out all`
 
             const slideSize =currentSlide.children[0].offsetWidth
 
@@ -73,7 +72,7 @@ const Slideshow = () => {
             currentSlide.style.transform = `translateX(-${slideSize}px)`
 
             setTimeout(() => {
-                currentSlide.style.transicion = "300ms ease-out all"
+                currentSlide.style.transicion = "500ms ease-out all"
                 currentSlide.style.transform = `translateX(0)`
             }, 30)
 
@@ -100,7 +99,6 @@ const Slideshow = () => {
     }, [])
     return (
         <div className='slideshow'>
-            <div className='container'>
                 <div className='carrousel'>
                     <MainContainer>
                         <SlideContainer ref={slideshow}>
@@ -121,7 +119,6 @@ const Slideshow = () => {
                         </Controller>
                     </MainContainer>
                 </div>
-            </div>
         </div>
     )
 }
@@ -140,7 +137,7 @@ const Slide = styled.div`
     overflow: hidden;
     transition: .3s ease all;
     z-index: 10;
-    max-height: 500px;
+    max-height: 400px;
     position: relative;
 
     img {

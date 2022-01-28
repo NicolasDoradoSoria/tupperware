@@ -34,6 +34,19 @@ export default makeStyles((theme) => ({
     marginLeft: "auto",
     marginRight: "auto",
     width: "30%",
-  }
+  },
+  rootNavigation: {
+    width: "80%",
+    margin: "50px auto",
+    display: "flex",
+    justifyContent: "space-between",
 
+    // [theme.breakpoints.up('sm')]: {
+    //   width: "2",
+    // },
+  },
+  bottomNavigationAction: {
+    display: "flex",
+    justifyContent: "space-between"
+  }
 }));

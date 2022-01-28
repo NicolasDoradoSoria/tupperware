@@ -21,7 +21,7 @@ const Header = () => {
   const { authenticated } = userContext;
 
   return (
-    <AppBar position="static" style={{ background: "#B05CAB" }} >
+    <AppBar position="static" style={{ background: "#CDA6C2" }} >
       <Toolbar>
         {authenticated ? (
           <DraWer />
