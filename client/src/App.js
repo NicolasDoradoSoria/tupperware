@@ -18,7 +18,7 @@ import Theme from "./components/theme/Theme";
 import FileState from "./context/fileContext/FileState";
 import ListOfProducts from "./components/listOfProducts/ListOfProducts"
 var divStyle = {
-  backgroundColor: "#D8CEB0",
+  backgroundColor: "#D8CEB0 ",
   marginRight: "-1rem",
 };
 

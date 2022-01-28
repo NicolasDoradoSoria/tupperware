@@ -14,7 +14,6 @@ export default makeStyles((theme) =>
                 marginLeft: theme.spacing(3),
                 width: 'auto',
             },
-            
         },
     
         inputRoot: {

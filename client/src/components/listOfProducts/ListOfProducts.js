@@ -3,15 +3,22 @@ import React, { useContext, useEffect, useState } from "react";
 import Product from "../product/Product";
 import { Box, Grid, Typography } from "@material-ui/core";
 import Style from "./Style";
-import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
-import Carrousel from "../carousel/Carousel";
+import Slideshow from "../slideshow/Slideshow";
+import logo from './logo.JPG';
+
+//context
+import ProductContext from "../../context/productsContext/ProductContext";
+
+
+
 // lista de productos principal
 const ListOfProducts = () => {
   const classes = Style();
+
   // context products
   const productsContext = useContext(ProductContext)
   const { products, getProducts } = productsContext
@@ -19,6 +26,7 @@ const ListOfProducts = () => {
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
   const { error, closeSnackbar } = snackbarContext
+
 
   //hooks
   const [page, setPage] = useState(0);
@@ -40,10 +48,13 @@ const ListOfProducts = () => {
     setPage(0);
   };
 
+
   if (products.length === 0) return null
   return (
     <>
-      <Carrousel />
+        <img src={logo} alt="" className={classes.logo}/>
+      <Slideshow />
+
       <div className={classes.root}>
         <Box>
           <Typography variant="h2" className={classes.title}>

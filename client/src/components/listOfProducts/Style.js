@@ -27,6 +27,13 @@ export default makeStyles((theme) => ({
     textAlign: "center",
     marginBottom: "2rem",
     marginTop: "1rem"
+  },
+  logo: {
+    display: "block",
+    marginTop: "2rem",
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "30%",
   }
 
 }));

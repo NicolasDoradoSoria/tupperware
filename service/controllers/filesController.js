@@ -1,7 +1,9 @@
 'use strict';
 const Files = require("../models/Files");
 const MultipleFile = require('../models/multiplefile');
+const MultipleFile2 = require("../models/MultipleFile2")
 const shortid = require('shortid');
+const upload = require("../middleware/uploaderMiddleware")
 exports.singleUpload = async (req, res) => {
     const file = new Files(req.body);
     try {
@@ -19,29 +21,10 @@ exports.singleUpload = async (req, res) => {
     }
 }
 exports.multiUpload = async (req, res, next) => {
-    // try {
-    //     const reqFiles = [];
-    //     for (var i = 0; i < req.files.length; i++) {
-    //         const file = {
-    //             _id: shortid.generate(),
-    //             fileName: req.files[i].filename,
-    //             filePath: req.files[i].path,
-    //         }
-    //         reqFiles.push(file)
-    //     }
-
-    //     const multipleFiles = new MultipleFile({
-    //         files: reqFiles
-    //     });
-    //     await multipleFiles.save();
-
-    // }
-    // catch (error) {
-    //     res.status(400).send(error.message);
-    // }
+  
     try {
         let filesArray = [];
-        const files = await MultipleFile.find();
+        let files = await MultipleFile.find();
         req.files.forEach(element => {
             const file = {
                 _id: shortid.generate(),
@@ -58,18 +41,14 @@ exports.multiUpload = async (req, res, next) => {
             files: files
         });
         await multipleFiles.save();
-        // await MultipleFiles.findOneAndUpdate(
-        //     files,
-        //     { new: true }
-        //   )
         res.status(201).send('Files Upsloaded Successfully');
     } catch (error) {
         res.status(400).send(error.message);
     }
-
 }
 
 exports.getallSingleFiles = async (req, res, next) => {
+
     try {
         const files = await Files.find()
         res.status(200).send(files)
@@ -112,4 +91,26 @@ exports.deleteFileById = async (req, res, next) => {
 
 }
 
+exports.uploads = async (req, res) => {
+    try {
+        await upload(req, res);
+        console.log(req.file);
+    
+        if (req.file == undefined) {
+          return res.send({
+            message: "You must select a file.",
+          });
+        }
+    
+        return res.send({
+          message: "File has been uploaded.",
+        });
+      } catch (error) {
+        console.log(error);
+    
+        return res.send({
+          message: "Error when trying upload image: ${error}",
+        });
+      }
+  };
 

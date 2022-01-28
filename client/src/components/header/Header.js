@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import Search from '../search/Search'
 import Cart from "../cart/Cart";
 import Style from "./Style";
-
+import logo from './logo.JPG';
 //context
 import UserContext from "../../context/productsContext/userContext/UserContext";
 
@@ -21,7 +21,7 @@ const Header = () => {
   const { authenticated } = userContext;
 
   return (
-    <AppBar position="static" style={{ background: "#212121" }} >
+    <AppBar position="static" style={{ background: "#B05CAB" }} >
       <Toolbar>
         {authenticated ? (
           <DraWer />
@@ -38,7 +38,6 @@ const Header = () => {
           </Link>
         )}
         <Box flexGrow={1} display={{ xs: "none", sm: 'block' }} className={classes.titleBox}>
-          <Typography variant="h6">Devuelvan Los Tupper</Typography>
         </Box>
         <Search />
         <Cart />

@@ -26,7 +26,7 @@ const FileState = (props) => {
     }
 
     // obtener los pedido del user
-    const getMultipleImages = async (userId) => {
+    const getMultipleImages = async () => {
         try {
             const result = await service.getMultiUpdaterFiles()
             dispatch({

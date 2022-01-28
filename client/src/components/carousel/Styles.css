@@ -5,13 +5,13 @@
 }
 .Media{
         background-color: white;
-        height: 100%;
         overflow: hidden;
         position: relative;
-
         transition: 300ms;
         cursor: pointer;
-        
+        min-width: 100%;
+        z-index: 10;
+        max-height: 500px;
 }
 
 .Media:hover{
@@ -91,4 +91,9 @@
             text-transform: capitalize;
 
             transition: 200ms;
+}
+
+.conteiner {
+    display: flex;
+    flex-wrap: nowrap;
 }

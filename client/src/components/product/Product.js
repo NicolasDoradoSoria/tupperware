@@ -8,7 +8,6 @@ import CardActions from "@material-ui/core/CardActions";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import Card from "@material-ui/core/Card";
-import "./Style.css";
 import Style from "./Style";
 import { Link } from "react-router-dom";
 function convertDate(inputFormat) {
