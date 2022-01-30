@@ -1,7 +1,6 @@
 'use strict';
 const Files = require("../models/Files");
 const MultipleFile = require('../models/multiplefile');
-const MultipleFile2 = require("../models/MultipleFile2")
 const shortid = require('shortid');
 const upload = require("../middleware/uploaderMiddleware")
 exports.singleUpload = async (req, res) => {
@@ -24,8 +23,9 @@ exports.multiUpload = async (req, res, next) => {
   
     try {
         let filesArray = [];
-        let files = await MultipleFile.find();
+        
         req.files.forEach(element => {
+            console.log(element)
             const file = {
                 _id: shortid.generate(),
                 fileName: element.filename,
@@ -33,12 +33,10 @@ exports.multiUpload = async (req, res, next) => {
             }
             filesArray.push(file);
         });
-        filesArray.forEach(file => {
-            files.push(file)
-        })
+     
 
         const multipleFiles = new MultipleFile({
-            files: files
+            files: filesArray
         });
         await multipleFiles.save();
         res.status(201).send('Files Upsloaded Successfully');

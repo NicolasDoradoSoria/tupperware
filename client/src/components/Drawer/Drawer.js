@@ -126,9 +126,7 @@ const Menu = ({ toggleDrawer }) => {
 
 
   const onCLickSignOff = () => {
-
     signOff();
-
   };
 
   const routeList = (routes) => {
@@ -167,7 +165,7 @@ const Menu = ({ toggleDrawer }) => {
           style={{ textDecoration: "none" }}
           onClick={toggleDrawer(false)}
         >
-          TUPPERWARE
+          SKINCARE BOUTIQUE
         </Link>
 
         <div className={classNames(classes.logoName)}>

@@ -3,22 +3,37 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles((theme) => ({
   products: {
     marginTop: 20,
-    minWidth: "16rem"
+  
   },
   gridProducts: {
     display: "flex",
     justifyContent: "center",
+    backgroundColor: "#F8C813",
+    
   },
-  boxProducts: {
-    backgroundColor: "#CCC6C4",
-    padding: "1rem",
-    display: "flex",
-    flexDirection: "column",
+  conteinerProducts: {
+    width: "100%",
   },
   root: {
-    maxWidth: "75%",
     margin: "0 auto",
-    padding: "3rem",
+    padding: "3rem", 
+    maxWidth: "100%",
+ 
+    [theme.breakpoints.up('xs')]: {
+      marginRight: "auto",
+      marginLeft: -38,
+      minWidth: "31rem",
+    },
+    [theme.breakpoints.up('md')]: {
+      marginLeft: "auto",
+      marginRight: "auto",
+      maxWidth: "100%",
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: "auto",
+      marginRight: "auto",
+      maxWidth: "75%",
+    },
   },
   paperPagination: {
     marginTop: "2rem"
@@ -40,13 +55,9 @@ export default makeStyles((theme) => ({
     margin: "50px auto",
     display: "flex",
     justifyContent: "space-between",
-
-    // [theme.breakpoints.up('sm')]: {
-    //   width: "2",
-    // },
   },
   bottomNavigationAction: {
     display: "flex",
     justifyContent: "space-between"
-  }
+  },
 }));
