@@ -5,12 +5,14 @@ import { ReactComponent as LeftArrow } from "../../img/iconmonstr-angel-left-thi
 import { ReactComponent as RightArrow } from "../../img/iconmonstr-angel-right-thin.svg"
 import { useEffect } from 'react';
 import FileContext from "../../context/fileContext/FileContext";
+import Style from "./Style";
 function Slideshows({ groupImages }) {
+    const classes = Style();
     return (
         groupImages.files.map(singleImage => {
             return <Slide key={singleImage._id}>
                 <a href="http://localhost:3000/">
-                    <img src={`http://localhost:4000/${singleImage.fileName}`} alt='' height={"400px"} ></img>
+                    <img src={`http://localhost:4000/${singleImage.fileName}`} alt='' className={classes.imgSlideshow} ></img>
                 </a>
                 <TextSlide backgroundColor="#2D9993" textColor="#000">
                     <p>15% descuentoooo aprobechala guacha</p>
@@ -32,30 +34,30 @@ const Slideshow = () => {
 
     const following = () => {
         //comprobamos que el slideshow tenga elementos
-        if (currentSlide && (currentSlide.children.length > 0)) {
+        if (slideshow.current && (slideshow.current.children.length > 0)) {
             //obtiene el primer elemento del slideshow
-            const firstElement = currentSlide.children[0]
+            const firstElement = slideshow.current.children[0]
 
             //establecemos la transicion para el slideshow
-            slideshow.current.style.transition = `500ms ease-out all`
+            slideshow.current.style.transition = `300ms ease-out all`
 
-            const slideSize =currentSlide.children[0].offsetWidth
+            const slideSize =slideshow.current.children[0].offsetWidth
 
             //movemos el slideshow
-            currentSlide.style.transform = `translateX(-${slideSize}px)`
+            slideshow.current.style.transform = `translateX(-${slideSize}px)`
 
             const transition = () => {
                 //reiniciamos
-                currentSlide.style.transition = "none"
-                currentSlide.style.transform = `translateX(0)`
+                slideshow.current.style.transition = "none"
+                slideshow.current.style.transform = `translateX(0)`
 
                 //tomamos el primer elemento y la mandamos al final
-                currentSlide.appendChild(firstElement);
-                currentSlide.removeEventListener("trasitionend", transition)
+                slideshow.current.appendChild(firstElement);
+                slideshow.current.removeEventListener("trasitionend", transition)
             }
 
             //eventlistener para cuando termina la animacions
-           currentSlide.addEventListener("transitionend", transition)
+           slideshow.current.addEventListener("transitionend", transition)
 
         }
     }
@@ -72,7 +74,7 @@ const Slideshow = () => {
             currentSlide.style.transform = `translateX(-${slideSize}px)`
 
             setTimeout(() => {
-                currentSlide.style.transicion = "500ms ease-out all"
+                currentSlide.style.transicion = "300ms ease-out all"
                 currentSlide.style.transform = `translateX(0)`
             }, 30)
 
@@ -137,8 +139,13 @@ const Slide = styled.div`
     overflow: hidden;
     transition: .3s ease all;
     z-index: 10;
-    max-height: 400px;
+    max-height: 500px;
     position: relative;
+
+    @media screen and (max-width: 700px){
+        max-height: 200px;
+    }
+
 
     img {
         width: 100%;

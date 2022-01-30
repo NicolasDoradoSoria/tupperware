@@ -26,7 +26,7 @@ const Search = ({ history }) => {
                 <Autocomplete
                     classes={{
                         root: classes.inputRoot,
-                        input: classes.inputInput
+                        input: classes.inputInput,
                     }}
                     onChange={handleSearch}
                     options={productsAll}

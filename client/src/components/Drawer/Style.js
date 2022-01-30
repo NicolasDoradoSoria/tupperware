@@ -12,7 +12,8 @@ export default makeStyles({
       width: 'auto',
     },
     paper: {
-      background: "#101746",
+      background: "#B05CAB",
+      opacity: 0.6
     },
     sidebarWrapper: {
       width: "260px",
@@ -31,9 +32,11 @@ export default makeStyles({
       ...defaultFont,
       "&:hover": {
         backgroundColor: "#B23A17",
-      }
+      },
     },
-   
+    linkButton:{
+      margin: "2rem"
+    },
     logoName:{
      color: "white",
      fontSize: "20px",

@@ -30,6 +30,5 @@ export default makeStyles((theme) =>
                 }
             },
         },
-        
     })
 )
