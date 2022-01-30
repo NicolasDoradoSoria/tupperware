@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
     '&:hover': {
       transform: 'scale(1.1)',
     },
-    boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
+    // boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
     transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
 
     [theme.breakpoints.up('xs')]: {
