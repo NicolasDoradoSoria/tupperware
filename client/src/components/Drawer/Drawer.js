@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
-const routesModerator = [
+const adminUserPath = [
   {
     id: 1,
     name: "Lista de Productos",
@@ -31,7 +31,7 @@ const routesModerator = [
   },
 ];
 
-const routes = [
+const plainUserPath = [
   {
     id: 1,
     name: "perfil",
@@ -96,17 +96,17 @@ export default function DraWer() {
               <Link to={"/login"} >
                 <div className={classes.linkButton}>
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={toggleDrawer(false)}
-                  className={classes.itemLink}
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={toggleDrawer(false)}
+                    className={classes.itemLink}
                   >
-                  Iniciar Secion
-                </Button>
-                  </div>
+                    Iniciar Secion
+                  </Button>
+                </div>
               </Link>
             </div>
           )}
@@ -131,11 +131,11 @@ const Menu = ({ toggleDrawer }) => {
 
   };
 
-  const moderatorList = () => {
+  const routeList = (routes) => {
 
     return (
       <List onClick={toggleDrawer(false)}>
-        {routesModerator.map((route, key) => {
+        {routes.map((route, key) => {
           return (
             <NavLink to={route.path} activeClassName="active" key={key}>
               <ListItem button className={classes.itemLink}>
@@ -176,23 +176,9 @@ const Menu = ({ toggleDrawer }) => {
       </div>
 
       <div className={classes.sidebarWrapper}>
-        <List onClick={toggleDrawer(false)}>
-          {routes.map((route, key) => {
-            return (
-              <NavLink to={route.path} activeClassName="active" key={key}>
-                <ListItem button className={classes.itemLink}>
-                  <route.icon className={classNames(classes.itemIcon)} />
-                  <ListItemText
-                    primary={route.name}
-                    className={classNames(classes.itemText)}
-                  />
-                </ListItem>
-              </NavLink>
-            );
-          })}
-        </List>
+        {routeList(plainUserPath)}
 
-        {(roleFilter[0] !== "moderator") ? null : moderatorList()}
+        {(roleFilter[0] !== "moderator") ? null : routeList(adminUserPath)}
 
         <ListItem button className={classes.itemLink}>
           <ExitToAppIcon className={classNames(classes.itemIcon)} />
