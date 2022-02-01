@@ -19,6 +19,8 @@ export default makeStyles((theme) => ({
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column',
+      backgroundColor: "#CDA6C2"
+
     },
     image: {
       width: "auto",
@@ -36,5 +38,8 @@ export default makeStyles((theme) => ({
       marginLeft: "1rem",
       textAlign: "center",
 
+    },
+    paperColor: {
+      backgroundColor: "red"
     }
   }));

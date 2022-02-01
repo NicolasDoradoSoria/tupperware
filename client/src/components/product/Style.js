@@ -7,11 +7,14 @@ export default makeStyles((theme) => ({
     height:350,
     margin: 10,
     borderRadius: 16,
-    '&:hover': {
-      transform: 'scale(1.1)',
-    },
+    // '&:hover': {
+    //   transform: 'scale(1.1)',
+    // },
+    backgroundColor: "#FEF7E4",
+    border: "none",
+    boxShadow: "none",
     // boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
-    transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
+    // transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
 
     [theme.breakpoints.up('xs')]: {
       margin: 5,

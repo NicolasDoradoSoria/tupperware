@@ -14,7 +14,6 @@ import UserContext from '../../context/productsContext/userContext/UserContext'
 import { withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
 const Publication = ({ match, history }) => {
   const classes = Style();
@@ -75,10 +74,10 @@ const Publication = ({ match, history }) => {
     <div className={classes.root}>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={6} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
+        <Container maxWidth="lg" className={classes.container} >
+          <Grid container spacing={3} >
+            <Grid item xs={6} md={8} lg={9} >
+              <Paper className={fixedHeightPaper} >
                 {photoURL ? <img src={`http://localhost:4000/${photoURL}`} alt="imagen" className={classes.image} /> :
                   <img
                     src="https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg"
@@ -114,13 +113,7 @@ const Publication = ({ match, history }) => {
                   />
                 </Paper>
               </Grid>
-              <Grid item xs={6}>
-                <Paper className={classes.paperStock}>
-                  <Typography component="p" variant="h5" color="textSecondary" >
-                    <span>Stock</span>: {stock}
-                  </Typography>
-                </Paper>
-              </Grid>
+              
               <Grid item xs={12}>
                 <Paper className={fixedHeightPaper}>
                   {authenticated ?

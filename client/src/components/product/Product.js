@@ -12,7 +12,7 @@ const Product = ({ product }) => {
   const { name, photoURL, price, _id } = product;
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} >
       <Link
         to={`/main/descripcion-producto/${_id}`}
         style={{ textDecoration: "none" }}
