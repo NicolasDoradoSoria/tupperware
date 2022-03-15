@@ -26,7 +26,11 @@ const userSchema = mongoose.Schema({
     stock: {
         type: Number,
         required: true,
-    }
+    },
+    files: {
+        type: [Object],
+        required: true,
+    },
 }, {
     timestamps: true
 })

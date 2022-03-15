@@ -1,8 +1,8 @@
 'use strict';
 const Files = require("../models/Files");
-const MultipleFile = require('../models/multiplefile');
+const MainImage = require('../models/multiplefile');
 const shortid = require('shortid');
-const upload = require("../middleware/uploaderMiddleware")
+
 exports.singleUpload = async (req, res) => {
     const file = new Files(req.body);
     try {
@@ -19,33 +19,32 @@ exports.singleUpload = async (req, res) => {
         res.status(500).send("hubo un error");
     }
 }
-exports.multiUpload = async (req, res, next) => {
-  
+//  ----------------------------------CARROUSEL------------------------------------
+
+exports.multiUpload = async (req, res) => {
     try {
-        let filesArray = [];
-        
+        let imagesArray = [];
+
         req.files.forEach(element => {
-            console.log(element)
-            const file = {
+            const image = {
                 _id: shortid.generate(),
                 fileName: element.filename,
                 filePath: element.path,
             }
-            filesArray.push(file);
+            imagesArray.push(image);
         });
-     
 
-        const multipleFiles = new MultipleFile({
-            files: filesArray
+        const multipleImages = new MainImage({
+            files: imagesArray
         });
-        await multipleFiles.save();
+        await multipleImages.save();
         res.status(201).send('Files Upsloaded Successfully');
     } catch (error) {
         res.status(400).send(error.message);
     }
 }
 
-exports.getallSingleFiles = async (req, res, next) => {
+exports.getAllSingleImages = async (req, res) => {
 
     try {
         const files = await Files.find()
@@ -55,18 +54,16 @@ exports.getallSingleFiles = async (req, res, next) => {
     }
 }
 
-
-exports.getallMultipleFiles = async (req, res, next) => {
+exports.getAllMultipleImages = async (req, res) => {
     try {
-        const files = await MultipleFile.find()
+        const files = await MainImage.find()
         res.status(200).send(files)
     } catch (error) {
         res.status(400).send(error.message)
     }
 }
 
-exports.deleteFileById = async (req, res, next) => {
-    message: "Error! in image upload.";
+exports.deleteFileById = async (req, res) => {
     if (!req.params.arrayId) {
         message = "Error! in image delete.";
         return res.status(500).json('error in delete');
@@ -74,11 +71,11 @@ exports.deleteFileById = async (req, res, next) => {
     } else {
         try {
 
-             await MultipleFile.updateOne({ "_id": req.params.arrayId }, { $pull: { files: { _id: req.params.imageId } } })
+            await MainImage.updateOne({ "_id": req.params.arrayId }, { $pull: { files: { _id: req.params.imageId } } })
 
-            let arrayImages = await MultipleFile.findOne({ "_id": req.params.arrayId })
+            let arrayImages = await MainImage.findOne({ "_id": req.params.arrayId })
             if (arrayImages.files.length === 0) {
-                await MultipleFile.findByIdAndDelete({ "_id": req.params.arrayId })
+                await MainImage.findByIdAndDelete({ "_id": req.params.arrayId })
             }
             return res.status(200).send('se a eliminado correctamente la imagen');
         } catch (err) {
@@ -88,27 +85,3 @@ exports.deleteFileById = async (req, res, next) => {
     }
 
 }
-
-exports.uploads = async (req, res) => {
-    try {
-        await upload(req, res);
-        console.log(req.file);
-    
-        if (req.file == undefined) {
-          return res.send({
-            message: "You must select a file.",
-          });
-        }
-    
-        return res.send({
-          message: "File has been uploaded.",
-        });
-      } catch (error) {
-        console.log(error);
-    
-        return res.send({
-          message: "Error when trying upload image: ${error}",
-        });
-      }
-  };
-

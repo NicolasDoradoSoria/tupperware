@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Style from "./Style";
 import TextField from "@material-ui/core/TextField";
-import { Box, Grid, Paper } from "@material-ui/core";
+import { Box, Grid, GridList, Paper } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
 import { withRouter } from 'react-router-dom'
 import BackupIcon from '@material-ui/icons/Backup';
@@ -24,6 +24,7 @@ const AddProduct = ({ history, open }) => {
     getProducts,
   } = productContext;
 
+
   //fileContext
   const fileContext = useContext(FileContext);
   const { postMultipleImage, getMultipleImages, images, deleteImage } = fileContext;
@@ -33,32 +34,34 @@ const AddProduct = ({ history, open }) => {
     name: "",
     price: 0,
     descripcion: "",
+    files: []
   });
 
-  const { name, price, descripcion, photoURL } = product;
-  const [archivo, setArchivo] = useState("");
-  const [selectImage , setSelectImage] = useState("")
-  const [selectIdArrayImage , setSelectIdArrayImage] = useState("")
+  const { name, price, descripcion } = product;
+
+  const [selectImage, setSelectImage] = useState("")
+  const [selectIdArrayImage, setSelectIdArrayImage] = useState("")
+  const [productImageChange, setProductImageChange] = useState(false)
   useEffect(() => {
     if (open) {
       setProduct(selectedProduct);
     } else {
-      setProduct({ name: "", price: 0, descripcion: "" });
+      setProduct({ name: "", price: 0, descripcion: "", files: [] });
       getMultipleImages()
+      setProductImageChange(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images]);
-  
+  }, [productImageChange]);
 
-  const imageHandleChange = async (e) => {
+  // manda la lista de imagenes del carrousel al context
+  const imageHandleCarrouselSumbmit = async (e) => {
     try {
       postMultipleImage(e.target.files)
-
+      setProductImageChange(true)
     } catch (error) {
       console.log(error)
     }
   }
-
 
   // destroyoning del hook product
   const productChange = (e) => {
@@ -68,21 +71,17 @@ const AddProduct = ({ history, open }) => {
     });
   };
 
-  const readFileChange = (e) => {
-    setArchivo(e.target.files[0]);
-
-  };
-
   const productSubmit = (e) => {
     e.preventDefault();
+
     if (selectedProduct === null) {
       // manda los datos de usuario a productContext
-      addProduct(product, archivo);
+      addProduct(product);
     } else {
       updateProduct(product);
     }
     getProducts()
-    setProduct({ name: "", photoURL: "", price: 0, descripcion: "" });
+    setProduct({ name: "", price: 0, descripcion: "" });
 
     history.push("/")
   };
@@ -95,18 +94,42 @@ const AddProduct = ({ history, open }) => {
     return aField === "";
   };
 
-  const selectImageClick = (img, idArray) => {
+  //selecciona una imagen del carrousel haciendo click
+  const selectImageCarrouselClick = (img, idArray) => {
     setSelectImage(img._id)
     setSelectIdArrayImage(idArray)
   }
 
+  //selecciona una imagen del producto haciendo click
+  const selectImageProductClick = (idImg) => {
+    setSelectImage(idImg)
+  }
+
+
   const deleteFileButton = () => {
 
     deleteImage(selectIdArrayImage, selectImage)
-    
+    setProductImageChange(true)
   }
+
+  // guarda la lista de imagenes en el state de producto 
+  const productImagesChange = (e) => {
+    let images = product.files
+    const files = e.target.files
+
+    // esto lo tengo que hacer debido a que me devuelve una lista de forlist y eso hacer que no pueda usar .map o .foreach
+    Array.from(files).forEach(file => images.push(file))
+
+    setProduct({
+      ...product,
+      files: images,
+    });
+  }
+
   return (
+
     <>
+      {/* ----------------------------------------------PRODUCT---------------------------------------------------------- */}
       <Card className={classes.root}>
         <form noValidate onSubmit={productSubmit}>
           <CardContent>
@@ -114,6 +137,7 @@ const AddProduct = ({ history, open }) => {
               Agregar Producto
             </Typography>
 
+            {/* NOMBRE */}
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -128,6 +152,8 @@ const AddProduct = ({ history, open }) => {
                   onChange={productChange}
                 />
               </Grid>
+
+              {/* PRECIO */}
               <Grid item xs={12} sm={6}>
                 <TextField
                   id="outlined-number"
@@ -143,12 +169,9 @@ const AddProduct = ({ history, open }) => {
                   onChange={productChange}
                 />
               </Grid>
-
-
-
-              <Grid item xs={12} sm={6} >
-                <div>
-
+              <Grid className={classes.gridConteinerImageAndStock}>
+                {/* STOCK */}
+                <Grid item xs={3}>
                   <Typography variant="h6" component="h2" className={classes.TextFieldStock}>
                     Stock
                   </Typography>
@@ -164,23 +187,51 @@ const AddProduct = ({ history, open }) => {
                     defaultValue="1"
                     inputProps={{ min: "1" }}
                   />
-                </div>
+                </Grid>
+
+                {/* IMAGEN */}
+                <Grid item xs={3} >
+                  <TextField
+                    type="file"
+                    id="outlined-b  asic"
+                    variant="outlined"
+                    name="productImages"
+                    required
+                    className={classes.textFieldImage}
+                    onChange={productImagesChange}
+                    inputProps={{
+                      multiple: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  {
+                    product.files.length ?
+                      <div className={classes.divUploaderImage}>
+                        {
+                          product.files.map((image) =>
+                            <div className={classes.divUploaderImage} key={image.lastModified}>
+
+                              <Button onClick={() => selectImageProductClick(image.lastModified)} name="img" className={(selectImage === image.lastModified) ? classes.textImg : null} >
+                                <img src={URL.createObjectURL(image)} alt="uploaded_image" width="130" height="auto" />
+                              </Button>
+                            </div>
+
+                          )}
+                      </div>
+                      : null
+                  }
+                </Grid>
+
+                <Grid item xs={3} >
+                  <Grid>
+                    <Button variant="contained" onClick={deleteFileButton}>Eliminar</Button>
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6} className={classes.gridTextarea} >
-                {photoURL ? (
-                  <img src={`http://localhost:4000/${photoURL}`} alt="imagen" width="150" />
-                ) : null}
-                <TextField
-                  type="file"
-                  id="outlined-basic"
-                  variant="outlined"
-                  fullWidth
-                  name="photoURL"
-                  required
-                  onChange={readFileChange}
-                />
-              </Grid>
-              <Grid item xs={12} className={classes.gridTextarea}>
+
+              {/* DESCRIPCION */}
+              <Grid item xs={12} >
                 <TextField
                   id="outlined-textarea"
                   label="Descripcion"
@@ -215,16 +266,14 @@ const AddProduct = ({ history, open }) => {
 
       </Card>
       <Box>
-        
-      
+
+        {/* -------------------------------------------------------------------------------CARROUSEL------------------------------------------------------------------------------------ */}
         <Typography variant="h4" component="h2" className={classes.divUploaderImage} >
           Agregar imagenes del Carrousel
         </Typography>
         <Paper component="form" className={classes.paperUploadedPhoto}>
           <Grid item xs={12} className={classes.gridTextarea}>
-            {photoURL ? (
-              <img src={`http://localhost:4000/${photoURL}`} alt="imagen" width="50" />
-            ) : null}
+
             <div>
               <div>
                 <label htmlFor="file">
@@ -235,7 +284,7 @@ const AddProduct = ({ history, open }) => {
                   type="file"
                   id="file"
                   name="file"
-                  onChange={imageHandleChange}
+                  onChange={imageHandleCarrouselSumbmit}
                   className={classes.img}
                 />
               </div>
@@ -248,26 +297,26 @@ const AddProduct = ({ history, open }) => {
               images.length ?
                 <div className={classes.divUploaderImage}>
                   {
-                    images.map((uploadedImage, index) =>
-                      <div key={uploadedImage._id} className={classes.divUploaderImage}>
-                        {uploadedImage.files.map((image, index) =>
+                    images.map((imageGroup) =>
+                      <div key={imageGroup._id} className={classes.divUploaderImage}>
+                        {imageGroup.files.map((image) =>
                           <div key={image._id}>
-                            
-                            <Button onClick={() => selectImageClick(image,uploadedImage._id)} name="img"  className={(selectImage=== image._id) ? classes.textImg : null} >
+
+                            <Button onClick={() => selectImageCarrouselClick(image, imageGroup._id)} name="img" className={(selectImage === image._id) ? classes.textImg : null} >
 
                               <img src={`http://localhost:4000/${image.fileName}`} alt="uploaded_image" width="130" height="auto" />
                             </Button>
                           </div>
                         )}
                       </div>
-  
+
                     )}
                 </div>
                 : null
             }
           </Grid>
         </Paper>
-         
+
       </Box>
     </>
   );

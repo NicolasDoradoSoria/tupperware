@@ -19,3 +19,5 @@ const storage = multer.diskStorage({
 exports.uploadSingle =  multer({ storage, dest: path.join(__dirname, 'uploads') }).single("photoURL")
 
 exports.uploadMulti =  multer({ storage, dest: path.join(__dirname, 'uploads') }).array("files")
+
+

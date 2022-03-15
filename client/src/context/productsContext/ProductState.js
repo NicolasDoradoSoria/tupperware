@@ -60,14 +60,16 @@ const ProductState = (props) => {
   };
 
   // agrega un producto
-  const addProduct = async (data, image) => {
+  const addProduct = async (product) => {
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("price", data.price);
-    formData.append("descripcion", data.descripcion);
-    formData.append("stock", data.stock);
-    formData.append("photoURL", image);
+    formData.append("name", product.name);
+    formData.append("price", product.price);
+    formData.append("descripcion", product.descripcion);
+    formData.append("stock", product.stock);
 
+    for (let i = 0; i < product.files.length; i++) {
+      formData.append('files', product.files[i]);
+    }
 
     try {
       const result = await clienteAxios.post(`api/productos`, formData, {

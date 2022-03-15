@@ -23,8 +23,8 @@ export default makeStyles((theme) => ({
 
     },
     image: {
-      width: "auto",
-      maxHeight: "30rem"
+      width: "100%",
+      maxHeight: "500px"
     },
     descripcion: {
       marginLeft: "2rem",

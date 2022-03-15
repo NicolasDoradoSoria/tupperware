@@ -1,40 +1,30 @@
 const Products = require("../models/Products");
 const getProductByIdFunction = require("../data/getProductByIdFunction")
 const { validationResultFunction } = require("../libs/validationResult");
-const multer = require('multer');
 const shortid = require('shortid');
-const path = require('path');
 const updateProduct = require("../data/updateProduct");
 
-const storage = multer.diskStorage({
-  destination: path.join(__dirname, '../uploads'),
-  filename: (req, file, cb) => {
-    const extension = file.mimetype.split('/')[1];
-    cb(null, `${shortid.generate()}.${extension}`);
-  },
-  fileFilter(req, file, cb) {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-      cb(null, true);
-    } else {
-      cb(new Error('Formato No válido'))
-    }
-  }
-})
-
-exports.upload = multer({ storage, dest: path.join(__dirname, 'uploads') }).single("photoURL")
-
-// inserta productos a la BD
+// inserta productos a la MongoDB
 exports.postProducts = async (req, res) => {
-  const product = new Products(req.body);
-  console.log(req.body)
   try {
-    if (req.file.filename) {
 
-      product.photoURL = req.file.filename
-    }
+    let imagesArray = [];
+    req.files.forEach(element => {
+      const image = {
+        _id: shortid.generate(),
+        fileName: element.filename,
+        filePath: element.path,
+      }
+      imagesArray.push(image);
+    });
 
-    //guardamos el producto
+    const product = new Products({
+      ...req.body,
+      files: imagesArray
+    });
+    // guardamos el producto
     await product.save();
+
 
     res.status(200).send("producto agregado correctamente");
   } catch (error) {
@@ -51,6 +41,7 @@ exports.getProducts = async (req, res) => {
   try {
     const products = await Products.find();
     res.json({ products });
+
   } catch (error) {
     res.status(500).send("hubo un error");
   }
@@ -59,6 +50,7 @@ exports.getProducts = async (req, res) => {
 //devuelve producto por id
 exports.getProductById = async (req, res) => {
   validationResultFunction(req)
+  
   try {
     const product = await getProductByIdFunction(req.params.productId);
     res.status(200).json(product);
@@ -77,8 +69,8 @@ exports.updateProductById = async (req, res) => {
     if (!products) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-    updateProduct(req.body,  req.params.productId)
-    
+    updateProduct(req.body, req.params.productId)
+
     res.status(200).json(updatedProduct);
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -112,7 +104,7 @@ exports.deleteProductById = async (req, res) => {
 exports.searchProducts = async (req, res) => {
   try {
     const products = await Products.find()
-    if(!req.body.name) {
+    if (!req.body.name) {
       return res.status(200).json(products);
     }
     const productfilter = products.filter(product => product.name.toLowerCase().includes(req.body.name))

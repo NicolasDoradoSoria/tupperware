@@ -17,8 +17,9 @@ export default makeStyles((theme) => ({
     textAlign: "center",
     marginTop: "1rem",
     marginBottom: "1rem",
+    marginLeft: "3rem",
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "center",
   },
   addProductButton: {
     display: "flex",
@@ -34,7 +35,15 @@ export default makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-    width: "30%"
+    [theme.breakpoints.up('sm')]: {
+      width: "100%",
+    },
+    [theme.breakpoints.up('xs')]: {
+      width: "100%",
+    },
+    [theme.breakpoints.up('md')]: {
+      width: "30%"
+    },
   },
   TextFieldStock: {
     marginLeft: "1rem",
@@ -71,9 +80,11 @@ export default makeStyles((theme) => ({
     display: "flex",
     [theme.breakpoints.up('sm')]: {
       flexDirection: "column",
+      marginLeft: "1rem",
     },
     [theme.breakpoints.up('xs')]: {
       flexDirection: "column",
+      marginLeft: "0.8rem",
     },
     [theme.breakpoints.up('md')]: {
       flexDirection: "row",
@@ -81,7 +92,41 @@ export default makeStyles((theme) => ({
   },
   textImg: {
     opacity: "0.3",
-  }
+  },
+  uploadImages: {
+    marginTop: "1.5rem"
+  },
+ 
+  gridConteiner: {
+    display: 'flex',
+    justifyContent: "space-between",
+  },
+  
+  textFieldImage: {
+    minWidth: "140px",
+    width: "140px",
+    marginBottom: "1rem",
+    marginLeft: "-1rem"
+  },
+
+  gridConteinerImageAndStock: {
+    display: "flex",
+    width: "100%",
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: "column",
+      alignItems: "center"
+    },
+    [theme.breakpoints.up('xs')]: {
+      flexDirection: "column",
+      alignItems: "center"
+    },
+    [theme.breakpoints.up('md')]: {
+      flexDirection: "row",
+    },
+    gridImageAndStock: {
+      width: "70%"
+    }
+  },
 
   
 }));

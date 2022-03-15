@@ -15,6 +15,43 @@ import { withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TextField from '@material-ui/core/TextField';
 import { Link } from "react-router-dom";
+import Carousel from "react-material-ui-carousel"
+import FileContext from "../../context/fileContext/FileContext";
+
+const items = [
+  {
+    Name: "Macbook Pro",
+    Caption: "Electrify your friends!",
+    Image: "https://source.unsplash.com/featured/?macbook"
+
+  },
+  {
+    Name: "iPhone",
+    Caption: "Electrify your friends!",
+    Image: "https://source.unsplash.com/featured/?iphone"
+
+  },
+  {
+    Name: "pc Pro",
+    Caption: "Electrify your friends!",
+    Image: "https://source.unsplash.com/featured/?macbook"
+
+  },
+  {
+    Name: "Home Appliances",
+    Caption: "Say no to manual home labour!",
+    Image: "https://source.unsplash.com/featured/?washingmachine"
+
+  },
+  {
+    Name: "Decoratives",
+    Caption: "Give style and color to your living room!",
+    Image: "https://source.unsplash.com/featured/?lamp"
+
+  }
+]
+
+
 const Publication = ({ match, history }) => {
   const classes = Style();
 
@@ -34,6 +71,10 @@ const Publication = ({ match, history }) => {
   //userContext
   const userContext = useContext(UserContext);
   const { user, authenticated } = userContext;
+
+  //fileContext
+  const fileContext = useContext(FileContext);
+  const { getMultiplePostImages, postImage } = fileContext;
 
   //hooks 
   const [quantity, setQuantity] = useState(1)
@@ -58,6 +99,7 @@ const Publication = ({ match, history }) => {
     }
 
     product()
+    getMultiplePostImages()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -78,12 +120,29 @@ const Publication = ({ match, history }) => {
           <Grid container spacing={3} >
             <Grid item xs={6} md={8} lg={9} >
               <Paper className={fixedHeightPaper} >
-                {photoURL ? <img src={`http://localhost:4000/${photoURL}`} alt="imagen" className={classes.image} /> :
+                {/* {photoURL ? <img src={`http://localhost:4000/${photoURL}`} alt="imagen" className={classes.image} /> :
                   <img
                     src="https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg"
                     alt="imagen"
                   />
-                }
+                } */}
+                <Carousel autoPlay={true}
+                  animation="fade"
+                  indicators={true}
+                  timeout={500}
+                  cycleNavigation={true}
+                  navButtonsAlwaysVisible={true}
+                  navButtonsAlwaysInvisible={false}>
+                  {
+                    postImage.map(imageGroup => {
+                      // console.log(imageGroup.files)
+                    return   imageGroup.files.map(image => {
+                        return <img src={`http://localhost:4000/${image.fileName}`} className={classes.image} alt="imagen"></img>
+                      })
+
+                    })
+                  }
+                </Carousel>
               </Paper>
             </Grid>
             <Grid item xs={12} sm container>
@@ -113,22 +172,22 @@ const Publication = ({ match, history }) => {
                   />
                 </Paper>
               </Grid>
-              
+
               <Grid item xs={12}>
                 <Paper className={fixedHeightPaper}>
                   {authenticated ?
                     stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> : <Button variant="contained" color="primary" onClick={addCartClick} >
-                    Agregar al carrito
-                  </Button> : <Link to={"/login"}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-            >
-              Iniciar Secion
-              </Button>
-          </Link>
+                      Agregar al carrito
+                    </Button> : <Link to={"/login"}>
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                      >
+                        Iniciar Secion
+                      </Button>
+                    </Link>
                   }
                 </Paper>
               </Grid>

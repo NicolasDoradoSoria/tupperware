@@ -13,8 +13,6 @@ import logo from './logo.JPG';
 //context
 import ProductContext from "../../context/productsContext/ProductContext";
 
-
-
 // lista de productos principal
 const ListOfProducts = () => {
   const classes = Style();
@@ -31,6 +29,7 @@ const ListOfProducts = () => {
   //hooks
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
+  
   useEffect(() => {
     if (products === null) {
       getProducts()
