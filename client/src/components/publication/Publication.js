@@ -1,64 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 import Style from "./Style";
 import PriceProduct from "../priceProduct/PriceProduct";
-import Button from "@material-ui/core/Button";
 import ProductContext from "../../context/productsContext/ProductContext";
-import './Style.css';
 import SnackbarOpen from "../snackbar/SnackBar";
 import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/productsContext/userContext/UserContext'
 import { withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
-import TextField from '@material-ui/core/TextField';
 import { Link } from "react-router-dom";
 import Carousel from "react-material-ui-carousel"
-import FileContext from "../../context/fileContext/FileContext";
-
-const items = [
-  {
-    Name: "Macbook Pro",
-    Caption: "Electrify your friends!",
-    Image: "https://source.unsplash.com/featured/?macbook"
-
-  },
-  {
-    Name: "iPhone",
-    Caption: "Electrify your friends!",
-    Image: "https://source.unsplash.com/featured/?iphone"
-
-  },
-  {
-    Name: "pc Pro",
-    Caption: "Electrify your friends!",
-    Image: "https://source.unsplash.com/featured/?macbook"
-
-  },
-  {
-    Name: "Home Appliances",
-    Caption: "Say no to manual home labour!",
-    Image: "https://source.unsplash.com/featured/?washingmachine"
-
-  },
-  {
-    Name: "Decoratives",
-    Caption: "Give style and color to your living room!",
-    Image: "https://source.unsplash.com/featured/?lamp"
-
-  }
-]
-
+import { Container, Grid, Paper, Button, TextField } from "@material-ui/core";
 
 const Publication = ({ match, history }) => {
   const classes = Style();
 
   const fixedHeightPaper = clsx(classes.paper);
+
   // context products
   const productsContext = useContext(ProductContext)
-  const { selectedProduct, getProduct } = productsContext
+  const {product, getProduct } = productsContext
 
   //cartContext
   const cartContext = useContext(CartContext);
@@ -72,12 +33,12 @@ const Publication = ({ match, history }) => {
   const userContext = useContext(UserContext);
   const { user, authenticated } = userContext;
 
-  //fileContext
-  const fileContext = useContext(FileContext);
-  const { getMultiplePostImages, postImage } = fileContext;
-
   //hooks 
   const [quantity, setQuantity] = useState(1)
+
+  const changeQuantity = (e) => {
+    setQuantity(e.target.value);
+  }
 
   const addCartClick = () => {
     const order = {
@@ -99,18 +60,14 @@ const Publication = ({ match, history }) => {
     }
 
     product()
-    getMultiplePostImages()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
-  const changeQuantity = (e) => {
-    setQuantity(e.target.value);
-  }
-  if (!selectedProduct) return null
+  
+  if (!product) return null
 
-  const { descripcion, price, _id, name, photoURL, stock } = selectedProduct;
-
+  const { descripcion, price, _id, name, stock, files } = product;
 
   return (
     <div className={classes.root}>
@@ -120,12 +77,7 @@ const Publication = ({ match, history }) => {
           <Grid container spacing={3} >
             <Grid item xs={6} md={8} lg={9} >
               <Paper className={fixedHeightPaper} >
-                {/* {photoURL ? <img src={`http://localhost:4000/${photoURL}`} alt="imagen" className={classes.image} /> :
-                  <img
-                    src="https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg"
-                    alt="imagen"
-                  />
-                } */}
+                {/* CAROUSEL */}
                 <Carousel autoPlay={true}
                   animation="fade"
                   indicators={true}
@@ -134,28 +86,34 @@ const Publication = ({ match, history }) => {
                   navButtonsAlwaysVisible={true}
                   navButtonsAlwaysInvisible={false}>
                   {
-                    postImage.map(imageGroup => {
-                      // console.log(imageGroup.files)
-                    return   imageGroup.files.map(image => {
-                        return <img src={`http://localhost:4000/${image.fileName}`} className={classes.image} alt="imagen"></img>
-                      })
-
+                    files.map(image => {
+                      return (
+                        <div key={image._id}>
+                          <img src={`http://localhost:4000/${image.fileName}`} className={classes.image} alt="imagen"></img>
+                        </div>
+                      )
                     })
                   }
                 </Carousel>
               </Paper>
             </Grid>
+
             <Grid item xs={12} sm container>
+              {/* NOMBRE */}
               <Grid item xs>
                 <Paper className={fixedHeightPaper}>
                   <h2 className={classes.name}>{name}</h2>
                 </Paper>
               </Grid>
+
+              {/* PRECIO */}
               <Grid item xs={12}>
                 <Paper className={fixedHeightPaper}>
                   <PriceProduct price={price} />
                 </Paper>
               </Grid>
+
+              {/* CANTIDAD */}
               <Grid item xs={6}>
                 <Paper className={fixedHeightPaper}>
                   <TextField
@@ -173,6 +131,7 @@ const Publication = ({ match, history }) => {
                 </Paper>
               </Grid>
 
+              {/* AGREGAR AL CARRITO */}
               <Grid item xs={12}>
                 <Paper className={fixedHeightPaper}>
                   {authenticated ?
@@ -193,16 +152,18 @@ const Publication = ({ match, history }) => {
               </Grid>
             </Grid>
 
+            {/* DESCRIPCION */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <h2 className={classes.descripcion}>Descripcion</h2>
-
                 {descripcion}
               </Paper>
+
             </Grid>
           </Grid>
         </Container>
       </main>
+
       {error ? <SnackbarOpen /> : null}
     </div>
   );

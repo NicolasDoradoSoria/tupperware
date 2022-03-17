@@ -17,7 +17,7 @@ const ProductState = (props) => {
     products: [],
     productsAll: [],
     errorProducts: false,
-    selectedProduct: null
+    product: null
   };
 
   const [state, dispatch] = useReducer(ProductReducer, initialState);
@@ -60,15 +60,15 @@ const ProductState = (props) => {
   };
 
   // agrega un producto
-  const addProduct = async (product) => {
+  const addProduct = async (productNew) => {
     const formData = new FormData();
-    formData.append("name", product.name);
-    formData.append("price", product.price);
-    formData.append("descripcion", product.descripcion);
-    formData.append("stock", product.stock);
+    formData.append("name", productNew.name);
+    formData.append("price", productNew.price);
+    formData.append("descripcion", productNew.descripcion);
+    formData.append("stock", productNew.stock);
 
-    for (let i = 0; i < product.files.length; i++) {
-      formData.append('files', product.files[i]);
+    for (let i = 0; i < productNew.files.length; i++) {
+      formData.append('files', productNew.files[i]);
     }
 
     try {
@@ -125,11 +125,10 @@ const ProductState = (props) => {
       console.log(error)
     }
   }
-  const saveCurrentProduct = async (product) => {
-    console.log(product)
+  const saveCurrentProduct = async (productNew) => {
     dispatch({
       type: CURRENT_PRODUCT,
-      payload: product
+      payload: productNew
     })
   }
 
@@ -145,7 +144,7 @@ const ProductState = (props) => {
         addProduct,
         updateProduct,
         saveCurrentProduct,
-        selectedProduct: state.selectedProduct,
+        product: state.product,
         searchProducts,
       }}
     >

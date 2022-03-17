@@ -18,13 +18,13 @@ const AddProduct = ({ history, open }) => {
   const productContext = useContext(ProductContext);
   const {
     addProduct,
-    selectedProduct,
+    product,
     updateProduct,
     getProducts,
   } = productContext;
 
   // hook de create user
-  const [product, setProduct] = useState({
+  const [productNew, setProductNew] = useState({
     name: "",
     price: 0,
     descripcion: "",
@@ -32,23 +32,23 @@ const AddProduct = ({ history, open }) => {
     stock: 0
   });
 
-  const { name, price, descripcion } = product;
+  const { name, price, descripcion } = productNew;
 
   const [selectImage, setSelectImage] = useState("")
 
   useEffect(() => {
     if (open) {
-      setProduct(selectedProduct);
+      setProductNew(product);
     } else {
-      setProduct({ name: "", price: 0, descripcion: "", files: [], stock: 0 });
+      setProductNew({ name: "", price: 0, descripcion: "", files: [], stock: 0 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // destroyoning del hook product
   const productChange = (e) => {
-    setProduct({
-      ...product,
+    setProductNew({
+      ...productNew,
       [e.target.name]: e.target.value,
     });
   };
@@ -56,14 +56,14 @@ const AddProduct = ({ history, open }) => {
   const productSubmit = (e) => {
     e.preventDefault();
 
-    if (selectedProduct === null) {
+    if (product === null) {
       // manda los datos de usuario a productContext
-      addProduct(product);
+      addProduct(productNew);
     } else {
-      updateProduct(product);
+      updateProduct(productNew);
     }
     getProducts()
-    setProduct({ name: "", price: 0, descripcion: "" });
+    setProductNew({ name: "", price: 0, descripcion: "" });
 
     history.push("/")
   };
@@ -89,9 +89,9 @@ const AddProduct = ({ history, open }) => {
   //elimina una imagen del producto
   const deleteImageProduct = () => {
 
-    const productNuevo = product.files.filter(image => image !== selectImage)
-    setProduct({
-      ...product,
+    const productNuevo = productNew.files.filter(image => image !== selectImage)
+    setProductNew({
+      ...productNew,
       files: productNuevo
     })
 
@@ -99,14 +99,14 @@ const AddProduct = ({ history, open }) => {
 
   // guarda la lista de imagenes en el state de producto 
   const productImagesChange = (e) => {
-    let images = product.files
+    let images = productNew.files
     const files = e.target.files
 
     // esto lo tengo que hacer debido a que me devuelve una lista de forlist y eso hacer que no pueda usar .map o .foreach
     Array.from(files).forEach(file => images.push(file))
 
-    setProduct({
-      ...product,
+    setProductNew({
+      ...productNew,
       files: images,
     });
   }
@@ -196,10 +196,10 @@ const AddProduct = ({ history, open }) => {
                 {/* IMAGEN */}
                 <Grid item xs={4}>
                   {
-                    product.files.length ?
+                    productNew.files.length ?
                       <div className={classes.divUploaderImage}>
                         {
-                          product.files.map((image) =>
+                          productNew.files.map((image) =>
                             <div className={classes.divUploaderImage} key={image.lastModified}>
 
                               <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage.lastModified === image.lastModified) ? classes.textImg : null} >

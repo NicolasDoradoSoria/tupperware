@@ -29,13 +29,13 @@ export default (state, action) => {
         products: state.products.map((product) =>
           product._id === action.payload._id ? action.payload : product
         ),
-        selectedProduct: null,
+        product: null,
       };
 
     case CURRENT_PRODUCT:
       return {
         ...state,
-        selectedProduct: action.payload,
+        product: action.payload,
       };
 
     case DELETE_PRODUCT:

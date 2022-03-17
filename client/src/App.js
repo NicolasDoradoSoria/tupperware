@@ -17,7 +17,7 @@ import Layout from "./components/layout/Layout";
 import Theme from "./components/theme/Theme";
 import FileState from "./context/fileContext/FileState";
 import ListOfProducts from "./components/listOfProducts/ListOfProducts"
-import MainCarouselManager from "./components/mainCarouselManager/MainCarouselManager";
+import MainCarrouselManager from "./components/mainCarouselManager/MainCarouselManager";
 var divStyle = {
   backgroundColor: "#FEF7E4",
   marginRight: "-1rem",
@@ -39,7 +39,7 @@ function App() {
 
                       <Switch>
                         <Route exact path="/" component={ListOfProducts} />
-                        <Route exact path="/administrador-Carrusel-Principal" component={MainCarouselManager} />
+                        <Route exact path="/administrador-Carrusel-Principal" component={MainCarrouselManager} />
                         <Route exact path="/main/categoria" component={Categoria} />
                         <Route
                           exact

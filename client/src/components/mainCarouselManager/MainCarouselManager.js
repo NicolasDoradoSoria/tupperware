@@ -4,7 +4,7 @@ import Style from "./Style";
 import BackupIcon from '@material-ui/icons/Backup';
 import FileContext from "../../context/fileContext/FileContext";
 
-const MainCarouselManager = () => {
+const MainCarrouselManager = () => {
     const classes = Style();
 
     //fileContext
@@ -56,10 +56,10 @@ const MainCarouselManager = () => {
                     <Grid item xs={12} className={classes.gridTextarea}>
 
                         <div className={classes.buttonDeleteImage}>
-                            <div >
+                            <div>
                                 <label htmlFor="file">
                                     <BackupIcon style={{ fontSize: 90, cursor: "pointer" }} />
-                                </label>
+                                 </label>
                                 <input
                                     multiple
                                     type="file"
@@ -99,4 +99,4 @@ const MainCarouselManager = () => {
     );
 }
 
-export default MainCarouselManager;
+export default MainCarrouselManager;
