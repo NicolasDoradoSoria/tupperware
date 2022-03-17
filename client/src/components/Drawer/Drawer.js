@@ -29,6 +29,12 @@ const adminUserPath = [
     path: "agregar-producto",
     icon: CategoryIcon,
   },
+  {
+    id: 3,
+    name: "Administrador Carrousel Principal",
+    path: "administrador-Carrusel-Principal",
+    icon: CategoryIcon,
+  },
 ];
 
 const plainUserPath = [

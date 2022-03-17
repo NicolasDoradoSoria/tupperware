@@ -12,23 +12,10 @@ export default makeStyles((theme) => ({
     textAlign: "center",
     marginBottom: "2rem",
   },
-
-  gridTextarea: {
-    textAlign: "center",
-    marginTop: "1rem",
-    marginBottom: "1rem",
-    marginLeft: "3rem",
-    display: "flex",
-    justifyContent: "center",
-  },
   addProductButton: {
     display: "flex",
     justifyContent: "center",
     marginBottom: "1rem"
-  },
-  img: {
-    marginLeft: "2rem",
-    display: "none"
   },
   textFieldQuantity: {
     padding: theme.spacing(2),
@@ -50,18 +37,6 @@ export default makeStyles((theme) => ({
     marginBottom: "-1rem",
     display: "flex",
     flexDirection: "column"
-  },
-  paperUploadedPhoto: {
-      margin: "auto",
-      [theme.breakpoints.up('sm')]: {
-        width: '30%',
-      },
-      [theme.breakpoints.up('xs')]: {
-        width: '70%',
-      },
-      [theme.breakpoints.up('md')]: {
-        width: '85%',
-      },
   },
   imgUploaderImage: {
     border: "3px solid gray",
@@ -90,6 +65,7 @@ export default makeStyles((theme) => ({
       flexDirection: "row",
     },
   },
+  // **
   textImg: {
     opacity: "0.3",
   },
@@ -125,7 +101,8 @@ export default makeStyles((theme) => ({
     },
     gridImageAndStock: {
       width: "70%"
-    }
+    },
+  
   },
 
   
