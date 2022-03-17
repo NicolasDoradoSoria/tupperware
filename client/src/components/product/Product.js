@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const Product = ({ product }) => {
   const classes = Style();
 
-  const { name, photoURL, price, _id } = product;
+  const { name, files, price, _id } = product;
 
   return (
     <Card className={classes.root} >
@@ -17,10 +17,10 @@ const Product = ({ product }) => {
         to={`/main/descripcion-producto/${_id}`}
         style={{ textDecoration: "none" }}
       >
-
-        {photoURL ? (<CardMedia
+        
+        {files ? (<CardMedia
           className={classes.media}
-          image={`http://localhost:4000/${photoURL}`}
+          image={`http://localhost:4000/${files[0].fileName}`}
           title="Paella dish"
         />) : null}
         <h1 className={classes.title}>{name}</h1>
