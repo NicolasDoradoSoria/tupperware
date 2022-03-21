@@ -41,10 +41,10 @@ const ProductListManagement = () => {
     saveCurrentProduct,
     searchProducts
   } = productsContext;
- 
+
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error} = snackbarContext
+  const { error } = snackbarContext
 
   useEffect(() => {
     getProducts();
@@ -111,7 +111,7 @@ const ProductListManagement = () => {
           placeholder="Buscar Producto"
           inputProps={{ 'aria-label': 'Buscar Producto' }}
           onChange={handleSearch}
-          
+
         />
         <IconButton >
           <SearchIcon />
@@ -128,56 +128,56 @@ const ProductListManagement = () => {
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
-            />
-  {
-    products ? 
-    <TableBody>
-            {stableSort(products, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((product) => {
-                return (
-                  <TableRow key={product._id} hover>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      align="right"
-                      className={classes.column}
-                      >
-                      {product.name}
-                    </TableCell>
-                    <TableCell align="right" className={classes.column}>
-                      {product.descripcion}
-                    </TableCell>
-                    <TableCell align="right" className={classes.column}>
-                      {product.price}
-                    </TableCell>
-                    <TableCell align="right" className={classes.column}>
-                      {product.stock}
-                    </TableCell>
-                    <TableCell align="right" className={classes.columnAction}>
-                      <Box className={classes.actionBox}>
-                        <Button
-                          variant="contained"
-                          className={classes.removeIcon}
-                          onClick={() => selectProduct(product)}
+          />
+          {
+            products ?
+              <TableBody>
+                {stableSort(products, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((product) => {
+                    return (
+                      <TableRow key={product._id} hover>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          align="right"
+                          className={classes.column}
                         >
-                          <EditIcon />
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          className={classes.removeIcon}
-                          onClick={() => deleteProduct(product._id)}
-                        >
-                          <Delete />
-                        </Button>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-          : <p>no hay productos </p> }
+                          {product.name}
+                        </TableCell>
+                        <TableCell align="right" className={classes.column}>
+                          {product.descripcion}
+                        </TableCell>
+                        <TableCell align="right" className={classes.column}>
+                          {product.price}
+                        </TableCell>
+                        <TableCell align="right" className={classes.column}>
+                          {product.stock}
+                        </TableCell>
+                        <TableCell align="right" className={classes.columnAction}>
+                          <Box className={classes.actionBox}>
+                            <Button
+                              variant="contained"
+                              className={classes.removeIcon}
+                              onClick={() => selectProduct(product)}
+                            >
+                              <EditIcon />
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              className={classes.removeIcon}
+                              onClick={() => deleteProduct(product._id)}
+                            >
+                              <Delete />
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+              : <p>no hay productos </p>}
         </Table>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
@@ -187,11 +187,11 @@ const ProductListManagement = () => {
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+        />
       </TableContainer>
       {error ? <SnackbarOpen /> : null}
       <UpdateProduct open={open} onClose={() => setOpen(false)}></UpdateProduct>
-      </Box>
+    </Box>
   );
 };
 

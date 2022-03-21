@@ -56,7 +56,7 @@ const AddProduct = ({ history, open }) => {
   const productSubmit = (e) => {
     e.preventDefault();
 
-    if (product === null) {
+    if (open) {
       // manda los datos de usuario a productContext
       addProduct(productNew);
     } else {
@@ -101,10 +101,11 @@ const AddProduct = ({ history, open }) => {
   const productImagesChange = (e) => {
     let images = productNew.files
     const files = e.target.files
-
     // esto lo tengo que hacer debido a que me devuelve una lista de forlist y eso hacer que no pueda usar .map o .foreach
-    Array.from(files).forEach(file => images.push(file))
-
+    Array.from(files).forEach(file => {
+      file.fileName = URL.createObjectURL(file)
+      images.push(file)
+    })
     setProductNew({
       ...productNew,
       files: images,
@@ -115,15 +116,13 @@ const AddProduct = ({ history, open }) => {
   const imageButtonDisabled = () => {
     return isEmpty(selectImage)
   }
-
   return (
-
     <>
       <Card className={classes.root}>
         <form noValidate onSubmit={productSubmit}>
           <CardContent>
             <Typography variant="h4" component="h2" className={classes.title}>
-              Agregar Producto
+            {!open ?<>Agregar Producto</> : <>Editar Producto</>}
             </Typography>
 
             {/* NOMBRE */}
@@ -191,6 +190,7 @@ const AddProduct = ({ history, open }) => {
                     inputProps={{
                       multiple: true
                     }}
+                    accept="img/*"
                   />
                 </Grid>
                 {/* IMAGEN */}
@@ -200,10 +200,13 @@ const AddProduct = ({ history, open }) => {
                       <div className={classes.divUploaderImage}>
                         {
                           productNew.files.map((image) =>
-                            <div className={classes.divUploaderImage} key={image.lastModified}>
+                            <div className={classes.divUploaderImage} >
 
                               <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage.lastModified === image.lastModified) ? classes.textImg : null} >
-                                <img src={URL.createObjectURL(image)} alt="uploaded_image" width="130" height="130" />
+                                {
+                                  <img src={!open ? image.fileName : `http://localhost:4000/${image.fileName}`} alt="uploaded_image" width="130" height="130" />
+
+                                }
                               </Button>
                             </div>
 
@@ -249,7 +252,7 @@ const AddProduct = ({ history, open }) => {
               type="submit"
               disabled={addProductButtonDisabled()}
             >
-              Agregar Producto
+              {!open ?<>Agregar Producto</> : <>Editar Producto</>}
             </Button>
 
           </CardActions>
