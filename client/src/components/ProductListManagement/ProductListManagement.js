@@ -122,7 +122,7 @@ const ProductListManagement = () => {
         <Typography variant="h4" component="h2" className={classes.title}>
           Lista de productos
         </Typography>
-        <Table aria-label="simple table" pageSize={5}>
+        <Table aria-label="simple table">
           <TableColumnName
             classes={classes}
             order={order}
@@ -185,8 +185,8 @@ const ProductListManagement = () => {
           count={products.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
       {error ? <SnackbarOpen /> : null}

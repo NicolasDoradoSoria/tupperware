@@ -200,7 +200,7 @@ const AddProduct = ({ history, open }) => {
                       <div className={classes.divUploaderImage}>
                         {
                           productNew.files.map((image) =>
-                            <div className={classes.divUploaderImage} >
+                            <div className={classes.divUploaderImage} key={image._id}>
 
                               <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage.lastModified === image.lastModified) ? classes.textImg : null} >
                                 {
