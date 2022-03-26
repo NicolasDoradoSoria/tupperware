@@ -3,12 +3,10 @@ const Role = require("../models/Role");
 const bcryptjs = require("bcryptjs");
 const { validationResultFunction } = require("../libs/validationResult");
 const jwt = require("jsonwebtoken");
-exports.signUp = async (req, res) => {
+const signUp = async (req, res) => {
   validationResultFunction(req)
-  console.log(req.body)
   //extraer email y password
   try {
-    console.log("holaaa")
     const {password, roles } = req.body;
     //crea el nuevo usuario
     user = new User(req.body);
@@ -25,8 +23,6 @@ exports.signUp = async (req, res) => {
       user.roles = [role._id];
     }
     
-    
-    console.log(user)
     //guardar usuario
     await user.save();
 
@@ -53,7 +49,8 @@ exports.signUp = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
-    console.log("no funciiiiii");
     res.status(400).send("hubo un error");
   }
 };
+
+module.exports = {signUp}

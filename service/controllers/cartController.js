@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Products = require("../models/Products");
 const updateProduct = require("../data/updateProduct");
 //agrega un pedido al carrito
-exports.generateOrder = async (req, res) => {
+const generateOrder = async (req, res) => {
   const { id, quantity} = req.body;
 
   try {
@@ -47,7 +47,7 @@ exports.generateOrder = async (req, res) => {
 };
 
 //muestra todos los pedidos
-exports.showAllOrders = async (req, res) => {
+const showAllOrders = async (req, res) => {
   try {
     const order = await Cart.find({}).populate("user");
     res.json(order);
@@ -58,7 +58,7 @@ exports.showAllOrders = async (req, res) => {
 };
 
 //muestra un pedido por ID de usuario
-exports.showOrder = async (req, res) => {
+const showOrder = async (req, res) => {
   try {
     const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"})
      
@@ -75,7 +75,7 @@ exports.showOrder = async (req, res) => {
 
 
 //actualiza un pedido por ID
-exports.updateOrder = async (req, res, next) => {
+const updateOrder = async (req, res, next) => {
   const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"
  })
   try {
@@ -92,7 +92,7 @@ exports.updateOrder = async (req, res, next) => {
   }
 };
 //actualiza un pedido por ID
-exports.deleteProductOrder = async (req, res, next) => {
+const deleteProductOrder = async (req, res, next) => {
 
   try {
     await Cart.findOneAndUpdate({ user: req.params.idUser },
@@ -107,7 +107,7 @@ exports.deleteProductOrder = async (req, res, next) => {
 
 
 //elimina un pedido por ID
-exports.deleteOrder = async (req, res, next) => {
+const deleteOrder = async (req, res, next) => {
   try {
     await Cart.findOneAndDelete({ user: req.params.idUser })
 
@@ -117,3 +117,5 @@ exports.deleteOrder = async (req, res, next) => {
     next()
   }
 }
+
+module.exports = {deleteOrder, deleteProductOrder, updateOrder, showOrder, showAllOrders, generateOrder}

@@ -1,14 +1,11 @@
 const User = require("../models/User");
 const Role = require("../models/Role");
-const Cart = require("../models/Cart");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { validationResultFunction } = require("../libs/validationResult");
 //sigin
-exports.signin = async (req, res) => {
+const signin = async (req, res) => {
 
   //extrear el email y password
-
   const { email, password } = req.body;
 
   try {
@@ -54,7 +51,7 @@ exports.signin = async (req, res) => {
 
 
  //obtiene que usuario esta autenticado
- exports.getUser = async (req, res) => {
+ const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select('-password')
     const roles =await Role.find({_id: {$in: user.roles}})
@@ -65,3 +62,4 @@ exports.signin = async (req, res) => {
   }
 }
 
+module.exports = {getUser, signin}

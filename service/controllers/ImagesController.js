@@ -3,7 +3,7 @@ const Files = require("../models/Files");
 const MainImage = require('../models/multiplefile');
 const shortid = require('shortid');
 
-exports.singleUpload = async (req, res) => {
+const singleUpload = async (req, res) => {
     const file = new Files(req.body);
     try {
         if (req.file.filename) {
@@ -21,7 +21,7 @@ exports.singleUpload = async (req, res) => {
 }
 //  ----------------------------------CARROUSEL------------------------------------
 
-exports.multiUpload = async (req, res) => {
+const multiUpload = async (req, res) => {
     try {
         let imagesArray = [];
 
@@ -44,7 +44,7 @@ exports.multiUpload = async (req, res) => {
     }
 }
 
-exports.getAllSingleImages = async (req, res) => {
+const getAllSingleImages = async (req, res) => {
 
     try {
         const files = await Files.find()
@@ -54,7 +54,7 @@ exports.getAllSingleImages = async (req, res) => {
     }
 }
 
-exports.getAllMultipleImages = async (req, res) => {
+const getAllMultipleImages = async (req, res) => {
     try {
         const files = await MainImage.find()
         res.status(200).send(files)
@@ -63,7 +63,7 @@ exports.getAllMultipleImages = async (req, res) => {
     }
 }
 
-exports.deleteFileById = async (req, res) => {
+const deleteFileById = async (req, res) => {
     if (!req.params.arrayId) {
         message = "Error! in image delete.";
         return res.status(500).json('error in delete');
@@ -85,3 +85,5 @@ exports.deleteFileById = async (req, res) => {
     }
 
 }
+
+module.exports = {deleteFileById, getAllMultipleImages, getAllSingleImages, multiUpload, singleUpload}
