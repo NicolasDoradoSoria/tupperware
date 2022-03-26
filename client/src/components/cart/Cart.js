@@ -12,6 +12,7 @@ import Style from "./Style";
 import MaterialTableCart from '../shoppingCart/MaterialTableCart';
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+
 const columns = () => [
     {
 
@@ -42,8 +43,7 @@ const Cart = () => {
 
     //context products
     const productsContext = useContext(ProductContext);
-    const {
-        getProducts } = productsContext;
+    const { getProducts } = productsContext;
 
     //cartContext
     const cartContext = useContext(CartContext);

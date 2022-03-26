@@ -58,9 +58,9 @@ exports.showAllOrders = async (req, res) => {
 };
 
 //muestra un pedido por ID de usuario
-exports.showOrder = async (req, res, next) => {
+exports.showOrder = async (req, res) => {
   try {
-    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"});
+    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"})
      
     if (order.length == 0) {
       return res.status(404).json({ msg: "no posee pedidos aun" });
