@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const productsController = require("../controllers/productsController");
 const auth = require("../middleware/auth");
 const uploadMiddleware = require('../middleware/uploaderMiddleware')
+const {postProducts, searchProducts, getProducts, getProductById, updateProductById, deleteProductById} = require("../controllers/productsController");
 
-router.post("/", uploadMiddleware.uploadMulti, [auth.verifyToken, auth.isModerator], productsController.postProducts);
-router.post("/searchProducts", productsController.searchProducts);
-router.get("/", productsController.getProducts);
-router.get("/:productId", productsController.getProductById);
-router.put("/:productId",auth.verifyToken, productsController.updateProductById);
-router.delete("/:productId",[auth.verifyToken, auth.isModerator], productsController.deleteProductById);
+router.post("/", uploadMiddleware.uploadMulti, [auth.verifyToken, auth.isModerator], postProducts);
+router.post("/searchProducts", searchProducts);
+router.get("/", getProducts);
+router.get("/:productId", getProductById);
+router.put("/:productId",auth.verifyToken, updateProductById);
+router.delete("/:productId",[auth.verifyToken, auth.isModerator], deleteProductById);
  
 module.exports = router;

@@ -32,7 +32,7 @@ const ProductState = (props) => {
   // obtener los productos
   const getProducts = async () => {
     try {
-      const result = await clienteAxios.get("/api/productos");
+      const result = await clienteAxios.get("/api/products");
       dispatch({
         type: GET_PRODUCTS,
         payload: result.data.products,
@@ -72,7 +72,7 @@ const ProductState = (props) => {
     }
 
     try {
-      const result = await clienteAxios.post(`api/productos`, formData, {
+      const result = await clienteAxios.post(`api/products`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }
@@ -88,7 +88,7 @@ const ProductState = (props) => {
   const updateProduct = async (data) => {
     try {
 
-      const result = await clienteAxios.put(`api/productos/${data._id}`, data)
+      const result = await clienteAxios.put(`api/products/${data._id}`, data)
       dispatch({
         type: EDIT_PRODUCT,
         payload: result.data
@@ -103,7 +103,7 @@ const ProductState = (props) => {
   //search de productos
   const searchProducts = async (data) => {
     try {
-      const filterProduct = await clienteAxios.post(`api/productos/searchProducts`, data)
+      const filterProduct = await clienteAxios.post(`api/products/searchProducts`, data)
       dispatch({
         type: SEARCH_PRODUCTS,
         payload: filterProduct.data,
@@ -116,7 +116,7 @@ const ProductState = (props) => {
   //search de producto por ID
   const getProduct = async (id) => {
     try {
-      const product = await clienteAxios.get(`api/productos/${id}`)
+      const product = await clienteAxios.get(`api/products/${id}`)
       dispatch({
         type: CURRENT_PRODUCT,
         payload: product.data,

@@ -25,7 +25,7 @@ const CartState = (props) => {
 
   // obtener los pedido del user
   const getOrder = async (userId) => {
-    const result = await clienteAxios.get(`/api/shopping_cart/${userId}`);
+    const result = await clienteAxios.get(`/api/cart/${userId}`);
     try {
       dispatch({
         type: GET_ORDERS,
@@ -39,7 +39,7 @@ const CartState = (props) => {
   // genera un pedido
   const generateOrder = async (data) => {
     try {
-      const result = await clienteAxios.post(`api/shopping_cart`, data)
+      const result = await clienteAxios.post(`api/cart`, data)
 
       dispatch({
         type: GENERATE_ORDER,
@@ -54,7 +54,7 @@ const CartState = (props) => {
   // elimina producto de pedido
   const removeOrderProduct = async (userId, idOrder) => {
     try {
-      const result = await clienteAxios.delete(`api/shopping_cart/${userId}/${idOrder}`)
+      const result = await clienteAxios.delete(`api/cart/${userId}/${idOrder}`)
       openSnackbar(result.data.msg, "success")
 
     } catch (error) {
@@ -65,7 +65,7 @@ const CartState = (props) => {
   //limpia el carrito
   const cleanCart = async (userId) => {
     try {
-      const result = await clienteAxios.delete(`api/shopping_cart/${userId}`)
+      const result = await clienteAxios.delete(`api/cart/${userId}`)
       dispatch({
         type: CLEAN_CART,
       });

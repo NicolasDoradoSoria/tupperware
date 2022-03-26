@@ -10,7 +10,7 @@ try {
         useUnifiedTopology: true,
         useFindAndModify: false
     })
-    console.log("db conectada")
+    console.log("******DB CONECTADA******")
 } catch (error) {
     console.log(error)
     process.exit(1)

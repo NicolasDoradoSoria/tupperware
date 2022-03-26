@@ -17,12 +17,8 @@ app.use(express.urlencoded({ extended: true }))
 const PORT = process.env.PORT || 4000
 
 //rutas
-app.use('/api/usuarios', require('./routes/users'))
-app.use('/api/auth', require('./routes/auth'))
-app.use('/api/productos', require('./routes/products'))
-app.use('/api/shopping_cart', require('./routes/cart'))
-app.use('/api/carritoCompras', require('./routes/paymentsInterntent'))
-app.use('/api/images', require('./routes/images'))
+app.use("/api", require("./routes"))
+
 //carpeta publica
 app.use(express.static('uploads'))
  
