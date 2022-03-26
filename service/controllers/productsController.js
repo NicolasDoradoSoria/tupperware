@@ -1,4 +1,4 @@
-const Products = require("../models/Products");
+const { productsModel } = require("../models");
 const getProductByIdFunction = require("../data/getProductByIdFunction")
 const { validationResultFunction } = require("../libs/validationResult");
 const shortid = require('shortid');
@@ -18,7 +18,7 @@ const postProducts = async (req, res) => {
       imagesArray.push(image);
     });
 
-    const product = new Products({
+    const product = new productsModel({
       ...req.body,
       files: imagesArray
     });
@@ -39,7 +39,7 @@ const getProducts = async (req, res) => {
 
 
   try {
-    const products = await Products.find();
+    const products = await productsModel.find();
     res.json({ products });
 
   } catch (error) {
@@ -64,7 +64,7 @@ const updateProductById = async (req, res) => {
 
   try {
     //si el producto existe o no
-    let products = await Products.findById(req.params.productId);
+    let products = await productsModel.findById(req.params.productId);
 
     if (!products) {
       return res.status(404).json({ msg: "no existe ese producto" });
@@ -84,13 +84,13 @@ const deleteProductById = async (req, res) => {
 
   try {
     const { productId } = req.params;
-    const products = await Products.find();
+    const products = await productsModel.find();
     //si el producto existe o no
-    let product = await Products.findById(productId);
+    let product = await productsModel.findById(productId);
     if (!product) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-    await Products.findByIdAndDelete(productId);
+    await productsModel.findByIdAndDelete(productId);
 
 
 
@@ -103,7 +103,7 @@ const deleteProductById = async (req, res) => {
 // search de productos
 const searchProducts = async (req, res) => {
   try {
-    const products = await Products.find()
+    const products = await productsModel.find()
     if (!req.body.name) {
       return res.status(200).json(products);
     }

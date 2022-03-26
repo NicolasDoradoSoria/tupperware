@@ -1,5 +1,4 @@
-const User = require("../models/User");
-const Role = require("../models/Role");
+const { userModel, roleModel } = require("../models");
 const bcryptjs = require("bcryptjs");
 const { validationResultFunction } = require("../libs/validationResult");
 const jwt = require("jsonwebtoken");
@@ -9,17 +8,17 @@ const signUp = async (req, res) => {
   try {
     const {password, roles } = req.body;
     //crea el nuevo usuario
-    user = new User(req.body);
+    user = new userModel(req.body);
     
     //hashear el password
     const salt = await bcryptjs.genSalt(10);
     user.password = await bcryptjs.hash(password, salt);
     
     if (roles) {
-      const foundRoles = await Role.find({ name: { $in: roles } });
+      const foundRoles = await roleModel.find({ name: { $in: roles } });
       user.roles = foundRoles.map((role) => role._id);
     } else {
-      const role = await Role.findOne({ name: "user" });
+      const role = await roleModel.findOne({ name: "user" });
       user.roles = [role._id];
     }
     

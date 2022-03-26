@@ -1,10 +1,9 @@
 'use strict';
-const Files = require("../models/Files");
 const MainImage = require('../models/multiplefile');
 const shortid = require('shortid');
-
+const { FilesModels } = require("../models");
 const singleUpload = async (req, res) => {
-    const file = new Files(req.body);
+    const file = new FilesModels(req.body);
     try {
         if (req.file.filename) {
 
@@ -47,7 +46,7 @@ const multiUpload = async (req, res) => {
 const getAllSingleImages = async (req, res) => {
 
     try {
-        const files = await Files.find()
+        const files = await FilesModels.find()
         res.status(200).send(files)
     } catch (error) {
         res.status(400).send(error.message)

@@ -1,15 +1,13 @@
-const Cart = require("../models/Cart");
-const User = require("../models/User");
-const Products = require("../models/Products");
+const {userModels, cartModels, productsModels} = require("../models")
 const updateProduct = require("../data/updateProduct");
 //agrega un pedido al carrito
 const generateOrder = async (req, res) => {
   const { id, quantity} = req.body;
 
   try {
-    const user = await User.findById(req.userId).select('-password')
-    let cart = await Cart.findOne({ user: user._id })
-    let product = await Products.findById(id)
+    const user = await userModels.findById(req.userId).select('-password')
+    let cart = await cartModels.findOne({ user: user._id })
+    let product = await productsModels.findById(id)
     if (cart) {
       let itemIndex = cart.products.findIndex(p => p.id == id);
       if (itemIndex > -1) {
@@ -32,7 +30,7 @@ const generateOrder = async (req, res) => {
     else {
       //no cart for user, create new cart
       
-      await Cart.create({
+      await cartModels.create({
         user: user._id,
         products: [{ id, quantity }]
       });
@@ -49,7 +47,7 @@ const generateOrder = async (req, res) => {
 //muestra todos los pedidos
 const showAllOrders = async (req, res) => {
   try {
-    const order = await Cart.find({}).populate("user");
+    const order = await cartModels.find({}).populate("user");
     res.json(order);
   } catch (error) {
     console.log(error);
@@ -60,7 +58,7 @@ const showAllOrders = async (req, res) => {
 //muestra un pedido por ID de usuario
 const showOrder = async (req, res) => {
   try {
-    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"})
+    const order = await cartModels.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"})
      
     if (order.length == 0) {
       return res.status(404).json({ msg: "no posee pedidos aun" });
@@ -76,10 +74,10 @@ const showOrder = async (req, res) => {
 
 //actualiza un pedido por ID
 const updateOrder = async (req, res, next) => {
-  const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"
+  const orderUser = await cartModels.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"
  })
   try {
-    const order = await Cart.findOneAndUpdate(
+    const order = await cartModels.findOneAndUpdate(
       { _id: orderUser[0]._id },
       req.body,
       { new: true }
@@ -95,7 +93,7 @@ const updateOrder = async (req, res, next) => {
 const deleteProductOrder = async (req, res, next) => {
 
   try {
-    await Cart.findOneAndUpdate({ user: req.params.idUser },
+    await cartModels.findOneAndUpdate({ user: req.params.idUser },
       { $pull: { products: { _id: req.params.idOrder } } });
     res.json({ msg: "el producto se a eliminado" })
 
@@ -109,7 +107,7 @@ const deleteProductOrder = async (req, res, next) => {
 //elimina un pedido por ID
 const deleteOrder = async (req, res, next) => {
   try {
-    await Cart.findOneAndDelete({ user: req.params.idUser })
+    await cartModels.findOneAndDelete({ user: req.params.idUser })
 
     res.json({ msg: "el carrito fue limpieado correctamente" })
   } catch (error) {

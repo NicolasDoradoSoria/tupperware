@@ -1,5 +1,4 @@
-const User = require("../models/User");
-const Role = require("../models/Role");
+const { userModel, roleModel } = require("../models");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 //sigin
@@ -10,19 +9,20 @@ const signin = async (req, res) => {
 
   try {
     //revisar que sea un usuario registrado
-    const user = await User.findOne({ email: email }).populate(
+    const user = await userModel.findOne({ email: email }).populate(
       "roles"
     );
 
     if (!user) {
       return res.status(400).json({ msg: "el usuario no existe" });
-    }
+    } 
 
     const correctPass = await bcryptjs.compare(password, user.password);
     if (!correctPass) {
       return res.status(400).json({ msg: "password incorrecto" });
     }
 
+    
     //si todo es correcto crear y firmar el JWT
     const payload = {
       user: {
@@ -53,8 +53,8 @@ const signin = async (req, res) => {
  //obtiene que usuario esta autenticado
  const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('-password')
-    const roles =await Role.find({_id: {$in: user.roles}})
+    const user = await userModels.findById(req.userId).select('-password')
+    const roles =await roleModel.find({_id: {$in: user.roles}})
     res.json({user, roles})
   } catch (error) {
     console.log(error)
