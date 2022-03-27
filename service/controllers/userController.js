@@ -1,9 +1,8 @@
 const { userModel, roleModel } = require("../models");
 const bcryptjs = require("bcryptjs");
-const { validationResultFunction } = require("../libs/validationResult");
 const jwt = require("jsonwebtoken");
+
 const signUp = async (req, res) => {
-  validationResultFunction(req)
   //extraer email y password
   try {
     const {password, roles } = req.body;

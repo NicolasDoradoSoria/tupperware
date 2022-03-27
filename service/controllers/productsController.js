@@ -1,6 +1,5 @@
 const { productsModel } = require("../models");
 const getProductByIdFunction = require("../data/getProductByIdFunction")
-const { validationResultFunction } = require("../libs/validationResult");
 const shortid = require('shortid');
 const updateProduct = require("../data/updateProduct");
 
@@ -35,7 +34,6 @@ const postProducts = async (req, res) => {
 
 // devuelve todos los productos
 const getProducts = async (req, res) => {
-  validationResultFunction(req)
 
 
   try {
@@ -49,7 +47,6 @@ const getProducts = async (req, res) => {
 
 //devuelve producto por id
 const getProductById = async (req, res) => {
-  validationResultFunction(req)
   
   try {
     const product = await getProductByIdFunction(req.params.productId);
@@ -80,7 +77,6 @@ const updateProductById = async (req, res) => {
 
 //elimina producto por id
 const deleteProductById = async (req, res) => {
-  validationResultFunction(req)
 
   try {
     const { productId } = req.params;

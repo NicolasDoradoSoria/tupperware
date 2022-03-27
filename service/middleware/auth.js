@@ -1,8 +1,5 @@
 const jwt = require('jsonwebtoken')
-const Role = require('../models/Role')
-const User = require('../models/User')
-
-
+const {userModels, roleModel} = require("../models")
 exports.verifyToken  =  (req, res, next) =>{
     //leer el token del header
     const token = req.header('x-auth-token')
@@ -26,8 +23,8 @@ exports.verifyToken  =  (req, res, next) =>{
 
 exports.isModerator  = async (req, res, next) =>{
 
-  const user=  await User.findById(req.userId)
-  const roles =await Role.find({_id: {$in: user.roles}})
+  const user=  await userModels.findById(req.userId)
+  const roles =await roleModel.find({_id: {$in: user.roles}})
   for (let i = 0; i< roles.length; i++){
       if(roles[i].name === "moderator"){
           next()
