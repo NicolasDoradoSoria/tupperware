@@ -3,7 +3,7 @@ const path = require('path');
 const shortid = require('shortid');
 const storage = multer.diskStorage({
 
-  destination: path.join(__dirname, '../uploads'),
+  destination: path.join(__dirname, '../../uploads'),
   filename: (req, file, cb) => {
     const extension = file.mimetype.split('/')[1];
     cb(null, `${shortid.generate()}.${extension}`);

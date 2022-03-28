@@ -1,7 +1,7 @@
 const express = require('express')
 const conectarDB = require('./config/db')
 const cors = require('cors')
-const createRoles = require('./libs/initialSetup')
+const createRoles = require('./data/initialSetup')
 const app = express()
 createRoles.createRoles()
 conectarDB()

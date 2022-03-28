@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {verifyToken}= require("../middleware/auth")
+const {verifyToken}= require("../middleware/utils/auth")
 const {generateOrder, showAllOrders, showOrder, updateOrder, deleteOrder, deleteProductOrder} = require("../controllers/cartController");
 const { validateGenerateOrder } = require("../middleware/validators/cart");
 

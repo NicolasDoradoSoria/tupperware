@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const uploadMiddleware = require('../middleware/uploaderMiddleware')
+const uploadMiddleware = require('../middleware/utils/uploaderMiddleware')
 const {singleUpload, multiUpload, getAllMultipleImages, getAllSingleImages, deleteFileById} = require("../controllers/ImagesController");
 
 router.post("/single-upload", uploadMiddleware.uploadSingle, singleUpload);

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../middleware/auth");
-const uploadMiddleware = require('../middleware/uploaderMiddleware')
+const auth = require("../middleware/utils/auth");
+const uploadMiddleware = require('../middleware/utils/uploaderMiddleware')
 const {postProducts, searchProducts, getProducts, getProductById, updateProductById, deleteProductById} = require("../controllers/productsController");
 
 router.post("/", uploadMiddleware.uploadMulti, [auth.verifyToken, auth.isModerator], postProducts);

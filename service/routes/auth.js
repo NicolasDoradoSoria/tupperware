@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const {login, register } = require("../controllers/authController");
-const { checkduplicateUsernameOrEmail } = require('../middleware/verifySignup')
+const { checkduplicateUsernameOrEmail } = require('../middleware/utils/verifySignup')
 const { validateRegister, validateLogin } = require('../middleware/validators/auth')
 
 router.post("/login", validateLogin, login );

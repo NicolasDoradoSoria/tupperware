@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const {userModels, roleModel} = require("../models")
+const {userModels, roleModel} = require("../../models")
 exports.verifyToken  =  (req, res, next) =>{
     //leer el token del header
     const token = req.header('x-auth-token')
@@ -19,6 +19,7 @@ exports.verifyToken  =  (req, res, next) =>{
     }
     //validar el token
 }
+
 
 
 exports.isModerator  = async (req, res, next) =>{

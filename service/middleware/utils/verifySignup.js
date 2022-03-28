@@ -1,4 +1,4 @@
-const User = require("../models/User")
+const User = require("../../models/User")
 
 exports.checkduplicateUsernameOrEmail = async (req, res, next) => {
     const email = await User.findOne({email: req.body.email})
