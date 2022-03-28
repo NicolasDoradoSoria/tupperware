@@ -2,11 +2,12 @@ const { productsModel } = require("../models");
 const getProductByIdFunction = require("../data/getProductByIdFunction")
 const shortid = require('shortid');
 const updateProduct = require("../data/updateProduct");
+const { matchedData } = require("express-validator");
 
 // inserta productos a la MongoDB
 const postProducts = async (req, res) => {
   try {
-
+    const body = matchedData (req)
     let imagesArray = [];
     req.files.forEach(element => {
       const image = {
@@ -18,7 +19,7 @@ const postProducts = async (req, res) => {
     });
 
     const product = new productsModel({
-      ...req.body,
+      ...body,
       files: imagesArray
     });
     // guardamos el producto
@@ -34,8 +35,7 @@ const postProducts = async (req, res) => {
 
 // devuelve todos los productos
 const getProducts = async (req, res) => {
-
-
+  
   try {
     const products = await productsModel.find();
     res.json({ products });

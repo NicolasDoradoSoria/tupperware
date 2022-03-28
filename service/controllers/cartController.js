@@ -1,13 +1,14 @@
 const {userModel, cartModel, productsModel} = require("../models")
 const updateProduct = require("../data/updateProduct");
+const { matchedData  } = require("express-validator");
 //agrega un pedido al carrito
 
 const generateOrder = async (req, res) => {
-  const { id, quantity} = req.body;
+  const body = matchedData (req)
+  const { id, quantity} = body;
 
   try {
     const user = await userModel.findById(req.userId).select('-password')
-    console.log(user)
     let cart = await cartModel.findOne({ user: user._id })
     let product = await productsModel.findById(id)
     if (cart) {

@@ -1,54 +1,14 @@
 const { userModel, roleModel } = require("../models");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
-const signUp = async (req, res) => {
-  //extraer email y password
+//obtiene que usuario esta autenticado
+const getUser = async (req, res) => {
   try {
-    const {password, roles } = req.body;
-    //crea el nuevo usuario
-    user = new userModel(req.body);
-    
-    //hashear el password
-    const salt = await bcryptjs.genSalt(10);
-    user.password = await bcryptjs.hash(password, salt);
-    
-    if (roles) {
-      const foundRoles = await roleModel.find({ name: { $in: roles } });
-      user.roles = foundRoles.map((role) => role._id);
-    } else {
-      const role = await roleModel.findOne({ name: "user" });
-      user.roles = [role._id];
-    }
-    
-    //guardar usuario
-    await user.save();
-
-    //crear y firmar el JWT
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
-
-    //firmar el JWT
-    jwt.sign(
-      payload,
-      process.env.SECRETA,
-      {
-        expiresIn: 3600,
-      },
-      (error, token) => {
-        if (error) throw error;
-
-        //mensaje de confirmacion
-        res.json({ token });
-      }
-    );
+    const user = await userModel.findById(req.userId).select('-password')
+    const roles = await roleModel.find({ _id: { $in: user.roles } })
+    res.json({ user, roles })
   } catch (error) {
-    console.log(error);
-    res.status(400).send("hubo un error");
+    console.log(error)
+    res.status(500).json({ msg: 'hubo un error' })
   }
-};
-
-module.exports = {signUp}
+}
+module.exports = {getUser}

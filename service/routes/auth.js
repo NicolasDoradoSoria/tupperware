@@ -2,22 +2,15 @@
 
 const express = require("express");
 const router = express.Router();
-const { check } = require("express-validator");
-const { verifyToken } = require("../middleware/auth")
-const { signin, getUser } = require("../controllers/authController");
+const {login, register } = require("../controllers/authController");
+const { checkduplicateUsernameOrEmail } = require('../middleware/verifySignup')
+const { validateRegister, validateLogin } = require('../middleware/validators/auth')
 
-router.post(
-  "/signin",
-  [
-    check("email", "agrega un email valido").isEmail(),
-  ],
-  signin
-);
+router.post("/login", validateLogin, login );
 
-//obtiene el usuario autenticado
-router.get('/',
-  verifyToken,
-  getUser
-)
+//crear un usario
+//api/usaurios
+router.post('/register', validateRegister, checkduplicateUsernameOrEmail, register)
+
 module.exports = router;
 
