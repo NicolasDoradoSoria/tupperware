@@ -1,30 +1,31 @@
 const MainImage = require('../models/multiplefile');
 const shortid = require('shortid');
 const { productImagesModel } = require("../models");
-const { deleteFunction } = require('../data/getProductByIdFunction');
+const { deleteImageFunction, createImageFunction } = require('../data/imageFunction');
 
 const createProductItem = async (req, res) => {
-    try {
-        let files = [];
-        req.files.forEach(element => {
-            const image = {
-                _id: shortid.generate(),
-                fileName: element.filename,
-                filePath: element.path,
-            }
-            files.push(image);
-        });
-        const images = new productImagesModel({ files });
-        await images.save();
-        res.status(201).send('Files Upsloaded Successfully');
-    } catch (error) {
-        res.status(400).send(error);
-    }
+    createImageFunction(productImagesModel)(req, res)
+    // try {
+    //     let files = [];
+    //     req.files.forEach(element => {
+    //         const image = {
+    //             _id: shortid.generate(),
+    //             fileName: element.filename,
+    //             filePath: element.path,
+    //         }
+    //         files.push(image);
+    //     });
+    //     const images = new productImagesModel({ files });
+    //     await images.save();
+    //     res.status(201).send('Files Upsloaded Successfully');
+    // } catch (error) {
+    //     res.status(400).send(error);
+    // }
 }
 
 const deleteProductItem = async (req, res) => {
-    deleteFunction(productImagesModel, req, res)
-    
+    deleteImageFunction(productImagesModel)(req, res)
+
 }
 
 const getProductItem = async (req, res) => {
@@ -71,7 +72,7 @@ const getAllMultipleImages = async (req, res) => {
 }
 
 const deleteFileById = async (req, res) => {
-    deleteFunction(MainImage, req, res)
+    deleteImageFunction(MainImage)(req, res)
 
 }
 

@@ -1,16 +1,11 @@
-const Products = require("../models/Products");
+const shortid = require('shortid');
 
-module.exports = async function getProductByIdFunction(id) {
-    return await Products.findById(id)
-}
-
-const deleteFunction = async(model, req, res) => {
+const deleteImageFunction = (model) => async (req, res) => {
     const { arrayId, imageId } = req.params
     if (!arrayId && !imageId) {
         message = "Error! in image delete.";
         return res.status(500).json('error in delete');
     }
-    console.log("hola")
     try {
         const arrayImages = await model.findById(arrayId)
         if (arrayImages.files.length === 1) {
@@ -26,4 +21,23 @@ const deleteFunction = async(model, req, res) => {
     }
 }
 
-module.exports = { deleteFunction }
+const createImageFunction = (model) => async (req, res) => {
+    try {
+        let files = [];
+        req.files.forEach(element => {
+            const image = {
+                _id: shortid.generate(),
+                fileName: element.filename,
+                filePath: element.path,
+            }
+            files.push(image);
+        });
+        const images = new model({ files });
+        await images.save();
+        return res.status(201).send('Files Upsloaded Successfully');
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = { deleteImageFunction, createImageFunction }

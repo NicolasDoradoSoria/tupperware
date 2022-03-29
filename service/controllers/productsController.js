@@ -1,5 +1,4 @@
 const { productsModel } = require("../models");
-const getProductByIdFunction = require("../data/getProductByIdFunction")
 const shortid = require('shortid');
 const updateProduct = require("../data/updateProduct");
 const { matchedData } = require("express-validator");
@@ -49,7 +48,7 @@ const getProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   
   try {
-    const product = await getProductByIdFunction(req.params.productId);
+    const product = await  productsModel.findById(req.params.productId);
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send("hubo un error");
