@@ -1,9 +1,9 @@
 const models = {
     cartModel : require("./Cart"),
-    filesModel : require("./Files"),
+    productImagesModel : require("./ProductImages"),
     productsModel : require("./Products"),
     roleModel : require("./Role"),
-    userModel : require("./User")
+    userModel : require("./User"),
 }
 
 

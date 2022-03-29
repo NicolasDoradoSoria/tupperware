@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const uploadMiddleware = require('../middleware/utils/uploaderMiddleware')
-const {singleUpload, multiUpload, getAllMultipleImages, getAllSingleImages, deleteFileById} = require("../controllers/ImagesController");
+const {multiUpload, getAllMultipleImages, deleteFileById, createProductItem, getProductItem, deleteProductItem} = require("../controllers/ImagesController");
 
-router.post("/single-upload", uploadMiddleware.uploadSingle, singleUpload);
+
+router.post("/createProductItem",uploadMiddleware.uploadMulti, createProductItem);
+router.get("/getProductItem", getProductItem);
+router.delete("/deleteProductItem/:arrayId/:imageId" , deleteProductItem);
 
 //---------------------CARROUSEl-----------------------------
 router.post("/multi-upload", uploadMiddleware.uploadMulti, multiUpload);
-router.get("/getSingleFiles", getAllSingleImages);
 router.get("/getMultipleFiles", getAllMultipleImages);
 router.delete("/:arrayId/:imageId", deleteFileById);
 
