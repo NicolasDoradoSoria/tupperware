@@ -41,7 +41,7 @@ const userSchema = mongoose.Schema(
     phone: {
       type: String,
       required: true,
-    }, 
+    },
     alternativePhone: {
       type: String,
       required: true,
@@ -50,12 +50,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    roles: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Role",
-      },
-    ],
+    role: {
+      type: ["user", "admin"],
+      default: "user",
+    },
     dateOfBirth: {
       type: Date,
       require
@@ -67,7 +65,7 @@ const userSchema = mongoose.Schema(
         ref: "Cart",
       }
     ]
-    
+
   },
   {
     timestamps: true,

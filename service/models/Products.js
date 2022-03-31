@@ -1,16 +1,12 @@
 const mongoose = require('mongoose')
-
-const userSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+const userSchema = Schema({
     name: {
         type: String,
         required: true,
         trim: true
     },
-    photoURL: {
-        type: String,
-        trim: true
-    },
-    descripcion:{
+    descripcion: {
         type: String,
         required: true,
         trim: true,
@@ -19,7 +15,7 @@ const userSchema = mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    price:{
+    price: {
         type: Number,
         required: true,
     },
@@ -27,12 +23,12 @@ const userSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    files: {
-        type: [Object],
-        required: true,
+    imageId: {
+        type: Schema.ObjectId,
+        ref: "ProductImages",
     },
 }, {
     timestamps: true
 })
 
-module.exports = mongoose.model('Productos', userSchema )
+module.exports = mongoose.model('Productos', userSchema)

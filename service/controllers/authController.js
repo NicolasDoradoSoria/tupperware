@@ -6,7 +6,7 @@ const { matchedData } = require("express-validator");
 //login
 const login = async (req, res) => {
 
-  
+
   //extrear el email y password
   const { email, password } = req.body;
 
@@ -26,7 +26,10 @@ const login = async (req, res) => {
 
     //si todo es correcto crear y firmar el JWT
     const payload = {
-      user: { id: user.id },
+      user: {
+        id: user.id,
+        role: user.role,
+      },
     };
 
     //firmar el JWT
@@ -51,14 +54,14 @@ const register = async (req, res) => {
   //extraer email y password
   try {
     const body = matchedData(req)
-    const {password, roles } = body;
+    const { password, roles } = body;
     //crea el nuevo usuario
     user = new userModel(body);
-    
+
     //hashear el password
     const salt = await bcryptjs.genSalt(10);
     user.password = await bcryptjs.hash(password, salt);
-    
+
     if (roles) {
       const foundRoles = await roleModel.find({ name: { $in: roles } });
       user.roles = foundRoles.map((role) => role._id);
@@ -66,7 +69,7 @@ const register = async (req, res) => {
       const role = await roleModel.findOne({ name: "user" });
       user.roles = [role._id];
     }
-    
+
     //guardar usuario
     await user.save();
 
@@ -97,4 +100,4 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = {login, register }
+module.exports = { login, register }

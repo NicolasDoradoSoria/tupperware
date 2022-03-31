@@ -1,30 +1,13 @@
 const { productsModel } = require("../models");
-const shortid = require('shortid');
 const updateProduct = require("../data/updateProduct");
-const { matchedData } = require("express-validator");
 
 // inserta productos a la MongoDB
 const postProducts = async (req, res) => {
   try {
-    const body = matchedData (req)
-    let imagesArray = [];
-    req.files.forEach(element => {
-      const image = {
-        _id: shortid.generate(),
-        fileName: element.filename,
-        filePath: element.path,
-      }
-      imagesArray.push(image);
-    });
-
-    const product = new productsModel({
-      ...body,
-      files: imagesArray
-    });
+    const product = new productsModel(req.body);
+    
     // guardamos el producto
     await product.save();
-
-
     res.status(200).send("producto agregado correctamente");
   } catch (error) {
     console.log(error);
@@ -36,7 +19,7 @@ const postProducts = async (req, res) => {
 const getProducts = async (req, res) => {
   
   try {
-    const products = await productsModel.find();
+    const products = await productsModel.find().populate({ path: "imageId", model: "ProductImages"})
     res.json({ products });
 
   } catch (error) {
@@ -48,7 +31,7 @@ const getProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   
   try {
-    const product = await  productsModel.findById(req.params.productId);
+    const product = await  productsModel.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages"})
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -57,15 +40,16 @@ const getProductById = async (req, res) => {
 
 //actualiza producto por id
 const updateProductById = async (req, res) => {
-
+  
+const {productId} = req.params
   try {
     //si el producto existe o no
-    let products = await productsModel.findById(req.params.productId);
+    let products = await productsModel.findById(productId);
 
     if (!products) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-    updateProduct(req.body, req.params.productId)
+    updateProduct(req.body, productId)
 
     res.status(200).json(updatedProduct);
   } catch (error) {
@@ -79,6 +63,7 @@ const deleteProductById = async (req, res) => {
 
   try {
     const { productId } = req.params;
+
     const products = await productsModel.find();
     //si el producto existe o no
     let product = await productsModel.findById(productId);

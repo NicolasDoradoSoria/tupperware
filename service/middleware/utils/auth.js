@@ -1,38 +1,44 @@
 const jwt = require('jsonwebtoken')
-const {userModels, roleModel} = require("../../models")
-exports.verifyToken  =  (req, res, next) =>{
+const { userModel, roleModel } = require("../../models")
+exports.verifyToken = (req, res, next) => {
     //leer el token del header
     const token = req.header('x-auth-token')
 
     //revisar si no hay token
-    if(!token){
-        return res.status(401).json({msg: 'no hay token, permiso no valido'})
-        
+    if (!token) {
+        return res.status(401).json({ msg: 'no hay token, permiso no valido' })
+
     }
 
     try {
-        const cifrado =  jwt.verify(token, process.env.SECRETA)
+        const cifrado = jwt.verify(token, process.env.SECRETA)
         req.userId = cifrado.user.id
         next()
     } catch (error) {
-        res.status(401).json({msg: "token no valido"})
+        res.status(401).json({ msg: "token no valido" })
     }
     //validar el token
 }
 
+exports.isModerator = (roles) => async (req, res, next) => {
+     //leer el token del header
+     
+     try {
+        const token = req.header('x-auth-token').split(" ").pop();
+         //revisar si no hay token
+         if (!token) {
+             return res.status(401).json({ msg: 'no hay token, permiso no valido' })
+     
+         }
 
-
-exports.isModerator  = async (req, res, next) =>{
-
-  const user=  await userModels.findById(req.userId)
-  const roles =await roleModel.find({_id: {$in: user.roles}})
-  for (let i = 0; i< roles.length; i++){
-      if(roles[i].name === "moderator"){
-          next()
-          return
-      }
-  }
-
-  return res.status(403).json({message: "requer moderetor role"})
+         const tokenData = jwt.verify(token, process.env.SECRETA)
+         const userData = await userModel.findById(tokenData.user.id);
+         if ([].concat(roles).includes(userData.role[0])) {
+           next();
+         } else {
+            res.status(401).json({ msg: "no posee permisos" })
+         }
+     } catch (error) {
+         console.log(error)
+     }
 }
-exports.isAdmin  = async (req, res, next) =>{}

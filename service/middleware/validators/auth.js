@@ -5,7 +5,6 @@ const validateRegister = [
   check("lastName").exists().notEmpty(),
   check('email', 'agrega un email valido').isEmail(),
   check('password', 'el password debe ser minimo de 6 caracteres').isLength({min: 6}),
-  check("roles").exists().notEmpty(),
   check("dni").exists().notEmpty(),
   check("cp").exists().notEmpty(),
   check("phone").exists().notEmpty(),
