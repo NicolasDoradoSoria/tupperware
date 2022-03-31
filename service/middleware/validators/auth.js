@@ -1,4 +1,5 @@
-const { check, validationResult } = require("express-validator");
+const { check } = require("express-validator");
+const { validateResult } = require("../../data/validateResult");
 
 const validateRegister = [
   check("firstName").exists().notEmpty(),
@@ -12,13 +13,7 @@ const validateRegister = [
   check("gender").exists().notEmpty(),
 
   (req, res, next) => {
-    try {
-      validationResult(req).throw()
-      return next()
-    } catch (err) {
-      res.status(403)
-      res.send({ errors: err.array() })
-    }
+    validateResult (req, res, next);
   },
 ]
 
@@ -26,13 +21,7 @@ const validateLogin = [
   check("email", "agrega un email valido").isEmail(),
 
   (req, res, next) => {
-    try {
-      validationResult(req).throw()
-      return next()
-    } catch (err) {
-      res.status(403)
-      res.send({ errors: err.array() })
-    }
+    validateResult (req, res, next);
   },
 ]
 

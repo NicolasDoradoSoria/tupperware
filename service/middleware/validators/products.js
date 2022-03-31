@@ -1,4 +1,6 @@
-const { check, validationResult } = require("express-validator");
+const { check } = require("express-validator");
+const { validateResult } = require("../../data/validateResult");
+
 const validatePostProducts = [
   check("name").exists().notEmpty(),
   check("descripcion").exists().notEmpty(),
@@ -6,13 +8,7 @@ const validatePostProducts = [
   check("imageId").exists().notEmpty().isMongoId(),
   check("stock").exists().notEmpty().isNumeric(),
   (req, res, next) => {
-    try {
-      validationResult(req).throw()
-      return next()
-    } catch (err) {
-      res.status(403)
-      res.send({ errors: err.array() })
-    }
+    validateResult (req, res, next);
   },
 ]
 

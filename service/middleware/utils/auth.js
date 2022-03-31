@@ -1,13 +1,12 @@
 const jwt = require('jsonwebtoken')
-const { userModel, roleModel } = require("../../models")
-exports.verifyToken = (req, res, next) => {
+const { userModel } = require("../../models")
+const verifyToken = (req, res, next) => {
     //leer el token del header
     const token = req.header('x-auth-token')
 
     //revisar si no hay token
     if (!token) {
         return res.status(401).json({ msg: 'no hay token, permiso no valido' })
-
     }
 
     try {
@@ -20,14 +19,14 @@ exports.verifyToken = (req, res, next) => {
     //validar el token
 }
 
-exports.isModerator = (roles) => async (req, res, next) => {
+const isAdmin = (roles) => async (req, res, next) => {
      //leer el token del header
      
      try {
         const token = req.header('x-auth-token').split(" ").pop();
          //revisar si no hay token
          if (!token) {
-             return res.status(401).json({ msg: 'no hay token, permiso no valido' })
+             return res.status(409).json({ msg: 'no hay token, permiso no valido' })
      
          }
 
@@ -39,6 +38,8 @@ exports.isModerator = (roles) => async (req, res, next) => {
             res.status(401).json({ msg: "no posee permisos" })
          }
      } catch (error) {
-         console.log(error)
+         res.status(401).json(error)
      }
 }
+
+module.exports = { isAdmin, verifyToken }
