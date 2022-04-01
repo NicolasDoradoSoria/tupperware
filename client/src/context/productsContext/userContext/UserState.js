@@ -51,7 +51,7 @@ const UserState = (props) => {
     }
 
     try {
-      const respuesta = await clienteAxios.get("/api/auth");
+      const respuesta = await clienteAxios.get("/api/users");
       dispatch({
         type: GET_USER,
         payload: respuesta.data,
@@ -64,7 +64,7 @@ const UserState = (props) => {
   // pide una peticon a la api para iniciar sesion
   const login = async (data) => {
     try {
-      const response = await clienteAxios.post("/api/auth/signin", data);
+      const response = await clienteAxios.post("/api/auth/login", data);
       dispatch({
         type: LOGIN_SUCCESSFUL,
         payload: response.data,

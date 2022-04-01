@@ -158,8 +158,7 @@ const Menu = ({ toggleDrawer }) => {
 
 
   if (user === null) return null;
-  const roleFilter = user.roles.map((role) => role.name);
-
+  const roleFilter = user.user.role
 
 
   return (
@@ -182,7 +181,7 @@ const Menu = ({ toggleDrawer }) => {
       <div className={classes.sidebarWrapper}>
         {routeList(plainUserPath)}
 
-        {(roleFilter[0] !== "moderator") ? null : routeList(adminUserPath)}
+        {(roleFilter[0] !== "admin") ? null : routeList(adminUserPath)}
 
         <ListItem button className={classes.itemLink}>
           <ExitToAppIcon className={classNames(classes.itemIcon)} />

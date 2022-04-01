@@ -1,11 +1,10 @@
-const { userModel, roleModel } = require("../models");
+const { userModel } = require("../models");
 
 //obtiene que usuario esta autenticado
 const getUser = async (req, res) => {
   try {
     const user = await userModel.findById(req.userId).select('-password')
-    const roles = await roleModel.find({ _id: { $in: user.roles } })
-    res.json({ user, roles })
+    res.json({ user })
   } catch (error) {
     console.log(error)
     res.status(500).json({ msg: 'hubo un error' })
