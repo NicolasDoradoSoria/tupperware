@@ -56,6 +56,7 @@ export default makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       flexDirection: "column",
       marginLeft: "1rem",
+      alignItems: "center"
     },
     [theme.breakpoints.up('xs')]: {
       flexDirection: "column",
@@ -65,19 +66,19 @@ export default makeStyles((theme) => ({
       flexDirection: "row",
     },
   },
-  // **
+
   textImg: {
     opacity: "0.3",
   },
   uploadImages: {
     marginTop: "1.5rem"
   },
- 
+
   gridConteiner: {
     display: 'flex',
     justifyContent: "space-between",
   },
-  
+
   textFieldImage: {
     minWidth: "140px",
     width: "140px",
@@ -102,8 +103,18 @@ export default makeStyles((theme) => ({
     gridImageAndStock: {
       width: "70%"
     },
-  
-  },
 
-  
+  },
+  gridImageProduct: {
+    width: "50%",
+  },
+  imgProduct: {
+    width: "100%",
+    maxWidth: "300px",
+    height: "auto"
+  },
+  deleteImageProduct: {
+    marginLeft: "2rem"
+  }
+
 }));

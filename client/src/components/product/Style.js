@@ -3,63 +3,49 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles((theme) => ({
   root: {
     maxWidth: 385,
-    maxHeight: 350,
+    maxHeight: 370,
     height:350,
     margin: 10,
     borderRadius: 16,
-    // '&:hover': {
-    //   transform: 'scale(1.1)',
-    // },
     backgroundColor: "#FEF7E4",
-    border: "none",
+    border: "#AB9F9F 1px solid",
     boxShadow: "none",
-    // boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
-    // transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
-
     [theme.breakpoints.up('xs')]: {
       margin: 5,
       height:250,
     },
     [theme.breakpoints.up('md')]: {
-      height:300,
+      height:100,
     },
     
     [theme.breakpoints.up('sm')]: {
-      height:350,
+      height:370,
     },
   },
   media: {
-    height: 0,
+    marginTop: 5,
+    width: "75%",
+    margin: "auto",
     paddingTop: "56.25%", // 16:9
   },
-
-  actionArea: {
-    borderRadius: 16,
-
-    '&:hover': {
-      transform: 'scale(1.1)',
-    },
-    boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
-    transition: "all 0.3s cubic-bezier(.25,.8,.25,1)"
-  },
-  join: {
-    background: 'linear-gradient(to top, #638ef0, #82e7fe)',
-    '& > *': {
-      textTransform: 'none !important',
-    },
-  },
+  
   title: {
     textAlign: "center",
     color: "#000000",
     fontSize: "2.1rem",
     marginBottom: "0"
   },
-  subheader: {
-    textAlign: "right",
-  },
   price: {
     color: "#EC1B1B",
     textAlign: "right",
     fontSize: "2rem",
+  },
+  content:{
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  button: {
+    width: "30%",
+    borderRadius: 16,
   }
 }));

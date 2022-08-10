@@ -21,7 +21,6 @@ const verifyToken = (req, res, next) => {
 
 const isAdmin = (roles) => async (req, res, next) => {
      //leer el token del header
-     
      try {
         const token = req.header('x-auth-token').split(" ").pop();
          //revisar si no hay token

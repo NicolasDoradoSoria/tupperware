@@ -11,7 +11,6 @@ app.use(cors())
 app.use(express.json({ extended: true }))
 app.use(express.urlencoded({ extended: true }))
 
-
 const PORT = process.env.PORT || 4000
 
 //rutas
@@ -24,3 +23,4 @@ app.use(express.static('uploads'))
 app.listen(PORT, () => {
     console.log(`el servidor esta funcionano correctamente en el puerto ${PORT}`)
 })
+

@@ -61,25 +61,13 @@ const ProductState = (props) => {
 
   // agrega un producto
   const addProduct = async (productNew) => {
-    const formData = new FormData();
-    formData.append("name", productNew.name);
-    formData.append("price", productNew.price);
-    formData.append("descripcion", productNew.descripcion);
-    formData.append("stock", productNew.stock);
-
-    for (let i = 0; i < productNew.files.length; i++) {
-      formData.append('files', productNew.files[i]);
-    }
-
+  console.log(productNew)
     try {
-      const result = await clienteAxios.post(`api/products`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }
-      });
+      const result = await clienteAxios.post('api/products/', productNew);
       openSnackbar(result.data, "success")
       getProducts()
     } catch (error) {
+      console.log(error.response)
       openSnackbar(error.response.data.msg, "error")
 
     }

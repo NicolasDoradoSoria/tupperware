@@ -52,11 +52,14 @@ const FileState = (props) => {
 
     //----------------------------------------------------PUBLICATION-------------------------------------------
   
-    //sube multiples imagenes del carrouserl
-    const postMultiplePostImages = async (file) => {
+    //sube multiples imagenes del PUBLICATION
+    const postMultiplePostImages = async (images) => {
         try {
-            await service.postMultiPostImages(file)
-
+           const result=  await service.postMultiPostImages(images)
+           dispatch({
+            type: UPLOADER_MULTIPPLE_POST_IMAGES,
+            payload: result.data
+        });
         } catch (error) {
             console.log(error)
         }
@@ -74,6 +77,8 @@ const FileState = (props) => {
             throw error
         }
     };
+
+    
     return (
         <FileContext.Provider
             value={{

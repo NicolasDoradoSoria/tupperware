@@ -4,6 +4,7 @@ const updateProduct = require("../data/updateProduct");
 // inserta productos a la MongoDB
 const postProducts = async (req, res) => {
   try {
+    
     const product = new productsModel(req.body);
     
     // guardamos el producto

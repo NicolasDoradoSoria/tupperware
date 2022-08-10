@@ -141,7 +141,7 @@ const Menu = ({ toggleDrawer }) => {
       <List onClick={toggleDrawer(false)}>
         {routes.map((route, key) => {
           return (
-            <NavLink to={route.path} activeClassName="active" key={key}>
+            <NavLink to={{pathname: route.path,  open:false  }} activeClassName="active" key={key}>
               <ListItem button className={classes.itemLink}>
                 <route.icon className={classNames(classes.itemIcon)} />
                 <ListItemText

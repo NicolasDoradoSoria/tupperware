@@ -34,7 +34,8 @@ const createImageFunction = (model) => async (req, res) => {
         });
         const images = new model({ files });
         await images.save();
-        return res.status(201).send('Files Upsloaded Successfully');
+        return res.json(images)
+        // return res.status(201).send('Files Upsloaded Successfully');
     } catch (error) {
         console.log(error)
     }

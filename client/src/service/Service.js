@@ -19,7 +19,6 @@ export default class Service {
 
     async multiUpdatFiles(images) {
         const formData = new FormData();
-
         for (let i = 0; i < images.length; i++) {
             formData.append('files', images[i]);
         }
@@ -44,12 +43,13 @@ export default class Service {
     }
 
     //----------------------------------------------PUBLICATION--------------------------------
-    async postMultiPostImages(postImages) {
+    async postMultiPostImages(imagas) {
+        let imag = imagas[0]
         const formData = new FormData();
-        for (let i = 0; i < postImages.length; i++) {
-            formData.append('files', postImages[i]);
+        for (let i = 0; i < imagas[0].length; i++) {
+            formData.append('files', imag[i]);
         }
-        const result = await clienteAxios.post(`/api/images/post-image`, formData, {
+        const result = await clienteAxios.post(`/api/images/createProductItem`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
