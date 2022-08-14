@@ -97,8 +97,8 @@ const AddProduct = ({ history }) => {
 
   //elimina una imagen del producto
   const deleteProductImage = () => {
-    const filteredProducts = images.map(imageArray => imageArray.filter(image => image !== selectImage))
-    console.log(filteredProducts)
+    const filteredProducts = images.filter(image => image !== selectImage)
+    setImages(filteredProducts)
 
   }
 
