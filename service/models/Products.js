@@ -23,10 +23,7 @@ const userSchema = Schema({
         type: Number,
         required: true,
     },
-    imageId: {
-        type: Schema.ObjectId,
-        ref: "ProductImages",
-    },
+    images: Array,
 }, {
     timestamps: true
 })

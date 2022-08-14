@@ -52,18 +52,6 @@ const FileState = (props) => {
 
     //----------------------------------------------------PUBLICATION-------------------------------------------
   
-    //sube multiples imagenes del PUBLICATION
-    const postMultiplePostImages = async (images) => {
-        try {
-           const result=  await service.postMultiPostImages(images)
-           dispatch({
-            type: UPLOADER_MULTIPPLE_POST_IMAGES,
-            payload: result.data
-        });
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     // obtener las multiples imagenes de la publicacion del producto
     const getMultiplePostImages = async () => {
@@ -87,7 +75,6 @@ const FileState = (props) => {
                 postMultipleImage,
                 getMultipleImages,
                 deleteImage,
-                postMultiplePostImages,
                 getMultiplePostImages
             }}
         >

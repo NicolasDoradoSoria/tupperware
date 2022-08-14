@@ -113,7 +113,7 @@ export default makeStyles((theme) => ({
     maxWidth: "300px",
     height: "auto"
   },
-  deleteImageProduct: {
+  productImageButton: {
     marginLeft: "2rem"
   }
 

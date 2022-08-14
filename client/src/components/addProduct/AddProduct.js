@@ -8,13 +8,13 @@ import Style from "./Style";
 import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
-import FileContext from "../../context/fileContext/FileContext";
 import { withRouter } from 'react-router-dom'
 import './Style.css';
 import { useLocation } from 'react-router-dom'
 const AddProduct = ({ history }) => {
   const classes = Style();
   const location = useLocation();
+
   //productContext
   const productContext = useContext(ProductContext);
   const {
@@ -24,38 +24,31 @@ const AddProduct = ({ history }) => {
     getProducts,
   } = productContext;
 
-  //fileContext
-  const fileContext = useContext(FileContext);
-  const {
-    postMultiplePostImages,
-    postImage
-  } = fileContext;
-
-
   // hook de create user
   const [productNew, setProductNew] = useState({
     name: "",
     price: 0,
     descripcion: "",
-    imageId: "",
+    images: [],
     stock: 0
   });
 
-  //hook de image 
-  const [imagesUpoader, setImagesUpoader] = useState([])
-
+  
   const { name, price, descripcion } = productNew;
-
+  
   const [selectImage, setSelectImage] = useState("")
-
+  
+  //hook de image 
+  const [images, setImages] = useState([])
   const { open } = location
   useEffect(() => {
     if (open) {
       setProductNew(product);
     } else {
       // setProductNew({ name: "", price: 0, descripcion: "", stock: 0 });
-
     }
+    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -75,11 +68,10 @@ const AddProduct = ({ history }) => {
     if (!open) {
       //se pide hace post a las imagenes y me devuelve el id con el cual yo lo guardo dentro de imageId
 
-      // addProduct(productNew);
+      addProduct(productNew, images);
     } else {
       updateProduct(productNew);
     }
-    console.log(productNew)
     getProducts()
     setProductNew({ name: "", price: 0, descripcion: "" });
 
@@ -88,7 +80,7 @@ const AddProduct = ({ history }) => {
 
   // desabilitar el boton de agregar producto si alguno de los campos no fue completado
   const addProductButtonDisabled = () => {
-    return isEmpty(name) || isEmpty(descripcion);
+    return images.length === 0 || (isEmpty(name) || isEmpty(descripcion))
   };
 
   const isEmpty = (aField) => {
@@ -105,35 +97,16 @@ const AddProduct = ({ history }) => {
 
   //elimina una imagen del producto
   const deleteProductImage = () => {
-    const filteredProducts = imagesUpoader.map(imageArray => imageArray.filter(image => image !== selectImage))
+    const filteredProducts = images.map(imageArray => imageArray.filter(image => image !== selectImage))
     console.log(filteredProducts)
 
   }
 
-  //sube una imagen
-  const uploadProductImage = () => {
-    postMultiplePostImages(imagesUpoader)
-    setProductNew({
-      ...productNew,
-      imageId: "213213"
-    });
-  }
-
   // guarda la lista de imagenes en el state de producto 
   const productImagesChange = (e) => {
-    let imageNew = []
-    const files = e.target.files
-
-    // esto lo tengo que hacer debido a que si no lo hago no me previsualiza la imagen antes de mandarla al servidor
-    Array.from(files).forEach(file => {
-      file.fileName = URL.createObjectURL(file)
-      imageNew.push(file)
-    })
-    setImagesUpoader([
-      ...imagesUpoader,
-      imageNew
-    ])
-
+    setImages(
+      images.concat(e.target.files[0]),
+    );
   }
 
   //desabilita el boton eliminar Imagen 
@@ -207,34 +180,30 @@ const AddProduct = ({ history }) => {
                     type="file"
                     id="outlined-b  asic"
                     variant="outlined"
-                    name="productImages"
+                    name="images"
                     required
                     className={classes.textFieldImage}
                     onChange={productImagesChange}
-                    inputProps={{
-                      multiple: true
-                    }}
                     accept="image/*"
                   />
                 </Grid>
-                {/* IMAGEN */}
+                {/* MOSTRAR IMAGEN */}
                 <Grid item xs={5} className={classes.gridImageProduct}>
                   {
-                    imagesUpoader.length ?
+                    images.length ?
                       <div className={classes.divUploaderImage}>
                         {
-                          imagesUpoader.map((imageArray) =>
-                            imageArray.map(image =>
+                          images.map((image) =>
                               <div key={image.lastModified}>
                                 <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage.lastModified === image.lastModified) ? classes.textImg : null} >
                                   {
-                                    <img src={image.fileName} alt="uploaded_image" className={classes.imgProduct} />
+                                    <img src={URL.createObjectURL(image)} alt="uploaded_image" className={classes.imgProduct} />
                                   }
                                 </Button>
 
                               </div>
 
-                            )
+                            // )
 
                           )
                         }
@@ -246,13 +215,7 @@ const AddProduct = ({ history }) => {
                 {/* ELIMINAR IMAGEN */}
                 <Grid item xs={2} >
                   <Grid>
-                    <Button variant="contained" onClick={deleteProductImage} disabled={imageButtonDisabled()} className={classes.deleteImageProduct}>Eliminar</Button>
-                  </Grid>
-                </Grid>
-                {/* SUBIR iMAGEN */}
-                <Grid item xs={2} >
-                  <Grid>
-                    <Button variant="contained" onClick={uploadProductImage} disabled={imageButtonDisabled()} className={classes.deleteImageProduct}>Subir</Button>
+                    <Button variant="contained" onClick={deleteProductImage} disabled={imageButtonDisabled()} className={classes.productImageButton}>Eliminar</Button>
                   </Grid>
                 </Grid>
               </Grid>

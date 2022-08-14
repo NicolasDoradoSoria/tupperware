@@ -1,12 +1,26 @@
 const { productsModel } = require("../models");
 const updateProduct = require("../data/updateProduct");
+const shortid = require('shortid');
+
 
 // inserta productos a la MongoDB
 const postProducts = async (req, res) => {
   try {
-    
-    const product = new productsModel(req.body);
-    
+    const { name, descripcion, date, price, stock } = req.body
+    let images = [];
+    if (req.files.images.length > 0) {
+
+      req.files.images.forEach(element => {
+        images.push({ 
+          _id: shortid.generate(),
+          fileName: element.filename,
+          filePath: element.path,
+        });
+      });
+  
+    }
+    const product = new productsModel({ name, descripcion, date, price, stock, images });
+
     // guardamos el producto
     await product.save();
     res.status(200).send("producto agregado correctamente");
@@ -16,11 +30,12 @@ const postProducts = async (req, res) => {
   }
 };
 
+
 // devuelve todos los productos
 const getProducts = async (req, res) => {
-  
+
   try {
-    const products = await productsModel.find().populate({ path: "imageId", model: "ProductImages"})
+    const products = await productsModel.find().populate({ path: "imageId", model: "ProductImages" })
     res.json({ products });
 
   } catch (error) {
@@ -30,9 +45,9 @@ const getProducts = async (req, res) => {
 
 //devuelve producto por id
 const getProductById = async (req, res) => {
-  
+
   try {
-    const product = await  productsModel.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages"})
+    const product = await productsModel.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages" })
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -41,8 +56,8 @@ const getProductById = async (req, res) => {
 
 //actualiza producto por id
 const updateProductById = async (req, res) => {
-  
-const {productId} = req.params
+
+  const { productId } = req.params
   try {
     //si el producto existe o no
     let products = await productsModel.findById(productId);
@@ -96,4 +111,4 @@ const searchProducts = async (req, res) => {
   }
 };
 
-module.exports = {searchProducts, deleteProductById, updateProductById, getProductById, getProducts, postProducts}
+module.exports = { searchProducts, deleteProductById, updateProductById, getProductById, getProducts, postProducts }

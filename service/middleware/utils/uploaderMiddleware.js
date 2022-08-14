@@ -17,6 +17,8 @@ const storage = multer.diskStorage({
   }
 })
 
-exports.uploadMulti =  multer({ storage, dest: path.join(__dirname, 'uploads') }).array("files")
+exports.uploadMulti =  multer({ storage, dest: path.join(__dirname, 'uploads') }).fields([
+  { name: "images", maxCount: 5 },
+])
 
 

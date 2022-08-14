@@ -67,7 +67,7 @@ const Publication = ({ match, history }) => {
   
   if (!product) return null
 
-  const { descripcion, price, _id, name, stock, imageId } = product;
+  const { descripcion, price, _id, name, stock, images } = product;
 
   return (
     <div className={classes.root}>
@@ -86,7 +86,7 @@ const Publication = ({ match, history }) => {
                   navButtonsAlwaysVisible={true}
                   navButtonsAlwaysInvisible={false}>
                   {
-                    imageId.files.map(image => {
+                    images.map(image => {
                       return (
                         <div key={image._id}>
                           <img src={`http://localhost:4000/${image.fileName}`} className={classes.image} alt="imagen"></img>

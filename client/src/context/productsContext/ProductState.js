@@ -3,6 +3,7 @@ import ProductReducer from "./ProductReducer";
 import ProductContext from "./ProductContext";
 import clienteAxios from "../../config/axios";
 import SnackBarContext from "../snackbarContext/SnackbarContext";
+import Service from "../../service/Service"
 
 import {
   GET_PRODUCTS,
@@ -13,6 +14,8 @@ import {
 } from "../../types";
 
 const ProductState = (props) => {
+  const service = new Service()
+
   const initialState = {
     products: [],
     productsAll: [],
@@ -32,7 +35,7 @@ const ProductState = (props) => {
   // obtener los productos
   const getProducts = async () => {
     try {
-      const result = await clienteAxios.get("/api/products");
+      const result = await service.getProducts()
       dispatch({
         type: GET_PRODUCTS,
         payload: result.data.products,
@@ -60,11 +63,12 @@ const ProductState = (props) => {
   };
 
   // agrega un producto
-  const addProduct = async (productNew) => {
-  console.log(productNew)
+  const addProduct = async (productNew, images) => {
+  
     try {
-      const result = await clienteAxios.post('api/products/', productNew);
-      openSnackbar(result.data, "success")
+     const result= await service.postAddProduct(productNew, images)
+      
+      openSnackbar(result.data, "success")    
       getProducts()
     } catch (error) {
       console.log(error.response)

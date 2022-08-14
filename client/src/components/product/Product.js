@@ -6,7 +6,7 @@ import { CardMedia, CardContent, Typography, Button, Card } from "@material-ui/c
 const Product = ({ product }) => {
   const classes = Style();
 
-  const { name, imageId, price, _id } = product;
+  const { name, images, price, _id } = product;
 
   return (
     <Card className={classes.root} >
@@ -14,14 +14,14 @@ const Product = ({ product }) => {
         to={`/main/descripcion-producto/${_id}`}
         style={{ textDecoration: "none" }}
       >
-
-        {imageId.files ? (
+       
+        
           <CardMedia
             className={classes.media}
-            image={`http://localhost:4000/${imageId.files[0].fileName}`}
+            image={`http://localhost:4000/${images[0].fileName}`}
             title="Paella dish"
           />
-        ) : null}
+        
         <h1 className={classes.title}>{name}</h1>
         <CardContent className={classes.content} >
           <Typography variant="h5" component="h2" className={classes.price}>
