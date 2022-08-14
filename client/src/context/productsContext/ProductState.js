@@ -10,7 +10,8 @@ import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
-  SEARCH_PRODUCTS
+  SEARCH_PRODUCTS,
+  UPLOAD_PERCENTAGE
 } from "../../types";
 
 const ProductState = (props) => {
@@ -20,7 +21,8 @@ const ProductState = (props) => {
     products: [],
     productsAll: [],
     errorProducts: false,
-    product: null
+    product: null,
+    uploadPorcentage: 0
   };
 
   const [state, dispatch] = useReducer(ProductReducer, initialState);
@@ -66,7 +68,7 @@ const ProductState = (props) => {
   const addProduct = async (productNew, images) => {
   
     try {
-     const result= await service.postAddProduct(productNew, images)
+     const result= await service.postAddProduct(productNew, images, productPercentageUpload)
       
       openSnackbar(result.data, "success")    
       getProducts()
@@ -124,20 +126,29 @@ const ProductState = (props) => {
     })
   }
 
+  const productPercentageUpload= async (persentage)  => {
+    dispatch({
+      type: UPLOAD_PERCENTAGE,
+      payload: persentage
+    })
+  }
+
 
   return (
     <ProductContext.Provider
       value={{
         products: state.products,
         productsAll: state.productsAll,
+        product: state.product,
+        uploadPorcentage: state.product,
         getProducts,
         getProduct,
         deleteProduct,
         addProduct,
         updateProduct,
         saveCurrentProduct,
-        product: state.product,
         searchProducts,
+        productPercentageUpload
       }}
     >
       {props.children}

@@ -1,12 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import Style from "./Style";
-import TextField from "@material-ui/core/TextField";
-import { Grid } from "@material-ui/core";
+import { Grid, Card, CardActions, CardContent, Button, Typography, TextField } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
 import { withRouter } from 'react-router-dom'
 import './Style.css';
@@ -33,11 +27,11 @@ const AddProduct = ({ history }) => {
     stock: 0
   });
 
-  
+
   const { name, price, descripcion } = productNew;
-  
+
   const [selectImage, setSelectImage] = useState("")
-  
+
   //hook de image 
   const [images, setImages] = useState([])
   const { open } = location
@@ -47,7 +41,6 @@ const AddProduct = ({ history }) => {
     } else {
       // setProductNew({ name: "", price: 0, descripcion: "", stock: 0 });
     }
-    
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -60,13 +53,12 @@ const AddProduct = ({ history }) => {
     });
   };
 
-
+  //envvio del formulario al productState
   const productSubmit = (e) => {
     e.preventDefault();
-    // manda los datos de usuario a productContext
 
+    //si es producto nuevo o una actualizacion
     if (!open) {
-      //se pide hace post a las imagenes y me devuelve el id con el cual yo lo guardo dentro de imageId
 
       addProduct(productNew, images);
     } else {
@@ -109,10 +101,11 @@ const AddProduct = ({ history }) => {
     );
   }
 
-  //desabilita el boton eliminar Imagen 
+  //desabilita el boton de eliminar Imagen 
   const imageButtonDisabled = () => {
     return isEmpty(selectImage)
   }
+
   return (
     <>
       <Card className={classes.root}>
@@ -176,16 +169,12 @@ const AddProduct = ({ history }) => {
 
                 {/* CARGAR IMAGEN */}
                 <Grid item xs={3} >
-                  <TextField
-                    type="file"
-                    id="outlined-b  asic"
-                    variant="outlined"
-                    name="images"
-                    required
-                    className={classes.textFieldImage}
-                    onChange={productImagesChange}
-                    accept="image/*"
-                  />
+                  <Button variant="contained" component="label" color="primary">
+                    Subir
+                    <input hidden accept="image/*" type="file" onChange={productImagesChange} />
+                  </Button>
+
+
                 </Grid>
                 {/* MOSTRAR IMAGEN */}
                 <Grid item xs={5} className={classes.gridImageProduct}>
@@ -194,14 +183,14 @@ const AddProduct = ({ history }) => {
                       <div className={classes.divUploaderImage}>
                         {
                           images.map((image) =>
-                              <div key={image.lastModified}>
-                                <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage.lastModified === image.lastModified) ? classes.textImg : null} >
-                                  {
-                                    <img src={URL.createObjectURL(image)} alt="uploaded_image" className={classes.imgProduct} />
-                                  }
-                                </Button>
+                            <div key={image.lastModified}>
+                              <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage.lastModified === image.lastModified) ? classes.textImg : null} >
+                                {
+                                  <img src={URL.createObjectURL(image)} alt="uploaded_image" className={classes.imgProduct} />
+                                }
+                              </Button>
 
-                              </div>
+                            </div>
 
                             // )
 
@@ -251,7 +240,6 @@ const AddProduct = ({ history }) => {
             >
               {!open ? <>Agregar Producto</> : <>Editar Producto</>}
             </Button>
-
           </CardActions>
         </form>
 
