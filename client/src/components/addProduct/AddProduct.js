@@ -4,10 +4,8 @@ import { Grid, Card, CardActions, CardContent, Button, Typography, TextField } f
 import ProductContext from "../../context/productsContext/ProductContext";
 import { withRouter } from 'react-router-dom'
 import './Style.css';
-import { useLocation } from 'react-router-dom'
-const AddProduct = ({ history }) => {
+const AddProduct = ({ history, open }) => {
   const classes = Style();
-  const location = useLocation();
 
   //productContext
   const productContext = useContext(ProductContext);
@@ -16,34 +14,36 @@ const AddProduct = ({ history }) => {
     product,
     updateProduct,
     getProducts,
+    imagesToUpload,
+    setImagesToUpload,
+    initializeProduct,
   } = productContext;
 
-  // hook de create user
+  // hook de productNew se usa inicializa las propiedades
   const [productNew, setProductNew] = useState({
     name: "",
     price: 0,
     descripcion: "",
-    images: [],
-    stock: 0
+    stock: 0,
   });
-
 
   const { name, price, descripcion } = productNew;
 
+  //hook de imagen seleccionada 
   const [selectImage, setSelectImage] = useState("")
 
-  //hook de image 
-  const [images, setImages] = useState([])
-  const { open } = location
   useEffect(() => {
     if (open) {
+      // editar producto => inicializa las propiedades con los datos del producto
       setProductNew(product);
+      
     } else {
-      // setProductNew({ name: "", price: 0, descripcion: "", stock: 0 });
+      //add product => 
+      initializeProduct()
     }
-
+    // setSelectImage("")
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   // destroyoning del hook product
   const productChange = (e) => {
@@ -60,7 +60,7 @@ const AddProduct = ({ history }) => {
     //si es producto nuevo o una actualizacion
     if (!open) {
 
-      addProduct(productNew, images);
+      addProduct(productNew);
     } else {
       updateProduct(productNew);
     }
@@ -72,7 +72,7 @@ const AddProduct = ({ history }) => {
 
   // desabilitar el boton de agregar producto si alguno de los campos no fue completado
   const addProductButtonDisabled = () => {
-    return images.length === 0 || (isEmpty(name) || isEmpty(descripcion))
+    return imagesToUpload.length === 0 || (isEmpty(name) || isEmpty(descripcion))
   };
 
   const isEmpty = (aField) => {
@@ -82,22 +82,21 @@ const AddProduct = ({ history }) => {
 
 
   //selecciona una imagen del producto haciendo click
-  const selectImageProductClick = (idImg) => {
-    setSelectImage(idImg)
+  const selectImageProductClick = (image) => {
+    setSelectImage(image)
   }
 
 
   //elimina una imagen del producto
   const deleteProductImage = () => {
-    const filteredProducts = images.filter(image => image !== selectImage)
-    setImages(filteredProducts)
+    setImagesToUpload(imagesToUpload.filter(image => image !== selectImage))
 
   }
 
   // guarda la lista de imagenes en el state de producto 
   const productImagesChange = (e) => {
-    setImages(
-      images.concat(e.target.files[0]),
+    setImagesToUpload(
+      e.target.files[0],
     );
   }
 
@@ -105,7 +104,6 @@ const AddProduct = ({ history }) => {
   const imageButtonDisabled = () => {
     return isEmpty(selectImage)
   }
-
   return (
     <>
       <Card className={classes.root}>
@@ -173,26 +171,25 @@ const AddProduct = ({ history }) => {
                     Subir
                     <input hidden accept="image/*" type="file" onChange={productImagesChange} />
                   </Button>
-
-
                 </Grid>
+
                 {/* MOSTRAR IMAGEN */}
                 <Grid item xs={5} className={classes.gridImageProduct}>
                   {
-                    images.length ?
+                    imagesToUpload.length ?
                       <div className={classes.divUploaderImage}>
                         {
-                          images.map((image) =>
-                            <div key={image.lastModified}>
-                              <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage.lastModified === image.lastModified) ? classes.textImg : null} >
+                          imagesToUpload.map((image) =>
+                          <div key={image.lastModified}>
+                              <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage === image) ? classes.textImg : null} >
                                 {
-                                  <img src={URL.createObjectURL(image)} alt="uploaded_image" className={classes.imgProduct} />
+                                  
+                                  <img src={!product ? URL.createObjectURL(image) :`http://localhost:4000/${image.fileName}`} alt="uploaded_image" className={classes.imgProduct} />
                                 }
                               </Button>
 
                             </div>
 
-                            // )
 
                           )
                         }

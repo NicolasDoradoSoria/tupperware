@@ -11,7 +11,9 @@ import {
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
   SEARCH_PRODUCTS,
-  UPLOAD_PERCENTAGE
+  UPLOAD_PERCENTAGE,
+  IMAGES_TO_UPLOAD,
+  INITIALIZE_PRODUCT,
 } from "../../types";
 
 const ProductState = (props) => {
@@ -22,7 +24,9 @@ const ProductState = (props) => {
     productsAll: [],
     errorProducts: false,
     product: null,
-    uploadPorcentage: 0
+    uploadPorcentage: 0,
+    loading: true,
+    imagesToUpload: []
   };
 
   const [state, dispatch] = useReducer(ProductReducer, initialState);
@@ -65,10 +69,10 @@ const ProductState = (props) => {
   };
 
   // agrega un producto
-  const addProduct = async (productNew, images) => {
+  const addProduct = async (productNew) => {
   
     try {
-     const result= await service.postAddProduct(productNew, images, productPercentageUpload)
+     const result= await service.postAddProduct(productNew, state.imagesToUpload, productPercentageUpload)
       
       openSnackbar(result.data, "success")    
       getProducts()
@@ -87,7 +91,6 @@ const ProductState = (props) => {
         type: EDIT_PRODUCT,
         payload: result.data
       })
-      console.log(result)
       openSnackbar("todo ok", "success")
     } catch (error) {
       console.log(error.request)
@@ -119,6 +122,8 @@ const ProductState = (props) => {
       console.log(error)
     }
   }
+
+  //search de producto, lo mismo que la anterior funcion pero esta no hace un llamado a la api PD: corregir...
   const saveCurrentProduct = async (productNew) => {
     dispatch({
       type: CURRENT_PRODUCT,
@@ -133,6 +138,20 @@ const ProductState = (props) => {
     })
   }
 
+  //agrega una imagen a imagesToUpload con concat
+  const setImagesToUpload = async (images) => {
+    dispatch({
+      type: IMAGES_TO_UPLOAD,
+      payload: images
+    })
+  }
+  
+  //inicializa product y  imagesToUpload
+  const initializeProduct =  () => {
+    dispatch({
+      type: INITIALIZE_PRODUCT,
+    })
+  }
 
   return (
     <ProductContext.Provider
@@ -141,6 +160,9 @@ const ProductState = (props) => {
         productsAll: state.productsAll,
         product: state.product,
         uploadPorcentage: state.product,
+        loading: state.loading,
+        imagesToUpload: state.imagesToUpload,
+        setImagesToUpload,
         getProducts,
         getProduct,
         deleteProduct,
@@ -148,7 +170,8 @@ const ProductState = (props) => {
         updateProduct,
         saveCurrentProduct,
         searchProducts,
-        productPercentageUpload
+        productPercentageUpload,
+        initializeProduct,
       }}
     >
       {props.children}

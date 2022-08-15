@@ -4,7 +4,9 @@ import {
   EDIT_PRODUCT,
   CURRENT_PRODUCT,
   SEARCH_PRODUCTS,
-  UPLOAD_PERCENTAGE
+  UPLOAD_PERCENTAGE,
+  IMAGES_TO_UPLOAD,
+  INITIALIZE_PRODUCT,
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -37,6 +39,7 @@ export default (state, action) => {
       return {
         ...state,
         product: action.payload,
+        imagesToUpload: action.payload.images,
       };
 
     case UPLOAD_PERCENTAGE:
@@ -50,6 +53,19 @@ export default (state, action) => {
         ...state,
         products: action.payload.data.products,
       };
+
+    case IMAGES_TO_UPLOAD:
+      return {
+        ...state,
+        imagesToUpload: state.imagesToUpload.concat(action.payload),
+      };
+
+    case INITIALIZE_PRODUCT:
+      return {
+        ...state,
+        imagesToUpload: [],
+        product: null
+      }
 
     default:
       return state;

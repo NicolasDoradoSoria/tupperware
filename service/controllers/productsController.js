@@ -15,6 +15,7 @@ const postProducts = async (req, res) => {
           _id: shortid.generate(),
           fileName: element.filename,
           filePath: element.path,
+          lastModified: element.lastModified
         });
       });
   
