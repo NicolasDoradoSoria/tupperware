@@ -4,7 +4,6 @@ import MainFeaturedPost from '../mainFeaturedPost/MainFeaturedPost'
 import Style from "./Style";
 import { withRouter } from 'react-router-dom'
 
-import MaterialTable from "material-table"
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 

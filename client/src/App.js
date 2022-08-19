@@ -26,43 +26,42 @@ var divStyle = {
 function App() {
   return (
     <div style={divStyle}>
+        <SnackbarState>
+          <FileState>
+            <UserState>
+              <ProductState>
+                <CartState>
+                  <Router>
+                    <Theme>
 
-      <SnackbarState>
-        <FileState>
-          <UserState>
-            <ProductState>
-              <CartState>
-                <Router>
-                  <Theme>
+                      <Layout>
 
-                    <Layout>
-
-                      <Switch>
-                        <Route exact path="/" component={ListOfProducts} />
-                        <Route exact path="/administrador-Carrusel-Principal" component={MainCarrouselManager} />
-                        <Route exact path="/main/categoria" component={Categoria} />
-                        <Route
-                          exact
-                          path="/main/descripcion-producto/:id"
-                          component={Publication}
-                        />
-                        <Route exact path="/main/carrito" component={ShoppingCart} />
-                        <Route exact path="/login" component={Login} />
-                        <Route exact path="/nueva-cuenta" component={SignUp} />
-                        <Route exact path="/perfil" component={Profile} />
-                        <Route exact path="/todos-Productos" component={ProductListManagement} />
-                        <Route exact path="/agregar-producto" component={AddProduct} />
-                        <Route exact path="/pagar" component={PaymentMethod} />
-                        descripcion-producto
-                      </Switch>
-                    </Layout>
-                  </Theme>
-                </Router>
-              </CartState>
-            </ProductState>
-          </UserState>
-        </FileState>
-      </SnackbarState>
+                        <Switch>
+                          <Route exact path="/" component={ListOfProducts} />
+                          <Route exact path="/administrador-Carrusel-Principal" component={MainCarrouselManager} />
+                          <Route exact path="/main/categoria" component={Categoria} />
+                          <Route
+                            exact
+                            path="/main/descripcion-producto/:id"
+                            component={Publication}
+                          />
+                          <Route exact path="/main/carrito" component={ShoppingCart} />
+                          <Route exact path="/login" component={Login} />
+                          <Route exact path="/nueva-cuenta" component={SignUp} />
+                          <Route exact path="/perfil" component={Profile} />
+                          <Route exact path="/todos-Productos" component={ProductListManagement} />
+                          <Route exact path="/agregar-producto" component={AddProduct} />
+                          <Route exact path="/pagar" component={PaymentMethod} />
+                          descripcion-producto
+                        </Switch>
+                      </Layout>
+                    </Theme>
+                  </Router>
+                </CartState>
+              </ProductState>
+            </UserState>
+          </FileState>
+        </SnackbarState>
     </div>
   );
 }

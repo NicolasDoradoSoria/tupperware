@@ -5,25 +5,34 @@ const { matchedData  } = require("express-validator");
 
 const generateOrder = async (req, res) => {
   const body = matchedData (req)
-  const { id, quantity} = body;
-
+  const { id, quantity} = body.products[0];
   try {
+    // devuelve el usuario logeado
     const user = await userModel.findById(req.userId).select('-password')
+    
+    //devuelve el carrito si es que existe si no existe crea uno
     let cart = await cartModel.findOne({ user: user._id })
+    
+    //devuelve el producto que se va a agregar al carrito
     let product = await productsModel.findById(id)
+  
+    if(!product) {
+      return res.status(404).json({ msg: "el producto no existe" });
+    }
+    
     if (cart) {
-      let itemIndex = cart.products.findIndex(p => p.id == id);
+      let itemIndex = cart.products.findIndex(product => product.id == id);
       if (itemIndex > -1) {
         //product exists in the cart, update the quantity
         let productItem = cart.products[itemIndex]
-        productItem.quantity = quantity;
+        productItem.quantity += quantity;
         cart.products[itemIndex] = productItem;
         
       }
       else {
         //product does not exists in cart, add new item
-        cart.products.push({ id, quantity });
-      }
+        cart.products.push({ id, quantity }); 
+      } 
       product.stock = product.stock - quantity
       updateProduct(product, id)
       

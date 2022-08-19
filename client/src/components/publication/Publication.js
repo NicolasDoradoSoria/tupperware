@@ -43,10 +43,14 @@ const Publication = ({ match, history }) => {
   const addCartClick = () => {
     const order = {
       "user": user.user._id,
-      "id": _id,
-      "quantity": quantity,
+      "products": [
+        {"id": _id, "quantity": quantity},
+      ],
       "total": 133,
     }
+
+
+
     generateOrder(order)
 
     history.push("/")

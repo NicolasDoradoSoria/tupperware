@@ -10,7 +10,6 @@ import UpdateProduct from "../updateProduct/UpdateProduct";
 
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import MaterialTable from "material-table"
-
 import { PatchedPagination } from './TablePagination'
 
 

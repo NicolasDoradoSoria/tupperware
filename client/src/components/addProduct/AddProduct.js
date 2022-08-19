@@ -178,8 +178,8 @@ const AddProduct = ({ history, open }) => {
                     imagesToUpload.length ?
                       <div className={classes.divUploaderImage}>
                         {
-                          imagesToUpload.map((image) =>
-                          <div key={image.lastModified}>
+                          imagesToUpload.map((image, index) =>
+                          <div key={index}>
                               <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage === image) ? classes.textImg : null} >
                                 {
                                   

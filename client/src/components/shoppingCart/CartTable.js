@@ -7,6 +7,7 @@ import Style from "./Style";
 import MaterialTable from "material-table"
 
 
+
 const CartTable = () => {
   const classes = Style();
 

@@ -8,7 +8,6 @@ export default makeStyles((theme) => ({
   gridProducts: {
     display: "flex",
     justifyContent: "center",
-    // backgroundColor: "#F8C813",
     
   },
   conteinerProducts: {
