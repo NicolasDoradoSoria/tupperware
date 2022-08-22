@@ -1,10 +1,10 @@
 const shortid = require('shortid');
 const { carruselImageModel } = require("../models");
-const { deleteImageFunction } = require('../data/imageFunction');
-
 
 //  ----------------------------------CARROUSEL------------------------------------
 
+
+// Sube una o varias imagenes
 const multiUpload = async (req, res) => {
         if (!req.files.images) {
             return res.status(404).json({ msg: "el producto no existe" });
@@ -27,7 +27,7 @@ const multiUpload = async (req, res) => {
     }
 }
 
-
+// mostrar imagenes
 const getAllMultipleImages = async (req, res) => {
     try {
         const files = await carruselImageModel.find()
@@ -36,10 +36,31 @@ const getAllMultipleImages = async (req, res) => {
         res.status(400).send(error.message)
     }
 }
+// eliminar imagen seleccionada...
+const deleteFileById = async (req, res) => {    
+    const { arrayId, imageId } = req.params
+   
 
-const deleteFileById = async (req, res) => {
-    deleteImageFunction(MainImage)(req, res)
+    try { 
+        // devuelve el array de la imagen que fue enviada por el params
+        const arrayImages = await carruselImageModel.findById(arrayId)  
 
+        if(!arrayImages){
+            return res.status(500).send('la imagen no existe');
+        }
+
+        // si hay un solo elemento en el array o varios....
+        if (arrayImages.files.length === 1) {
+            await carruselImageModel.findByIdAndDelete(arrayId)
+        }
+        else {
+            await carruselImageModel.updateOne({ "_id": arrayId }, { $pull: { files: { _id: imageId } } })
+        }
+        return res.status(200).send('se a eliminado correctamente la imagen');
+    } catch (err) {
+        // handle the error
+        return res.status(400).send(err.message);
+    }
 }
 
 module.exports = { deleteFileById, getAllMultipleImages, multiUpload }

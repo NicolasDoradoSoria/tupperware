@@ -27,7 +27,7 @@ const MainCarrouselManager = () => {
     }
 
     // manda la lista de imagenes del carrousel al context
-    const imageHandleCarrouselSumbmit = async (e) => {
+    const imageCarrouselChange = async (e) => {
         const files = e.target.files
         let images = []
         Array.from(files).forEach(file => {
@@ -55,12 +55,14 @@ const MainCarrouselManager = () => {
         <>
             <Box className={classes.root}>
 
+
                 <Paper component="form" className={classes.paperUploadedPhoto}>
                     <Typography variant="h4" component="h2" align="center" >
                         Agregar imagenes del Carrousel
                     </Typography>
                     <Grid item xs={12} className={classes.gridTextarea}>
 
+                        {/* BOTON SUBIR IMAGEN */}
                         <div className={classes.buttonDeleteImage}>
                             <div>
                                 <label htmlFor="file">
@@ -71,12 +73,16 @@ const MainCarrouselManager = () => {
                                     type="file"
                                     id="file"
                                     name="file"
-                                    onChange={imageHandleCarrouselSumbmit}
+                                    onChange={imageCarrouselChange}
                                     className={classes.img}
                                 />
                             </div>
+
+                            {/* BOTON ELIMINAR IMAGEN */}
                             <Button variant="contained" onClick={deleteFileButton} >Eliminar</Button>
                         </div>
+
+                        {/* MOSTRAR IMAGEN */}
                         {
                             images.length ?
                                 <div className={classes.divUploaderImage}>
