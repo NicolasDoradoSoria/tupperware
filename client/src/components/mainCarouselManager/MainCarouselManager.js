@@ -4,7 +4,6 @@ import Style from "./Style";
 import BackupIcon from '@material-ui/icons/Backup';
 import FileContext from "../../context/fileContext/FileContext";
 
-
 // en este componente administro el carroulse 
 // puedo agregar o quitar imagenes
 const MainCarrouselManager = () => {
@@ -17,13 +16,10 @@ const MainCarrouselManager = () => {
     //hooks
     const [selectIdArrayImage, setSelectIdArrayImage] = useState("")
     const [selectImage, setSelectImage] = useState("")
-    const [productImageChange, setProductImageChange] = useState(false)
 
     // eliminar una imagen del carrousel 
     const deleteFileButton = () => {
-
         deleteImage(selectIdArrayImage, selectImage)
-        setProductImageChange(true)
     }
 
     // manda la lista de imagenes del carrousel al context
@@ -36,7 +32,6 @@ const MainCarrouselManager = () => {
         })
 
         postMultipleImage(images)
-        setProductImageChange(true)
     }
 
     //selecciona una imagen del carrousel haciendo click
@@ -47,10 +42,9 @@ const MainCarrouselManager = () => {
 
     useEffect(() => {
         getMultipleImages()
-        setProductImageChange(false)
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [productImageChange]);
+    }, [images]);
     return (
         <>
             <Box className={classes.root}>
