@@ -1,7 +1,6 @@
 import {
   UPLOADER_MULTIPPLE_IMAGES,
   DELETE_IMAGE,
-  UPLOADER_MULTIPPLE_POST_IMAGES
   } from "../../types";
   
   // eslint-disable-next-line import/no-anonymous-default-export
@@ -18,11 +17,7 @@ import {
             ...state,
             images: action.payload.data.products,
           };
-        case UPLOADER_MULTIPPLE_POST_IMAGES:
-          return {
-            ...state,
-            postImage: action.payload,
-          }
+       
       default:
         return state
     }

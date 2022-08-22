@@ -3,7 +3,8 @@ import { Box, Paper, Typography, Grid, Button } from "@material-ui/core";
 import Style from "./Style";
 import BackupIcon from '@material-ui/icons/Backup';
 import FileContext from "../../context/fileContext/FileContext";
-
+import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
+import SnackbarOpen from "../snackbar/SnackBar";
 // en este componente administro el carroulse 
 // puedo agregar o quitar imagenes
 const MainCarrouselManager = () => {
@@ -12,6 +13,10 @@ const MainCarrouselManager = () => {
     //fileContext
     const fileContext = useContext(FileContext);
     const { postMultipleImage, images, deleteImage, getMultipleImages } = fileContext;
+
+    // context Snakbar
+    const snackbarContext = useContext(SnackBarContext)
+    const { error } = snackbarContext
 
     //hooks
     const [selectIdArrayImage, setSelectIdArrayImage] = useState("")
@@ -100,7 +105,7 @@ const MainCarrouselManager = () => {
                 </Paper>
 
             </Box>
-
+            {error ? <SnackbarOpen /> : null}
         </>
     );
 }

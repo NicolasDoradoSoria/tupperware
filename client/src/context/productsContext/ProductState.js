@@ -54,7 +54,6 @@ const ProductState = (props) => {
   // eliminar el producto seleccionado
   const deleteProduct = async (e, product) => {
     try {
-      console.log(product)
       const result = await clienteAxios.delete(`/api/products/${product._id}`);
       dispatch({
         type: DELETE_PRODUCT,

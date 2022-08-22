@@ -1,11 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext } from 'react';
 import FileContext from "./FileContext";
 import FileReducer from "./FileReducer";
 import Service from "../../service/Service"
 import {
     UPLOADER_MULTIPPLE_IMAGES,
-    UPLOADER_MULTIPPLE_POST_IMAGES
 } from "../../types";
+import SnackBarContext from '../snackbarContext/SnackbarContext';
 
 const FileState = (props) => {
     const service = new Service()
@@ -16,14 +16,21 @@ const FileState = (props) => {
 
     const [state, dispatch] = useReducer(FileReducer, initialState);
 
+    //snackbarContext
+    const snackbarContext = useContext(SnackBarContext);
+    const {
+        openSnackbar
+    } = snackbarContext;
+
+
     //--------------------------------------------------CARROUSEL------------------------------
     //sube multiples imagenes del carrouserl
     const postMultipleImage = async (file) => {
         try {
-            await service.multiUpdatFiles(file)
-
+            const result = await service.multiUpdatFiles(file)
+            openSnackbar(result.data, "success")
         } catch (error) {
-            console.log(error)
+            console.log(error.response.data.msg)
         }
     }
 
@@ -42,40 +49,20 @@ const FileState = (props) => {
     // elimina una imangen del carrousel
     const deleteImage = async (idArray, idImage) => {
         try {
-          await service.deleteImage(idArray, idImage)
-            
-        } catch (error) {
-            throw error
-        }
-      };
-    
-
-    //----------------------------------------------------PUBLICATION-------------------------------------------
-  
-
-    // obtener las multiples imagenes de la publicacion del producto
-    const getMultiplePostImages = async () => {
-        try {
-            const result = await service.getMultiPostFiles()
-            dispatch({
-                type: UPLOADER_MULTIPPLE_POST_IMAGES,
-                payload: result.data
-            });
+            const result = await service.deleteImage(idArray, idImage)
+            openSnackbar(result.data, "success")
         } catch (error) {
             throw error
         }
     };
 
-    
     return (
         <FileContext.Provider
             value={{
                 images: state.images,
-                postImage : state.postImage,
                 postMultipleImage,
                 getMultipleImages,
                 deleteImage,
-                getMultiplePostImages
             }}
         >
             {props.children}
