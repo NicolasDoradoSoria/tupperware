@@ -4,6 +4,9 @@ import Style from "./Style";
 import BackupIcon from '@material-ui/icons/Backup';
 import FileContext from "../../context/fileContext/FileContext";
 
+
+// en este componente administro el carroulse 
+// puedo agregar o quitar imagenes
 const MainCarrouselManager = () => {
     const classes = Style();
 
@@ -25,12 +28,15 @@ const MainCarrouselManager = () => {
 
     // manda la lista de imagenes del carrousel al context
     const imageHandleCarrouselSumbmit = async (e) => {
-        try {
-            postMultipleImage(e.target.files)
-            setProductImageChange(true)
-        } catch (error) {
-            console.log(error)
-        }
+        const files = e.target.files
+        let images = []
+        Array.from(files).forEach(file => {
+            file.fileName = URL.createObjectURL(file)
+            images.push(file)
+        })
+
+        postMultipleImage(images)
+        setProductImageChange(true)
     }
 
     //selecciona una imagen del carrousel haciendo click
@@ -59,7 +65,7 @@ const MainCarrouselManager = () => {
                             <div>
                                 <label htmlFor="file">
                                     <BackupIcon style={{ fontSize: 90, cursor: "pointer" }} />
-                                 </label>
+                                </label>
                                 <input
                                     multiple
                                     type="file"

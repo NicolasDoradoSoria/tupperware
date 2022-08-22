@@ -1,37 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import IconButton from "@material-ui/core/IconButton";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import Badge from "@material-ui/core/Badge";
-import Box from "@material-ui/core/Box";
+import {IconButton, MenuItem, Menu, Badge, Box, Button} from "@material-ui/core";
+
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import ProductContext from "../../context/productsContext/ProductContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Style from "./Style";
 import MaterialTableCart from '../shoppingCart/MaterialTableCart';
 import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
 
-const columns = () => [
-    {
-
-        title: "Nombre", field: "id.name"
-    },
-    {
-        title: "Precio", field: "id.price"
-    },
-    {
-        title: "Cantidad", field: "quantity"
-    },
-    // { title: '', field: 'id.photoURL', render: item => <img src={`http://localhost:4000/${item.id.photoURL}`} alt="" border="3" height="100" width="100" /> },
-]
-
-const options = {
-    paging: false,
-    search: false,
-    actionsColumnIndex: -1,
-}
 const Cart = () => {
     const classes = Style();
     const [anchorEl, setAnchorEl] = useState(null)
@@ -77,7 +54,6 @@ const Cart = () => {
                     vertical: "top",
                     horizontal: "right"
                 }
-
             }
                 keepMounted
                 transformOrigin={
@@ -91,7 +67,7 @@ const Cart = () => {
                 <MenuItem >
                     <Box className={classes.CartMenu}>
 
-                        <MaterialTableCart columns={columns()} options={options} />
+                        <MaterialTableCart />
                     </Box>
                 </MenuItem>
                 <MenuItem >

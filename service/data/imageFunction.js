@@ -21,24 +21,4 @@ const deleteImageFunction = (model) => async (req, res) => {
     }
 }
 
-const createImageFunction = (model) => async (req, res) => {
-    try {
-        let files = [];
-        req.files.forEach(element => {
-            const image = {
-                _id: shortid.generate(),
-                fileName: element.filename,
-                filePath: element.path,
-            }
-            files.push(image);
-        });
-        const images = new model({ files });
-        await images.save();
-        return res.json(images)
-        // return res.status(201).send('Files Upsloaded Successfully');
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-module.exports = { deleteImageFunction, createImageFunction }
+module.exports = { deleteImageFunction }

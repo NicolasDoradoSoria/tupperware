@@ -20,9 +20,8 @@ export default class Service {
     async multiUpdatFiles(images) {
         const formData = new FormData();
         for (let i = 0; i < images.length; i++) {
-            formData.append('files', images[i]);
+            formData.append('images', images[i]);
         }
-        console.log(images)
         const result = await clienteAxios.post(`/api/images/multi-upload`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',

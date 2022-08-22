@@ -1,6 +1,6 @@
 const models = {
     cartModel : require("./Cart"),
-    productImagesModel : require("./ProductImages"),
+    carruselImageModel : require("./CarruselImage"),
     productsModel : require("./Products"),
     userModel : require("./User"),
 }

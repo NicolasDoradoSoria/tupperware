@@ -1,18 +1,14 @@
 import React, { useEffect, useContext, useState } from 'react';
-import MainFeaturedPost from '../mainFeaturedPost/MainFeaturedPost'
 
 import Style from "./Style";
 import { withRouter } from 'react-router-dom'
-
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import MaterialTableCart from './MaterialTableCart';
-import { Box } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
 
 const columns = () => [
   {
@@ -39,7 +35,8 @@ const options = {
   actionsColumnIndex: -1,
 }
 
-const ShoppingCart = ({ history }) => {
+//en esta funcion se calcula el total del carrito y se llama a MaterialTableCart
+const ShoppingCart = () => {
   const classes = Style();
 
   //userContext
@@ -66,7 +63,6 @@ const ShoppingCart = ({ history }) => {
       try {
       } catch (error) {
         console.log(error)
-        // history.push("/login")
       }
     }
 
@@ -83,14 +79,13 @@ const ShoppingCart = ({ history }) => {
     }
 
     let newTotal = 0
-    // productsInCart.map(product => newTotal += (product.quantity * product.id.price))
+    productsInCart.map(product => newTotal += (product.quantity * product.id.price))
 
     setTotal(newTotal)
   }
   return (
     <Box className={classes.body} >
 
-      {/* <MainFeaturedPost /> */}
       <MaterialTableCart columns={columns()} options={options} />
       {error ? <SnackbarOpen /> : null}
       <div className={classes.paperContainer}>

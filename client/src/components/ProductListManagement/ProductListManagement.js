@@ -60,7 +60,6 @@ const ProductListManagement = () => {
   const options = {
     actionsColumnIndex: -1,
     search: true,
-    sorting: true,
     headerStyle: {
       backgroundColor: '#249DCD',
       color: 'white',
