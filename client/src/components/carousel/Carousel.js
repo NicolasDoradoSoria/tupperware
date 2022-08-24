@@ -15,9 +15,9 @@ function Banner({ groupImages }) {
                 <a href="http://localhost:3000/">
                     <img src={`http://localhost:4000/${singleImage.fileName}`} alt='' className={classes.imgSlideshow} ></img>
                 </a>
-                <TextSlide backgroundColor="#2D9993" textColor="#000">
+                {/* <TextSlide backgroundColor="#2D9993" textColor="#000">
                     <p>15% descuentoooo aprobechala guacha</p>
-                </TextSlide>
+                </TextSlide> */}
             </Slide>
         })
 
@@ -40,7 +40,7 @@ const Carousel = () => {
             const firstElement = slideshow.current.children[0]
 
             //establecemos la transicion para el slideshow
-            slideshow.current.style.transition = `300ms ease-out all`
+            slideshow.current.style.transition = `1500ms ease-out all`
 
             const slideSize =slideshow.current.children[0].offsetWidth
 

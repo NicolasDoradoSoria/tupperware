@@ -48,9 +48,6 @@ const Publication = ({ match, history }) => {
       ],
       "total": 133,
     }
-
-
-
     generateOrder(order)
 
     history.push("/")

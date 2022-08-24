@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import {IconButton, MenuItem, Menu, Badge, Box, Button} from "@material-ui/core";
+import { IconButton, MenuItem, Menu, Badge, Box, Button } from "@material-ui/core";
 
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import ProductContext from "../../context/productsContext/ProductContext";
@@ -46,9 +46,11 @@ const Cart = () => {
     if (!user) return null
     return (
         <div>
-            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit"> <Badge badgeContent={productsInCart.length} color="secondary">
-                <ShoppingCartIcon />
-            </Badge></IconButton>
+            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
+                <Badge badgeContent={productsInCart.length} color="secondary">
+                    <ShoppingCartIcon />
+                </Badge>
+            </IconButton>
             <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={
                 {
                     vertical: "top",
