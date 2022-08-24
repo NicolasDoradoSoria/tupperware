@@ -1,146 +1,204 @@
-import React, { useContext, useEffect } from 'react';
-import Carousel from "react-material-ui-carousel"
-import './Styles.css';
+import React, { useRef, useContext } from 'react';
+import "./style.css";
+import styled from "styled-components"
+import { ReactComponent as LeftArrow } from "../../img/iconmonstr-angel-left-thin.svg"
+import { ReactComponent as RightArrow } from "../../img/iconmonstr-angel-right-thin.svg"
+import { useEffect } from 'react';
+import FileContext from "../../context/fileContext/FileContext";
 import Style from "./Style";
 
-import {
-    Card,
-    CardMedia,
-    Typography,
-    Grid,
-    Button,
-} from '@material-ui/core';
-
-//context
-import FileContext from "../../context/fileContext/FileContext";
-
-function Banner({ image }) {
+function Banner({ groupImages }) {
     const classes = Style();
-    const totalItems = image.length ? image.length : 3;
-
-    const handleClick = () => {
-        window[`scrollTo`]({ top: document.body.scrollHeight / 3, behavior: `smooth` })
-    }
     return (
-          image.files.map((itemIndividual) => {
-                return <Grid item key={itemIndividual._id} className="Media">
-                    <CardMedia
-                        image={`http://localhost:4000/${itemIndividual.fileName}`}
-                    // title={itemIndividual.fileName}
-                    >
-                        <Typography className="MediaCaption">
-                            {/* {itemIndividual.fileName} */}
-                        </Typography>
-                        <div className={classes.productsDiv}>
-                            <Button variant="contained" className={classes.productsButton} color="secondary" onClick={handleClick}>
-                                Ver Productos
-                            </Button>
-                        </div>
-                    </CardMedia>
-                </Grid>
-            })
+        groupImages.files.map(singleImage => {
+            return <Slide key={singleImage._id}>
+                <a href="http://localhost:3000/">
+                    <img src={`http://localhost:4000/${singleImage.fileName}`} alt='' className={classes.imgSlideshow} ></img>
+                </a>
+                <TextSlide backgroundColor="#2D9993" textColor="#000">
+                    <p>15% descuentoooo aprobechala guacha</p>
+                </TextSlide>
+            </Slide>
+        })
 
     )
-
-    //  return (
-    //     <Card raised className="Banner">
-    //         <Grid container spacing={0} className="BannerGrid">
-    //             <Grid item xs={12} key={item.Name}>
-    //                 <CardMedia
-    //                     className="Media"
-    //                     image={`http://localhost:4000/${item.fileName}`}
-    //                     title={item.Name}
-    //                 >
-    //                     <Typography className="MediaCaption">
-    //                         {item.Name}
-    //                     </Typography>
-    //                     <div className={classes.productsDiv}>
-    //                         <Button variant="contained" className={classes.productsButton} color="secondary" onClick={handleClick}>
-    //                             Ver Productos
-    //                         </Button>
-    //                     </div>
-    //                 </CardMedia>
-    //             </Grid>
-    //         </Grid>
-    //     </Card>
-    //  )
 }
 
-const items = [
-    {
-        Name: "Macbook Pro",
-        Caption: "Electrify your friends!",
-        Image: "https://source.unsplash.com/featured/?macbook"
 
-    },
-    {
-        Name: "iPhone",
-        Caption: "Electrify your friends!",
-        Image: "https://source.unsplash.com/featured/?iphone"
-
-    },
-    {
-        Name: "pc Pro",
-        Caption: "Electrify your friends!",
-        Image: "https://source.unsplash.com/featured/?macbook"
-
-    },
-    {
-        Name: "Home Appliances",
-        Caption: "Say no to manual home labour!",
-        Image: "https://source.unsplash.com/featured/?washingmachine"
-
-    },
-    {
-        Name: "Decoratives",
-        Caption: "Give style and color to your living room!",
-        Image: "https://source.unsplash.com/featured/?lamp"
-
-    }
-]
-
-const Carrousel = () => {
-    const classes = Style();
-
-    //fileContext
+const Carousel = () => {
+    const slideshow = useRef(null)
+    const slideInterval = useRef(null);
+    let currentSlide = slideshow.current
     const fileContext = useContext(FileContext);
     const { getMultipleImages, images } = fileContext;
 
+
+    const following = () => {
+        //comprobamos que el slideshow tenga elementos
+        if (slideshow.current && (slideshow.current.children.length > 0)) {
+            //obtiene el primer elemento del slideshow
+            const firstElement = slideshow.current.children[0]
+
+            //establecemos la transicion para el slideshow
+            slideshow.current.style.transition = `300ms ease-out all`
+
+            const slideSize =slideshow.current.children[0].offsetWidth
+
+            //movemos el slideshow
+            slideshow.current.style.transform = `translateX(-${slideSize}px)`
+
+            const transition = () => {
+                //reiniciamos
+                slideshow.current.style.transition = "none"
+                slideshow.current.style.transform = `translateX(0)`
+
+                //tomamos el primer elemento y la mandamos al final
+                slideshow.current.appendChild(firstElement);
+                slideshow.current.removeEventListener("trasitionend", transition)
+            }
+
+            //eventlistener para cuando termina la animacions
+           slideshow.current.addEventListener("transitionend", transition)
+
+        }
+    }
+    const previous = () => {
+        if (slideshow.current.children.length > 0) {
+            //obtiene el primer elemento del slideshow
+            const index = currentSlide.children.length - 1
+            const ultimoElemento = currentSlide.children[index]
+            currentSlide.insertBefore(ultimoElemento, currentSlide.firstChild)
+
+            currentSlide.style.transicion = "none"
+
+            const slideSize = currentSlide.children[0].offsetWidth
+            currentSlide.style.transform = `translateX(-${slideSize}px)`
+
+            setTimeout(() => {
+                currentSlide.style.transicion = "300ms ease-out all"
+                currentSlide.style.transform = `translateX(0)`
+            }, 30)
+
+        }
+    }
+
     useEffect(() => {
         getMultipleImages()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [images]);
+        slideInterval.current = setInterval(() => {
+            following();
+        }, 5000);
+        // Eliminamos los intervalos
+        slideshow.current.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval.current);
+        });
+
+        // olvemos a poner el intervalo cuando saquen el cursor del slideshow
+        slideshow.current.addEventListener('mouseleave', () => {
+            slideInterval.current = setInterval(() => {
+                following();
+            }, 5000);
+        });
+
+    })
     return (
-        <div>
-            <Carousel
-                autoPlay={true}
-                animation="fade"
-                indicators={true}
-                timeout={500}
-                cycleNavigation={true}
-                navButtonsAlwaysVisible={true}
-                navButtonsAlwaysInvisible={false}
-            >
-                <Card raised className="Banner">
-                    <Grid item className="conteiner">
-                        {
-                            images.map((image, index) => {
+        <div className='slideshow'>
+                <div className='carrousel'>
+                    <MainContainer>
+                        <SlideContainer ref={slideshow}>
+                            {
+                                images.map((groupImages, index) => {
+                                    return <Banner groupImages={groupImages} key={index}/>
+                                })
+                            }
 
-                                return <Banner image={image} key={index} />
-                            })
-                        }
-                    </Grid>
-                </Card>
-                {/* { 
-                    items.map((item, index) => {
-                        return <Banner item={item} key={index} />
-                    })
-                } */}
-            </Carousel>
-        </div >
-
+                        </SlideContainer>
+                        <Controller>
+                            <Button onClick={previous}>
+                                <LeftArrow />
+                            </Button>
+                            <Button right onClick={following}>
+                                <RightArrow />
+                            </Button>
+                        </Controller>
+                    </MainContainer>
+                </div>
+        </div>
     )
-
 }
 
-export default Carrousel;
+const MainContainer = styled.div`
+    position: relative;
+`;
+
+const SlideContainer = styled.div`
+    display: flex;
+    flex-wrap: nowrap;
+`;
+
+const Slide = styled.div`
+    min-width: 100%;
+    overflow: hidden;
+    transition: .3s ease all;
+    z-index: 10;
+    max-height: 500px;
+    position: relative;
+
+    @media screen and (max-width: 700px){
+        max-height: 200px;
+    }
+
+
+    img {
+        width: 100%;
+        vertical-align: top;
+    }
+`;
+const TextSlide = styled.div`
+    background: ${props => props.backgroundColor ? props.backgroundColor : "rgba(0,0,0, .3)"};
+    color: ${props => props.textColor ? props.textColor : "#fff"};
+    width: 100%;
+    padding: 10px 60px;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+
+    @media screen and (max-width: 700px){
+        position: relative;
+        background: #000;
+    }
+`;
+
+const Controller = styled.div`
+position: absolute;
+top: 0;
+z-index: 20;
+width: 100%;
+height: 100%;
+pointer-events: none;
+`;
+const Button = styled.button`
+pointer-events: all;
+background: none;
+border: none;
+cursor: pointer;
+outline: none;
+width: 50px;
+height: 100%;
+text-align: center;
+position: absolute;
+transition: .3s ease all;
+    &:hover {
+        background : rgba(0,0,0, .2);
+        path {
+            fill: #fff;
+        }
+    }
+
+    path {
+        filter: ${props => props.right ? "drop-shadow(-2px 0px  0px #fff)" : "drop-shadow(2px 0px  0px #fff)"};
+    }
+
+    ${props => props.right ? "right: 0" : "left: 0"}
+`;
+
+export default Carousel

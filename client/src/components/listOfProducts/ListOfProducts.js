@@ -7,7 +7,7 @@ import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
-import Slideshow from "../slideshow/Slideshow";
+import Carousel from "../carousel/Carousel";
 import logo from './logo.JPG';
 
 //context
@@ -52,7 +52,7 @@ const ListOfProducts = () => {
   return (
     <>
       <img src={logo} alt="" className={classes.logo} />
-      <Slideshow />
+      <Carousel />
 
       <div className={classes.root}>
         <Box>

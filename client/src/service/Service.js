@@ -41,4 +41,33 @@ export default class Service {
         return result
     }
 
+
+    //----------------------------------------------PRODUCT--------------------------------
+    async postAddProduct(productNew, images,productPercentageUpload) {
+        const formData = new FormData();
+        const { name, descripcion, price, stock } = productNew
+        for (let i = 0; i < images.length; i++) {
+            formData.append('images', images[i]);
+        }
+        formData.append('name', name);
+        formData.append('descripcion', descripcion);
+        formData.append('price', price);
+        formData.append('stock', stock);
+        const result = await clienteAxios.post('api/products/', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            onDownloadProgress(progressEvent){
+                const {total, loaded} = progressEvent
+                productPercentageUpload(parseInt((loaded*100) / total))  
+            }
+        });
+        return result
+    }
+
+    async getProducts() {
+        const result = await clienteAxios.get("/api/products");
+        return result
+    };
+
 }

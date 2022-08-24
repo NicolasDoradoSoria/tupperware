@@ -5,6 +5,7 @@ import BackupIcon from '@material-ui/icons/Backup';
 import FileContext from "../../context/fileContext/FileContext";
 import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import SnackbarOpen from "../snackbar/SnackBar";
+
 // en este componente administro el carroulse 
 // puedo agregar o quitar imagenes
 const MainCarrouselManager = () => {
@@ -19,12 +20,14 @@ const MainCarrouselManager = () => {
     const { error } = snackbarContext
 
     //hooks
-    const [selectIdArrayImage, setSelectIdArrayImage] = useState("")
-    const [selectImage, setSelectImage] = useState("")
+    const [selectImage, setSelectImage] = useState({
+        selectedImageId: "",
+        imageSelectedFromArray: ""
+    })
 
     // eliminar una imagen del carrousel 
     const deleteFileButton = () => {
-        deleteImage(selectIdArrayImage, selectImage)
+        deleteImage(selectImage.imageSelectedFromArray, selectImage.selectedImageId)
     }
 
     // manda la lista de imagenes del carrousel al context
@@ -40,9 +43,12 @@ const MainCarrouselManager = () => {
     }
 
     //selecciona una imagen del carrousel haciendo click
-    const selectImageCarrouselClick = (img, idArray) => {
-        setSelectImage(img._id)
-        setSelectIdArrayImage(idArray)
+    const selectImageCarrouselClick = (e, img, idArray) => {
+        setSelectImage({
+            [e.currentTarget.id]: idArray,
+            [e.currentTarget.name]: img._id
+        })
+        
     }
 
     useEffect(() => {
@@ -90,7 +96,7 @@ const MainCarrouselManager = () => {
                                             imageGroup.files.map((image) =>
                                                 <div key={image._id}>
 
-                                                    <Button onClick={() => selectImageCarrouselClick(image, imageGroup._id)} name="img" className={(selectImage === image._id) ? classes.textImg : null} >
+                                                    <Button onClick={(e) => selectImageCarrouselClick(e, image, imageGroup._id)} name="selectedImageId" id="imageSelectedFromArray" className={(selectImage.selectedImageId === image._id) ? classes.textImg : null} >
 
                                                         <img src={`http://localhost:4000/${image.fileName}`} alt="uploaded_image" width="130" height="130" />
                                                     </Button>
