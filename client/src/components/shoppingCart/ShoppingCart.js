@@ -27,7 +27,6 @@ const columns = () => [
   {
     title: "Cantidad", field: "quantity"
   },
-  // { title: 'Imagen', field: 'id.photoURL', render: item => <img src={`http://localhost:4000/${item.id.photoURL}`} alt="" border="3" height="100" width="100" /> },
 ]
 
 const options = {

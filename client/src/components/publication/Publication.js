@@ -78,6 +78,7 @@ const Publication = ({ match, history }) => {
           <Grid container spacing={3} >
             <Grid item xs={6} md={8} lg={9} >
               <Paper className={fixedHeightPaper} >
+                
                 {/* CAROUSEL */}
                 <Carousel autoPlay={true}
                   animation="fade"

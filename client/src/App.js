@@ -40,11 +40,7 @@ function App() {
                           <Route exact path="/" component={ListOfProducts} />
                           <Route exact path="/administrador-Carrusel-Principal" component={MainCarrouselManager} />
                           <Route exact path="/main/categoria" component={Categoria} />
-                          <Route
-                            exact
-                            path="/main/descripcion-producto/:id"
-                            component={Publication}
-                          />
+                          <Route exact path="/main/descripcion-producto/:id" component={Publication} />
                           <Route exact path="/main/carrito" component={ShoppingCart} />
                           <Route exact path="/login" component={Login} />
                           <Route exact path="/nueva-cuenta" component={SignUp} />
