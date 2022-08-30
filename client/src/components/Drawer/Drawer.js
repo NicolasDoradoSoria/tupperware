@@ -1,21 +1,16 @@
 import React, { useState, useContext } from "react";
 import classNames from "classnames";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Style from "./Style";
 import MenuIcon from "@material-ui/icons/Menu";
-import IconButton from "@material-ui/core/IconButton";
 import PersonIcon from "@material-ui/icons/Person";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import CategoryIcon from "@material-ui/icons/Category";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UserContext from "../../context/productsContext/userContext/UserContext";
-import { NavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-
+import { Link, NavLink } from "react-router-dom";
+import { Menu as MenuMaterial } from '@material-ui/core';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import {Button, MenuItem ,IconButton, ListItemText, ListItem,List, Drawer } from "@material-ui/core";
 const adminUserPath = [
   {
     id: 1,
@@ -130,24 +125,69 @@ const Menu = ({ toggleDrawer }) => {
   const userContext = useContext(UserContext);
   const { signOff, user } = userContext;
 
+  //hooks
+  const [anchorEl, setAnchorEl] = useState(null);
+
 
   const onCLickSignOff = () => {
     signOff();
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenMenu = (e) => {
+    setAnchorEl(e.currentTarget)
+  }
   const routeList = (routes) => {
 
     return (
       <List onClick={toggleDrawer(false)}>
         {routes.map((route, key) => {
           return (
-            <NavLink to={{pathname: route.path,  open:false  }} activeClassName="active" key={key}>
+
+            <NavLink to={{ pathname: route.path, open: false }} activeClassName="active" key={key}>
               <ListItem button className={classes.itemLink}>
                 <route.icon className={classNames(classes.itemIcon)} />
-                <ListItemText
-                  primary={route.name}
-                  className={classNames(classes.itemText)}
-                />
+                {route.name === "Categoria" ?
+                  <div>
+                      <ArrowForwardIcon className={classNames(classes.categoryIcon)}/>
+                    <ListItemText
+                      primary={route.name}
+                      className={classNames(classes.itemText)}
+                      onMouseOver={handleOpenMenu}
+
+                    />
+                    <MenuMaterial
+                      id="simple-menu"
+                      anchorEl={anchorEl}
+                      anchorReference="anchorPosition"
+                      anchorPosition={{ top: 222, left: 260 }}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                      classes={{ paper: classes.paper }}
+                      className={classes.menuContainer}
+                      MenuListProps={{
+                        disablePadding: true,
+                        onMouseLeave: handleClose
+                      }}
+                    >
+                      <div className={classes.menus}>
+                        <MenuItem onClick={handleClose} className={classes.itemMenu}>Profile</MenuItem>
+                        <MenuItem onClick={handleClose} className={classes.itemMenu}>My account</MenuItem>
+                        <MenuItem onClick={handleClose} className={classes.itemMenu}>Logout</MenuItem>
+                      </div>
+                    </MenuMaterial>
+                  </div>
+
+                  :
+                  <ListItemText
+                    primary={route.name}
+                    className={classNames(classes.itemText)}
+                  />
+                }
               </ListItem>
             </NavLink>
           )

@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import clsx from "clsx";
 import Style from "./Style";
-import PriceProduct from "../priceProduct/PriceProduct";
 import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/productsContext/userContext/UserContext'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
-import { Link } from "react-router-dom";
 import Carousel from "react-material-ui-carousel"
-import { Container, Grid, Paper, Button, TextField } from "@material-ui/core";
+import { Container, Grid, Paper, Button, TextField, Typography } from "@material-ui/core";
 
 const Publication = ({ match, history }) => {
   const classes = Style();
@@ -19,7 +17,7 @@ const Publication = ({ match, history }) => {
 
   // context products
   const productsContext = useContext(ProductContext)
-  const {product, getProduct } = productsContext
+  const { product, getProduct } = productsContext
 
   //cartContext
   const cartContext = useContext(CartContext);
@@ -44,7 +42,7 @@ const Publication = ({ match, history }) => {
     const order = {
       "user": user.user._id,
       "products": [
-        {"id": _id, "quantity": quantity},
+        { "id": _id, "quantity": quantity },
       ],
       "total": 133,
     }
@@ -65,7 +63,7 @@ const Publication = ({ match, history }) => {
   }, [])
 
 
-  
+
   if (!product) return null
 
   const { descripcion, price, _id, name, stock, images } = product;
@@ -78,7 +76,7 @@ const Publication = ({ match, history }) => {
           <Grid container spacing={3} >
             <Grid item xs={6} md={8} lg={9} >
               <Paper className={fixedHeightPaper} >
-                
+
                 {/* CAROUSEL */}
                 <Carousel autoPlay={true}
                   animation="fade"
@@ -111,7 +109,9 @@ const Publication = ({ match, history }) => {
               {/* PRECIO */}
               <Grid item xs={12}>
                 <Paper className={fixedHeightPaper}>
-                  <PriceProduct price={price} />
+                  <Typography component="p" variant="h4">
+                    {price}
+                  </Typography>
                 </Paper>
               </Grid>
 
