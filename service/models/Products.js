@@ -23,6 +23,11 @@ const userSchema = Schema({
         type: Number,
         required: true,
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        require: true,
+      },
     images: Array,
 }, {
     timestamps: true

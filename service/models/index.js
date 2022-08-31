@@ -3,6 +3,7 @@ const models = {
     carruselImageModel : require("./CarruselImage"),
     productsModel : require("./Products"),
     userModel : require("./User"),
+    categoryModel: require("./Category")
 }
 
 

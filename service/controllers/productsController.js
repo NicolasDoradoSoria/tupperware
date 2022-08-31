@@ -5,9 +5,12 @@ const shortid = require('shortid');
 
 // inserta productos a la MongoDB
 const postProducts = async (req, res) => {
+  
   try {
     const { name, descripcion, date, price, stock } = req.body
     let images = [];
+
+
     if (req.files.images.length > 0) {
 
       req.files.images.forEach(element => {
