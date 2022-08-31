@@ -1,29 +1,31 @@
-const { productsModel } = require("../models");
+const { productsModel, categoryModel } = require("../models");
 const updateProduct = require("../data/updateProduct");
 const shortid = require('shortid');
 
 
 // inserta productos a la MongoDB
 const postProducts = async (req, res) => {
-  
+
   try {
-    const { name, descripcion, date, price, stock } = req.body
+    const { name, descripcion, date, price, stock, category } = req.body
     let images = [];
 
+    const categorySearch = await categoryModel.findById(category);
+    if (!categorySearch) return res.status(400).send("Invalid Category");
 
     if (req.files.images.length > 0) {
 
       req.files.images.forEach(element => {
-        images.push({ 
+        images.push({
           _id: shortid.generate(),
           fileName: element.filename,
           filePath: element.path,
           lastModified: element.lastModified
         });
       });
-  
+
     }
-    const product = new productsModel({ name, descripcion, date, price, stock, images });
+    const product = new productsModel({ name, descripcion, date, price, stock, images, category });
 
     // guardamos el producto
     await product.save();
@@ -39,7 +41,11 @@ const postProducts = async (req, res) => {
 const getProducts = async (req, res) => {
 
   try {
-    const products = await productsModel.find().populate({ path: "imageId", model: "ProductImages" })
+    let filter = {};
+    if (req.query.categories) {
+      filter = { category: req.query.categories.split(",") };
+    }
+    const products = await productsModel.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
     res.json({ products });
 
   } catch (error) {
