@@ -1,6 +1,7 @@
-const express = require("express")
-const router = express.Router();
-const fs = require("fs")
+import {Router} from "express"
+import fs from "fs"
+
+const router = Router();
 
 const PATH_ROUTES = __dirname
 
@@ -15,4 +16,4 @@ fs.readdirSync(PATH_ROUTES).filter((file) => {
     }
 })
 
-module.exports = router
+export default router

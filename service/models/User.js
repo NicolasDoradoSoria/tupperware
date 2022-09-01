@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
-
-const userSchema = mongoose.Schema(
+import {Schema, model} from 'mongoose'
+const userSchema = Schema(
   {
     firstName: {
       type: String,
@@ -60,7 +59,7 @@ const userSchema = mongoose.Schema(
     },
     order: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Cart",
       }
     ]
@@ -70,4 +69,4 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-module.exports = mongoose.model("Usuario", userSchema);
+export default model("Usuario", userSchema);

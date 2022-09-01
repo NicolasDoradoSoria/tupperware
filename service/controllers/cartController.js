@@ -1,6 +1,6 @@
-const {userModel, cartModel, productsModel} = require("../models")
-const updateProduct = require("../data/updateProduct");
-const { matchedData  } = require("express-validator");
+import {userModel, cartModel, productsModel} from "../models"
+import updateProduct from "../data/updateProduct"
+import { matchedData  } from "express-validator"
 //agrega un pedido al carrito
 
 const generateOrder = async (req, res) => {

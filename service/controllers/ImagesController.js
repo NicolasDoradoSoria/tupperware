@@ -1,14 +1,14 @@
-const shortid = require('shortid');
-const { carruselImageModel } = require("../models");
+import shortid from 'shortid'
+import { carruselImageModel } from "../models"
 
 //  ----------------------------------CARROUSEL------------------------------------
 
 
 // Sube una o varias imagenes
 const multiUpload = async (req, res) => {
-        if (!req.files.images) {
-            return res.status(404).json({ msg: "el producto no existe" });
-        }
+    if (!req.files.images) {
+        return res.status(404).json({ msg: "el producto no existe" });
+    }
     try {
         let files = [];
         req.files.images.forEach(element => {
@@ -37,15 +37,15 @@ const getAllMultipleImages = async (req, res) => {
     }
 }
 // eliminar imagen seleccionada...
-const deleteFileById = async (req, res) => {    
+const deleteFileById = async (req, res) => {
     const { arrayId, imageId } = req.params
-   
 
-    try { 
+
+    try {
         // devuelve el array de la imagen que fue enviada por el params
-        const arrayImages = await carruselImageModel.findById(arrayId)  
+        const arrayImages = await carruselImageModel.findById(arrayId)
 
-        if(!arrayImages){
+        if (!arrayImages) {
             return res.status(500).send('la imagen no existe');
         }
 

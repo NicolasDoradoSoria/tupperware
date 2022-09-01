@@ -1,12 +1,10 @@
-const { userModel, roleModel } = require("../models");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { matchedData } = require("express-validator");
+import { userModel, roleModel } from "../models"
+import bcryptjs from "bcryptjs"
+import jwt from "jsonwebtoken"
+import { matchedData } from "express-validator"
 
 //login
 const login = async (req, res) => {
-
-
   //extrear el email y password
   const { email, password } = req.body;
 

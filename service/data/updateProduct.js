@@ -1,6 +1,6 @@
-const Products = require("../models/Products");
+import Products from "../models/Products"
 
-module.exports = updateProduct = async (product, id) =>{
+const  updateProduct = async (product, id) =>{
     try {
        
         await Products.findByIdAndUpdate(
@@ -15,3 +15,5 @@ module.exports = updateProduct = async (product, id) =>{
     }
     
 }
+
+export default { updateProduct }

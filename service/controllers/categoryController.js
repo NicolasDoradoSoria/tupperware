@@ -1,4 +1,4 @@
-const { categoryModel } = require("../models");
+import { categoryModel } from "../models"
 
 //crea una categoria
 const createCategory = async (req, res) => {

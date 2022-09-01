@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import {Schema, model} from 'mongoose'
 
-const carruselImageSchema = mongoose.Schema({
+const carruselImageSchema = Schema({
     files: [Object]
 }, {timestamps: true});
 
-module.exports = mongoose.model("ProductImages", carruselImageSchema);
+export default model("ProductImages", carruselImageSchema);

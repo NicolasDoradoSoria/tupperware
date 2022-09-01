@@ -1,6 +1,6 @@
-const { productsModel, categoryModel } = require("../models");
-const updateProduct = require("../data/updateProduct");
-const shortid = require('shortid');
+import { productsModel, categoryModel } from "../models"
+import updateProduct from "../data/updateProduct"
+import shortid from 'shortid'
 
 
 // inserta productos a la MongoDB

@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken')
-const { userModel } = require("../../models")
+import jwt from 'jsonwebtoken'
+import { userModel } from "../../models"
 const verifyToken = (req, res, next) => {
     //leer el token del header
     const token = req.header('x-auth-token')

@@ -1,4 +1,4 @@
-const { userModel } = require("../models");
+import { userModel } from "../models"
 
 //obtiene que usuario esta autenticado
 const getUser = async (req, res) => {
@@ -10,4 +10,4 @@ const getUser = async (req, res) => {
     res.status(500).json({ msg: 'hubo un error' })
   }
 }
-module.exports = {getUser}
+module.exports = { getUser }

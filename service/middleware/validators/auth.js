@@ -1,5 +1,5 @@
-const { check } = require("express-validator");
-const { validateResult } = require("../../data/validateResult");
+import { check } from "express-validator"
+import { validateResult } from "../../data/validateResult"
 
 const validateRegister = [
   check("firstName").exists().notEmpty().isLength({min: 3, max: 20}).withMessage("el nombre tiene que ser de 3 a 20 caracteres!"),

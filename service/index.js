@@ -1,9 +1,8 @@
-const express = require('express')
-const conectarDB = require('./config/db')
-const cors = require('cors')
+import express from "express"
+import './config/db'
+import cors from 'cors'
+import routes from "./routes"
 const app = express()
-conectarDB()
-
 
 app.use(cors())
 
@@ -14,7 +13,7 @@ app.use(express.urlencoded({ extended: true }))
 const PORT = process.env.PORT || 4000
 
 //rutas
-app.use("/api", require("./routes"))
+app.use("/api", routes)
 
 //carpeta publica
 app.use(express.static('uploads'))

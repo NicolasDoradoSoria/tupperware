@@ -1,5 +1,5 @@
-const { productsModel } = require("../models");
-module.exports = getOrderAmaount = async products =>{
+import { productsModel } from "../models"
+export default getOrderAmaount = async products =>{
     let amaount = 1
 
     for(let index = 0; index < products.length; index++){

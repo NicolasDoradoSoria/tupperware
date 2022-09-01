@@ -1,5 +1,5 @@
-const { check } = require("express-validator");
-const { validateResult } = require("../../data/validateResult");
+import { check } from "express-validator"
+import { validateResult } from "../../data/validateResult"
 const validateGenerateOrder = [
   check("user").exists().notEmpty(),
   check("products").exists().notEmpty().isArray(),

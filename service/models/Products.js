@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema;
+import {Schema, model} from 'mongoose'
+
 const userSchema = Schema({
     name: {
         type: String,
@@ -24,7 +24,7 @@ const userSchema = Schema({
         required: true,
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Category",
         require: true,
       },
@@ -33,4 +33,4 @@ const userSchema = Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('Productos', userSchema)
+export default model('Productos', userSchema)

@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "nodemon . --exec babel-node"
   },
   "author": "Nicolas A. Dorado Soria",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
+    "@babel/node": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
     "nodemon": "^2.0.6"
   },
   "dependencies": {
