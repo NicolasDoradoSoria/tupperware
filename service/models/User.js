@@ -67,6 +67,7 @@ const userSchema = Schema(
   },
   {
     timestamps: true,
+    versionKey: false
   }
 );
 export default model("Usuario", userSchema);

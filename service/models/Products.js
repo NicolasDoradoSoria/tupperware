@@ -30,7 +30,8 @@ const userSchema = Schema({
       },
     images: Array,
 }, {
-    timestamps: true
+    timestamps: true,
+    versionKey: false
 })
 
 export default model('Productos', userSchema)

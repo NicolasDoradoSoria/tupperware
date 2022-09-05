@@ -6,6 +6,8 @@ const CategorySchema = new Schema({
     trim: true,
     unique: true,
   }
+}, {
+  versionKey: false
 });
 
 module.exports = model("Category", CategorySchema);

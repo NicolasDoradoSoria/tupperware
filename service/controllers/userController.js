@@ -1,9 +1,8 @@
-import { userModel } from "../models"
-
+import User from '../models/User'
 //obtiene que usuario esta autenticado
 const getUser = async (req, res) => {
   try {
-    const user = await userModel.findById(req.userId).select('-password')
+    const user = await User.findById(req.userId).select('-password')
     res.json({ user })
   } catch (error) {
     console.log(error)

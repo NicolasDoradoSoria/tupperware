@@ -1,4 +1,4 @@
-import {  roleModel } from "../models"
+// import {  roleModel } from "../models"
 import User from '../models/User'
 
 import bcryptjs from "bcryptjs"
@@ -62,13 +62,13 @@ const register = async (req, res) => {
     const salt = await bcryptjs.genSalt(10);
     user.password = await bcryptjs.hash(password, salt);
 
-    if (roles) {
-      const foundRoles = await roleModel.find({ name: { $in: roles } });
-      user.roles = foundRoles.map((role) => role._id);
-    } else {
-      const role = await roleModel.findOne({ name: "user" });
-      user.roles = [role._id];
-    }
+    // if (roles) {
+    //   // const foundRoles = await roleModel.find({ name: { $in: roles } });
+    //   user.roles = foundRoles.map((role) => role._id);
+    // } else {
+    //   // const role = await roleModel.findOne({ name: "user" });
+    //   user.roles = [role._id];
+    // }
 
     //guardar usuario
     await user.save();
