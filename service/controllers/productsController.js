@@ -1,7 +1,7 @@
-import { productsModel, categoryModel } from "../models"
+import Category from "../models/Category"
+import Products from "../models/Products"
 import updateProduct from "../data/updateProduct"
 import shortid from 'shortid'
-
 
 // inserta productos a la MongoDB
 const postProducts = async (req, res) => {
@@ -10,7 +10,8 @@ const postProducts = async (req, res) => {
     const { name, descripcion, date, price, stock, category } = req.body
     let images = [];
 
-    const categorySearch = await categoryModel.findById(category);
+    const categorySearch = await Category.findById(category);
+    
     if (!categorySearch) return res.status(400).send("Invalid Category");
 
     if (req.files.images.length > 0) {
@@ -25,7 +26,7 @@ const postProducts = async (req, res) => {
       });
 
     }
-    const product = new productsModel({ name, descripcion, date, price, stock, images, category });
+    const product = new Products({ name, descripcion, date, price, stock, images, category });
 
     // guardamos el producto
     await product.save();
@@ -39,15 +40,14 @@ const postProducts = async (req, res) => {
 
 // devuelve todos los productos
 const getProducts = async (req, res) => {
-
   try {
     let filter = {};
     if (req.query.categories) {
       filter = { category: req.query.categories.split(",") };
     }
-    const products = await productsModel.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
+    const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
+    console.log(products)
     res.json({ products });
-
   } catch (error) {
     res.status(500).send("hubo un error");
   }
@@ -57,7 +57,7 @@ const getProducts = async (req, res) => {
 const getProductById = async (req, res) => {
 
   try {
-    const product = await productsModel.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages" })
+    const product = await Products.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages" })
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -70,7 +70,7 @@ const updateProductById = async (req, res) => {
   const { productId } = req.params
   try {
     //si el producto existe o no
-    let products = await productsModel.findById(productId);
+    let products = await Products.findById(productId);
 
     if (!products) {
       return res.status(404).json({ msg: "no existe ese producto" });
@@ -90,13 +90,13 @@ const deleteProductById = async (req, res) => {
   try {
     const { productId } = req.params;
 
-    const products = await productsModel.find();
+    const products = await Products.find();
     //si el producto existe o no
-    let product = await productsModel.findById(productId);
+    let product = await Products.findById(productId);
     if (!product) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-    await productsModel.findByIdAndDelete(productId);
+    await Products.findByIdAndDelete(productId);
 
 
 
@@ -109,7 +109,7 @@ const deleteProductById = async (req, res) => {
 // search de productos
 const searchProducts = async (req, res) => {
   try {
-    const products = await productsModel.find()
+    const products = await Products.find()
     if (!req.body.name) {
       return res.status(200).json(products);
     }

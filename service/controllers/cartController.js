@@ -1,4 +1,6 @@
-import {userModel, cartModel, productsModel} from "../models"
+import User from '../models/User'
+import Cart from '../models/Cart'
+import Products from '../models/Products'
 import updateProduct from "../data/updateProduct"
 import { matchedData  } from "express-validator"
 //agrega un pedido al carrito
@@ -8,13 +10,13 @@ const generateOrder = async (req, res) => {
   const { id, quantity} = body.products[0];
   try {
     // devuelve el usuario logeado
-    const user = await userModel.findById(req.userId).select('-password')
+    const user = await User.findById(req.userId).select('-password')
     
     //devuelve el carrito si es que existe si no existe crea uno
-    let cart = await cartModel.findOne({ user: user._id })
+    let cart = await Cart.findOne({ user: user._id })
     
     //devuelve el producto que se va a agregar al carrito
-    let product = await productsModel.findById(id)
+    let product = await Products.findById(id)
   
     if(!product) {
       return res.status(404).json({ msg: "el producto no existe" });
@@ -42,7 +44,7 @@ const generateOrder = async (req, res) => {
     else {
       //no cart for user, create new cart
       
-      await cartModel.create({
+      await Cart.create({
         user: user._id,
         products: [{ id, quantity }]
       });
@@ -58,7 +60,7 @@ const generateOrder = async (req, res) => {
 //muestra todos los pedidos
 const showAllOrders = async (req, res) => {
   try {
-    const order = await cartModel.find({}).populate("user");
+    const order = await Cart.find({}).populate("user");
     res.json(order);
   } catch (error) {
     console.log(error);
@@ -69,7 +71,7 @@ const showAllOrders = async (req, res) => {
 //muestra un pedido por ID de usuario
 const showOrder = async (req, res) => {
   try {
-    const order = await cartModel.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"})
+    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"})
      
     if (order.length == 0) {
       return res.status(404).json({ msg: "no posee pedidos aun" });
@@ -85,10 +87,10 @@ const showOrder = async (req, res) => {
 
 //actualiza un pedido por ID
 const updateOrder = async (req, res, next) => {
-  const orderUser = await cartModel.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"
+  const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"
  })
   try {
-    const order = await cartModel.findOneAndUpdate(
+    const order = await Cart.findOneAndUpdate(
       { _id: orderUser[0]._id },
       req.body,
       { new: true }
@@ -104,7 +106,7 @@ const updateOrder = async (req, res, next) => {
 const deleteProductOrder = async (req, res, next) => {
 
   try {
-    await cartModel.findOneAndUpdate({ user: req.params.idUser },
+    await Cart.findOneAndUpdate({ user: req.params.idUser },
       { $pull: { products: { _id: req.params.idOrder } } });
     res.json({ msg: "el producto se a eliminado" })
 
@@ -118,7 +120,7 @@ const deleteProductOrder = async (req, res, next) => {
 //elimina un pedido por ID
 const deleteOrder = async (req, res, next) => {
   try {
-    await cartModel.findOneAndDelete({ user: req.params.idUser })
+    await Cart.findOneAndDelete({ user: req.params.idUser })
 
     res.json({ msg: "el carrito fue limpieado correctamente" })
   } catch (error) {

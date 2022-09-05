@@ -1,5 +1,6 @@
 import shortid from 'shortid'
-import { carruselImageModel } from "../models"
+import CarruselImage from "../models/CarruselImage"
+
 
 //  ----------------------------------CARROUSEL------------------------------------
 
@@ -19,7 +20,7 @@ const multiUpload = async (req, res) => {
             }
             files.push(image);
         });
-        const images = new carruselImageModel({ files });
+        const images = new CarruselImage({ files });
         await images.save();
         return res.status(201).send('image Upsloaded Successfully');
     } catch (error) {
@@ -30,7 +31,7 @@ const multiUpload = async (req, res) => {
 // mostrar imagenes
 const getAllMultipleImages = async (req, res) => {
     try {
-        const files = await carruselImageModel.find()
+        const files = await CarruselImage.find()
         res.status(200).send(files)
     } catch (error) {
         res.status(400).send(error.message)
@@ -43,7 +44,7 @@ const deleteFileById = async (req, res) => {
 
     try {
         // devuelve el array de la imagen que fue enviada por el params
-        const arrayImages = await carruselImageModel.findById(arrayId)
+        const arrayImages = await CarruselImage.findById(arrayId)
 
         if (!arrayImages) {
             return res.status(500).send('la imagen no existe');
@@ -51,10 +52,10 @@ const deleteFileById = async (req, res) => {
 
         // si hay un solo elemento en el array o varios....
         if (arrayImages.files.length === 1) {
-            await carruselImageModel.findByIdAndDelete(arrayId)
+            await CarruselImage.findByIdAndDelete(arrayId)
         }
         else {
-            await carruselImageModel.updateOne({ "_id": arrayId }, { $pull: { files: { _id: imageId } } })
+            await CarruselImage.updateOne({ "_id": arrayId }, { $pull: { files: { _id: imageId } } })
         }
         return res.status(200).send('se a eliminado correctamente la imagen');
     } catch (err) {

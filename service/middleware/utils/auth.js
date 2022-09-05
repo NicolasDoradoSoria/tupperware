@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { userModel } from "../../models"
+import User from "../../models/User"
 const verifyToken = (req, res, next) => {
     //leer el token del header
     const token = req.header('x-auth-token')
@@ -20,6 +20,7 @@ const verifyToken = (req, res, next) => {
 }
 
 const isAdmin = (roles) => async (req, res, next) => {
+    console.log("gola")
      //leer el token del header
      try {
         const token = req.header('x-auth-token').split(" ").pop();
@@ -30,7 +31,7 @@ const isAdmin = (roles) => async (req, res, next) => {
          }
 
          const tokenData = jwt.verify(token, process.env.SECRETA)
-         const userData = await userModel.findById(tokenData.user.id);
+         const userData = await User.findById(tokenData.user.id);
          if ([].concat(roles).includes(userData.role[0])) {
            next();
          } else {

@@ -1,4 +1,6 @@
-import { userModel, roleModel } from "../models"
+import {  roleModel } from "../models"
+import User from '../models/User'
+
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { matchedData } from "express-validator"
@@ -10,7 +12,7 @@ const login = async (req, res) => {
 
   try {
     //revisar que sea un usuario registrado
-    const user = await userModel.findOne({ email: email }).populate("roles");
+    const user = await User.findOne({ email: email }).populate("roles");
 
     if (!user) {
       return res.status(400).json({ msg: "el usuario no existe" });
@@ -54,7 +56,7 @@ const register = async (req, res) => {
     const body = matchedData(req)
     const { password, roles } = body;
     //crea el nuevo usuario
-    user = new userModel(body);
+    let user = new User(body);
 
     //hashear el password
     const salt = await bcryptjs.genSalt(10);

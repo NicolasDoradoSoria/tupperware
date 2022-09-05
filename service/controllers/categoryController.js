@@ -1,14 +1,13 @@
-import { categoryModel } from "../models"
+import Category from "../models/Category"
 
 //crea una categoria
 const createCategory = async (req, res) => {
     try {
         const { name } = req.body
-        let category = new categoryModel({
+        let category = new Category({
             name,
         });
         category = await category.save();
-
         if (!category) return res.status(404).send("the category cannot be created!");
 
 
@@ -24,7 +23,7 @@ const createCategory = async (req, res) => {
 const getCategories = async (req, res) => {
     try {
 
-        const categoryList = await categoryModel.find();
+        const categoryList = await Category.find();
 
         if (!categoryList) {
             res.status(500).json({ success: false });
@@ -42,7 +41,7 @@ const updateCategory = async (req, res) => {
 
     const { categoryId } = req.params
     try {
-        const category = await categoryModel.findByIdAndUpdate(
+        const category = await Category.findByIdAndUpdate(
             categoryId,
             { name },
             { new: true }
@@ -62,7 +61,7 @@ const deleteCategory = async (req, res) => {
     const { categoryId } = req.params
 
     try {
-        let deleteCategory = await categoryModel.findByIdAndRemove(categoryId)
+        let deleteCategory = await Category.findByIdAndRemove(categoryId)
         if (deleteCategory) {
             return res
                 .status(200)
