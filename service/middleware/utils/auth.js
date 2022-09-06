@@ -1,45 +1,45 @@
 import jwt from 'jsonwebtoken'
 import User from "../../models/User"
-const verifyToken = (req, res, next) => {
-    //leer el token del header
-    const token = req.header('x-auth-token')
+import Role from "../../models/Role"
 
-    //revisar si no hay token
-    if (!token) {
-        return res.status(401).json({ msg: 'no hay token, permiso no valido' })
-    }
+const verifyToken = async (req, res, next) => {
+  //leer el token del header
+  const token = req.header('x-auth-token')
 
-    try {
-        const cifrado = jwt.verify(token, process.env.SECRETA)
-        req.userId = cifrado.user.id
-        next()
-    } catch (error) {
-        res.status(401).json({ msg: "token no valido" })
-    }
-    //validar el token
+  //revisar si no hay token
+  if (!token) {
+    return res.status(403).json({ msg: 'no hay token, permiso no valido' })
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRETA)
+    req.userId = decoded.user.id
+    const user = await User.findById(req.userId, { password: 0 });
+    if (!user) return res.status(404).json({ message: "No user found" });
+    next()
+  } catch (error) {
+    res.status(401).json({ msg: "token no valido" })
+  }
+  //validar el token
 }
 
-const isAdmin = (roles) => async (req, res, next) => {
-    console.log("gola")
-     //leer el token del header
-     try {
-        const token = req.header('x-auth-token').split(" ").pop();
-         //revisar si no hay token
-         if (!token) {
-             return res.status(409).json({ msg: 'no hay token, permiso no valido' })
-     
-         }
+const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId);
+    const roles = await Role.find({ _id: { $in: user.roles } });
 
-         const tokenData = jwt.verify(token, process.env.SECRETA)
-         const userData = await User.findById(tokenData.user.id);
-         if ([].concat(roles).includes(userData.role[0])) {
-           next();
-         } else {
-            res.status(401).json({ msg: "no posee permisos" })
-         }
-     } catch (error) {
-         res.status(401).json(error)
-     }
+    for (let i = 0; i < roles.length; i++) {
+      if (roles[i].name === "admin") {
+        next();
+        return;
+      }
+    }
+
+    return res.status(403).json({ message: "Require Admin Role!" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ message: error });
+  }
 }
 
 module.exports = { isAdmin, verifyToken }

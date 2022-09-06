@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose'
+import { Schema, model } from 'mongoose'
 const userSchema = Schema(
   {
     firstName: {
@@ -49,10 +49,13 @@ const userSchema = Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: ["user", "admin"],
-      default: "user",
-    },
+    roles: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Role",
+      }
+    ],
+
     dateOfBirth: {
       type: Date,
       require

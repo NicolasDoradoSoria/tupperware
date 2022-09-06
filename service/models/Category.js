@@ -10,4 +10,4 @@ const CategorySchema = new Schema({
   versionKey: false
 });
 
-module.exports = model("Category", CategorySchema);
+export default model("Category", CategorySchema);

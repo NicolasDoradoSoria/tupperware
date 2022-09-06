@@ -1,4 +1,4 @@
-// import {  roleModel } from "../models"
+import Role from "../models/Role"
 import User from '../models/User'
 
 import bcryptjs from "bcryptjs"
@@ -21,7 +21,7 @@ const login = async (req, res) => {
     const correctPass = await bcryptjs.compare(password, user.password);
 
     if (!correctPass) {
-      return res.status(400).json({ msg: "password incorrecto" });
+      return res.status(401).json({ msg: "password incorrecto" });
     }
 
     //si todo es correcto crear y firmar el JWT
@@ -50,25 +50,28 @@ const login = async (req, res) => {
   }
 };
 
+
 const register = async (req, res) => {
   //extraer email y password
   try {
     const body = matchedData(req)
-    const { password, roles } = body;
-    //crea el nuevo usuario
+    const { password} = body;
+
+
+    //crea el nuevo usuarioz
     let user = new User(body);
 
     //hashear el password
     const salt = await bcryptjs.genSalt(10);
     user.password = await bcryptjs.hash(password, salt);
 
-    // if (roles) {
-    //   // const foundRoles = await roleModel.find({ name: { $in: roles } });
-    //   user.roles = foundRoles.map((role) => role._id);
-    // } else {
-    //   // const role = await roleModel.findOne({ name: "user" });
-    //   user.roles = [role._id];
-    // }
+    if (req.body.roles) {
+      const foundRoles = await Role.find({ name: { $in: req.body.roles } });
+      user.roles = foundRoles.map((role) => role._id);
+    } else {
+      const role = await Role.findOne({ name: "user" });
+      user.roles = [role._id];
+    }
 
     //guardar usuario
     await user.save();
@@ -91,7 +94,7 @@ const register = async (req, res) => {
         if (error) throw error;
 
         //mensaje de confirmacion
-        res.json({ token });
+        res.status(200).json({ token });
       }
     );
   } catch (error) {

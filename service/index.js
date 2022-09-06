@@ -2,7 +2,10 @@ import express from "express"
 import './config/db'
 import cors from 'cors'
 import routes from "./routes"
+import {createRoles} from './data/initialSetup'
+
 const app = express()
+createRoles()
 
 app.use(cors())
 
