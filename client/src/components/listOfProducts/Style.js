@@ -43,11 +43,11 @@ export default makeStyles((theme) => ({
     marginTop: "1rem"
   },
   logo: {
+    margin: "5rem auto",
     display: "block",
-    marginTop: "2rem",
-    marginLeft: "auto",
-    marginRight: "auto",
     width: "30%",
+  },
+  logoContainer: {
   },
   rootNavigation: {
     width: "80%",

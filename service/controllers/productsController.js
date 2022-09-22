@@ -4,7 +4,7 @@ import updateProduct from "../data/updateProduct"
 import shortid from 'shortid'
 
 // inserta productos a la MongoDB
-const postProducts = async (req, res) => {
+export const postProducts = async (req, res) => {
 
   try {
     const { name, descripcion, date, price, stock, category } = req.body
@@ -39,7 +39,7 @@ const postProducts = async (req, res) => {
 
 
 // devuelve todos los productos
-const getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
     let filter = {};
     if (req.query.categories) {
@@ -54,7 +54,7 @@ const getProducts = async (req, res) => {
 };
 
 //devuelve producto por id
-const getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
 
   try {
     const product = await Products.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages" })
@@ -65,7 +65,7 @@ const getProductById = async (req, res) => {
 };
 
 //actualiza producto por id
-const updateProductById = async (req, res) => {
+export const updateProductById = async (req, res) => {
 
   const { productId } = req.params
   try {
@@ -85,7 +85,7 @@ const updateProductById = async (req, res) => {
 
 
 //elimina producto por id
-const deleteProductById = async (req, res) => {
+export const deleteProductById = async (req, res) => {
 
   try {
     const { productId } = req.params;
@@ -107,7 +107,7 @@ const deleteProductById = async (req, res) => {
 };
 
 // search de productos
-const searchProducts = async (req, res) => {
+export const searchProducts = async (req, res) => {
   try {
     const products = await Products.find()
     if (!req.body.name) {
@@ -120,5 +120,3 @@ const searchProducts = async (req, res) => {
     res.status(500).send("hubo un error");
   }
 };
-
-module.exports = { searchProducts, deleteProductById, updateProductById, getProductById, getProducts, postProducts }

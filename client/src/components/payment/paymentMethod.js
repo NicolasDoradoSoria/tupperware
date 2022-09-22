@@ -11,9 +11,9 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Style from "./style";
 import Paper from "@material-ui/core/Paper";
-const stripePromise = loadStripe(
-  "pk_test_51IRoRnFCtaDdCCFUADGdN9b5MX1c5JWX9woDubBwgdzhiZ3iD1RDAw3qoGJ8I2DcS8h7Toci0wdSLeOfK6HjZiPZ00tTedftM3"
-);
+// const stripePromise = loadStripe(
+//   "pk_test_51IRoRnFCtaDdCCFUADGdN9b5MX1c5JWX9woDubBwgdzhiZ3iD1RDAw3qoGJ8I2DcS8h7Toci0wdSLeOfK6HjZiPZ00tTedftM3"
+// );
 
 const CheckoutForm = () => {
   const elements = useElements();
@@ -59,7 +59,7 @@ function PaymentMethod() {
   const classes = Style();
   return (
     <>
-      <Elements stripe={stripePromise}>
+      {/* <Elements stripe={stripePromise}>
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Typography variant="h6" gutterBottom>
@@ -69,7 +69,7 @@ function PaymentMethod() {
             <CheckoutForm />
           </Paper>
         </main>
-      </Elements>
+      </Elements> */}
     </>
   );
 }

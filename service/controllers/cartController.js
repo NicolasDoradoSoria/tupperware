@@ -5,7 +5,7 @@ import updateProduct from "../data/updateProduct"
 import { matchedData  } from "express-validator"
 //agrega un pedido al carrito
 
-const generateOrder = async (req, res) => {
+export const generateOrder = async (req, res) => {
   const body = matchedData (req)
   const { id, quantity} = body.products[0];
   try {
@@ -58,7 +58,7 @@ const generateOrder = async (req, res) => {
 };
 
 //muestra todos los pedidos
-const showAllOrders = async (req, res) => {
+export const showAllOrders = async (req, res) => {
   try {
     const order = await Cart.find({}).populate("user");
     res.json(order);
@@ -69,7 +69,7 @@ const showAllOrders = async (req, res) => {
 };
 
 //muestra un pedido por ID de usuario
-const showOrder = async (req, res) => {
+export const showOrder = async (req, res) => {
   try {
     const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"})
      
@@ -86,7 +86,7 @@ const showOrder = async (req, res) => {
 
 
 //actualiza un pedido por ID
-const updateOrder = async (req, res, next) => {
+export const updateOrder = async (req, res, next) => {
   const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"
  })
   try {
@@ -103,7 +103,7 @@ const updateOrder = async (req, res, next) => {
   }
 };
 //actualiza un pedido por ID
-const deleteProductOrder = async (req, res, next) => {
+export const deleteProductOrder = async (req, res, next) => {
 
   try {
     await Cart.findOneAndUpdate({ user: req.params.idUser },
@@ -118,7 +118,7 @@ const deleteProductOrder = async (req, res, next) => {
 
 
 //elimina un pedido por ID
-const deleteOrder = async (req, res, next) => {
+export const deleteOrder = async (req, res, next) => {
   try {
     await Cart.findOneAndDelete({ user: req.params.idUser })
 
@@ -128,5 +128,3 @@ const deleteOrder = async (req, res, next) => {
     next()
   }
 }
-
-module.exports = {deleteOrder, deleteProductOrder, updateOrder, showOrder, showAllOrders, generateOrder}

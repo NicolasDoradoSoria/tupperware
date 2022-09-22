@@ -1,7 +1,7 @@
 import { check } from "express-validator"
 import { validateResult } from "../../data/validateResult"
 
-const validateRegister = [
+export const validateRegister = [
   check("firstName").exists().notEmpty().isLength({min: 3, max: 20}).withMessage("el nombre tiene que ser de 3 a 20 caracteres!"),
   check("lastName").exists().notEmpty(),
   check('email', 'agrega un email valido').isEmail().exists(),
@@ -17,13 +17,11 @@ const validateRegister = [
   },
 ]
 
-const validateLogin = [
+export const validateLogin = [
   check("email", "agrega un email valido").isEmail(),
 
   (req, res, next) => {
     validateResult (req, res, next);
   },
 ]
-
-module.exports = { validateRegister, validateLogin }
 

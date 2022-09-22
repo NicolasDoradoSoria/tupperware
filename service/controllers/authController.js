@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken"
 import { matchedData } from "express-validator"
 
 //login
-const login = async (req, res) => {
+export const login = async (req, res) => {
   //extrear el email y password
   const { email, password } = req.body;
 
@@ -51,7 +51,7 @@ const login = async (req, res) => {
 };
 
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
   //extraer email y password
   try {
     const body = matchedData(req)
@@ -103,4 +103,3 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = { login, register }

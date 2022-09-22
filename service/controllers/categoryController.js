@@ -1,7 +1,7 @@
 import Category from "../models/Category"
 
 //crea una categoria
-const createCategory = async (req, res) => {
+export const createCategory = async (req, res) => {
     try {
         const { name } = req.body
         let category = new Category({
@@ -20,7 +20,7 @@ const createCategory = async (req, res) => {
 
 
 //devuelve todas las categorias
-const getCategories = async (req, res) => {
+export const getCategories = async (req, res) => {
     try {
 
         const categoryList = await Category.find();
@@ -36,7 +36,7 @@ const getCategories = async (req, res) => {
 };
 
 //actualiza una categoria
-const updateCategory = async (req, res) => {
+export const updateCategory = async (req, res) => {
     const { name } = req.body
 
     const { categoryId } = req.params
@@ -57,7 +57,7 @@ const updateCategory = async (req, res) => {
 };
 
 //elimina una categoria
-const deleteCategory = async (req, res) => {
+export const deleteCategory = async (req, res) => {
     const { categoryId } = req.params
 
     try {
@@ -78,5 +78,3 @@ const deleteCategory = async (req, res) => {
         res.status(500).send("hubo un error");
     }
 };
-
-module.exports = { createCategory, getCategories, updateCategory, deleteCategory }

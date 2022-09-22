@@ -12,7 +12,7 @@ const Header = () => {
   const classes = Style();
 
   return (
-    <AppBar position="static" style={{ background: "#CDA6C2" }} >
+    <AppBar position="fixed" style={{ background: "#CDA6C2" }} >
       <Toolbar>
           <DraWer />
         

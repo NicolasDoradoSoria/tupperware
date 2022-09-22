@@ -86,7 +86,7 @@ const Carousel = () => {
         getMultipleImages()
         slideInterval.current = setInterval(() => {
             following();
-        }, 5000);
+        }, 6000);
         // Eliminamos los intervalos
         slideshow.current.addEventListener('mouseenter', () => {
             clearInterval(slideInterval.current);
@@ -151,20 +151,6 @@ const Slide = styled.div`
     img {
         width: 100%;
         vertical-align: top;
-    }
-`;
-const TextSlide = styled.div`
-    background: ${props => props.backgroundColor ? props.backgroundColor : "rgba(0,0,0, .3)"};
-    color: ${props => props.textColor ? props.textColor : "#fff"};
-    width: 100%;
-    padding: 10px 60px;
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-
-    @media screen and (max-width: 700px){
-        position: relative;
-        background: #000;
     }
 `;
 

@@ -6,7 +6,7 @@ import CarruselImage from "../models/CarruselImage"
 
 
 // Sube una o varias imagenes
-const multiUpload = async (req, res) => {
+export const multiUpload = async (req, res) => {
     if (!req.files.images) {
         return res.status(404).json({ msg: "el producto no existe" });
     }
@@ -29,7 +29,7 @@ const multiUpload = async (req, res) => {
 }
 
 // mostrar imagenes
-const getAllMultipleImages = async (req, res) => {
+export const getAllMultipleImages = async (req, res) => {
     try {
         const files = await CarruselImage.find()
         res.status(200).send(files)
@@ -38,7 +38,7 @@ const getAllMultipleImages = async (req, res) => {
     }
 }
 // eliminar imagen seleccionada...
-const deleteFileById = async (req, res) => {
+export const deleteFileById = async (req, res) => {
     const { arrayId, imageId } = req.params
 
 
@@ -63,5 +63,3 @@ const deleteFileById = async (req, res) => {
         return res.status(400).send(err.message);
     }
 }
-
-module.exports = { deleteFileById, getAllMultipleImages, multiUpload }

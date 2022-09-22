@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import classNames from "classnames";
 import Style from "./Style";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -7,10 +7,11 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import CategoryIcon from "@material-ui/icons/Category";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UserContext from "../../context/productsContext/userContext/UserContext";
-import { Link, NavLink } from "react-router-dom";
-import { Menu as MenuMaterial } from '@material-ui/core';
+import { Link } from "react-router-dom";
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import {Button, MenuItem ,IconButton, ListItemText, ListItem,List, Drawer } from "@material-ui/core";
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import { Button, IconButton, ListItemText, ListItem, List, Drawer, ListItemIcon } from "@material-ui/core";
+import CategoryContext from "../../context/categoryContext/CategoryContext";
 const adminUserPath = [
   {
     id: 1,
@@ -79,7 +80,6 @@ export default function DraWer() {
       <IconButton
         onClick={toggleDrawer(true)}
         edge="start"
-        className={classes.menuButton}
         color="inherit"
         aria-label="open drawer"
       >
@@ -92,24 +92,20 @@ export default function DraWer() {
       >
         {authenticated ? <Menu toggleDrawer={toggleDrawer} />
           : (
-            <div className={classes.sidebarWrapper}>
 
-              <Link to={"/login"} >
-                <div className={classes.linkButton}>
+            <Link to={"/login"} className={classes.linkButton} style={{ textDecoration: 'none' }}>
 
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    onClick={toggleDrawer(false)}
-                    className={classes.itemLink}
-                  >
-                    Iniciar Secion
-                  </Button>
-                </div>
-              </Link>
-            </div>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={toggleDrawer(false)}
+                className={classes.loginButton}
+              >
+                Iniciar Secion
+              </Button>
+            </Link>
           )}
       </Drawer>
     </>
@@ -125,9 +121,16 @@ const Menu = ({ toggleDrawer }) => {
   const userContext = useContext(UserContext);
   const { signOff, user } = userContext;
 
+  //CategoryContext
+  const categoryContext = useContext(CategoryContext)
+  const { getCategory, categories } = categoryContext
   //hooks
   const [anchorEl, setAnchorEl] = useState(null);
 
+  useEffect(() => {
+    getCategory()
+
+  }, [getCategory])
 
   const onCLickSignOff = () => {
     signOff();
@@ -138,58 +141,64 @@ const Menu = ({ toggleDrawer }) => {
   };
 
   const handleOpenMenu = (e) => {
-    setAnchorEl(e.currentTarget)
+    setAnchorEl(!anchorEl)
   }
   const routeList = (routes) => {
 
     return (
-      <List onClick={toggleDrawer(false)}>
+      <List disablePadding>
         {routes.map((route, key) => {
           return (
+            <ListItem button
+              className={!anchorEl || route.name !== "Categoria" ? `${classes.list} ${classes.listHover}` : `${classes.list}`}
+              component={Link} to={route.path} key={key}
+            >
 
-            <NavLink to={{ pathname: route.path, open: false }} activeClassName="active" key={key}>
-              <ListItem button className={classes.itemLink}>
-                <route.icon className={classNames(classes.itemIcon)} />
-                {route.name === "Categoria" ?
-                  <div>
-                      <ArrowForwardIcon className={classNames(classes.categoryIcon)}/>
-                    <ListItemText
-                      primary={route.name}
-                      className={classNames(classes.itemText)}
-                      onMouseOver={handleOpenMenu}
-
-                    />
-                    <MenuMaterial
-                      id="simple-menu"
-                      anchorEl={anchorEl}
-                      anchorReference="anchorPosition"
-                      anchorPosition={{ top: 222, left: 260 }}
-                      keepMounted
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                      classes={{ paper: classes.paper }}
-                      className={classes.menuContainer}
-                      MenuListProps={{
-                        disablePadding: true,
-                        onMouseLeave: handleClose
-                      }}
-                    >
-                      <div className={classes.menus}>
-                        <MenuItem onClick={handleClose} className={classes.itemMenu}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose} className={classes.itemMenu}>My account</MenuItem>
-                        <MenuItem onClick={handleClose} className={classes.itemMenu}>Logout</MenuItem>
-                      </div>
-                    </MenuMaterial>
-                  </div>
-
-                  :
+              {route.name === "Categoria" ?
+                <div onClick={handleOpenMenu} className={classes.categoryContainer}>
+                  <ListItemIcon className={classes.itemIcon}>
+                    <route.icon />
+                  </ListItemIcon>
                   <ListItemText
                     primary={route.name}
-                    className={classNames(classes.itemText)}
+                    className={classes.itemText}
+                    onClick={toggleDrawer(false)}
                   />
-                }
-              </ListItem>
-            </NavLink>
+
+                  {anchorEl ?
+                    <>
+                      <List onClick={handleClose} className={classes.categoryList}>
+                        {categories.map((category) => {
+                          return (
+                            <ListItem button className={`${classes.listHover}`} key={category._id}>
+                              <ListItemText className={classes.itemText} primary={category.name} />
+                            </ListItem>
+                          )
+                        })}
+                      </List>
+                      <ListItemIcon className={classes.itemIcon}>
+                        <ArrowDownwardIcon />
+                      </ListItemIcon>
+                    </>
+                    : <ListItemIcon className={`${classes.itemIcon} + ${classes.arrowIcon}`}>
+                      <ArrowForwardIcon />
+                    </ListItemIcon>
+                  }
+                </div>
+
+                :
+                <>
+                  <ListItemIcon className={classes.itemIcon}>
+                    <route.icon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={route.name}
+                    className={classes.itemText}
+                    onClick={toggleDrawer(false)}
+                  />
+                </>
+              }
+            </ListItem>
           )
         })}
       </List>
@@ -203,43 +212,37 @@ const Menu = ({ toggleDrawer }) => {
 
   return (
     <>
-      <div className={classes.logo}>
+      <div className={classes.logoConteiner}>
         <Link
           to={`/`}
-          className={classNames(classes.logoLink)}
+          className={classes.logoLink}
           style={{ textDecoration: "none" }}
           onClick={toggleDrawer(false)}
         >
           SKINCARE BOUTIQUE
         </Link>
 
-        <div className={classNames(classes.logoName)}>
+        <div className={classes.title}>
           {user ? <div>Hola {user.user.firstName}</div> : null}
         </div>
       </div>
 
-      <div className={classes.sidebarWrapper}>
+      <div>
         {routeList(plainUserPath)}
 
         {(roleFilter[0] !== "admin") ? null : routeList(adminUserPath)}
-
-        <ListItem button className={classes.itemLink}>
-          <ExitToAppIcon className={classNames(classes.itemIcon)} />
-          <ListItemText
-            onClick={onCLickSignOff}
-            className={classNames(classes.itemText)}
-          >
-            <Link
-              to={`/`}
-              className={classNames(classes.itemText)}
-              style={{ textDecoration: "none" }}
-              onClick={toggleDrawer(false)}
-            >
-              Cerrar Sesion
-            </Link>
-
-          </ListItemText>
-        </ListItem>
+        <List disablePadding>
+          <ListItem className={`${classes.list} ${classes.listHover}`} to={`/`}>
+            <ListItemIcon className={classes.itemIcon}>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={"Cerrar Sesion"}
+              className={classes.itemText}
+              onClick={onCLickSignOff}
+            />
+          </ListItem>
+        </List>
       </div>
     </>
   )
