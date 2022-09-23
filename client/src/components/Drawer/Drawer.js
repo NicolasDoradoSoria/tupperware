@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import classNames from "classnames";
 import Style from "./Style";
 import MenuIcon from "@material-ui/icons/Menu";
 import PersonIcon from "@material-ui/icons/Person";
@@ -151,7 +150,7 @@ const Menu = ({ toggleDrawer }) => {
           return (
             <ListItem button
               className={!anchorEl || route.name !== "Categoria" ? `${classes.list} ${classes.listHover}` : `${classes.list}`}
-              component={Link} to={route.path} key={key}
+              component={Link} to={route.name !== "Categoria" ? route.path : null} key={key}
             >
 
               {route.name === "Categoria" ?
@@ -170,7 +169,7 @@ const Menu = ({ toggleDrawer }) => {
                       <List onClick={handleClose} className={classes.categoryList}>
                         {categories.map((category) => {
                           return (
-                            <ListItem button className={`${classes.listHover}`} key={category._id}>
+                            <ListItem button className={`${classes.listHover}`} key={category._id} to={"/lista-Productos"}>
                               <ListItemText className={classes.itemText} primary={category.name} />
                             </ListItem>
                           )
@@ -192,6 +191,7 @@ const Menu = ({ toggleDrawer }) => {
                     <route.icon />
                   </ListItemIcon>
                   <ListItemText
+                    to={route.path}
                     primary={route.name}
                     className={classes.itemText}
                     onClick={toggleDrawer(false)}

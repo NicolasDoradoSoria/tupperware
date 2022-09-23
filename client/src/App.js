@@ -19,6 +19,7 @@ import FileState from "./context/fileContext/FileState";
 import ListOfProducts from "./components/listOfProducts/ListOfProducts"
 import MainCarrouselManager from "./components/mainCarouselManager/MainCarouselManager";
 import CategoryState from "./context/categoryContext/CategoryState";
+import Main from "./components/main/Main";
 var divStyle = {
   backgroundColor: "#FEF7E4",
   marginRight: "-1rem",
@@ -27,8 +28,8 @@ var divStyle = {
 function App() {
   return (
     <div style={divStyle}>
-        <SnackbarState>
-          <CategoryState>
+      <SnackbarState>
+        <CategoryState>
 
           <FileState>
             <UserState>
@@ -38,7 +39,8 @@ function App() {
                     <Theme>
                       <Layout>
                         <Switch>
-                          <Route exact path="/" component={ListOfProducts} />
+                          <Route exact path="/" component={Main} />
+                          <Route exact path="/List-Products" component={ListOfProducts} />
                           <Route exact path="/administrador-Carrusel-Principal" component={MainCarrouselManager} />
                           <Route exact path="/main/categoria" component={Categoria} />
                           <Route exact path="/main/descripcion-producto/:id" component={Publication} />
@@ -58,8 +60,8 @@ function App() {
               </ProductState>
             </UserState>
           </FileState>
-          </CategoryState>
-        </SnackbarState>
+        </CategoryState>
+      </SnackbarState>
     </div>
   );
 }
