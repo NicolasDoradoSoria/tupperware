@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken"
 //obtiene que usuario esta autenticado
 export const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('-password')
+    const user = await User.findById(req.userId).select('-password').populate("roles")
     res.json({ user })
   } catch (error) {
     console.log(error)

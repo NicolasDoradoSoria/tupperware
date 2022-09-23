@@ -122,7 +122,10 @@ const Menu = ({ toggleDrawer }) => {
 
   //CategoryContext
   const categoryContext = useContext(CategoryContext)
-  const { getCategory, categories } = categoryContext
+  const { getCategory, categories, selecteCategory } = categoryContext
+
+
+
   //hooks
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -142,6 +145,11 @@ const Menu = ({ toggleDrawer }) => {
   const handleOpenMenu = (e) => {
     setAnchorEl(!anchorEl)
   }
+
+  const selectedCategory = (category) => {
+    selecteCategory(category)
+    toggleDrawer(false)
+  }
   const routeList = (routes) => {
 
     return (
@@ -150,7 +158,7 @@ const Menu = ({ toggleDrawer }) => {
           return (
             <ListItem button
               className={!anchorEl || route.name !== "Categoria" ? `${classes.list} ${classes.listHover}` : `${classes.list}`}
-              component={Link} to={route.name !== "Categoria" ? route.path : null} key={key}
+              component={Link} to={route.name !== "Categoria" ? route.path : "#"} key={key}
             >
 
               {route.name === "Categoria" ?
@@ -169,7 +177,8 @@ const Menu = ({ toggleDrawer }) => {
                       <List onClick={handleClose} className={classes.categoryList} >
                         {categories.map((category) => {
                           return (
-                            <ListItem button className={`${classes.listHover}`} key={category._id} to={"/lista-Productos"} component={Link}  onClick={toggleDrawer(false)}>
+
+                            <ListItem button className={`${classes.listHover}`} key={category._id} to={"/lista-Productos"} component={Link} onClick={() => selectedCategory(category)}>
                               <ListItemText className={classes.itemText} primary={category.name} />
                             </ListItem>
                           )
@@ -207,8 +216,7 @@ const Menu = ({ toggleDrawer }) => {
 
 
   if (user === null) return null;
-  const roleFilter = user.user.role
-
+  const isAdmin = user.user.roles.some(rol => rol.name === "admin")
 
   return (
     <>
@@ -230,7 +238,7 @@ const Menu = ({ toggleDrawer }) => {
       <div>
         {routeList(plainUserPath)}
 
-        {(roleFilter[0] !== "admin") ? null : routeList(adminUserPath)}
+        {isAdmin ? routeList(adminUserPath) : null}
         <List disablePadding>
           <ListItem className={`${classes.list} ${classes.listHover}`} to={`/`}>
             <ListItemIcon className={classes.itemIcon}>

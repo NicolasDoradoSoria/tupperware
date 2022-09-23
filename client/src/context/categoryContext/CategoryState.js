@@ -8,14 +8,15 @@ import {
 
 const CategoryState = (props) => {
   const initialState = {
-    categories: []
+    categories: [],
+    selectedCategory: null
   };
 
   const [state, dispatch] = useReducer(CategoryReducer, initialState);
 
 
   // obtiene todas las categorias
-  const getCategory= async () => {
+  const getCategory = async () => {
     const result = await clienteAxios.get(`/api/category`);
     try {
       dispatch({
@@ -26,11 +27,18 @@ const CategoryState = (props) => {
       console.log(error);
     }
   }
+
+  //guarda en selectedCategory la categoria que fue seleccionada en el Drawer
+  const selecteCategory = async (category) => {
+    console.log(category)
+  }
   return (
     <CategoryContext.Provider
       value={{
         getCategory,
-        categories: state.categories
+        selecteCategory,
+        categories: state.categories,
+        selectedCategory: state.selectedCategory
       }}
     >
       {props.children}
