@@ -166,10 +166,10 @@ const Menu = ({ toggleDrawer }) => {
 
                   {anchorEl ?
                     <>
-                      <List onClick={handleClose} className={classes.categoryList}>
+                      <List onClick={handleClose} className={classes.categoryList} >
                         {categories.map((category) => {
                           return (
-                            <ListItem button className={`${classes.listHover}`} key={category._id} to={"/lista-Productos"}>
+                            <ListItem button className={`${classes.listHover}`} key={category._id} to={"/lista-Productos"} component={Link}  onClick={toggleDrawer(false)}>
                               <ListItemText className={classes.itemText} primary={category.name} />
                             </ListItem>
                           )
