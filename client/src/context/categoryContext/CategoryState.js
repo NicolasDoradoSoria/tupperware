@@ -29,14 +29,14 @@ const CategoryState = (props) => {
   }
 
   //guarda en selectedCategory la categoria que fue seleccionada en el Drawer
-  const selecteCategory = async (category) => {
-    console.log(category)
+  const searchCategory = async (id) => {
+    console.log(id)
   }
   return (
     <CategoryContext.Provider
       value={{
         getCategory,
-        selecteCategory,
+        searchCategory,
         categories: state.categories,
         selectedCategory: state.selectedCategory
       }}

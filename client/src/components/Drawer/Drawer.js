@@ -122,7 +122,7 @@ const Menu = ({ toggleDrawer }) => {
 
   //CategoryContext
   const categoryContext = useContext(CategoryContext)
-  const { getCategory, categories, selecteCategory } = categoryContext
+  const { getCategory, categories } = categoryContext
 
 
 
@@ -146,10 +146,6 @@ const Menu = ({ toggleDrawer }) => {
     setAnchorEl(!anchorEl)
   }
 
-  const selectedCategory = (category) => {
-    selecteCategory(category)
-    toggleDrawer(false)
-  }
   const routeList = (routes) => {
 
     return (
@@ -178,7 +174,7 @@ const Menu = ({ toggleDrawer }) => {
                         {categories.map((category) => {
                           return (
 
-                            <ListItem button className={`${classes.listHover}`} key={category._id} to={"/lista-Productos"} component={Link} onClick={() => selectedCategory(category)}>
+                            <ListItem button className={`${classes.listHover}`} key={category._id} to={`/lista-Productos/${category._id}`} component={Link} onClick={toggleDrawer(false)}>
                               <ListItemText className={classes.itemText} primary={category.name} />
                             </ListItem>
                           )

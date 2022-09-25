@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import Product from "../product/Product";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, colors, Grid, Typography } from "@material-ui/core";
 import Style from "./Style";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
@@ -9,7 +9,8 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 //context
 import ProductContext from "../../context/productsContext/ProductContext";
-
+import CategoryContext from "../../context/categoryContext/CategoryContext";
+import {useParams } from 'react-router-dom';
 // lista de productos principal
 const ListOfProducts = () => {
   const classes = Style();
@@ -22,11 +23,16 @@ const ListOfProducts = () => {
   const snackbarContext = useContext(SnackBarContext)
   const { error, closeSnackbar } = snackbarContext
 
-
+   //CategoryContext
+   const categoryContext = useContext(CategoryContext)
+   const { searchCategory} = categoryContext
+ 
+ 
   //hooks
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
-  
+  const { id } = useParams();
+
   useEffect(() => {
     if (products === null) {
       getProducts()
@@ -48,7 +54,6 @@ const ListOfProducts = () => {
   if (products.length === 0) return null
   return (
     <>
-
       <div className={classes.root}>
         <Box>
           <Typography variant="h2" className={classes.title}>

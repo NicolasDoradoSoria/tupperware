@@ -32,7 +32,7 @@ const CartState = (props) => {
         payload: result.data[0]
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
@@ -71,7 +71,7 @@ const CartState = (props) => {
       });
       openSnackbar(result.data.msg, "success")
     } catch (error) {
-      console.log(error);
+      console.log(error.msg);
     }
   }
   return (

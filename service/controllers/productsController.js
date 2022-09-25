@@ -46,7 +46,6 @@ export const getProducts = async (req, res) => {
       filter = { category: req.query.categories.split(",") };
     }
     const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
-    console.log(products)
     res.json({ products });
   } catch (error) {
     res.status(500).send("hubo un error");

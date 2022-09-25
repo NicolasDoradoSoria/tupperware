@@ -1,7 +1,6 @@
 import User from '../models/User'
 import Cart from '../models/Cart'
 import Products from '../models/Products'
-import updateProduct from "../data/updateProduct"
 import { matchedData  } from "express-validator"
 //agrega un pedido al carrito
 
@@ -22,6 +21,7 @@ export const generateOrder = async (req, res) => {
       return res.status(404).json({ msg: "el producto no existe" });
     }
     
+    // si existe un carrito 
     if (cart) {
       let itemIndex = cart.products.findIndex(product => product.id == id);
       if (itemIndex > -1) {
@@ -29,15 +29,20 @@ export const generateOrder = async (req, res) => {
         let productItem = cart.products[itemIndex]
         productItem.quantity += quantity;
         cart.products[itemIndex] = productItem;
-        
       }
       else {
         //product does not exists in cart, add new item
         cart.products.push({ id, quantity }); 
       } 
       product.stock = product.stock - quantity
-      updateProduct(product, id)
       
+      await Products.findByIdAndUpdate(
+        { _id: id },
+        product,
+        {
+          new: true,
+        }
+      ) 
       await cart.save();
       return res.send("el producto a sido agregado correctamente");
     }
@@ -72,7 +77,6 @@ export const showAllOrders = async (req, res) => {
 export const showOrder = async (req, res) => {
   try {
     const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos"})
-     
     if (order.length == 0) {
       return res.status(404).json({ msg: "no posee pedidos aun" });
     }
@@ -87,8 +91,8 @@ export const showOrder = async (req, res) => {
 
 //actualiza un pedido por ID
 export const updateOrder = async (req, res, next) => {
-  const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"
- })
+  const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos"})
+
   try {
     const order = await Cart.findOneAndUpdate(
       { _id: orderUser[0]._id },

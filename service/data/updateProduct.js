@@ -1,8 +1,8 @@
 import Products from "../models/Products"
 
-const  updateProduct = async (product, id) =>{
-    try {
-       
+const updateProduct = async (product, id) =>{
+  try {
+      console.log("holaaaaaaaaaaaaaaa")
         await Products.findByIdAndUpdate(
             { _id: id },
             product,
@@ -16,4 +16,4 @@ const  updateProduct = async (product, id) =>{
     
 }
 
-export default { updateProduct }
+module.exports = { updateProduct }
