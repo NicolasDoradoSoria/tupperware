@@ -122,17 +122,10 @@ const Menu = ({ toggleDrawer }) => {
 
   //CategoryContext
   const categoryContext = useContext(CategoryContext)
-  const { getCategory, categories } = categoryContext
-
-
+  const {categories } = categoryContext
 
   //hooks
   const [anchorEl, setAnchorEl] = useState(null);
-
-  useEffect(() => {
-    getCategory()
-
-  }, [getCategory])
 
   const onCLickSignOff = () => {
     signOff();

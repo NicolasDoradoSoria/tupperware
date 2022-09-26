@@ -1,23 +1,12 @@
 import { makeStyles } from "@material-ui/core/styles";
+// shoppingCart
 export default makeStyles((theme) => ({
-    table: {
-      minWidth: 300,
-      justifyContent: "center",
-      [theme.breakpoints.up('xl')]: {
-        width: 'auto',
-      },
-    },
-    orderListNull: {
-      marginTop: "1rem",
-      textAlign: "center"
-    },
-    TableContainer: {
-      width: '90%',
-      margin: "auto",
-    },
-    body: {
+   
+    // box main
+    root: {
       height: '100vh',
-      marginBottom: "12rem"
+      marginBottom: "12rem",
+      margin: "5rem 2rem"
     },
     paper: {
       padding: theme.spacing(1),
@@ -25,15 +14,11 @@ export default makeStyles((theme) => ({
       display: "flex",
       justifyContent: "center",
     },
-    paperTotal: {
+    paperContainer: {
       display: "flex",
       justifyContent: "flex-end",
       marginRight: "3.3rem",
       width: "65%",
     },
-    tableCellQuantity:{
-      display:"flex",
-      justifyContent: "center",
-    },inBottom: "auto"
-    
+   
   }));

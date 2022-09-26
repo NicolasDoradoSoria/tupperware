@@ -2,11 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import Style from "./Style";
 import { Grid, Card, CardActions, CardContent, Button, Typography, TextField } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
-import { withRouter } from 'react-router-dom'
+import { withRouter, useParams } from 'react-router-dom'
 import './Style.css';
-const AddProduct = ({ history, open }) => {
-  const classes = Style();
 
+const AddProduct = ({open }) => {
+  const classes = Style();
+  const { history } = useParams();
   //productContext
   const productContext = useContext(ProductContext);
   const {

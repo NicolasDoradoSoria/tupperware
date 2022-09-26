@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import Product from "../product/Product";
-import { Box, colors, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
 import Style from "./Style";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";

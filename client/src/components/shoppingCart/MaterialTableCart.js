@@ -5,8 +5,6 @@ import CartContext from "../../context/cartContext/CartContext";
 
 import MaterialTable from "material-table"
 
-import Style from "./Style";
-
 // columnas de Material Table
 // con field le digo donde tiene que ir a buscar
 const columns = () => [
@@ -32,8 +30,9 @@ const options = {
 }
 
 // en esta funcion genero MaterialTable 
+// DRAWER ----> CARRITO
 const MaterialTableCart = () => {
-    const classes = Style();
+
     //userContext
     const userContext = useContext(UserContext);
     const { user } = userContext;
@@ -52,11 +51,11 @@ const MaterialTableCart = () => {
         cleanCart(user.user._id)
     }
     return (
-        <div className={classes.materialTable}>
+        <>
             {/* material table necesita el titulo, datos y los nombre de la columnas y las acciones son Opcionales*/}
             {/* ACCIONES */}
             {/* tengo la pocion de eliminar todo el carrito o si no un producto del carrito */}
-            <MaterialTable title="Carrito de compras" data={productsInCart} columns={columns()} actions={[
+            <MaterialTable  title="Carrito de compras" data={productsInCart} columns={columns()} actions={[
                 {
                     icon: "delete",
                     tooltip: 'Eliminar producto',
@@ -81,7 +80,7 @@ const MaterialTableCart = () => {
                     options
                   }
                   />
-        </div>
+        </>
     );
 }
 

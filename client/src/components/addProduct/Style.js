@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     minWidth: 330,
     marginLeft: "2rem",
     marginRight: "2rem",
-    marginTop: "2rem",
+    marginTop: "5rem",
     marginBottom: "2rem"
   },
   title: {

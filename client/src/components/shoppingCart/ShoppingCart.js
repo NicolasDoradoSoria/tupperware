@@ -10,6 +10,8 @@ import CartContext from "../../context/cartContext/CartContext";
 import MaterialTableCart from './MaterialTableCart';
 import { Box, Paper, Typography } from '@material-ui/core';
 
+// nombre de las columnas 
+// fild --> busca el nombre campo en el registro
 const columns = () => [
   {
 
@@ -28,7 +30,7 @@ const columns = () => [
     title: "Cantidad", field: "quantity"
   },
 ]
-
+// configuracion de material Table
 const options = {
   paging: false,
   actionsColumnIndex: -1,
@@ -55,17 +57,10 @@ const ShoppingCart = () => {
 
   useEffect(() => {
 
-    const consultarAPI = async () => {
+    if (user) {
       getOrder(user.user._id)
       updateTotalToPay()
-      
-      try {
-      } catch (error) {
-        console.log(error)
-      }
     }
-
-    consultarAPI()
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsInCart])
 
@@ -82,20 +77,18 @@ const ShoppingCart = () => {
 
     setTotal(newTotal)
   }
+  
   return (
-    <Box className={classes.body} >
-
+    <Box className={classes.root}>
       <MaterialTableCart columns={columns()} options={options} />
       {error ? <SnackbarOpen /> : null}
-      <div className={classes.paperContainer}>
 
-        <div className={classes.paperTotal}>
-          <Paper className={classes.paper}>
-            <Typography component="p" variant="h5">
-              Total a Pagar: <span>${total}</span>
-            </Typography>
-          </Paper>
-        </div>
+      <div className={classes.paperContainer}>
+        <Paper className={classes.paper}>
+          <Typography component="p" variant="h5">
+            Total a Pagar: <span>${total}</span>
+          </Typography>
+        </Paper>
       </div>
     </Box>
   );
