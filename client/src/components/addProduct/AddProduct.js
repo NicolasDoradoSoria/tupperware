@@ -7,7 +7,7 @@ import './Style.css';
 
 const AddProduct = ({open }) => {
   const classes = Style();
-  const { history } = useParams();
+  const { useHistory } = useParams();
   //productContext
   const productContext = useContext(ProductContext);
   const {
@@ -67,7 +67,7 @@ const AddProduct = ({open }) => {
     getProducts()
     setProductNew({ name: "", price: 0, descripcion: "" });
 
-    history.push("/")
+    useHistory.push("/")
   };
 
   // desabilitar el boton de agregar producto si alguno de los campos no fue completado

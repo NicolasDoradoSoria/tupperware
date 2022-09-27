@@ -34,9 +34,7 @@ const ListOfProducts = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if (products === null) {
-      getProducts()
-    }
+    searchCategory(id)
     setTimeout(closeSnackbar, 5000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products])
@@ -49,6 +47,7 @@ const ListOfProducts = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
 
 
   if (products.length === 0) return null

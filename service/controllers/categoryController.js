@@ -19,16 +19,22 @@ export const createCategory = async (req, res) => {
 }
 
 
-//devuelve todas las categorias
+//devuelve todas las categorias o filtra una categoria
 export const getCategories = async (req, res) => {
     try {
 
         const categoryList = await Category.find();
-
-        if (!categoryList) {
-            res.status(500).json({ success: false });
+        
+        // si no mandamos id devuelve todas las categorias
+        if (!req.body.id) {
+            return res.status(200).json(categoryList);
         }
-        res.status(200).send(categoryList);
+
+        const search = await Category.find({ _id: req.body.id })
+
+
+        res.status(200).json(search);
+
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
@@ -78,3 +84,4 @@ export const deleteCategory = async (req, res) => {
         res.status(500).send("hubo un error");
     }
 };
+
