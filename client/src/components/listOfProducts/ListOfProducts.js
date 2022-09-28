@@ -25,7 +25,7 @@ const ListOfProducts = () => {
 
    //CategoryContext
    const categoryContext = useContext(CategoryContext)
-   const { searchCategory} = categoryContext
+   const { categorySearch, selectedCategory} = categoryContext
  
  
   //hooks
@@ -34,7 +34,10 @@ const ListOfProducts = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    searchCategory(id)
+
+    if(id){
+      categorySearch(id)
+    }
     setTimeout(closeSnackbar, 5000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products])
@@ -56,7 +59,7 @@ const ListOfProducts = () => {
       <div className={classes.root}>
         <Box>
           <Typography variant="h2" className={classes.title}>
-            Productos
+           { selectedCategory ? selectedCategory.name : <p>Productos</p>}
           </Typography>
         </Box>
         <div className={classes.gridProducts}>

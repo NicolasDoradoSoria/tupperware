@@ -24,11 +24,12 @@ const Main = () => {
 
   //CategoryContext
   const categoryContext = useContext(CategoryContext)
-  const { getCategory, categories } = categoryContext
+  const { getCategory, cleanCategory } = categoryContext
 
 
     useEffect(() => {
         getProducts()
+        cleanCategory()
         getCategory()
         if (user) {
             getOrder(user.user._id)

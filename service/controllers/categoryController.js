@@ -22,15 +22,15 @@ export const createCategory = async (req, res) => {
 //devuelve todas las categorias o filtra una categoria
 export const getCategories = async (req, res) => {
     try {
-
         const categoryList = await Category.find();
         
         // si no mandamos id devuelve todas las categorias
-        if (!req.body.id) {
+        if (!req.query.id) {
             return res.status(200).json(categoryList);
         }
 
-        const search = await Category.find({ _id: req.body.id })
+        
+        const search = await Category.find({ _id: req.query.id })
 
 
         res.status(200).json(search);
