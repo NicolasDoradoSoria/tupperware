@@ -14,6 +14,7 @@ import {
   UPLOAD_PERCENTAGE,
   IMAGES_TO_UPLOAD,
   INITIALIZE_PRODUCT,
+  FILTER_PRODUCT_BY_CATEGORY
 } from "../../types";
 
 const ProductState = (props) => {
@@ -122,6 +123,19 @@ const ProductState = (props) => {
     }
   }
 
+const getFilterProductByCategory = async(id) =>{
+  try {
+    const product = await clienteAxios.get(`api/products?id=`+id)
+    console.log(product.data.products)
+    dispatch({
+      type: FILTER_PRODUCT_BY_CATEGORY,
+      payload: product.data.products
+    });
+  } catch (error) {
+    console.log(error)
+  }
+}
+
   //search de producto, lo mismo que la anterior funcion pero esta no hace un llamado a la api PD: corregir...
   const saveCurrentProduct = async (productNew) => {
     dispatch({
@@ -163,6 +177,7 @@ const ProductState = (props) => {
         imagesToUpload: state.imagesToUpload,
         setImagesToUpload,
         getProducts,
+        getFilterProductByCategory,
         getProduct,
         deleteProduct,
         addProduct,

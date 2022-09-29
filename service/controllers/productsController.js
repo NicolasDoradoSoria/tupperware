@@ -11,7 +11,7 @@ export const postProducts = async (req, res) => {
     let images = [];
 
     const categorySearch = await Category.findById(category);
-    
+
     if (!categorySearch) return res.status(400).send("Invalid Category");
 
     if (req.files.images.length > 0) {
@@ -41,9 +41,11 @@ export const postProducts = async (req, res) => {
 // devuelve todos los productos
 export const getProducts = async (req, res) => {
   try {
+
     let filter = {};
-    if (req.query.categories) {
-      filter = { category: req.query.categories.split(",") };
+    if (req.query.id) {
+      
+      filter = { category: req.query.id.split(",") };
     }
     const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
     res.json({ products });

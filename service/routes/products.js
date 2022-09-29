@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {postProducts, searchProducts, getProducts, getProductById, updateProductById, deleteProductById} = require("../controllers/productsController");
+const {postProducts, searchProducts, getProducts, getProductById, updateProductById, deleteProductById, filterProductsCategory} = require("../controllers/productsController");
 const { isAdmin, verifyToken } = require("../middleware/utils/auth");
 const { validatePostProducts } = require("../middleware/validators/products");
 const uploadMiddleware = require('../middleware/utils/uploaderMiddleware');

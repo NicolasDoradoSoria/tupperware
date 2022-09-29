@@ -7,6 +7,7 @@ import {
   UPLOAD_PERCENTAGE,
   IMAGES_TO_UPLOAD,
   INITIALIZE_PRODUCT,
+  FILTER_PRODUCT_BY_CATEGORY
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -67,6 +68,11 @@ export default (state, action) => {
         product: null
       }
 
+      case FILTER_PRODUCT_BY_CATEGORY: 
+      return{
+        ...state,
+        products: action.payload,
+      }
     default:
       return state;
   }
