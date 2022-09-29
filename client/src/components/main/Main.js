@@ -3,16 +3,12 @@ import Carousel from "../carousel/Carousel";
 import ListOfProducts from '../listOfProducts/ListOfProducts';
 import logo from './logo.JPG';
 import Style from "./Style";
-import ProductContext from "../../context/productsContext/ProductContext";
 import CartContext from '../../context/cartContext/CartContext';
 import UserContext from '../../context/productsContext/userContext/UserContext';
 import CategoryContext from '../../context/categoryContext/CategoryContext';
 const Main = () => {
    
     const classes = Style();
-    //context products
-    const productsContext = useContext(ProductContext);
-    const { getProducts } = productsContext;
 
     //cartContext
     const cartContext = useContext(CartContext)
@@ -24,12 +20,10 @@ const Main = () => {
 
   //CategoryContext
   const categoryContext = useContext(CategoryContext)
-  const { getCategory, cleanCategory } = categoryContext
+  const { getCategory} = categoryContext
 
 
     useEffect(() => {
-        getProducts()
-        cleanCategory()
         getCategory()
         if (user) {
             getOrder(user.user._id)

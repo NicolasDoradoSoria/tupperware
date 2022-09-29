@@ -41,6 +41,7 @@ const ProductState = (props) => {
 
   // obtener los productos
   const getProducts = async () => {
+    
     try {
       const result = await service.getProducts()
       dispatch({
@@ -126,7 +127,7 @@ const ProductState = (props) => {
 const getFilterProductByCategory = async(id) =>{
   try {
     const product = await clienteAxios.get(`api/products?id=`+id)
-    console.log(product.data.products)
+    
     dispatch({
       type: FILTER_PRODUCT_BY_CATEGORY,
       payload: product.data.products

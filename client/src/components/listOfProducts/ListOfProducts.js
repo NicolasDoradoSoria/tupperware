@@ -26,7 +26,7 @@ const ListOfProducts = () => {
 
    //CategoryContext
    const categoryContext = useContext(CategoryContext)
-   const { categorySearch, selectedCategory} = categoryContext
+   const { categorySearch, selectedCategory, cleanCategory} = categoryContext
  
  
   //hooks
@@ -41,12 +41,13 @@ const ListOfProducts = () => {
       getFilterProductByCategory(id)
     }
     else {
+      cleanCategory()
       getProducts()
     }
 
     setTimeout(closeSnackbar, 5000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products])
+  }, [])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

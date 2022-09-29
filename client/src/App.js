@@ -40,6 +40,7 @@ function App() {
                       <Layout>
                         <Switch>
                           <Route exact path="/" component={Main} />
+                          <Route exact path="/lista-Productos/" component={ListOfProducts} />
                           <Route exact path="/lista-Productos/:id" component={ListOfProducts} />
                           <Route exact path="/administrador-Carrusel-Principal" component={MainCarrouselManager} />
                           <Route exact path="/main/categoria" component={Categoria} />
