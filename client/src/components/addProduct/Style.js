@@ -3,10 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles((theme) => ({
   root: {
     minWidth: 330,
-    marginLeft: "2rem",
-    marginRight: "2rem",
-    marginTop: "5rem",
-    marginBottom: "2rem"
+    width: "95%",
+    margin: "5rem auto"
   },
   title: {
     textAlign: "center",
@@ -17,51 +15,13 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     marginBottom: "1rem"
   },
-  textFieldQuantity: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-    [theme.breakpoints.up('sm')]: {
-      width: "100%",
-    },
-    [theme.breakpoints.up('xs')]: {
-      width: "100%",
-    },
-    [theme.breakpoints.up('md')]: {
-      width: "30%"
-    },
-  },
-  TextFieldStock: {
-    marginLeft: "1rem",
-    marginBottom: "-1rem",
+ 
+  imageContainer: {
     display: "flex",
-    flexDirection: "column"
-  },
-  imgUploaderImage: {
-    border: "3px solid gray",
-    margin: "0.3rem",
-    [theme.breakpoints.up('sm')]: {
-      width: '50',
-    },
-    [theme.breakpoints.up('xs')]: {
-      width: '80',
-    },
-    [theme.breakpoints.up('md')]: {
-      width: '120',
-    },
-  },
-  divUploaderImage: {
-    display: "flex",
-    [theme.breakpoints.up('sm')]: {
-      flexDirection: "column",
-      marginLeft: "1rem",
-      alignItems: "center"
-    },
-    [theme.breakpoints.up('xs')]: {
-      flexDirection: "column",
-      marginLeft: "0.8rem",
-    },
+    margin: "0 auto",
+    flexDirection: "column",
+    alignItems: "center",
+   
     [theme.breakpoints.up('md')]: {
       flexDirection: "row",
     },
@@ -70,41 +30,7 @@ export default makeStyles((theme) => ({
   textImg: {
     opacity: "0.3",
   },
-  uploadImages: {
-    marginTop: "1.5rem"
-  },
 
-  gridConteiner: {
-    display: 'flex',
-    justifyContent: "space-between",
-  },
-
-  textFieldImage: {
-    minWidth: "140px",
-    width: "140px",
-    marginBottom: "1rem",
-    marginLeft: "-1rem"
-  },
-
-  gridConteinerImageAndStock: {
-    display: "flex",
-    width: "100%",
-    [theme.breakpoints.up('sm')]: {
-      flexDirection: "column",
-      alignItems: "center"
-    },
-    [theme.breakpoints.up('xs')]: {
-      flexDirection: "column",
-      alignItems: "center"
-    },
-    [theme.breakpoints.up('md')]: {
-      flexDirection: "row",
-    },
-    gridImageAndStock: {
-      width: "70%"
-    },
-
-  },
   gridImageProduct: {
     width: "50%",
   },
@@ -115,6 +41,28 @@ export default makeStyles((theme) => ({
   },
   productImageButton: {
     marginLeft: "2rem"
-  }
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 90,
+  },
 
+  gridElements: {
+    display: "flex",
+    alignItems: "center",
+    [theme.breakpoints.up('xs')]: {
+      display: "flex",
+      justifyContent: "center"
+    },
+  },
+  buttonGrid: {
+    display: "flex",
+    justifyContent: "center"
+  },
+  stockGrid: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '10ch',
+    },
+  }
 }));

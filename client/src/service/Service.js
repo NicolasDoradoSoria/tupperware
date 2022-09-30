@@ -45,7 +45,7 @@ export default class Service {
     //----------------------------------------------PRODUCT--------------------------------
     async postAddProduct(productNew, images,productPercentageUpload) {
         const formData = new FormData();
-        const { name, descripcion, price, stock } = productNew
+        const { name, descripcion, price, stock,category } = productNew
         for (let i = 0; i < images.length; i++) {
             formData.append('images', images[i]);
         }
@@ -53,6 +53,7 @@ export default class Service {
         formData.append('descripcion', descripcion);
         formData.append('price', price);
         formData.append('stock', stock);
+        formData.append('category', category);
         const result = await clienteAxios.post('api/products/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',

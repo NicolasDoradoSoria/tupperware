@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import Style from "./Style";
-import { Grid, Card, CardActions, CardContent, Button, Typography, TextField } from "@material-ui/core";
+import { Grid, Card, CardActions, CardContent, Button, Typography, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
-import { withRouter, useParams } from 'react-router-dom'
+import CategoryContext from "../../context/categoryContext/CategoryContext";
+import { withRouter, useHistory  } from 'react-router-dom'
 import './Style.css';
 
-const AddProduct = ({open }) => {
+const AddProduct = ({ open }) => {
   const classes = Style();
-  const { useHistory } = useParams();
+  const  history = useHistory();
   //productContext
   const productContext = useContext(ProductContext);
   const {
@@ -20,24 +21,30 @@ const AddProduct = ({open }) => {
     initializeProduct,
   } = productContext;
 
+  //CategoryContext
+  const categoryContext = useContext(CategoryContext)
+  const { getCategory, categories } = categoryContext
+
   // hook de productNew se usa inicializa las propiedades
   const [productNew, setProductNew] = useState({
     name: "",
     price: 0,
     descripcion: "",
     stock: 0,
+    category: ""
   });
 
-  const { name, price, descripcion } = productNew;
+  const { name, price, descripcion, category } = productNew;
 
   //hook de imagen seleccionada 
   const [selectImage, setSelectImage] = useState("")
 
   useEffect(() => {
+    getCategory()
     if (open) {
       // editar producto => inicializa las propiedades con los datos del producto
       setProductNew(product);
-      
+
     } else {
       //add product => 
       initializeProduct()
@@ -67,19 +74,17 @@ const AddProduct = ({open }) => {
     getProducts()
     setProductNew({ name: "", price: 0, descripcion: "" });
 
-    useHistory.push("/")
+    history.push("/")
   };
 
   // desabilitar el boton de agregar producto si alguno de los campos no fue completado
   const addProductButtonDisabled = () => {
-    return imagesToUpload.length === 0 || (isEmpty(name) || isEmpty(descripcion))
+    return imagesToUpload.length === 0 || (isEmpty(name) || isEmpty(descripcion) || isEmpty(category))
   };
 
   const isEmpty = (aField) => {
     return aField === "";
   };
-
-
 
   //selecciona una imagen del producto haciendo click
   const selectImageProductClick = (image) => {
@@ -104,6 +109,14 @@ const AddProduct = ({open }) => {
   const imageButtonDisabled = () => {
     return isEmpty(selectImage)
   }
+
+  // seleecciona una categoria 
+  const handleChange = (event) => {
+    setProductNew({
+      ...productNew,
+      [event.target.name]: event.target.value,
+    });
+  };
   return (
     <>
       <Card className={classes.root}>
@@ -114,8 +127,8 @@ const AddProduct = ({open }) => {
             </Typography>
 
             {/* NOMBRE */}
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
+            <Grid container spacing={3} >
+              <Grid item xs={12} sm={6} >
                 <TextField
                   id="name"
                   label="Nombre Del Producto"
@@ -145,70 +158,78 @@ const AddProduct = ({open }) => {
                   onChange={productChange}
                 />
               </Grid>
-              <Grid className={classes.gridConteinerImageAndStock}>
-                {/* STOCK */}
-                <Grid item xs={3}>
-                  <Typography variant="h6" component="h2" className={classes.TextFieldStock}>
-                    Stock
-                  </Typography>
-                  <TextField
-                    className={classes.textFieldQuantity}
-                    id="standard-number"
-                    type="number"
-                    name="stock"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={productChange}
-                    defaultValue="1"
-                    inputProps={{ min: "1" }}
-                  />
-                </Grid>
+              {/* STOCK */}
+              <Grid item xs={6} sm={2} className={`${classes.gridElements} ${classes.stockGrid}`}>
+                <TextField
+                  id="standard-number"
+                  type="number"
+                  name="stock"
+                  label="Stock"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={productChange}
+                  defaultValue="1"
+                  inputProps={{ min: "1" }}
+                />
+              </Grid>
 
-                {/* CARGAR IMAGEN */}
-                <Grid item xs={3} >
-                  <Button variant="contained" component="label" color="primary">
-                    Subir
-                    <input hidden accept="image/*" type="file" onChange={productImagesChange} />
-                  </Button>
-                </Grid>
+              {/* CATEGORIA */}
+              <Grid item xs={6} sm={2} className={classes.gridElements}>
+                <FormControl className={classes.formControl}>
+                  <InputLabel id="Category">Categoria</InputLabel>
+                  <Select
+                    labelId="Category"
+                    id="demo-simple-select"
+                    value={category}
+                    onChange={handleChange}
+                    name="category"
+                  >
+                    {categories.map((category) => (
+                      <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
 
-                {/* MOSTRAR IMAGEN */}
-                <Grid item xs={5} className={classes.gridImageProduct}>
-                  {
-                    imagesToUpload.length ?
-                      <div className={classes.divUploaderImage}>
-                        {
-                          imagesToUpload.map((image, index) =>
+              {/* CARGAR IMAGEN */}
+              <Grid item xs={12} sm={2} className={classes.gridElements}>
+                <Button variant="contained" component="label" color="primary">
+                  Subir
+                  <input hidden accept="image/*" type="file" onChange={productImagesChange} />
+                </Button>
+              </Grid>
+
+              {/* MOSTRAR IMAGEN */}
+              <Grid item xs={12} sm={4} className={classes.gridImageProduct}>
+                {
+                  imagesToUpload.length ?
+                    <div className={classes.imageContainer}>
+                      {
+                        imagesToUpload.map((image, index) =>
                           <div key={index}>
-                              <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage === image) ? classes.textImg : null} >
-                                {
-                                  
-                                  <img src={!product ? URL.createObjectURL(image) :`http://localhost:4000/${image.fileName}`} alt="uploaded_image" className={classes.imgProduct} />
-                                }
-                              </Button>
+                            <Button onClick={() => selectImageProductClick(image)} name="img" className={(selectImage === image) ? classes.textImg : null} >
+                              {
 
-                            </div>
+                                <img src={!product ? URL.createObjectURL(image) : `http://localhost:4000/${image.fileName}`} alt="uploaded_image" className={classes.imgProduct} />
+                              }
+                            </Button>
+                          </div>
+                        )
+                      }
+                    </div>
+                    : null
+                }
+              </Grid>
 
-
-                          )
-                        }
-                      </div>
-                      : null
-                  }
-                </Grid>
-
-                {/* ELIMINAR IMAGEN */}
-                <Grid item xs={2} >
-                  <Grid>
-                    <Button variant="contained" onClick={deleteProductImage} disabled={imageButtonDisabled()} className={classes.productImageButton}>Eliminar</Button>
-                  </Grid>
-                </Grid>
+              {/* ELIMINAR IMAGEN */}
+              <Grid item xs={12} sm={2} className={classes.gridElements}>
+                <Button variant="contained" onClick={deleteProductImage} disabled={imageButtonDisabled()} className={classes.productImageButton}>Eliminar</Button>
               </Grid>
 
 
               {/* DESCRIPCION */}
-              <Grid item xs={12} >
+              <Grid item xs={12} sm={12} >
                 <TextField
                   id="outlined-textarea"
                   label="Descripcion"

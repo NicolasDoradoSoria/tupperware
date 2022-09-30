@@ -139,7 +139,8 @@ const Publication = ({ match, history }) => {
                   {authenticated ?
                     stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> : <Button variant="contained" color="primary" onClick={addCartClick} >
                       Agregar al carrito
-                    </Button> : <Link to={"/login"}>
+                    </Button> :
+                    <Link to={"/login"}>
                       <Button
                         type="submit"
                         fullWidth
