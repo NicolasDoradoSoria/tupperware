@@ -10,7 +10,7 @@ import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import Carousel from "react-material-ui-carousel"
 import { Container, Grid, Paper, Button, TextField, Typography } from "@material-ui/core";
 
-const Publication = ({ match, history }) => {
+const Publication = ({ match, history, idProduct }) => {
   const classes = Style();
 
   const fixedHeightPaper = clsx(classes.paper);
@@ -51,21 +51,18 @@ const Publication = ({ match, history }) => {
     history.push("/")
   }
 
+
   useEffect(() => {
     closeSnackbar()
-    const product = () => {
-      const id = match.params.id
-      getProduct(id)
-    }
-
-    product()
+    
+    !idProduct? getProduct(match.params.id) : getProduct(idProduct)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
 
   if (!product) return null
-
+  
   const { descripcion, price, _id, name, stock, images } = product;
 
   return (

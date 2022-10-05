@@ -1,10 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
-  products: {
-    marginTop: 20,
   
-  },
   gridProducts: {
     display: "flex",
     justifyContent: "center",
@@ -47,8 +44,7 @@ export default makeStyles((theme) => ({
     display: "block",
     width: "30%",
   },
-  logoContainer: {
-  },
+ 
   rootNavigation: {
     width: "80%",
     margin: "50px auto",

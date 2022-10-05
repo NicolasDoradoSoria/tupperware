@@ -70,9 +70,9 @@ const ListOfProducts = () => {
           </Typography>
         </Box>
         <div className={classes.gridProducts}>
-          <Grid container spacing={2} >
+          <Grid container spacing={4} >
             {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
-              <Grid item xs={6} sm={6} md={4} className={classes.products} key={product._id} >
+              <Grid item xs={12} sm={12} md={6} lg={4} key={product._id} >
                 <Product product={product} />
               </Grid>
             ))}

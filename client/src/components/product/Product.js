@@ -1,13 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useRef } from "react";
 import Style from "./Style";
-import { Link, withRouter } from "react-router-dom";
-import { CardMedia, CardContent, Typography, Button, Card } from "@material-ui/core";
+import { withRouter, useHistory } from "react-router-dom";
+import { CardMedia, CardContent, Typography, Button, Card, Grow, Dialog, CircularProgress } from "@material-ui/core";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
+import Publication from "../publication/Publication"
 
-const Product = ({ product, history }) => {
+const Product = ({ product }) => {
   const classes = Style();
 
+  const history = useHistory();
+
+  const timer = useRef();
   //userContext
   const userContext = useContext(UserContext);
   const { user, authenticated } = userContext;
@@ -18,6 +22,18 @@ const Product = ({ product, history }) => {
 
   const { name, images, price, _id, stock } = product;
 
+  // progres material ui
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  // agrega opacidad pasando el mouse por la imagen
+  const [cardMediaStyle, setCardMediaStyle] = useState({ opacity: 1 })
+  // trancicion de botono vista previa
+  const [checked, setChecked] = useState(false);
+
+  // ventana de dialogo de publicacion
+  const [open, setOpen] = useState(false);
+
   // desabilita los botones que no tengan stock
   const disableButton = () => {
     return stock === 0
@@ -25,6 +41,7 @@ const Product = ({ product, history }) => {
 
   // agregamos el producto al carrito directamente por default se agrega 1
   const addCartClick = () => {
+
     // si esta autenticado directamente agrega al carrito si no manda al usuario a la ventana de login
     if (authenticated) {
 
@@ -42,31 +59,76 @@ const Product = ({ product, history }) => {
     }
 
   }
+  // al pasar el mouse por una imagen
+  const handleOnMouseEnter = () => {
+    setChecked(true);
+    setCardMediaStyle({ opacity: 0.5, transition: `opacity 1000ms ease-in-out` })
+  }
+
+  // al sacar el mouse de la imagen
+  const handleOnMouseLeave = () => {
+    setChecked(false);
+    setCardMediaStyle({ opacity: 1, transition: `opacity 1000ms ease-in-out` })
+  }
+  // ciera el dialog
+  const handleClose = () => {
+    setOpen(false);
+  };
+  // al hacer click en la imagen navega hacial el componente publication 
+  const navigatePublication = () => {
+    history.push(`/main/descripcion-producto/${_id}`);
+  };
+
+  // esto hace que haga el efecto de progress y ademas activa el dialog
+  const handleButtonClick = () => {
+    setOpen(true)
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+      setSuccess(true);
+      setLoading(false);
+      }, 2000);
+    }
+
+  }
 
   return (
     <Card className={classes.root} >
-      {/* DESCRIPCION */}
-      <Link
-        to={`/main/descripcion-producto/${_id}`}
-        style={{ textDecoration: "none" }}
-      >
-        {/* IMAGEN */}
+
+      <div className={classes.cardMediaContainer} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
         <CardMedia
           className={classes.media}
           image={`http://localhost:4000/${images[0].fileName}`}
           title="Paella dish"
+          style={cardMediaStyle}
+          onClick={navigatePublication}
         />
-        {/* NOMBRE */}
-        <h1 className={classes.title}>{name}</h1>
-      </Link>
-      
+        <Grow in={checked} timeout={1000}>
+
+          <Button
+            className={classes.quickViewButton}
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={handleButtonClick}
+          >Vista Previa</Button>
+        </Grow>
+      </div>
+      {/* NOMBRE */}
+      <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
+        {name}
+      </Typography>
+      {/* </Link> */}
+
       <CardContent className={classes.content} >
         {/* PRECIO */}
         <Typography variant="h5" component="h2" className={classes.price}>
           ${price}
         </Typography>
         {/* BOTON AGREGAR */}
-        {<Button
+        <Button
           className={classes.button}
           type="submit"
           fullWidth
@@ -76,9 +138,18 @@ const Product = ({ product, history }) => {
           onClick={addCartClick}
         >
           {stock !== 0 ? <>Agregar</> : <>No disponible</>}
-        </Button>}
+        </Button>
       </CardContent>
-
+      {loading && (
+        <CircularProgress
+          size={50}
+          className={classes.circularProgress}
+        />
+      )}
+      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} transitionDuration={2}>
+        {success ?
+          <Publication idProduct={_id} /> : null}
+      </Dialog>
     </Card>
   );
 };

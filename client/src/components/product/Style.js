@@ -2,50 +2,71 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   root: {
-    maxWidth: 385,
-    maxHeight: 370,
-    height:350,
-    margin: 10,
-    borderRadius: 16,
+    maxWidth: 545,
     backgroundColor: "#FEF7E4",
-    border: "#AB9F9F 1px solid",
     boxShadow: "none",
-    [theme.breakpoints.up('xs')]: {
-      margin: 5,
-      height:250,
-    },
-    [theme.breakpoints.up('md')]: {
-      height:100,
-    },
-    
-    [theme.breakpoints.up('sm')]: {
-      height:370,
-    },
   },
   media: {
-    marginTop: 5,
-    width: "75%",
-    margin: "auto",
-    paddingTop: "56.25%", // 16:9
+    height: 0,
+    paddingTop: '56.25%',
+    cursor: "pointer"
+
   },
-  
+  cardMediaContainer: {
+    position: "relative",
+  },
+  quickViewButton: {
+    position: "absolute",
+    maxWidth: '150px',
+    borderRadius: 5,
+    padding: theme.spacing(1),
+    [theme.breakpoints.up('xs')]: {
+      right: 150,
+      bottom: 110,
+    },
+    [theme.breakpoints.up('sm')]: {
+      bottom: 120,
+      right: 170,
+    },
+    [theme.breakpoints.up('md')]: {
+      bottom: 80,
+      right: 100,
+    },
+
+    [theme.breakpoints.up('lg')]: {
+      bottom: 60,
+      right: 70,
+    },
+    [theme.breakpoints.up('xl')]: {
+      bottom: 100,
+      right: 145,
+    },
+  },
   title: {
     textAlign: "center",
     color: "#000000",
-    fontSize: "2.1rem",
+    marginTop: "2rem",
     marginBottom: "0"
   },
   price: {
     color: "#EC1B1B",
-    textAlign: "right",
-    fontSize: "2rem",
+    textAlign: "center",
+    marginBottom: "1rem"
   },
-  content:{
+  content: {
     display: "flex",
-    justifyContent: "space-between"
+    flexDirection: "column",
   },
   button: {
     width: "30%",
-    borderRadius: 16,
+    borderRadius: 5,
+    margin: "0 auto"
+  },
+  circularProgress: {
+    position: "absolute",
+    // top: '50%',
+    left: '50%',
+    marginTop: '-12px',
+    marginLeft: '-12px',
   }
 }));

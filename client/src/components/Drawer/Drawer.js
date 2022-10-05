@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Style from "./Style";
 import MenuIcon from "@material-ui/icons/Menu";
 import PersonIcon from "@material-ui/icons/Person";
@@ -62,6 +62,13 @@ export default function DraWer() {
   const userContext = useContext(UserContext);
   const { authenticated } = userContext;
 
+  //CategoryContext
+  const categoryContext = useContext(CategoryContext)
+  const { categories } = categoryContext
+
+  //hooks
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -72,8 +79,13 @@ export default function DraWer() {
 
     setDrawer(open);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-
+  const handleOpenMenu = (e) => {
+    setAnchorEl(!anchorEl)
+  }
   return (
     <>
       <IconButton
@@ -91,20 +103,56 @@ export default function DraWer() {
       >
         {authenticated ? <Menu toggleDrawer={toggleDrawer} />
           : (
+            <>
 
-            <Link to={"/login"} className={classes.linkButton} style={{ textDecoration: 'none' }}>
+              <Link to={"/login"} className={classes.linkButton} style={{ textDecoration: 'none' }}>
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                onClick={toggleDrawer(false)}
-                className={classes.loginButton}
-              >
-                Iniciar Secion
-              </Button>
-            </Link>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={toggleDrawer(false)}
+                  className={classes.loginButton}
+                >
+                  Iniciar Secion
+                </Button>
+              </Link>
+              <div onClick={handleOpenMenu} className={classes.categoryContainer}>
+                <ListItemIcon className={classes.itemIcon}>
+                  <CategoryIcon />
+                </ListItemIcon>
+
+
+                <ListItemText
+                  to={"/main/categoria"}
+                  primary={"Categoria"}
+                  className={classes.itemText}
+                  onClick={toggleDrawer(false)}
+                />
+
+                {anchorEl ?
+                  <>
+                    <List onClick={handleClose} className={classes.categoryList} >
+                      {categories.map((category) => {
+                        return (
+
+                          <ListItem button className={`${classes.listHover}`} key={category._id} to={`/lista-Productos/${category._id}`} component={Link} onClick={toggleDrawer(false)}>
+                            <ListItemText className={classes.itemText} primary={category.name} />
+                          </ListItem>
+                        )
+                      })}
+                    </List>
+                    <ListItemIcon className={classes.itemIcon}>
+                      <ArrowDownwardIcon />
+                    </ListItemIcon>
+                  </>
+                  : <ListItemIcon className={`${classes.itemIcon} + ${classes.arrowIcon}`}>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                }
+              </div>
+            </>
           )}
       </Drawer>
     </>
@@ -120,9 +168,6 @@ const Menu = ({ toggleDrawer }) => {
   const userContext = useContext(UserContext);
   const { signOff, user } = userContext;
 
-  //CategoryContext
-  const categoryContext = useContext(CategoryContext)
-  const {categories } = categoryContext
 
   //hooks
   const [anchorEl, setAnchorEl] = useState(null);
@@ -131,13 +176,7 @@ const Menu = ({ toggleDrawer }) => {
     signOff();
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
-  const handleOpenMenu = (e) => {
-    setAnchorEl(!anchorEl)
-  }
 
   const routeList = (routes) => {
 
@@ -150,52 +189,18 @@ const Menu = ({ toggleDrawer }) => {
               component={Link} to={route.name !== "Categoria" ? route.path : "#"} key={key}
             >
 
-              {route.name === "Categoria" ?
-                <div onClick={handleOpenMenu} className={classes.categoryContainer}>
-                  <ListItemIcon className={classes.itemIcon}>
-                    <route.icon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={route.name}
-                    className={classes.itemText}
-                    onClick={toggleDrawer(false)}
-                  />
+              <>
+                <ListItemIcon className={classes.itemIcon}>
+                  <route.icon />
+                </ListItemIcon>
+                <ListItemText
+                  to={route.path}
+                  primary={route.name}
+                  className={classes.itemText}
+                  onClick={toggleDrawer(false)}
+                />
+              </>
 
-                  {anchorEl ?
-                    <>
-                      <List onClick={handleClose} className={classes.categoryList} >
-                        {categories.map((category) => {
-                          return (
-
-                            <ListItem button className={`${classes.listHover}`} key={category._id} to={`/lista-Productos/${category._id}`} component={Link} onClick={toggleDrawer(false)}>
-                              <ListItemText className={classes.itemText} primary={category.name} />
-                            </ListItem>
-                          )
-                        })}
-                      </List>
-                      <ListItemIcon className={classes.itemIcon}>
-                        <ArrowDownwardIcon />
-                      </ListItemIcon>
-                    </>
-                    : <ListItemIcon className={`${classes.itemIcon} + ${classes.arrowIcon}`}>
-                      <ArrowForwardIcon />
-                    </ListItemIcon>
-                  }
-                </div>
-
-                :
-                <>
-                  <ListItemIcon className={classes.itemIcon}>
-                    <route.icon />
-                  </ListItemIcon>
-                  <ListItemText
-                    to={route.path}
-                    primary={route.name}
-                    className={classes.itemText}
-                    onClick={toggleDrawer(false)}
-                  />
-                </>
-              }
             </ListItem>
           )
         })}

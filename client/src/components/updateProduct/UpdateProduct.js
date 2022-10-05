@@ -6,6 +6,7 @@ const UpdateProduct = ({ open, onClose }) => {
 
   return (
     <Dialog aria-labelledby="simple-dialog-title" open={open} maxWidth="md" onClose={onClose}>
+    
       <AddProduct open={open}/>
     </Dialog>
   );

@@ -2,7 +2,7 @@ import Category from "../models/Category"
 import Products from "../models/Products"
 import updateProduct from "../data/updateProduct"
 import shortid from 'shortid'
-
+import fetch from 'node-fetch'
 // inserta productos a la MongoDB
 export const postProducts = async (req, res) => {
 
@@ -43,7 +43,7 @@ export const getProducts = async (req, res) => {
 
     let filter = {};
     if (req.query.id) {
-      
+
       filter = { category: req.query.id.split(",") };
     }
     const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
