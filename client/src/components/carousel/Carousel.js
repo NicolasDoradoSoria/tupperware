@@ -99,7 +99,8 @@ const Carousel = () => {
             }, 5000);
         });
 
-    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[] )
     return (
         <div className='slideshow'>
                 <div className='carrousel'>

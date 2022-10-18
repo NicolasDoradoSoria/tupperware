@@ -2,7 +2,6 @@ import Category from "../models/Category"
 import Products from "../models/Products"
 import updateProduct from "../data/updateProduct"
 import shortid from 'shortid'
-import fetch from 'node-fetch'
 // inserta productos a la MongoDB
 export const postProducts = async (req, res) => {
 
@@ -57,7 +56,7 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
 
   try {
-    const product = await Products.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages" })
+    const product = await Products.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages" }).populate("category");
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send("hubo un error");

@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const {postProducts, searchProducts, getProducts, getProductById, updateProductById, deleteProductById, filterProductsCategory, prueba} = require("../controllers/productsController");
-const { isAdmin, verifyToken } = require("../middleware/utils/auth");
-const { validatePostProducts } = require("../middleware/validators/products");
-const uploadMiddleware = require('../middleware/utils/uploaderMiddleware');
+const { isAdmin, verifyToken } = require("../middleware/auth")
+const { validatePostProducts } = require("../validators/products");
+const uploadMiddleware = require('../middleware/uploaderMiddleware');
 
 router.post("/", [verifyToken, isAdmin], uploadMiddleware.uploadMulti, validatePostProducts, postProducts);
 router.post("/searchProducts", searchProducts);

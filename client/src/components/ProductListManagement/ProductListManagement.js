@@ -6,12 +6,12 @@ import Style from "./Style";
 import ProductContext from "../../context/productsContext/ProductContext";
 
 import SnackbarOpen from "../snackbar/SnackBar";
-import UpdateProduct from "../updateProduct/UpdateProduct";
 
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import MaterialTable from "material-table"
 import { PatchedPagination } from './TablePagination'
-
+import AddProduct from "../addProduct/AddProduct";
+import ReusableDialog from "../reusableDialog/ReusableDialog"
 
 const columns = () => [
   {
@@ -76,7 +76,6 @@ const ProductListManagement = () => {
     saveCurrentProduct(product);
   };
 
-
   return (
     <Box className={classes.rootBox}>
       <MaterialTable title="Lista de Productos" data={products} columns={columns()} actions={[
@@ -106,7 +105,9 @@ const ProductListManagement = () => {
         }
       />
       {error ? <SnackbarOpen /> : null}
-      <UpdateProduct open={open} onClose={() => setOpen(false)}></UpdateProduct>
+      <ReusableDialog open={open} onClose={() => setOpen(false)} >
+        <AddProduct open={open} />
+      </ReusableDialog>
     </Box>
   );
 };

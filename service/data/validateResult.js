@@ -1,6 +1,6 @@
 import { validationResult }from 'express-validator'
 
-const validateResult = (req, res, next) => {
+export const validateResult = (req, res, next) => {
     try {
         validationResult(req).throw()
         return next()
@@ -9,5 +9,3 @@ const validateResult = (req, res, next) => {
         res.send({ errors: err.array() })
     }
 }
-
-module.exports = { validateResult }

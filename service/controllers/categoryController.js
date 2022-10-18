@@ -4,9 +4,7 @@ import Category from "../models/Category"
 export const createCategory = async (req, res) => {
     try {
         const { name } = req.body
-        let category = new Category({
-            name,
-        });
+        let category = new Category({ name });
         category = await category.save();
         if (!category) return res.status(404).send("the category cannot be created!");
 
@@ -23,15 +21,11 @@ export const createCategory = async (req, res) => {
 export const getCategories = async (req, res) => {
     try {
         const categoryList = await Category.find();
-        
+
         // si no mandamos id devuelve todas las categorias
-        if (!req.query.id) {
-            return res.status(200).json(categoryList);
-        }
+        if (!req.query.id) return res.status(200).json(categoryList);
 
-        
         const search = await Category.find({ _id: req.query.id })
-
 
         res.status(200).json(search);
 
@@ -48,10 +42,7 @@ export const updateCategory = async (req, res) => {
     const { categoryId } = req.params
     try {
         const category = await Category.findByIdAndUpdate(
-            categoryId,
-            { name },
-            { new: true }
-        );
+            categoryId, { name }, { new: true });
 
         if (!category) return res.status(400).send("the category cannot be created");
 
@@ -68,17 +59,10 @@ export const deleteCategory = async (req, res) => {
 
     try {
         let deleteCategory = await Category.findByIdAndRemove(categoryId)
-        if (deleteCategory) {
-            return res
-                .status(200)
-                .json({ success: true, message: "the category deleted" });
-        }
 
-        else {
-            return res
-                .status(404)
-                .json({ success: false, message: "categry not found" });
-        }
+            (deleteCategory) ? res.status(200).json({ success: true, msg: "the category deleted" }) :
+            res.status(404).json({ success: false, msg: "categry not found" })
+
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");

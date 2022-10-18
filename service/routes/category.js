@@ -1,8 +1,8 @@
 const express = require("express");
 const { createCategory, getCategories, updateCategory, deleteCategory } = require("../controllers/categoryController");
 const router = express.Router();
-const { isAdmin, verifyToken } = require("../middleware/utils/auth");
-const { validateCategory } = require("../middleware/validators/category");
+const { isAdmin, verifyToken } = require("../middleware/auth")
+const { validateCategory } = require("../validators/category");
 
 router.post("/", [verifyToken, isAdmin, validateCategory], createCategory);
 router.put("/:categoryId", [verifyToken, isAdmin], updateCategory);

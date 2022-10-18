@@ -48,14 +48,14 @@ const MainCarrouselManager = () => {
             [e.currentTarget.id]: idArray,
             [e.currentTarget.name]: img._id
         })
-        
+
     }
 
     useEffect(() => {
         getMultipleImages()
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [images]);
+    }, []);
     return (
         <>
             <Box className={classes.root}>

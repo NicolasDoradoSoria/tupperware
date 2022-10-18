@@ -1,9 +1,7 @@
 import Role from "../models/Role"
 import User from '../models/User'
-
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { matchedData } from "express-validator"
 
 //login
 export const login = async (req, res) => {
@@ -14,30 +12,20 @@ export const login = async (req, res) => {
     //revisar que sea un usuario registrado
     const user = await User.findOne({ email: email }).populate("roles");
 
-    if (!user) {
-      return res.status(400).json({ msg: "el usuario no existe" });
-    }
+    if (!user)  return res.status(400).json({ msg: "el usuario no existe" });
+    
 
     const correctPass = await bcryptjs.compare(password, user.password);
 
-    if (!correctPass) {
-      return res.status(401).json({ msg: "password incorrecto" });
-    }
+    if (!correctPass) return res.status(401).json({ msg: "password incorrecto" });
+
 
     //si todo es correcto crear y firmar el JWT
-    const payload = {
-      user: {
-        id: user.id,
-        role: user.role,
-      },
-    };
+    const payload = {user: { id: user.id, role: user.role, }};
 
     //firmar el JWT
     jwt.sign(
-      payload, process.env.SECRETA,
-      {
-        expiresIn: 36000,
-      },
+      payload, process.env.SECRETA,{expiresIn: 36000, },
       (error, token) => {
         if (error) throw error;
 
@@ -47,49 +35,44 @@ export const login = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+    res.status(500).json({msg:"hubo un error"});
   }
 };
 
-
 export const register = async (req, res) => {
-  //extraer email y password
   try {
-    const body = matchedData(req)
-    const { password} = body;
+    const { password, confirmPassword, firsName, lastName, email } = req.body
 
+    // compara las dos contraseñas 
+    if (password !== confirmPassword) return res.status(400).json({ msg: "las contraseñas no coinciden!" })
 
-    //crea el nuevo usuarioz
-    let user = new User(body);
+    // reviso si el email ya a sido registrado
+    const userFound = await User.findOne({ email: req.body.email })
+    if (userFound) return res.status(400).json({ msg: "el email ya existe" })
+
+    // creamos un nuevo usuario
+    let newUser = new User({ confirmPassword, firstName, lastName, email })
 
     //hashear el password
     const salt = await bcryptjs.genSalt(10);
-    user.password = await bcryptjs.hash(password, salt);
+    newUser.password = await bcryptjs.hash(password, salt);
 
     if (req.body.roles) {
       const foundRoles = await Role.find({ name: { $in: req.body.roles } });
-      user.roles = foundRoles.map((role) => role._id);
+      newUser.roles = foundRoles.map((role) => role._id);
     } else {
       const role = await Role.findOne({ name: "user" });
-      user.roles = [role._id];
+      newUser.roles = [role._id];
     }
 
     //guardar usuario
-    await user.save();
+    await newUser.save();
 
     //crear y firmar el JWT
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
+    const payload = { user: { id: newUser.id } };
 
     //firmar el JWT
-    jwt.sign(
-      payload,
-      process.env.SECRETA,
-      {
-        expiresIn: 3600,
-      },
+    jwt.sign( payload, process.env.SECRETA, { expiresIn: 3600,},
       (error, token) => {
         if (error) throw error;
 
@@ -99,7 +82,7 @@ export const register = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
-    res.status(400).send("hubo un error");
+    res.status(500).json({msg:"hubo un error"});
   }
 };
 

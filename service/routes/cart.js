@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const {verifyToken}= require("../middleware/utils/auth")
+const {verifyToken}= require("../middleware/auth")
 const {generateOrder, showAllOrders, showOrder, updateOrder, deleteOrder, deleteProductOrder} = require("../controllers/cartController");
-const { validateGenerateOrder } = require("../middleware/validators/cart");
+const { validateGenerateOrder } = require("../validators/cart");
 
 router.post("/", verifyToken, validateGenerateOrder , generateOrder);
 router.get("/",verifyToken, showAllOrders);

@@ -1,11 +1,11 @@
 import React, { useContext, useState, useRef } from "react";
 import Style from "./Style";
 import { withRouter, useHistory } from "react-router-dom";
-import { CardMedia, CardContent, Typography, Button, Card, Grow, Dialog, CircularProgress } from "@material-ui/core";
+import { CardMedia, CardContent, Typography, Button, Card, Grow, CircularProgress } from "@material-ui/core";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Publication from "../publication/Publication"
-
+import ReusableDialog from "../reusableDialog/ReusableDialog"
 const Product = ({ product }) => {
   const classes = Style();
 
@@ -20,7 +20,7 @@ const Product = ({ product }) => {
   const cartContext = useContext(CartContext);
   const { generateOrder } = cartContext
 
-  const { name, images, price, _id, stock } = product;
+  const { name, images, price, _id, stock, category } = product;
 
   // progres material ui
   const [loading, setLoading] = useState(false);
@@ -70,10 +70,7 @@ const Product = ({ product }) => {
     setChecked(false);
     setCardMediaStyle({ opacity: 1, transition: `opacity 1000ms ease-in-out` })
   }
-  // ciera el dialog
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   // al hacer click en la imagen navega hacial el componente publication 
   const navigatePublication = () => {
     history.push(`/main/descripcion-producto/${_id}`);
@@ -90,8 +87,9 @@ const Product = ({ product }) => {
       setLoading(false);
       }, 2000);
     }
-
   }
+
+  
 
   return (
     <Card className={classes.root} >
@@ -146,10 +144,10 @@ const Product = ({ product }) => {
           className={classes.circularProgress}
         />
       )}
-      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} transitionDuration={2}>
+      <ReusableDialog open={open} onClose={() => setOpen(false)} >
         {success ?
           <Publication idProduct={_id} /> : null}
-      </Dialog>
+      </ReusableDialog>
     </Card>
   );
 };
