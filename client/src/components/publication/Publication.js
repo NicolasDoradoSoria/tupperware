@@ -6,7 +6,7 @@ import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/productsContext/userContext/UserContext'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, useNavigate, useParams} from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import { Grow, Grid, Paper, Button, TextField, Typography, withStyles, InputAdornment } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
@@ -16,7 +16,9 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import ReactImageMagnify from 'react-image-magnify';
 
-const Publication = ({ match, history, idProduct }) => {
+const Publication = ({idProduct }) => {
+  const navigate = useNavigate()
+  const { id } = useParams();
   const classes = Style();
   const theme = useTheme();
   const fixedHeightPaper = clsx(classes.paper);
@@ -75,11 +77,11 @@ const Publication = ({ match, history, idProduct }) => {
     }
     generateOrder(order)
 
-    history.push("/")
+    navigate("/")
   }
 
   const navigateToLogin = () => {
-    history.push(`/login`);
+    navigate(`/login`)
   }
 
   const handleNext = () => {
@@ -111,7 +113,7 @@ const Publication = ({ match, history, idProduct }) => {
   useEffect(() => {
     closeSnackbar()
     smallImage(0)
-    !idProduct ? getProduct(match.params.id) : getProduct(idProduct)
+    !idProduct ? getProduct(id) : getProduct(idProduct)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -292,7 +294,7 @@ const Publication = ({ match, history, idProduct }) => {
   );
 };
 
-export default withRouter(Publication);
+export default Publication
 const CssTextField = withStyles({
   root: {
     '& .MuiOutlinedInput-root': {

@@ -42,14 +42,11 @@ const MaterialTableCart = () => {
     const { removeOrderProduct, productsInCart, cleanCart } = cartContext
 
     //eliminar un producto de la lista
-    const deleteProduct = (e, produtSelect) => {
-        removeOrderProduct(user.user._id, produtSelect._id)
-    }
+    const deleteProduct = (e, produtSelect) => removeOrderProduct(user.user._id, produtSelect._id)
 
     // elimina todos los productos
-    const deleteAllProduct = () => {
-        cleanCart(user.user._id)
-    }
+    const deleteAllProduct = () =>  cleanCart(user.user._id)
+    
     return (
         <>
             {/* material table necesita el titulo, datos y los nombre de la columnas y las acciones son Opcionales*/}

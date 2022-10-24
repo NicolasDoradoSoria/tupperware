@@ -4,7 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Dropdown from "./Dropdown";
-import { AppBar, Button, Grid, List, ListItem, ListItemText, Toolbar } from "@material-ui/core";
+import { AppBar, Button, List, ListItem, ListItemText } from "@material-ui/core";
 import "./Style.css";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import Style from "./Style";

@@ -1,8 +1,5 @@
-import React, { useEffect, useContext, useState } from 'react';
-
+import { useEffect, useContext, useState } from 'react';
 import Style from "./Style";
-import { withRouter } from 'react-router-dom'
-
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import UserContext from "../../context/productsContext/userContext/UserContext";
@@ -94,4 +91,4 @@ const ShoppingCart = () => {
   );
 }
 
-export default withRouter(ShoppingCart);
+export default ShoppingCart

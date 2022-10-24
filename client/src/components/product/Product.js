@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef } from "react";
 import Style from "./Style";
-import { withRouter, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CardMedia, CardContent, Typography, Button, Card, Grow, CircularProgress } from "@material-ui/core";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
@@ -8,8 +8,7 @@ import Publication from "../publication/Publication"
 import ReusableDialog from "../reusableDialog/ReusableDialog"
 const Product = ({ product }) => {
   const classes = Style();
-
-  const history = useHistory();
+  const navigate = useNavigate()
 
   const timer = useRef();
   //userContext
@@ -53,7 +52,7 @@ const Product = ({ product }) => {
       generateOrder(order)
     }
     else {
-      history.push("/login")
+      navigate("/login")
     }
 
   }
@@ -70,7 +69,7 @@ const Product = ({ product }) => {
   }
 
   // al hacer click en la imagen navega hacial el componente publication 
-  const navigatePublication = () => history.push(`/main/descripcion-producto/${_id}`);
+  const navigatePublication = () => navigate(`/main/descripcion-producto/${_id}`)
 
   // esto hace que haga el efecto de progress y ademas activa el dialog
   const handleButtonClick = () => {
@@ -146,4 +145,4 @@ const Product = ({ product }) => {
   );
 };
 
-export default withRouter(Product);
+export default Product

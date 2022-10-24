@@ -13,12 +13,13 @@ import Copyright from "./Copyright";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 
-export default function Login(props) {
+export default function Login() {
+  const navigate = useNavigate();
   const classes = Style();
 
   //userContext
@@ -45,7 +46,7 @@ export default function Login(props) {
 
   useEffect(() => {
     if (authenticated) {
-      props.history.push("/");
+      navigate("/")
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

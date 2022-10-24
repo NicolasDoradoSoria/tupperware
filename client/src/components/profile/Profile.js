@@ -7,20 +7,20 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import * as moment from 'moment';
 import FormLabel from "@material-ui/core/FormLabel";
-import { withRouter } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import Style from './Style';
 import UserContext from "../../context/productsContext/userContext/UserContext";
 
 
-const Profile = ({ history }) => {
+const Profile = () => {
   const classes = Style();
-
+  const navigate = useNavigate();
   //userContext
   const userContext = useContext(UserContext);
   const { authenticated } = userContext;
  
   if (!authenticated) {
-    history.push("/login")
+    navigate("/login")
     return null
   }
 
@@ -119,4 +119,4 @@ const Profile = ({ history }) => {
   );
 };
 
-export default withRouter(Profile);
+export default Profile

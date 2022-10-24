@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Style from "./Style";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
@@ -20,15 +20,13 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import {MuiPickersUtilsProvider,KeyboardDatePicker,} from '@material-ui/pickers';
 import PhoneInput from 'react-phone-input-2'
 import "./styles.css";
 import 'react-phone-input-2/lib/material.css'
 import * as moment  from 'moment';
-export default function SignUp(props) {
+export default function SignUp() {
+  const navigate = useNavigate()
   const classes = Style();
 
   //userContext
@@ -60,7 +58,8 @@ export default function SignUp(props) {
 
   useEffect(() => {
     if (authenticated) {
-      props.history.push("/");
+      
+      navigate("/");
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

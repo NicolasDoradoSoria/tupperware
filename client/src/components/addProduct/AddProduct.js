@@ -3,13 +3,12 @@ import Style from "./Style";
 import { Grid, Card, CardActions, CardContent, Button, Typography, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
-import { withRouter, useHistory } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom'
 import './Style.css';
 
 const AddProduct = ({ open }) => {
   const classes = Style();
-  const history = useHistory();
-
+  const navigate = useNavigate();
   //productContext
   const productContext = useContext(ProductContext);
   const {
@@ -75,7 +74,7 @@ const AddProduct = ({ open }) => {
     getProducts()
     setProductNew({ name: "", price: 0, descripcion: "" });
 
-    history.push("/")
+    navigate("/")
   };
 
   // desabilitar el boton de agregar producto si alguno de los campos no fue completado
@@ -257,4 +256,4 @@ const AddProduct = ({ open }) => {
   );
 };
 
-export default withRouter(AddProduct);
+export default AddProduct;

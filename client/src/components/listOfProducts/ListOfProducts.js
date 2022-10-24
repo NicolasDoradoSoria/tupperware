@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
 import Product from "../product/Product";
 import { Box, Grid, Typography } from "@material-ui/core";
 import Style from "./Style";
@@ -7,6 +6,7 @@ import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
+
 //context
 import ProductContext from "../../context/productsContext/ProductContext";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
@@ -35,7 +35,6 @@ const ListOfProducts = () => {
   const { id } = useParams();
 
   useEffect(() => {
-
     if(id){
       categorySearch(id)
       getFilterProductByCategory(id)

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Categoria from "./components/categoria/Categoria";
 import Login from "./components/Login/Login";
 import Profile from "./components/profile/Profile";
@@ -20,6 +20,7 @@ import ListOfProducts from "./components/listOfProducts/ListOfProducts"
 import MainCarrouselManager from "./components/mainCarouselManager/MainCarouselManager";
 import CategoryState from "./context/categoryContext/CategoryState";
 import Main from "./components/main/Main";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 var divStyle = {
   backgroundColor: "#FEF7E4",
   marginRight: "-1rem",
@@ -38,22 +39,22 @@ function App() {
                   <Router>
                     <Theme>
                       <Layout>
-                        <Switch>
-                          <Route exact path="/" component={Main} />
-                          <Route exact path="/lista-Productos/" component={ListOfProducts} />
-                          <Route exact path="/lista-Productos/:id" component={ListOfProducts} />
-                          <Route exact path="/administrador-Carrusel-Principal" component={MainCarrouselManager} />
-                          <Route exact path="/main/categoria" component={Categoria} />
-                          <Route exact path="/main/descripcion-producto/:id" component={Publication} />
-                          <Route exact path="/main/carrito" component={ShoppingCart} />
-                          <Route exact path="/login" component={Login} />
-                          <Route exact path="/nueva-cuenta" component={SignUp} />
-                          <Route exact path="/perfil" component={Profile} />
-                          <Route exact path="/todos-Productos" component={ProductListManagement} />
-                          <Route exact path="/agregar-producto" component={AddProduct} />
-                          <Route exact path="/pagar" component={PaymentMethod} />
+                        <Routes>
+                          <Route exact path="/" element={<Main />} />
+                          <Route exact path="/lista-Productos/" element={<ListOfProducts />} />
+                          <Route exact path="/lista-Productos/:id" element={<ListOfProducts />} />
+                          <Route exact path="/administrador-Carrusel-Principal" element={<MainCarrouselManager/>} />
+                          <Route exact path="/main/categoria" element={<Categoria/>} />
+                          <Route exact path="/main/descripcion-producto/:id" element={<Publication />} />
+                          <Route exact path="/main/carrito" element={<ShoppingCart />} />
+                          <Route exact path="/login" element={<Login />} />
+                          <Route exact path="/nueva-cuenta" element={<SignUp/>} />
+                          <Route exact path="/perfil" element={<Profile/>} />
+                          <Route exact path="/todos-Productos" element={<ProductListManagement/>} />
+                          <Route exact path="/agregar-producto" element={<AddProduct />} />
+                          <Route exact path="/pagar" element={<PaymentMethod/>} />
                           descripcion-producto
-                        </Switch>
+                        </Routes>
                       </Layout>
                     </Theme>
                   </Router>
