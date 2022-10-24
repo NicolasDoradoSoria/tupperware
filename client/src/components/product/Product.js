@@ -35,16 +35,14 @@ const Product = ({ product }) => {
   const [open, setOpen] = useState(false);
 
   // desabilita los botones que no tengan stock
-  const disableButton = () => {
-    return stock === 0
-  }
+  const disableButton = () => stock === 0
+
 
   // agregamos el producto al carrito directamente por default se agrega 1
   const addCartClick = () => {
 
     // si esta autenticado directamente agrega al carrito si no manda al usuario a la ventana de login
     if (authenticated) {
-
       const order = {
         "user": user.user._id,
         "products": [
@@ -72,9 +70,7 @@ const Product = ({ product }) => {
   }
 
   // al hacer click en la imagen navega hacial el componente publication 
-  const navigatePublication = () => {
-    history.push(`/main/descripcion-producto/${_id}`);
-  };
+  const navigatePublication = () => history.push(`/main/descripcion-producto/${_id}`);
 
   // esto hace que haga el efecto de progress y ademas activa el dialog
   const handleButtonClick = () => {
@@ -83,13 +79,11 @@ const Product = ({ product }) => {
       setSuccess(false);
       setLoading(true);
       timer.current = window.setTimeout(() => {
-      setSuccess(true);
-      setLoading(false);
+        setSuccess(true);
+        setLoading(false);
       }, 2000);
     }
   }
-
-  
 
   return (
     <Card className={classes.root} >

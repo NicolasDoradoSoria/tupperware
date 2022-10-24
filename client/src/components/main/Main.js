@@ -7,7 +7,7 @@ import CartContext from '../../context/cartContext/CartContext';
 import UserContext from '../../context/productsContext/userContext/UserContext';
 import CategoryContext from '../../context/categoryContext/CategoryContext';
 const Main = () => {
-   
+
     const classes = Style();
 
     //cartContext
@@ -18,9 +18,9 @@ const Main = () => {
     const userContext = useContext(UserContext);
     const { user } = userContext;
 
-  //CategoryContext
-  const categoryContext = useContext(CategoryContext)
-  const { getCategory} = categoryContext
+    //CategoryContext
+    const categoryContext = useContext(CategoryContext)
+    const { getCategory } = categoryContext
 
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const Main = () => {
         if (user) {
             getOrder(user.user._id)
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
     return (

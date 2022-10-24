@@ -58,12 +58,14 @@
 .rightContainer{
     display: flex;
 }
+.searchContainer{
+    margin: auto 1rem;
+    width: 100%
+}
 @media screen and (max-width: 960px) {
-
-    .cartContainer{
-        float: right;
+    .searchContainer{
+        width: 15rem
     }
-
     .NavbarItems {
         position: relative;
     }

@@ -14,7 +14,7 @@ export default makeStyles((theme) => ({
     justifyContent: "space-between",
     fontSize: "1.2rem",
     flexDirection: "row",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       justifyContent: "end",
     },
   },

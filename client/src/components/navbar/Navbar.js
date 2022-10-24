@@ -150,7 +150,9 @@ const UserPath = ({ click, setClick }) => {
                         cerrar secion
                     </Button>
                 </div>
-                {/* <Search /> */}
+                <div className="searchContainer">
+                    <Search />
+                </div>
                 <div className="cartContainer">
                     <Cart />
                 </div>

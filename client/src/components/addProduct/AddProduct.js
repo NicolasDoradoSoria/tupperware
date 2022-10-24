@@ -3,12 +3,13 @@ import Style from "./Style";
 import { Grid, Card, CardActions, CardContent, Button, Typography, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
-import { withRouter, useHistory  } from 'react-router-dom'
+import { withRouter, useHistory } from 'react-router-dom'
 import './Style.css';
 
 const AddProduct = ({ open }) => {
   const classes = Style();
-  const  history = useHistory();
+  const history = useHistory();
+
   //productContext
   const productContext = useContext(ProductContext);
   const {
@@ -78,25 +79,15 @@ const AddProduct = ({ open }) => {
   };
 
   // desabilitar el boton de agregar producto si alguno de los campos no fue completado
-  const addProductButtonDisabled = () => {
-    return imagesToUpload.length === 0 || (isEmpty(name) || isEmpty(descripcion) || isEmpty(category))
-  };
+  const addProductButtonDisabled = () => imagesToUpload.length === 0 || (isEmpty(name) || isEmpty(descripcion) || isEmpty(category))
 
-  const isEmpty = (aField) => {
-    return aField === "";
-  };
+  const isEmpty = (aField) => aField === "";
 
   //selecciona una imagen del producto haciendo click
-  const selectImageProductClick = (image) => {
-    setSelectImage(image)
-  }
-
+  const selectImageProductClick = (image) => setSelectImage(image)
 
   //elimina una imagen del producto
-  const deleteProductImage = () => {
-    setImagesToUpload(imagesToUpload.filter(image => image !== selectImage))
-
-  }
+  const deleteProductImage = () => setImagesToUpload(imagesToUpload.filter(image => image !== selectImage))
 
   // guarda la lista de imagenes en el state de producto 
   const productImagesChange = (e) => {
@@ -106,9 +97,7 @@ const AddProduct = ({ open }) => {
   }
 
   //desabilita el boton de eliminar Imagen 
-  const imageButtonDisabled = () => {
-    return isEmpty(selectImage)
-  }
+  const imageButtonDisabled = () => isEmpty(selectImage)
 
   // seleecciona una categoria 
   const handleChange = (event) => {
@@ -117,6 +106,7 @@ const AddProduct = ({ open }) => {
       [event.target.name]: event.target.value,
     });
   };
+
   return (
     <>
       <Card className={classes.root}>

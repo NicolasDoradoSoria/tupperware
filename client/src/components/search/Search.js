@@ -22,7 +22,7 @@ const Search = ({ history }) => {
     return (
         <>
 
-            <div className={classes.search} style={{ width: "50%" }}>
+            <div className={classes.search} >
                 <Autocomplete
                     classes={{
                         root: classes.inputRoot,
