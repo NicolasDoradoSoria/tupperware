@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+
 import clienteAxios from "../../config/axios";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -16,43 +10,43 @@ import Paper from "@material-ui/core/Paper";
 // );
 
 const CheckoutForm = () => {
-  const elements = useElements();
-  const stripe = useStripe();
-  const classes = Style();
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const elements = useElements();
+  // const stripe = useStripe();
+  // const classes = Style();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardElement),
-    });
+  //   const { error, paymentMethod } = await stripe.createPaymentMethod({
+  //     type: "card",
+  //     card: elements.getElement(CardElement),
+  //   });
 
-    if (!error) {
-      const { id } = paymentMethod;
-      console.log(paymentMethod);
+  //   if (!error) {
+  //     const { id } = paymentMethod;
+  //     console.log(paymentMethod);
 
-      const { data } = await clienteAxios.post("/api/carritoCompras", {
-        id,
-        amount: 10000,
-      });
-      console.log(data);
-    }
-  };
-  return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <div className={classes.buttons}>
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          className={classes.button}
-        >
-          Buy
-        </Button>
-      </div>
-    </form>
-  );
+  //     const { data } = await clienteAxios.post("/api/carritoCompras", {
+  //       id,
+  //       amount: 10000,
+  //     });
+  //     console.log(data);
+  //   }
+  // };
+  // return (
+  //   <form onSubmit={handleSubmit}>
+  //     <CardElement />
+  //     <div className={classes.buttons}>
+  //       <Button
+  //         type="submit"
+  //         color="primary"
+  //         variant="contained"
+  //         className={classes.button}
+  //       >
+  //         Buy
+  //       </Button>
+  //     </div>
+  //   </form>
+  // );
 };
 
 function PaymentMethod() {

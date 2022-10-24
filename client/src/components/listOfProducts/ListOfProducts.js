@@ -58,8 +58,6 @@ const ListOfProducts = () => {
     setPage(0);
   };
 
-
-
   if (products.length === 0) return null
   return (
     <>

@@ -1,13 +1,15 @@
 import React from 'react';
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
+import Navbar from '../navbar/Navbar';
 import Scroll from '../scroll/Scroll';
 
 const Layout = ({ children }) => {
   return <>
-    <Header />
+    <Navbar />
+    {/* <Header /> */}
     {children}
-    <Scroll showBelow={250} /> 
+    <Scroll showBelow={250} />
     <Footer />
   </>
 }

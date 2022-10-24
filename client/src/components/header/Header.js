@@ -14,8 +14,7 @@ const Header = () => {
   return (
     <AppBar position="fixed" style={{ background: "#CDA6C2" }} >
       <Toolbar>
-          <DraWer />
-        
+          {/* <DraWer /> */}
         <Box flexGrow={1} display={{ xs: "none", sm: 'block' }} className={classes.titleBox}>
         </Box>
         <Search />

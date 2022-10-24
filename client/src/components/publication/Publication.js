@@ -6,7 +6,7 @@ import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/productsContext/userContext/UserContext'
-import { Link, withRouter, useHistory } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import { Grow, Grid, Paper, Button, TextField, Typography, withStyles, InputAdornment } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
@@ -39,6 +39,7 @@ const Publication = ({ match, history, idProduct }) => {
 
   //hooks 
   const [quantity, setQuantity] = useState(1)
+
   // contador de imagen
   const [activeStep, setActiveStep] = useState(0);
 
@@ -113,13 +114,13 @@ const Publication = ({ match, history, idProduct }) => {
     !idProduct ? getProduct(match.params.id) : getProduct(idProduct)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+
 
   if (!product) return null
   const { descripcion, price, _id, name, stock, images, category } = product;
 
   return (
-    <div>
+    <>
       <Grid container spacing={4} justifyContent="center" className={classes.root} >
         {/* URL */}
         <Grid item xs={6} md={8} >
@@ -136,41 +137,41 @@ const Publication = ({ match, history, idProduct }) => {
           {/* CAROUSEL */}
           {/* <Paper className={fixedHeightPaper} > */}
 
-            <Grid item className={classes.left_1} xs={12} md={2}>
-              {images.map((img, i) => (
-                <div className={classes.img_wrap} key={i} >
-                  <img
-                    onClick={() => smallImage(i)}
-                    className={classes.images}
-                    src={`http://localhost:4000/${img.fileName}`}
-                    alt={images[activeStep].fileName}
-                    style={activeStep === i ? cardMediaStyle : null}
-                  />
-                </div>
-              ))}
-            </Grid>
-          
+          <Grid item className={classes.left_1} xs={12} md={2}>
+            {images.map((img, i) => (
+              <div className={classes.img_wrap} key={i} >
+                <img
+                  onClick={() => smallImage(i)}
+                  className={classes.images}
+                  src={`http://localhost:4000/${img.fileName}`}
+                  alt={images[activeStep].fileName}
+                  style={activeStep === i ? cardMediaStyle : null}
+                />
+              </div>
+            ))}
+          </Grid>
+
           <Grid item xs={12} md={10} className={classes.Right_1}>
 
             <Grow className={classes.images_2} in={checked} timeout={1000}>
-                <ReactImageMagnify {...{
-                  smallImage: {
-                    alt: 'Wristwatch by Ted Baker London',
-                    isFluidWidth: true,
-                    src: `http://localhost:4000/${images[activeStep].fileName}`,
-                    sizes: '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px'
-                  },
-                  largeImage: {
-                    src: `http://localhost:4000/${images[activeStep].fileName}`,
-                    width: 1400,
-                    height: 2000
-                  },
-                  enlargedImageContainerDimensions: {
-                    width: '50%',
-                    height: '70%'
-                  },
+              <ReactImageMagnify {...{
+                smallImage: {
+                  alt: 'Wristwatch by Ted Baker London',
+                  isFluidWidth: true,
+                  src: `http://localhost:4000/${images[activeStep].fileName}`,
+                  sizes: '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px'
+                },
+                largeImage: {
+                  src: `http://localhost:4000/${images[activeStep].fileName}`,
+                  width: 1400,
+                  height: 2000
+                },
+                enlargedImageContainerDimensions: {
+                  width: '50%',
+                  height: '70%'
+                },
 
-                }} />
+              }} />
             </Grow>
             <Paper className={fixedHeightPaper}>
 
@@ -251,9 +252,15 @@ const Publication = ({ match, history, idProduct }) => {
             <Grid item xs={11} md={6}>
               <Paper>
                 {authenticated ?
-                  stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> : <Button variant="contained" color="primary" onClick={addCartClick} >
-                    Agregar al carrito
-                  </Button> :
+                  stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> :
+                    <Button
+                      fullWidth
+                      color="secondary"
+                      variant="contained"
+                      onClick={addCartClick}
+                      className={classes.loginButtonAndCount}>
+                      Agregar al carrito
+                    </Button> :
                   <Button
                     className={classes.loginButtonAndCount}
                     type="submit"
@@ -281,108 +288,7 @@ const Publication = ({ match, history, idProduct }) => {
       </Grid>
 
       {error ? <SnackbarOpen /> : null}
-    </div >
-
-    // <div className={classes.root}>
-    //   <main className={classes.content}>
-    //     <div className={classes.appBarSpacer} />
-    //     <Container maxWidth="lg" className={classes.container} >
-    //       <Grid container spacing={3} >
-    //         <Grid item xs={6} md={8} lg={9} >
-    //           <Paper className={fixedHeightPaper} >
-
-    //             {/* CAROUSEL */}
-    //             <Carousel autoPlay={true}
-    //               animation="fade"
-    //               indicators={true}
-    //               timeout={500}
-    //               cycleNavigation={true}
-    //               navButtonsAlwaysVisible={true}
-    //               navButtonsAlwaysInvisible={false}>
-    //               {
-    //                 images.map(image => {
-    //                   return (
-    //                     <div key={image._id}>
-    //                       <img src={`http://localhost:4000/${image.fileName}`} className={classes.image} alt="imagen"></img>
-    //                     </div>
-    //                   )
-    //                 })
-    //               }
-    //             </Carousel>
-    //           </Paper>
-    //         </Grid>
-
-    //         <Grid item xs={12} sm container>
-    //           {/* NOMBRE */}
-    //           <Grid item xs>
-    //             <Paper className={fixedHeightPaper}>
-    //               <h2 className={classes.name}>{name}</h2>
-    //             </Paper>
-    //           </Grid>
-
-    //           {/* PRECIO */}
-    //           <Grid item xs={12}>
-    //             <Paper className={fixedHeightPaper}>
-    //               <Typography component="p" variant="h4">
-    //                 {price}
-    //               </Typography>
-    //             </Paper>
-    //           </Grid>
-
-    //           {/* CANTIDAD */}
-    //           <Grid item xs={6}>
-    //             <Paper className={fixedHeightPaper}>
-    //               <TextField
-    //                 label="cantidad"
-    //                 id="standard-number"
-    //                 type="number"
-    //                 name="quantity"
-    //                 InputLabelProps={{
-    //                   shrink: true,
-    //                 }}
-    //                 onChange={changeQuantity}
-    //                 defaultValue="1"
-    //                 inputProps={{ min: "1", max: stock }}
-    //               />
-    //             </Paper>
-    //           </Grid>
-
-    //           {/* AGREGAR AL CARRITO */}
-    //           <Grid item xs={12}>
-    //             <Paper className={fixedHeightPaper}>
-    //               {authenticated ?
-    //                 stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> : <Button variant="contained" color="primary" onClick={addCartClick} >
-    //                   Agregar al carrito
-    //                 </Button> :
-    //                 <Link to={"/login"}>
-    //                   <Button
-    //                     type="submit"
-    //                     fullWidth
-    //                     variant="contained"
-    //                     color="primary"
-    //                   >
-    //                     Iniciar Secion
-    //                   </Button>
-    //                 </Link>
-    //               }
-    //             </Paper>
-    //           </Grid>
-    //         </Grid>
-
-    //         {/* DESCRIPCION */}
-    //         <Grid item xs={12}>
-    //           <Paper className={classes.paper}>
-    //             <h2 className={classes.descripcion}>Descripcion</h2>
-    //             {descripcion}
-    //           </Paper>
-
-    //         </Grid>
-    //       </Grid>
-    //     </Container>
-    //   </main>
-
-    //   {error ? <SnackbarOpen /> : null}
-    // </div>
+    </>
   );
 };
 
