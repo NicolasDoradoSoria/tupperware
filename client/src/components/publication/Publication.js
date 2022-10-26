@@ -117,7 +117,6 @@ const Publication = ({idProduct }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-
   if (!product) return null
   const { descripcion, price, _id, name, stock, images, category } = product;
 

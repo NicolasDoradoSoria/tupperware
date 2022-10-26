@@ -17,6 +17,7 @@ const UserState = (props) => {
     token: localStorage.getItem("token"),
     authenticated: false,
     user: null,
+    loading: false
   };
 
   const [state, dispatch] = useReducer(UserReducer, initialState);
@@ -99,6 +100,7 @@ const UserState = (props) => {
         token: state.token,
         user: state.user,
         authenticated: state.authenticated,
+        loading: state.loading,
         registerUser,
         login,
         signOff,

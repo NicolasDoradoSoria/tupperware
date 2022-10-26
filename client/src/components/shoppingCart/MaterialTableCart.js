@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 import UserContext from "../../context/productsContext/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
-
 import MaterialTable from "material-table"
 
 // columnas de Material Table

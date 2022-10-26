@@ -22,6 +22,7 @@ export default (state, action) => {
         ...state,
         authenticated: true,
         user: action.payload,
+        loading: true
       };
     
     case REGISTER_ERROR:
