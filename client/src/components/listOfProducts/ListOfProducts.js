@@ -42,6 +42,7 @@ const ListOfProducts = () => {
     else {
       cleanCategory()
       getProducts()
+      localStorage.setItem("Products", JSON.stringify(products))
     }
 
     setTimeout(closeSnackbar, 5000)

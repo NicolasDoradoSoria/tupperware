@@ -50,7 +50,6 @@ const UserState = (props) => {
     if (token) {
       tokenAuth(token);
     }
-
     try {
       const respuesta = await clienteAxios.get("/api/users");
       dispatch({

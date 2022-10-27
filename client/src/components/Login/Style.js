@@ -2,6 +2,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 export default makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(5),
+    display: 'flex',
+    flexDirection: 'column',
+  },
   paper: {
     marginTop: theme.spacing(5),
     display: 'flex',
@@ -22,6 +27,7 @@ export default makeStyles((theme) => ({
   container: {
     backgroundColor: "#E2E8E7",
     height: '66vh',
+    marginTop: "4rem"
   },
   marginRight: theme.spacing(1),
 

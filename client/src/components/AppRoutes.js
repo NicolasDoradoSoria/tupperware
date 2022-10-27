@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import ProductListManagement from './ProductListManagement/ProductListManagement'
 import AddProduct from "./addProduct/AddProduct";
 import PaymentMethod from "./payment/paymentMethod";
@@ -12,7 +12,7 @@ import Profile from "./profile/Profile";
 import SignUp from "./signUp/SignUp";
 import Publication from "./publication/Publication";
 import ShoppingCart from "./shoppingCart/ShoppingCart";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import UserContext from "../context/productsContext/userContext/UserContext";
 
 const AppRoutes = () => {
@@ -20,7 +20,7 @@ const AppRoutes = () => {
     //userContext
     const userContext = useContext(UserContext);
     const { user, authenticated, loading } = userContext;
-
+    
     return (
         <Routes>
             <Route exact path="/" element={<Main />} />

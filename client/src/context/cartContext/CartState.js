@@ -27,7 +27,7 @@ const CartState = (props) => {
   const getOrder = async (userId) => {
     try {
       const result = await clienteAxios.get(`/api/cart/${userId}`);
-      
+
       dispatch({
         type: GET_ORDERS,
         payload: result.data[0]
@@ -41,12 +41,11 @@ const CartState = (props) => {
   const generateOrder = async (data) => {
     try {
       const result = await clienteAxios.post(`api/cart`, data)
-
       dispatch({
         type: GENERATE_ORDER,
         payload: result.data
       });
-      openSnackbar(result.data, "success")
+      openSnackbar(result.data.msg, "success")
     } catch (error) {
       console.log(error);
     }

@@ -2,7 +2,6 @@ import {
   REGISTER_SUCESS,
   GET_USER,
   REGISTER_ERROR,
-  CLOSE_SNACKBAR,
   LOGIN_SUCCESSFUL,
   SIGN_OFF,
 } from "../../../types";

@@ -73,7 +73,7 @@ export default function Login() {
     return aField === "";
   };
   return (
-    <div>
+    <div className={classes.root}>
       <Container
         component="main"
         maxWidth="xs"

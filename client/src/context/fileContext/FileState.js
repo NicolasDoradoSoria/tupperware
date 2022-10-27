@@ -50,7 +50,6 @@ const FileState = (props) => {
     const deleteImage = async (idArray, idImage) => {
         try {
             const result = await service.deleteImage(idArray, idImage)
-            console.log(result)
             openSnackbar(result.data.msg, "success")
         } catch (error) {
             throw error

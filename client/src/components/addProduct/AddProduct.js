@@ -48,6 +48,7 @@ const AddProduct = ({ open }) => {
     } else {
       //add product => 
       initializeProduct()
+
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

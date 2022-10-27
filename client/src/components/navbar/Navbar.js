@@ -5,12 +5,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Dropdown from "./Dropdown";
 import { AppBar, Button, List, ListItem, ListItemText } from "@material-ui/core";
-import "./Style.css";
 import UserContext from "../../context/productsContext/userContext/UserContext";
-import Style from "./Style";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
 import Search from "../search/Search";
 import Cart from "../cart/Cart";
+import "./Style.css";
+import Style from "./Style";
 
 
 const plainUserPath = [
@@ -53,6 +53,7 @@ export default function Navbar() {
     const classes = Style();
     const [click, setClick] = useState(false)
 
+
     //userContext
     const userContext = useContext(UserContext);
     const { authenticated } = userContext;
@@ -61,7 +62,7 @@ export default function Navbar() {
     const handleClick = () => setClick(!click)
 
     return (
-        <AppBar position="fixed" className={classes.root}>
+        <AppBar position="fixed" className={classes.root} style={{ flexDirection: "row" }}>
             <div className="menu-icon" onClick={handleClick}>
                 {click ? <CloseIcon /> : <MenuIcon />}
             </div>
@@ -69,10 +70,10 @@ export default function Navbar() {
             {authenticated ? <UserPath click={click} setClick={setClick} /> : (
 
                 <List className={click ? "nav-menu active" : "nav-menu"} disablePadding>
-                    <ListItem button className='nav-item' component={Link} to={"/"}>
+                    <ListItem button className='nav-item seccion' component={Link} to={"/"}>
                         <ListItemText primary={"Inicio"} className='nav-links' />
                     </ListItem>
-                    <ListItem button className='nav-item' component={Link} to={"/login"}>
+                    <ListItem button className='nav-item seccion' component={Link} to={"/login"}>
                         <ListItemText primary={"iniciar Secion"} className='nav-links' />
                     </ListItem>
                 </List>
@@ -90,7 +91,7 @@ const UserPath = ({ click, setClick }) => {
 
     //userContext
     const userContext = useContext(UserContext);
-    const { user, signOff } = userContext;
+    const { user, signOff, loading } = userContext;
 
     //CategoryContext
     const categoryContext = useContext(CategoryContext)
@@ -103,7 +104,6 @@ const UserPath = ({ click, setClick }) => {
     const onMouseLeaveCategory = () => (window.innerWidth < 960) ? setDropdown(false) : setDropdown(false)
     const onMouseEnterAdmin = () => (window.innerWidth < 960) ? setDropdownAdmin(false) : setDropdownAdmin(true)
     const onMouseLeaveAdmin = () => (window.innerWidth < 960) ? setDropdownAdmin(false) : setDropdownAdmin(false)
-    const onCLickSignOff = () => signOff();
 
 
     const routeList = (routes) => {
@@ -120,7 +120,7 @@ const UserPath = ({ click, setClick }) => {
         )
     }
 
-    if (user === null) return null;
+    if (!loading) return null;
     const isAdmin = user.user.roles.some(rol => rol.name === "admin")
 
     return (
@@ -130,23 +130,27 @@ const UserPath = ({ click, setClick }) => {
 
                 {routeList(plainUserPath)}
 
-                <ListItem button className='nav-item' component={Link} onMouseEnter={onMouseEnterCategory} onMouseLeave={onMouseLeaveCategory} to={"/"}>
-                    <ListItemText className='nav-links' onClick={closeMobileMenu} primary={"Categoria"} />
-                    <ArrowDropDownIcon className={classes.icon} />
+                <ListItem button className='nav-item' onMouseEnter={onMouseEnterCategory} onMouseLeave={onMouseLeaveCategory} to={"/"}>
+                    <Link to={"/"} className='nav-links' onClick={closeMobileMenu}>
+                        Categoria
+                        <ArrowDropDownIcon className={classes.icon} />
+                    </Link>
                     {dropdown && <Dropdown path={categories} />}
                 </ListItem>
 
                 {isAdmin ?
-                    <ListItem button component={Link} className='nav-item' onMouseEnter={onMouseEnterAdmin} onMouseLeave={onMouseLeaveAdmin} to={"/"}>
-                        <ListItemText className='nav-links' onClick={closeMobileMenu} primary={"Administrador"} />
-                        <ArrowDropDownIcon className={classes.icon} />
+                    <ListItem button className='nav-item' onMouseEnter={onMouseEnterAdmin} onMouseLeave={onMouseLeaveAdmin} >
+                        <Link to={"/"} className='nav-links' onClick={closeMobileMenu}>
+                            Administrador
+                            <ArrowDropDownIcon className={classes.icon} />
+                        </Link>
                         {dropdownAdmin && <Dropdown path={adminUserPath} />}
                     </ListItem>
                     : null}
             </List>
             <div className="rightContainer">
-                <div className="buttonContainer">
-                    <Button variant="contained" color="primary" className={classes.button} onClick={onCLickSignOff}>
+                <div className="buttonContainer" >
+                    <Button className={classes.signOffButton} variant="contained" color="primary" onClick={() => signOff()}>
                         cerrar secion
                     </Button>
                 </div>

@@ -21,12 +21,15 @@
     align-items: center;
     height: 80px;
 }
+.nav-item.seccion {
+    margin: auto 1.9rem;
+}
 
 .nav-links {
     color: white;
     padding: 0.5rem 0.2rem;
     display: flex;
-    flex-direction: column;
+    text-decoration: none;
 }
 
 .nav-links:hover {
@@ -52,20 +55,25 @@
 .cartContainer {
     margin: auto 1rem;
 }
-.buttonContainer{
+
+.buttonContainer {
     margin: auto 1rem;
 }
-.rightContainer{
+
+.rightContainer {
     display: flex;
 }
-.searchContainer{
+
+.searchContainer {
     margin: auto 1rem;
     width: 100%
 }
+
 @media screen and (max-width: 960px) {
-    .searchContainer{
+    .searchContainer {
         width: 15rem
     }
+
     .NavbarItems {
         position: relative;
     }
@@ -87,7 +95,7 @@
         left: 0;
         transition: all 0.5s ease;
         z-index: 1;
-        position:absolute;
+        position: absolute;
     }
 
     .nav-links {
@@ -151,6 +159,7 @@
     .icon {
         display: none;
     }
+
     .cartContainer {
         margin: auto 4rem;
     }
