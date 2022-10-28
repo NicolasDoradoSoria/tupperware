@@ -26,7 +26,7 @@ export default function SnackbarOpen() {
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const {msg, severity, closeSnackbar} = snackbarContext
+  const {msg} = snackbarContext
 
 
   const handleClose = (event, reason) => {
@@ -35,13 +35,13 @@ export default function SnackbarOpen() {
     }
 
     setOpen(false);
-    closeSnackbar()
   };
 
+  if(!msg) return null
   return (
     <div className={classes.root}>
       <Snackbar open={open} autoHideDuration={5000}  onClose={handleClose}>
-        <Alert  onClose={handleClose}  severity={severity} >{msg}</Alert>
+        <Alert  onClose={handleClose}  severity={msg.severity} >{msg.msg}</Alert>
       </Snackbar>
     </div>
   );

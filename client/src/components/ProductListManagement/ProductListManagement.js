@@ -25,12 +25,13 @@ const columns = () => [
     title: "Stock Disponible", field: "stock", type: 'numeric'
   },
   {
+    title: "Categoria", field: "category.name"
+  },
+  {
     title: "Precio", field: "price", type: "currency"
   },
   { title: 'Imagen', field: 'images', render: (product) => <img src={`http://localhost:4000/${product.images[0].fileName}`} alt="" border="3" height="100" width="100" /> },
 ]
-
-
 
 // esta es la lista de productos en formato tabla exclusiva para los admin
 const ProductListManagement = () => {
@@ -43,19 +44,23 @@ const ProductListManagement = () => {
   const productsContext = useContext(ProductContext);
   const {
     products,
-    getProducts,
     deleteProduct,
     saveCurrentProduct,
+    msg
   } = productsContext;
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error } = snackbarContext
+  const {openSnackbar } = snackbarContext
 
   useEffect(() => {
-    getProducts();
+    // getProducts();
+
+    if(msg) {
+      openSnackbar(msg.msg, msg.category)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products]);
+  }, [products, msg]);
 
   const options = {
     actionsColumnIndex: -1,
@@ -104,9 +109,9 @@ const ProductListManagement = () => {
           options
         }
       />
-      {error ? <SnackbarOpen /> : null}
+      {msg ? <SnackbarOpen /> : null}
       <ReusableDialog open={open} onClose={() => setOpen(false)} >
-        <AddProduct open={open} />
+        <AddProduct open={open} setOpen={setOpen}/>
       </ReusableDialog>
     </Box>
   );

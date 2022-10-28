@@ -61,6 +61,8 @@ export default function Navbar() {
 
     const handleClick = () => setClick(!click)
 
+    const closeMobileMenu = () => setClick(false)
+
     return (
         <AppBar position="fixed" className={classes.root} style={{ flexDirection: "row" }}>
             <div className="menu-icon" onClick={handleClick}>
@@ -71,10 +73,10 @@ export default function Navbar() {
 
                 <List className={click ? "nav-menu active" : "nav-menu"} disablePadding>
                     <ListItem button className='nav-item seccion' component={Link} to={"/"}>
-                        <ListItemText primary={"Inicio"} className='nav-links' />
+                        <ListItemText primary={"Inicio"} className='nav-links' onClick={closeMobileMenu} />
                     </ListItem>
                     <ListItem button className='nav-item seccion' component={Link} to={"/login"}>
-                        <ListItemText primary={"iniciar Secion"} className='nav-links' />
+                        <ListItemText primary={"iniciar Secion"} className='nav-links' onClick={closeMobileMenu} />
                     </ListItem>
                 </List>
             )

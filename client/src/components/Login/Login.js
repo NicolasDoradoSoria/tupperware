@@ -28,11 +28,13 @@ export default function Login() {
   const {
     authenticated,
     login,
+    msg
   } = userContext;
+
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error} = snackbarContext
+  const {openSnackbar } = snackbarContext
 
 
   // hook de create user
@@ -49,105 +51,108 @@ export default function Login() {
       navigate("/")
     }
 
+    if(msg) {
+      openSnackbar(msg.msg, msg.category)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authenticated]);
+  }, [authenticated, msg]);
 
-  const onChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const onSubmit = (e) => {
-    e.preventDefault();
+const onChange = (e) => {
+  setUser({
+    ...user,
+    [e.target.name]: e.target.value,
+  });
+};
+const onSubmit = (e) => {
+  e.preventDefault();
 
-    // manda los datos de usuario al userContext
-    login({ email, password });
-  };
+  // manda los datos de usuario al userContext
+  login({ email, password });
+};
 
-  const loginButtonDisabled = () => {
-    return isEmpty(email) || isEmpty(password);
-  };
+const loginButtonDisabled = () => {
+  return isEmpty(email) || isEmpty(password);
+};
 
-  const isEmpty = (aField) => {
-    return aField === "";
-  };
-  return (
-    <div className={classes.root}>
-      <Container
-        component="main"
-        maxWidth="xs"
-        className={classes.container}
-      >
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" className="AppBar">
+const isEmpty = (aField) => {
+  return aField === "";
+};
+return (
+  <div className={classes.root}>
+    <Container
+      component="main"
+      maxWidth="xs"
+      className={classes.container}
+    >
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5" className="AppBar">
+          Login
+        </Typography>
+
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Direccion de Email"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onChange={onChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="clave"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={onChange}
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="recordar"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            disabled={loginButtonDisabled()}
+          >
             Login
-          </Typography>
-
-          <form className={classes.form} noValidate onSubmit={onSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Direccion de Email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={onChange}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="clave"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={onChange}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="recordar"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              disabled={loginButtonDisabled()}
-            >
-              Login
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="#" variant="body2">
-                  te olvidaste la contraseña?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to={"/nueva-cuenta"} variant="body2">
-                  {"no tienes cuenta? Registrate"}
-                </Link>
-              </Grid>
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link to="#" variant="body2">
+                te olvidaste la contraseña?
+              </Link>
             </Grid>
-            {error ?
-              <SnackbarOpen/> : null
-            }
-          </form>
-        </div>
-      </Container>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </div>
-  );
+            <Grid item>
+              <Link to={"/nueva-cuenta"} variant="body2">
+                {"no tienes cuenta? Registrate"}
+              </Link>
+            </Grid>
+          </Grid>
+          {msg ?
+            <SnackbarOpen /> : null
+          }
+        </form>
+      </div>
+    </Container>
+    <Box mt={8}>
+      <Copyright />
+    </Box>
+  </div>
+);
 }

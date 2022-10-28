@@ -1,9 +1,8 @@
-import React, { useReducer,useContext } from "react";
+import React, { useReducer } from "react";
 import clienteAxios from "../../../config/axios";
 import UserContext from "./UserContext";
 import UserReducer from "./UserReducer";
 import tokenAuth from "../../../config/token";
-import SnackBarContext from "../../snackbarContext/SnackbarContext";
 
 import {
   REGISTER_SUCESS,
@@ -17,16 +16,12 @@ const UserState = (props) => {
     token: localStorage.getItem("token"),
     authenticated: false,
     user: null,
-    loading: false
+    loading: false,
+    msg: null
   };
 
   const [state, dispatch] = useReducer(UserReducer, initialState);
 
-  //snackbarContext
-  const snackbarContext = useContext(SnackBarContext);
-  const {
-    openSnackbar
-  } = snackbarContext;
 
   // registra un usuario
   const registerUser = async (data) => {
@@ -37,28 +32,43 @@ const UserState = (props) => {
         payload: response.data,
       });
 
-      
+
       authenticatedUser();
     } catch (error) {
-      openSnackbar(error.response.data.msg, "error")
+      console.log(error.response.data.msg)
+      const alert = {
+        msg: error.response.data.msg,
+        category: "error"
+      }
+      dispatch({
+        type: REGISTER_ERROR,
+        payload: alert,
+      });
     }
   };
 
   // devuelve el usuario autentificado
   const authenticatedUser = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      tokenAuth(token);
-    }
     try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        tokenAuth(token);
+      }
       const respuesta = await clienteAxios.get("/api/users");
       dispatch({
         type: GET_USER,
         payload: respuesta.data,
       });
-      openSnackbar("todo re piolaaaa", "success")
     } catch (error) {
-      console.log(error.response);
+      console.log(error.response.data.msg)
+      const alert = {
+        msg: error.response.data.msg,
+        category: "error"
+      }
+      dispatch({
+        type: REGISTER_ERROR,
+        payload: alert,
+      });
     }
   };
   // pide una peticon a la api para iniciar sesion
@@ -67,17 +77,21 @@ const UserState = (props) => {
       const response = await clienteAxios.post("/api/auth/login", data);
       dispatch({
         type: LOGIN_SUCCESSFUL,
-        payload: response.data,
+        payload: response
       });
+      
       authenticatedUser();
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data.msg)
+      const alert = {
+        msg: error.response.data.msg,
+        category: "error"
+      }
       dispatch({
         type: REGISTER_ERROR,
-        payload: error.response.data.msg,
+        payload: alert,
       });
-      openSnackbar(error.response.data.msg, "error")
-      
+
     }
   };
 
@@ -100,6 +114,7 @@ const UserState = (props) => {
         user: state.user,
         authenticated: state.authenticated,
         loading: state.loading,
+        msg: state.msg,
         registerUser,
         login,
         signOff,

@@ -22,7 +22,7 @@ const ListOfProducts = () => {
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error, closeSnackbar } = snackbarContext
+  const { msg } = snackbarContext
 
    //CategoryContext
    const categoryContext = useContext(CategoryContext)
@@ -45,7 +45,6 @@ const ListOfProducts = () => {
       localStorage.setItem("Products", JSON.stringify(products))
     }
 
-    setTimeout(closeSnackbar, 5000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -88,7 +87,7 @@ const ListOfProducts = () => {
             </Grid>
           </Grid>
         </div>
-        {error ? <SnackbarOpen /> : null}
+        {msg ? <SnackbarOpen /> : null}
       </div>
     </>
   );

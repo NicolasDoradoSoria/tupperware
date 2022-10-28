@@ -1,8 +1,7 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer } from "react";
 import ProductReducer from "./ProductReducer";
 import ProductContext from "./ProductContext";
 import clienteAxios from "../../config/axios";
-import SnackBarContext from "../snackbarContext/SnackbarContext";
 import Service from "../../service/Service"
 
 import {
@@ -14,7 +13,9 @@ import {
   UPLOAD_PERCENTAGE,
   IMAGES_TO_UPLOAD,
   INITIALIZE_PRODUCT,
-  FILTER_PRODUCT_BY_CATEGORY
+  FILTER_PRODUCT_BY_CATEGORY,
+  PRODUCT_ERROR,
+  PRODUCT_SUCCESSFUL
 } from "../../types";
 
 const ProductState = (props) => {
@@ -27,21 +28,15 @@ const ProductState = (props) => {
     product: null,
     uploadPorcentage: 0,
     loading: true,
-    imagesToUpload: []
+    imagesToUpload: [],
+    msg: null
   };
 
   const [state, dispatch] = useReducer(ProductReducer, initialState);
 
-
-  //snackbarContext
-  const snackbarContext = useContext(SnackBarContext);
-  const {
-    openSnackbar
-  } = snackbarContext;
-
   // obtener los productos
   const getProducts = async () => {
-    
+
     try {
       const result = await service.getProducts()
       dispatch({
@@ -57,30 +52,48 @@ const ProductState = (props) => {
   const deleteProduct = async (e, product) => {
     try {
       const result = await clienteAxios.delete(`/api/products/${product._id}`);
+      
       dispatch({
         type: DELETE_PRODUCT,
-        payload: result,  
+        payload: result.data,
       });
 
-      openSnackbar("todo ok", "success")
     } catch (error) {
-      console.log(error)
-      openSnackbar(error.response.data.msg, "error")
+      console.log(error.response.data.msg)
+      const alert = {
+        msg: error.response.data.msg,
+        category: "error"
+      }
+      dispatch({
+        type: PRODUCT_ERROR,
+        payload: alert,
+      });
     }
   };
 
   // agrega un producto
   const addProduct = async (productNew) => {
-  
+
     try {
-     const result= await service.postAddProduct(productNew, state.imagesToUpload, productPercentageUpload)
+      const result = await service.postAddProduct(productNew, state.imagesToUpload, productPercentageUpload)
       
-      openSnackbar(result.data, "success")    
+      dispatch({
+        type: PRODUCT_SUCCESSFUL,
+        payload: result.data
+      });
+
+      // openSnackbar(result.data, "success")
       getProducts()
     } catch (error) {
-      console.log(error.response)
-      openSnackbar(error.response.data.msg, "error")
-
+      console.log(error.response.data.msg)
+      const alert = {
+        msg: error.response.data.msg,
+        category: "error"
+      }
+      dispatch({
+        type: PRODUCT_ERROR,
+        payload: alert,
+      });
     }
   };
   // actualizar un producto
@@ -92,9 +105,17 @@ const ProductState = (props) => {
         type: EDIT_PRODUCT,
         payload: result.data
       })
-      openSnackbar("todo ok", "success")
+      // openSnackbar("todo ok", "success")
     } catch (error) {
-      console.log(error.request)
+      console.log(error.response.data.msg)
+      const alert = {
+        msg: error.response.data.msg,
+        category: "error"
+      }
+      dispatch({
+        type: PRODUCT_ERROR,
+        payload: alert,
+      });
     }
   }
 
@@ -124,18 +145,18 @@ const ProductState = (props) => {
     }
   }
 
-const getFilterProductByCategory = async(id) =>{
-  try {
-    const product = await clienteAxios.get(`api/products?id=`+id)
-    
-    dispatch({
-      type: FILTER_PRODUCT_BY_CATEGORY,
-      payload: product.data.products
-    });
-  } catch (error) {
-    console.log(error)
+  const getFilterProductByCategory = async (id) => {
+    try {
+      const product = await clienteAxios.get(`api/products?id=` + id)
+
+      dispatch({
+        type: FILTER_PRODUCT_BY_CATEGORY,
+        payload: product.data.products
+      });
+    } catch (error) {
+      console.log(error)
+    }
   }
-}
 
   //search de producto, lo mismo que la anterior funcion pero esta no hace un llamado a la api PD: corregir...
   const saveCurrentProduct = async (productNew) => {
@@ -145,7 +166,7 @@ const getFilterProductByCategory = async(id) =>{
     })
   }
 
-  const productPercentageUpload= async (persentage)  => {
+  const productPercentageUpload = async (persentage) => {
     dispatch({
       type: UPLOAD_PERCENTAGE,
       payload: persentage
@@ -159,9 +180,9 @@ const getFilterProductByCategory = async(id) =>{
       payload: images
     })
   }
-  
+
   //inicializa product y  imagesToUpload
-  const initializeProduct =  () => {
+  const initializeProduct = () => {
     dispatch({
       type: INITIALIZE_PRODUCT,
     })
@@ -176,6 +197,7 @@ const getFilterProductByCategory = async(id) =>{
         uploadPorcentage: state.product,
         loading: state.loading,
         imagesToUpload: state.imagesToUpload,
+        msg: state.msg,
         setImagesToUpload,
         getProducts,
         getFilterProductByCategory,

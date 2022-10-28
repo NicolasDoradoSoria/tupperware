@@ -7,7 +7,9 @@ import {
   UPLOAD_PERCENTAGE,
   IMAGES_TO_UPLOAD,
   INITIALIZE_PRODUCT,
-  FILTER_PRODUCT_BY_CATEGORY
+  FILTER_PRODUCT_BY_CATEGORY,
+  PRODUCT_ERROR,
+  PRODUCT_SUCCESSFUL
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -20,6 +22,11 @@ export default (state, action) => {
         products: action.payload,
         productsAll: action.payload,
       };
+    case PRODUCT_ERROR:
+      return {
+        ...state,
+        msg: action.payload,
+      }
 
     case SEARCH_PRODUCTS:
       return {
@@ -28,12 +35,16 @@ export default (state, action) => {
       };
 
     case EDIT_PRODUCT:
+      const alerts = {
+        msg: action.payload.msg,
+        category: "success",
+      }
       return {
         ...state,
-        products: state.products.map((product) =>
-          product._id === action.payload._id ? action.payload : product
-        ),
+        products: action.payload.products,
+        msg: alerts,
         product: null,
+        imagesToUpload: []
       };
 
     case CURRENT_PRODUCT:
@@ -49,10 +60,16 @@ export default (state, action) => {
         uploadPorcentage: action.payload
       }
 
+    case PRODUCT_SUCCESSFUL:
     case DELETE_PRODUCT:
+      const alert = {
+        msg: action.payload.msg,
+        category: "success",
+      }
       return {
         ...state,
-        products: action.payload.data.products,
+        products: action.payload.products,
+        msg: alert
       };
 
     case IMAGES_TO_UPLOAD:
@@ -68,8 +85,8 @@ export default (state, action) => {
         product: null
       }
 
-      case FILTER_PRODUCT_BY_CATEGORY: 
-      return{
+    case FILTER_PRODUCT_BY_CATEGORY:
+      return {
         ...state,
         products: action.payload,
       }

@@ -11,10 +11,16 @@ export default (state, action) => {
   switch (action.type) {
     case LOGIN_SUCCESSFUL:
     case REGISTER_SUCESS:
-      localStorage.setItem("token", action.payload.token);
+      const alert = {
+        msg: action.payload.data.msg,
+        category: "success",
+      }
+      
+      localStorage.setItem("token", action.payload.data.token);
       return {
         ...state,
         authenticated: true,
+        msg: alert,
       };
     case GET_USER:
       return {
@@ -23,7 +29,7 @@ export default (state, action) => {
         user: action.payload,
         loading: true
       };
-    
+
     case REGISTER_ERROR:
       localStorage.removeItem("token");
       return {
@@ -31,15 +37,18 @@ export default (state, action) => {
         token: null,
         user: null,
         authenticated: null,
+        msg: action.payload,
       };
+
     case SIGN_OFF:
       localStorage.removeItem("token");
-      return{
+      return {
         ...state,
         token: null,
         user: null,
         authenticated: null,
-      }   
+        loading: false
+      }
     default:
       return state;
   }

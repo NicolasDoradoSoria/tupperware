@@ -22,13 +22,23 @@ export const postProducts = async (req, res) => {
           lastModified: element.lastModified
         });
       });
-
     }
+    
     const product = new Products({ name, descripcion, date, price, stock, images, category });
 
     // guardamos el producto
     await product.save();
-    res.status(200).send("producto agregado correctamente");
+    // ----------
+    // consultamos los productos disponibles GET PRODUCT TD: CORREGIR REFACTORIZAR CON LA OTRA FUNCION
+    let filter = {};
+    if (req.query.id) {
+
+      filter = { category: req.query.id.split(",") };
+    }
+    const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
+    res.json({ products, msg: "se a eliminado el producto correctamente" });
+
+    // res.status(200).send("producto agregado correctamente");
   } catch (error) {
     console.log(error);
     res.status(500).send("hubo un error");
@@ -69,14 +79,29 @@ export const updateProductById = async (req, res) => {
   const { productId } = req.params
   try {
     //si el producto existe o no
-    let products = await Products.findById(productId);
+    let product = await Products.findById(productId);
 
-    if (!products) {
+    if (!product) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-    updateProduct(req.body, productId)
 
-    res.status(200).json(updatedProduct);
+    await Products.findByIdAndUpdate(
+      { _id: productId },
+      req.body,
+      {
+        new: true,
+      }
+    )
+    // ----------
+    // consultamos los productos disponibles GET PRODUCT TD: CORREGIR REFACTORIZAR CON LA OTRA FUNCION
+    let filter = {};
+    if (req.query.id) {
+
+      filter = { category: req.query.id.split(",") };
+    }
+    const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
+
+    res.status(200).json({ products, msg: "se a actualizado correctamente" });
   } catch (error) {
     res.status(500).send("hubo un error");
   }
@@ -97,9 +122,7 @@ export const deleteProductById = async (req, res) => {
     }
     await Products.findByIdAndDelete(productId);
 
-
-
-    res.json({ products });
+    res.json({ products, msg: "se a eliminado el producto correctamente" });
   } catch (error) {
     res.status(500).send("hubo un error");
   }

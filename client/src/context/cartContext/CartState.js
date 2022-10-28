@@ -4,14 +4,15 @@ import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
 import SnackBarContext from "../snackbarContext/SnackbarContext";
 import {
-  GET_ORDERS, GENERATE_ORDER, CLEAN_CART
+  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART
 } from "../../types";
 
 const CartState = (props) => {
   const initialState = {
     orders: null,
     productsInCart: [],
-    ordersAvailable: false
+    ordersAvailable: false,
+    msg: null
   };
 
   const [state, dispatch] = useReducer(CartReducer, initialState);
@@ -45,7 +46,8 @@ const CartState = (props) => {
         type: GENERATE_ORDER,
         payload: result.data
       });
-      openSnackbar(result.data.msg, "success")
+      
+      // openSnackbar(result.data.msg, "success")
     } catch (error) {
       console.log(error);
     }
@@ -55,8 +57,11 @@ const CartState = (props) => {
   const removeOrderProduct = async (userId, idOrder) => {
     try {
       const result = await clienteAxios.delete(`api/cart/${userId}/${idOrder}`)
-      openSnackbar(result.data.msg, "success")
-
+      dispatch({
+        type: DELETE_PRODUCT_CART,
+        payload: result.data
+      });
+      getOrder(userId)
     } catch (error) {
       console.log(error);
     }
@@ -66,10 +71,16 @@ const CartState = (props) => {
   const cleanCart = async (userId) => {
     try {
       const result = await clienteAxios.delete(`api/cart/${userId}`)
+      const alert = {
+        msg: result.data.msg,
+        category: "success",
+      }
       dispatch({
         type: CLEAN_CART,
+        payload: alert
       });
-      openSnackbar(result.data.msg, "success")
+      getOrder(userId)
+      // openSnackbar(result.data.msg, "success")
     } catch (error) {
       console.log(error.msg);
     }
@@ -80,6 +91,7 @@ const CartState = (props) => {
         orders: state.orders,
         productsInCart: state.productsInCart,
         ordersAvailable: state.ordersAvailable,
+        msg: state.msg,
         getOrder,
         generateOrder,
         removeOrderProduct,

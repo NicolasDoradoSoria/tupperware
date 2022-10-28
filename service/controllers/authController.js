@@ -30,7 +30,7 @@ export const login = async (req, res) => {
         if (error) throw error;
 
         //mensaje de confirmacion
-        res.json({ token });
+        res.json({ token, msg: "se a logeado correctamente" });
       }
     );
   } catch (error) {

@@ -43,11 +43,11 @@ const ShoppingCart = () => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { getOrder, productsInCart } = cartContext
+  const { getOrder, productsInCart, msg} = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error } = snackbarContext
+  const { openSnackbar } = snackbarContext
 
   //hook  
   const [total, setTotal] = useState(0)
@@ -58,8 +58,12 @@ const ShoppingCart = () => {
       getOrder(user.user._id)
       updateTotalToPay()
     }
+    if(msg) {
+      openSnackbar(msg.msg, msg.category)
+    }
+
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productsInCart])
+  }, [msg])
 
 
   const updateTotalToPay = () => {
@@ -78,7 +82,7 @@ const ShoppingCart = () => {
   return (
     <Box className={classes.root}>
       <MaterialTableCart columns={columns()} options={options} />
-      {error ? <SnackbarOpen /> : null}
+      {msg ? <SnackbarOpen /> : null}
 
       <div className={classes.paperContainer}>
         <Paper className={classes.paper}>

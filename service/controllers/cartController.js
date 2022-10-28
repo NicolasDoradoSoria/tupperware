@@ -104,7 +104,12 @@ export const deleteProductOrder = async (req, res) => {
   try {
     await Cart.findOneAndUpdate({ user: req.params.idUser },
       { $pull: { products: { _id: req.params.idOrder } } });
-    res.json({ msg: "el producto se a eliminado" })
+
+    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" })
+
+    if (order.length == 0) return res.status(404).json({ msg: "no posee pedidos aun" })
+    //mostrar el pedido
+    res.json({ order, msg: "el producto se a eliminado" })
 
   } catch (error) {
     console.log(error);
@@ -117,6 +122,7 @@ export const deleteProductOrder = async (req, res) => {
 export const deleteOrder = async (req, res) => {
   try {
     await Cart.findOneAndDelete({ user: req.params.idUser })
+
 
     res.json({ msg: "el carrito fue limpieado correctamente" })
   } catch (error) {

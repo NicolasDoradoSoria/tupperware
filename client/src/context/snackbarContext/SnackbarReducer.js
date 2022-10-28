@@ -8,15 +8,10 @@ export default (state, action) => {
     switch (action.type) {
         case OPEN_SNACKBAR:
             return {
-                ...state,
-                error: true,
-                msg: action.payload.msg,
-                severity: action.payload.severity,
+                msg: action.payload,
             };
         case CLOSE_SNACKBAR:
             return {
-                ...state,
-                error: false,
                 msg: "",
             };
 

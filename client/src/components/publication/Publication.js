@@ -29,11 +29,11 @@ const Publication = ({idProduct }) => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { generateOrder } = cartContext
+  const { generateOrder, msg } = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { error, closeSnackbar } = snackbarContext
+  const { openSnackbar} = snackbarContext
 
   //userContext
   const userContext = useContext(UserContext);
@@ -76,8 +76,6 @@ const Publication = ({idProduct }) => {
       "total": 133,
     }
     generateOrder(order)
-
-    navigate("/")
   }
 
   const navigateToLogin = () => {
@@ -111,11 +109,14 @@ const Publication = ({idProduct }) => {
 
 
   useEffect(() => {
-    closeSnackbar()
     smallImage(0)
     !idProduct ? getProduct(id) : getProduct(idProduct)
+
+    if(msg) {
+      openSnackbar(msg.msg, msg.category)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [msg])
 
   if (!product) return null
   const { descripcion, price, _id, name, stock, images, category } = product;
@@ -288,7 +289,7 @@ const Publication = ({idProduct }) => {
         </Grid>
       </Grid>
 
-      {error ? <SnackbarOpen /> : null}
+      {msg ? <SnackbarOpen /> : null}
     </>
   );
 };
