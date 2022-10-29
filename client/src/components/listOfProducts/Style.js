@@ -19,6 +19,7 @@ export default makeStyles((theme) => ({
       marginRight: "auto",
       marginLeft: -38,
       minWidth: "31rem",
+      
     },
     [theme.breakpoints.up('md')]: {
       marginLeft: "auto",

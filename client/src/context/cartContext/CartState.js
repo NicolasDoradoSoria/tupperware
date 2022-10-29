@@ -1,8 +1,7 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer } from "react";
 import clienteAxios from "../../config/axios";
 import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
-import SnackBarContext from "../snackbarContext/SnackbarContext";
 import {
   GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART
 } from "../../types";
@@ -16,13 +15,6 @@ const CartState = (props) => {
   };
 
   const [state, dispatch] = useReducer(CartReducer, initialState);
-
-  //snackbarContext
-  const snackbarContext = useContext(SnackBarContext);
-  const {
-    openSnackbar
-  } = snackbarContext;
-
 
   // obtener los pedido del user
   const getOrder = async (userId) => {

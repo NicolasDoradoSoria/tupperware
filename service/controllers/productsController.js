@@ -1,7 +1,8 @@
 import Category from "../models/Category"
 import Products from "../models/Products"
-import updateProduct from "../data/updateProduct"
+import { getProductsfunction } from "../data/controllerFunction"
 import shortid from 'shortid'
+
 // inserta productos a la MongoDB
 export const postProducts = async (req, res) => {
 
@@ -23,22 +24,17 @@ export const postProducts = async (req, res) => {
         });
       });
     }
-    
+
     const product = new Products({ name, descripcion, date, price, stock, images, category });
 
     // guardamos el producto
     await product.save();
     // ----------
-    // consultamos los productos disponibles GET PRODUCT TD: CORREGIR REFACTORIZAR CON LA OTRA FUNCION
-    let filter = {};
-    if (req.query.id) {
+    // consultamos los productos disponibles
+    const products = await getProductsfunction(req, res)
 
-      filter = { category: req.query.id.split(",") };
-    }
-    const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
     res.json({ products, msg: "se a eliminado el producto correctamente" });
 
-    // res.status(200).send("producto agregado correctamente");
   } catch (error) {
     console.log(error);
     res.status(500).send("hubo un error");
@@ -49,13 +45,7 @@ export const postProducts = async (req, res) => {
 // devuelve todos los productos
 export const getProducts = async (req, res) => {
   try {
-
-    let filter = {};
-    if (req.query.id) {
-
-      filter = { category: req.query.id.split(",") };
-    }
-    const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
+    const products = await getProductsfunction(req, res)
     res.json({ products });
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -94,12 +84,8 @@ export const updateProductById = async (req, res) => {
     )
     // ----------
     // consultamos los productos disponibles GET PRODUCT TD: CORREGIR REFACTORIZAR CON LA OTRA FUNCION
-    let filter = {};
-    if (req.query.id) {
-
-      filter = { category: req.query.id.split(",") };
-    }
-    const products = await Products.find(filter).populate({ path: "imageId", model: "ProductImages" }).populate("category");
+    const products = await getProductsfunction(req, res)
+    res.json({ products });
 
     res.status(200).json({ products, msg: "se a actualizado correctamente" });
   } catch (error) {
