@@ -5,8 +5,8 @@ import Style from "./Style";
 import ProductContext from "../../context/productsContext/ProductContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import CartContext from "../../context/cartContext/CartContext";
-import UserContext from '../../context/productsContext/userContext/UserContext'
-import { Link, useNavigate, useParams} from 'react-router-dom'
+import UserContext from '../../context/userContext/UserContext'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import { Grow, Grid, Paper, Button, TextField, Typography, withStyles, InputAdornment } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
@@ -16,7 +16,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import ReactImageMagnify from 'react-image-magnify';
 
-const Publication = ({idProduct }) => {
+const Publication = ({ idProduct }) => {
   const navigate = useNavigate()
   const { id } = useParams();
   const classes = Style();
@@ -33,7 +33,7 @@ const Publication = ({idProduct }) => {
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { openSnackbar} = snackbarContext
+  const { openSnackbar } = snackbarContext
 
   //userContext
   const userContext = useContext(UserContext);
@@ -112,7 +112,7 @@ const Publication = ({idProduct }) => {
     smallImage(0)
     !idProduct ? getProduct(id) : getProduct(idProduct)
 
-    if(msg) {
+    if (msg) {
       openSnackbar(msg.msg, msg.category)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,8 +124,7 @@ const Publication = ({idProduct }) => {
   return (
     <>
       <Grid container spacing={4} justifyContent="center" className={classes.root} >
-        {/* URL */}
-        <Grid item xs={6} md={8} >
+        <Grid item xs={10}  >
           <Paper className={fixedHeightPaper}>
 
             <div className={classes.linksConteiner}>
@@ -134,10 +133,9 @@ const Publication = ({idProduct }) => {
           </Paper>
         </Grid>
         {/* Grid Izquierdo */}
-        <Grid container item xs={11} md={5} className={classes.leftMainGrid}>
+        <Grid container item xs={11} md={6} className={classes.leftMainGrid}>
 
           {/* CAROUSEL */}
-          {/* <Paper className={fixedHeightPaper} > */}
 
           <Grid item className={classes.left_1} xs={12} md={2}>
             {images.map((img, i) => (
@@ -156,24 +154,25 @@ const Publication = ({idProduct }) => {
           <Grid item xs={12} md={10} className={classes.Right_1}>
 
             <Grow className={classes.images_2} in={checked} timeout={1000}>
-              <ReactImageMagnify {...{
-                smallImage: {
-                  alt: 'Wristwatch by Ted Baker London',
-                  isFluidWidth: true,
-                  src: `http://localhost:4000/${images[activeStep].fileName}`,
-                  sizes: '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px'
-                },
-                largeImage: {
-                  src: `http://localhost:4000/${images[activeStep].fileName}`,
-                  width: 1400,
-                  height: 2000
-                },
-                enlargedImageContainerDimensions: {
-                  width: '50%',
-                  height: '70%'
-                },
 
-              }} />
+                <ReactImageMagnify {...{
+                  smallImage: {
+                    alt: 'Wristwatch by Ted Baker London',
+                    isFluidWidth: true,
+                    src: `http://localhost:4000/${images[activeStep].fileName}`,
+                    sizes: '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px'
+                  },
+                  largeImage: {
+                    src: `http://localhost:4000/${images[activeStep].fileName}`,
+                    width: 1400,
+                    height: 2000
+                  },
+                  enlargedImageContainerDimensions: {
+                    width: '50%',
+                    height: '70%'
+                  },
+
+                }} />
             </Grow>
             <Paper className={fixedHeightPaper}>
 
@@ -200,7 +199,7 @@ const Publication = ({idProduct }) => {
         </Grid>
 
         {/* Grid Derecho */}
-        <Grid item container xs={12} md={3} spacing={4} className={classes.rightMainGrid}>
+        <Grid item container xs={12} md={4} spacing={4} className={classes.rightMainGrid}>
           {/* NOMBRE */}
           <Grid item xs={11} md={12} >
             <Paper className={fixedHeightPaper}>
@@ -254,7 +253,7 @@ const Publication = ({idProduct }) => {
             <Grid item xs={11} md={6}>
               <Paper>
                 {authenticated ?
-                  stock <= 0 ? <Button variant="contained" disabled>No disponible</Button> :
+                  stock <= 0 ? <Button variant="contained" disabled className={classes.loginButtonAndCount}>No disponible</Button> :
                     <Button
                       fullWidth
                       color="secondary"

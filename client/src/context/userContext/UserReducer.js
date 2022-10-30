@@ -4,7 +4,8 @@ import {
   REGISTER_ERROR,
   LOGIN_SUCCESSFUL,
   SIGN_OFF,
-} from "../../../types";
+  DELETE_MSG
+} from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
@@ -15,7 +16,7 @@ export default (state, action) => {
         msg: action.payload.data.msg,
         category: "success",
       }
-      
+
       localStorage.setItem("token", action.payload.data.token);
       return {
         ...state,
@@ -36,7 +37,7 @@ export default (state, action) => {
         ...state,
         token: null,
         user: null,
-        authenticated: null,
+        authenticated: false,
         msg: action.payload,
       };
 
@@ -46,8 +47,14 @@ export default (state, action) => {
         ...state,
         token: null,
         user: null,
-        authenticated: null,
+        authenticated: false,
         loading: false
+      }
+
+    case DELETE_MSG:
+      return {
+        ...state,
+        msg: null,
       }
     default:
       return state;

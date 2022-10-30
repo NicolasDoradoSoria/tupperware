@@ -31,7 +31,7 @@ const AddProduct = ({ open, setOpen }) => {
     price: 0,
     descripcion: "",
     stock: 0,
-    category: ""
+    category: null
   });
 
   const { name, price, descripcion, category } = productNew;
@@ -75,7 +75,7 @@ const AddProduct = ({ open, setOpen }) => {
       setOpen(false)
     }
     setProductNew({ name: "", price: 0, descripcion: "" });
-    
+
   };
 
   // desabilitar el boton de agregar producto si alguno de los campos no fue completado
@@ -165,22 +165,24 @@ const AddProduct = ({ open, setOpen }) => {
               </Grid>
 
               {/* CATEGORIA */}
-              <Grid item xs={6} sm={2} className={classes.gridElements}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="Category">Categoria</InputLabel>
-                  <Select
-                    labelId="Category"
-                    id="demo-simple-select"
-                    value={category}
-                    onChange={handleChange}
-                    name="category"
-                  >
-                    {categories.map((category) => (
-                      <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
+              {
+                !open ?
+                  <Grid item xs={6} sm={2} className={classes.gridElements}>
+                    <FormControl className={classes.formControl}>
+                      <InputLabel id="Category">Categoria</InputLabel>
+                      <Select
+                        onChange={handleChange}
+                        defaultValue="" 
+                        id="grouped-native-select"
+                        name="category"
+                      >
+                        {categories.map((category) => (
+                          <MenuItem value={category._id} key={category._id} >{category.name}</MenuItem>
+                        ))} 
+                      </Select>
+                    </FormControl>
+                  </Grid> : null
+              }
 
               {/* CARGAR IMAGEN */}
               <Grid item xs={12} sm={2} className={classes.gridElements}>

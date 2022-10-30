@@ -11,6 +11,7 @@ export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR'
 export const OPEN_SNACKBAR = "OPEN_SNACKBAR"
 export const LOGIN_SUCCESSFUL = 'LOGIN_SUCCESSFUL'
 export const SIGN_OFF = 'SIGN_OFF'
+export const DELETE_MSG = 'DELETE_MSG'
 export const GET_ROLE = 'GET_ROLE'
 export const EDIT_PRODUCT = 'EDIT_PRODUCT'
 export const CURRENT_PRODUCT = 'CURRENT_PRODUCT'

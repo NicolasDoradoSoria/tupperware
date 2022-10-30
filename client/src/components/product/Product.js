@@ -2,10 +2,11 @@ import React, { useContext, useState, useRef } from "react";
 import Style from "./Style";
 import { useNavigate } from "react-router-dom";
 import { CardMedia, CardContent, Typography, Button, Card, Grow, CircularProgress } from "@material-ui/core";
-import UserContext from "../../context/productsContext/userContext/UserContext";
+import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Publication from "../publication/Publication"
 import ReusableDialog from "../reusableDialog/ReusableDialog"
+
 const Product = ({ product }) => {
   const classes = Style();
   const navigate = useNavigate()
@@ -19,7 +20,7 @@ const Product = ({ product }) => {
   const cartContext = useContext(CartContext);
   const { generateOrder } = cartContext
 
-  const { name, images, price, _id, stock, category } = product;
+  const { name, images, price, _id, stock} = product;
 
   // progres material ui
   const [loading, setLoading] = useState(false);

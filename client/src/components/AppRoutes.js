@@ -13,7 +13,7 @@ import SignUp from "./signUp/SignUp";
 import Publication from "./publication/Publication";
 import ShoppingCart from "./shoppingCart/ShoppingCart";
 import { useContext } from "react";
-import UserContext from "../context/productsContext/userContext/UserContext";
+import UserContext from "../context/userContext/UserContext";
 
 const AppRoutes = () => {
 

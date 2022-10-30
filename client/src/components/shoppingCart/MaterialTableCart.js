@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import UserContext from "../../context/productsContext/userContext/UserContext";
+import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import MaterialTable from "material-table"
 

@@ -9,7 +9,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Style from "./Style";
 import { Link, useNavigate } from "react-router-dom";
-import UserContext from "../../context/productsContext/userContext/UserContext";
+import UserContext from "../../context/userContext/UserContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import Card from '@material-ui/core/Card';

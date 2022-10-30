@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   root: {
-    marginTop: 200,
+    marginTop: 100,
     marginBottom: 200,
 
   },
@@ -56,13 +56,19 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     [theme.breakpoints.up('xs')]: {
-      order: 2
+      order: 2,
+      marginTop: "2rem",
+      display: "flex",
+      flexDirection: "row",
     },
     [theme.breakpoints.up('sm')]: {
-      order: 2
+      order: 2,
     },
     [theme.breakpoints.up('md')]: {
-      order: 1
+      order: 1,
+      marginTop: 0,
+      display: "flex",
+      flexDirection: "column",
     },
   },
   Right_1:{

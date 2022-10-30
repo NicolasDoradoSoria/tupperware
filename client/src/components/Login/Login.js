@@ -14,7 +14,7 @@ import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import UserContext from "../../context/productsContext/userContext/UserContext";
+import UserContext from "../../context/userContext/UserContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 

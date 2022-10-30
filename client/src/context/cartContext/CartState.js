@@ -3,7 +3,7 @@ import clienteAxios from "../../config/axios";
 import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
 import {
-  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART
+  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART, DELETE_MSG
 } from "../../types";
 
 const CartState = (props) => {
@@ -38,8 +38,11 @@ const CartState = (props) => {
         type: GENERATE_ORDER,
         payload: result.data
       });
-      
-      // openSnackbar(result.data.msg, "success")
+      setTimeout(() => {
+        dispatch({
+          type: DELETE_MSG,
+        })
+      }, 5000)
     } catch (error) {
       console.log(error);
     }
@@ -54,6 +57,11 @@ const CartState = (props) => {
         payload: result.data
       });
       getOrder(userId)
+      setTimeout(() => {
+        dispatch({
+          type: DELETE_MSG,
+        })
+      }, 5000)
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +80,12 @@ const CartState = (props) => {
         payload: alert
       });
       getOrder(userId)
-      // openSnackbar(result.data.msg, "success")
+
+      setTimeout(() => {
+        dispatch({
+          type: DELETE_MSG,
+        })
+      }, 5000)
     } catch (error) {
       console.log(error.msg);
     }

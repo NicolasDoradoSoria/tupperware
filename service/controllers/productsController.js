@@ -83,11 +83,8 @@ export const updateProductById = async (req, res) => {
       }
     )
     // ----------
-    // consultamos los productos disponibles GET PRODUCT TD: CORREGIR REFACTORIZAR CON LA OTRA FUNCION
-    const products = await getProductsfunction(req, res)
-    res.json({ products });
-
-    res.status(200).json({ products, msg: "se a actualizado correctamente" });
+    // consultamos los productos disponibles 
+    res.status(200).json({msg: "se a actualizado correctamente" });
   } catch (error) {
     res.status(500).send("hubo un error");
   }

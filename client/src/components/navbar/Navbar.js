@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Dropdown from "./Dropdown";
 import { AppBar, Button, List, ListItem, ListItemText } from "@material-ui/core";
-import UserContext from "../../context/productsContext/userContext/UserContext";
+import UserContext from "../../context/userContext/UserContext";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
 import Search from "../search/Search";
 import Cart from "../cart/Cart";
@@ -56,13 +56,20 @@ export default function Navbar() {
 
     //userContext
     const userContext = useContext(UserContext);
-    const { authenticated } = userContext;
+    const { authenticated, authenticatedUser } = userContext;
 
 
     const handleClick = () => setClick(!click)
 
     const closeMobileMenu = () => setClick(false)
 
+
+    useEffect(() => {
+        authenticatedUser()
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    
     return (
         <AppBar position="fixed" className={classes.root} style={{ flexDirection: "row" }}>
             <div className="menu-icon" onClick={handleClick}>

@@ -9,11 +9,13 @@ import {
   INITIALIZE_PRODUCT,
   FILTER_PRODUCT_BY_CATEGORY,
   PRODUCT_ERROR,
-  PRODUCT_SUCCESSFUL
+  PRODUCT_SUCCESSFUL,
+  DELETE_MSG
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
+  
   switch (action.type) {
 
     case GET_PRODUCTS:
@@ -35,14 +37,14 @@ export default (state, action) => {
       };
 
     case EDIT_PRODUCT:
-      const alerts = {
+      const alert = {
         msg: action.payload.msg,
         category: "success",
       }
       return {
         ...state,
         products: action.payload.products,
-        msg: alerts,
+        msg: alert,
         product: null,
         imagesToUpload: []
       };
@@ -62,14 +64,14 @@ export default (state, action) => {
 
     case PRODUCT_SUCCESSFUL:
     case DELETE_PRODUCT:
-      const alert = {
+      const alerts = {
         msg: action.payload.msg,
         category: "success",
       }
       return {
         ...state,
         products: action.payload.products,
-        msg: alert
+        msg: alerts
       };
 
     case IMAGES_TO_UPLOAD:
@@ -89,6 +91,11 @@ export default (state, action) => {
       return {
         ...state,
         products: action.payload,
+      }
+    case DELETE_MSG:
+      return {
+        ...state,
+        msg: null,
       }
     default:
       return state;

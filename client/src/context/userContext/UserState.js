@@ -1,8 +1,8 @@
 import React, { useReducer } from "react";
-import clienteAxios from "../../../config/axios";
+import clienteAxios from "../../config/axios";
 import UserContext from "./UserContext";
 import UserReducer from "./UserReducer";
-import tokenAuth from "../../../config/token";
+import tokenAuth from "../../config/token";
 
 import {
   REGISTER_SUCESS,
@@ -10,7 +10,8 @@ import {
   REGISTER_ERROR,
   LOGIN_SUCCESSFUL,
   SIGN_OFF,
-} from "../../../types";
+  DELETE_MSG
+} from "../../types";
 const UserState = (props) => {
   const initialState = {
     token: localStorage.getItem("token"),
@@ -34,6 +35,12 @@ const UserState = (props) => {
 
 
       authenticatedUser();
+
+      setTimeout(() => {
+        dispatch({
+          type: DELETE_MSG,
+        })
+      }, 5000)
     } catch (error) {
       console.log(error.response.data.msg)
       const alert = {
@@ -49,26 +56,20 @@ const UserState = (props) => {
 
   // devuelve el usuario autentificado
   const authenticatedUser = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      tokenAuth(token);
+    }
     try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        tokenAuth(token);
-      }
       const respuesta = await clienteAxios.get("/api/users");
       dispatch({
         type: GET_USER,
         payload: respuesta.data,
       });
+
+
     } catch (error) {
       console.log(error.response.data.msg)
-      const alert = {
-        msg: error.response.data.msg,
-        category: "error"
-      }
-      dispatch({
-        type: REGISTER_ERROR,
-        payload: alert,
-      });
     }
   };
   // pide una peticon a la api para iniciar sesion
@@ -79,8 +80,18 @@ const UserState = (props) => {
         type: LOGIN_SUCCESSFUL,
         payload: response
       });
-      
-      authenticatedUser();
+
+
+      setTimeout(() => {
+        dispatch({
+          type: DELETE_MSG,
+        })
+      }, 5000)
+
+      setTimeout(() => {
+        authenticatedUser();
+      }, 50)
+
     } catch (error) {
       console.log(error.response.data.msg)
       const alert = {

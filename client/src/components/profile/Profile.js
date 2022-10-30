@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import FormLabel from "@material-ui/core/FormLabel";
 import { useNavigate} from 'react-router-dom'
 import Style from './Style';
-import UserContext from "../../context/productsContext/userContext/UserContext";
+import UserContext from "../../context/userContext/UserContext";
 
 
 const Profile = () => {

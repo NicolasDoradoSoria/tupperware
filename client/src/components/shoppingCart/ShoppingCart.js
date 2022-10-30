@@ -2,7 +2,7 @@ import { useEffect, useContext, useState } from 'react';
 import Style from "./Style";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
-import UserContext from "../../context/productsContext/userContext/UserContext";
+import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import MaterialTableCart from './MaterialTableCart';
 import { Box, Paper, Typography } from '@material-ui/core';

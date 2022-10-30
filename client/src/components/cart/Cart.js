@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { IconButton, MenuItem, Menu, Badge, Box, Button } from "@material-ui/core";
-import UserContext from "../../context/productsContext/userContext/UserContext";
+import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Style from "./Style";
 import MaterialTableCart from '../shoppingCart/MaterialTableCart';

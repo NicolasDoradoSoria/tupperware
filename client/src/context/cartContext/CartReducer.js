@@ -1,21 +1,20 @@
 import {
-  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART
+  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART,DELETE_MSG
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
-  const alert = {
-    msg: action.payload.msg,
-    category: "success",
-  }
-
   switch (action.type) {
     case DELETE_PRODUCT_CART:
+      const alerts = {
+        msg: action.payload.msg,
+        category: "success",
+      }
       return {
         ...state,
         orders: action.payload.order[0],
         productsInCart: action.payload.order[0].products,
-        msg: alert
+        msg: alerts
       }
     case GET_ORDERS:
       return {
@@ -24,6 +23,10 @@ export default (state, action) => {
         productsInCart: action.payload.products
       }
     case GENERATE_ORDER:
+      const alert = {
+        msg: action.payload.msg,
+        category: "success",
+      }
       return {
         ...state,
         ordersAvailable: true,
@@ -35,6 +38,11 @@ export default (state, action) => {
         productsInCart: [],
         orders: null,
         msg: action.payload,
+      }
+    case DELETE_MSG:
+      return {
+        ...state,
+        msg: null,
       }
     default:
       return state

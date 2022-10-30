@@ -4,7 +4,7 @@ import ListOfProducts from '../listOfProducts/ListOfProducts';
 import logo from './logo.JPG';
 import Style from "./Style";
 import CartContext from '../../context/cartContext/CartContext';
-import UserContext from '../../context/productsContext/userContext/UserContext';
+import UserContext from '../../context/userContext/UserContext';
 import CategoryContext from '../../context/categoryContext/CategoryContext';
 const Main = () => {
 

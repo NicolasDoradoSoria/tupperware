@@ -15,7 +15,8 @@ import {
   INITIALIZE_PRODUCT,
   FILTER_PRODUCT_BY_CATEGORY,
   PRODUCT_ERROR,
-  PRODUCT_SUCCESSFUL
+  PRODUCT_SUCCESSFUL,
+  DELETE_MSG
 } from "../../types";
 
 const ProductState = (props) => {
@@ -58,6 +59,11 @@ const ProductState = (props) => {
         payload: result.data,
       });
 
+      setTimeout(() => {
+        dispatch({
+          type: DELETE_MSG,
+        })
+      }, 5000)
     } catch (error) {
       console.log(error.response.data.msg)
       const alert = {
@@ -82,8 +88,13 @@ const ProductState = (props) => {
         payload: result.data
       });
 
-      // openSnackbar(result.data, "success")
       getProducts()
+
+      setTimeout(() => {
+        dispatch({
+          type: DELETE_MSG,
+        })
+      }, 5000)
     } catch (error) {
       console.log(error.response.data.msg)
       const alert = {
@@ -105,7 +116,13 @@ const ProductState = (props) => {
         type: EDIT_PRODUCT,
         payload: result.data
       })
-      // openSnackbar("todo ok", "success")
+
+      setTimeout(() => {
+        dispatch({
+          type: DELETE_MSG,
+        })
+      }, 5000)
+      getProducts()
     } catch (error) {
       console.log(error.response.data.msg)
       const alert = {
