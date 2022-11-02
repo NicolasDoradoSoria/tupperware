@@ -62,11 +62,8 @@ export default makeStyles((theme) => ({
     borderRadius: 5,
     margin: "0 auto"
   },
-  circularProgress: {
-    position: "absolute",
-    // top: '50%',
-    left: '50%',
-    marginTop: '-12px',
-    marginLeft: '-12px',
-  }
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));

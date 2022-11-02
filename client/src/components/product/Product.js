@@ -1,12 +1,11 @@
 import React, { useContext, useState, useRef } from "react";
 import Style from "./Style";
 import { useNavigate } from "react-router-dom";
-import { CardMedia, CardContent, Typography, Button, Card, Grow, CircularProgress } from "@material-ui/core";
+import { CardMedia, CardContent, Typography, Button, Card, Grow, CircularProgress, Backdrop } from "@material-ui/core";
 import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Publication from "../publication/Publication"
 import ReusableDialog from "../reusableDialog/ReusableDialog"
-
 const Product = ({ product }) => {
   const classes = Style();
   const navigate = useNavigate()
@@ -20,7 +19,7 @@ const Product = ({ product }) => {
   const cartContext = useContext(CartContext);
   const { generateOrder } = cartContext
 
-  const { name, images, price, _id, stock} = product;
+  const { name, images, price, _id, stock } = product;
 
   // progres material ui
   const [loading, setLoading] = useState(false);
@@ -133,14 +132,12 @@ const Product = ({ product }) => {
         </Button>
       </CardContent>
       {loading && (
-        <CircularProgress
-          size={50}
-          className={classes.circularProgress}
-        />
+        <Backdrop className={classes.backdrop} open={open} size={50}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       )}
       <ReusableDialog open={open} onClose={() => setOpen(false)} >
-        {success ?
-          <Publication idProduct={_id} /> : null}
+        {success ? <Publication idProduct={_id} /> : null}
       </ReusableDialog>
     </Card>
   );

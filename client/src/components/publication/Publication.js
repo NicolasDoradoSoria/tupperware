@@ -14,7 +14,6 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import ReactImageMagnify from 'react-image-magnify';
 
 const Publication = ({ idProduct }) => {
   const navigate = useNavigate()
@@ -123,104 +122,91 @@ const Publication = ({ idProduct }) => {
 
   return (
     <>
-      <Grid container spacing={4} justifyContent="center" className={classes.root} >
-        <Grid item xs={10}  >
-          <Paper className={fixedHeightPaper}>
+      <Grid container spacing={4} justifyContent="center" className={!idProduct ? classes.root : classes.rootDialog} >
+        {/* route */}
+        {!idProduct ?
+          <Grid item xs={10}  >
+            <Paper className={fixedHeightPaper}>
 
-            <div className={classes.linksConteiner}>
-              <p> <Link to={"/"} className={classes.link}>Inicio</Link> / <Link to={"/"} className={classes.link}>{category.name}</Link> / {name}</p>
-            </div>
-          </Paper>
-        </Grid>
-        {/* Grid Izquierdo */}
-        <Grid container item xs={11} md={6} className={classes.leftMainGrid}>
-
-          {/* CAROUSEL */}
-
-          <Grid item className={classes.left_1} xs={12} md={2}>
-            {images.map((img, i) => (
-              <div className={classes.img_wrap} key={i} >
-                <img
-                  onClick={() => smallImage(i)}
-                  className={classes.images}
-                  src={`http://localhost:4000/${img.fileName}`}
-                  alt={images[activeStep].fileName}
-                  style={activeStep === i ? cardMediaStyle : null}
-                />
+              <div className={classes.linksConteiner}>
+                <p> <Link to={"/"} className={classes.link}>Inicio</Link> / <Link to={"/"} className={classes.link}>{category.name}</Link> / {name}</p>
               </div>
+            </Paper>
+          </Grid> : null
+        }
+        {/* Grid Izquierdo */}
+        <Grid container item xs={11} sm={5} className={classes.leftMainGrid}>
+
+          {/* VISTA PREVIA */}
+          <Grid item className={classes.left_1} xs={12} md={9}>
+            {images.map((img, i) => (
+              <img
+                key={i}
+                onClick={() => smallImage(i)}
+                className={classes.left_img}
+                src={`http://localhost:4000/${img.fileName}`}
+                alt={images[activeStep].fileName}
+                style={activeStep === i ? cardMediaStyle : null}
+              />
             ))}
           </Grid>
 
-          <Grid item xs={12} md={10} className={classes.Right_1}>
+          {/* CAROUSEL */}
+          <Grid item container className={classes.right_1} xs={12} md={9}>
+            <Grid item xs={8} md={12}>
 
-            <Grow className={classes.images_2} in={checked} timeout={1000}>
+              <Grow in={checked} timeout={1000}>
+                <div className={classes.right_img_container}>
 
-                <ReactImageMagnify {...{
-                  smallImage: {
-                    alt: 'Wristwatch by Ted Baker London',
-                    isFluidWidth: true,
-                    src: `http://localhost:4000/${images[activeStep].fileName}`,
-                    sizes: '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px'
-                  },
-                  largeImage: {
-                    src: `http://localhost:4000/${images[activeStep].fileName}`,
-                    width: 1400,
-                    height: 2000
-                  },
-                  enlargedImageContainerDimensions: {
-                    width: '50%',
-                    height: '70%'
-                  },
-
-                }} />
-            </Grow>
-            <Paper className={fixedHeightPaper}>
-
-              <MobileStepper
-                steps={images.length}
-                position="static"
-                variant="text"
-                activeStep={activeStep}
-                nextButton={
-                  <Button size="small" onClick={handleNext} disabled={activeStep === images.length - 1}>
-                    Next
-                    {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                  </Button>
-                }
-                backButton={
-                  <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                    {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                    Back
-                  </Button>
-                }
-              />
-            </Paper>
+                  <img
+                    className={classes.right_img}
+                    src={`http://localhost:4000/${images[activeStep].fileName}`}
+                    alt="funcionaaa"
+                  />
+                </div>
+              </Grow>
+            </Grid>
+            <Grid item xs={8} md={12}>
+                <MobileStepper
+                  steps={images.length}
+                  position="static"
+                  variant="text"
+                  activeStep={activeStep}
+                  className={classes.MobileStepper}
+                  nextButton={
+                    <Button size="small" onClick={handleNext} disabled={activeStep === images.length - 1}>
+                      Next
+                      {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                    </Button>
+                  }
+                  backButton={
+                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                      {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                      Back
+                    </Button>
+                  }
+                />
+            </Grid>
           </Grid>
         </Grid>
 
         {/* Grid Derecho */}
-        <Grid item container xs={12} md={4} spacing={4} className={classes.rightMainGrid}>
+        <Grid item container xs={12} sm={!idProduct ? 4 : 5} spacing={4} className={classes.rightMainGrid}>
           {/* NOMBRE */}
           <Grid item xs={11} md={12} >
-            <Paper className={fixedHeightPaper}>
-              <Typography variant="h4">{name}</Typography>
-            </Paper>
+              <Typography variant="h3">{name}</Typography>
           </Grid>
 
           {/* PRECIO */}
           <Grid item xs={5} md={12}>
-            <Paper className={fixedHeightPaper}>
               <Typography component="p" variant="h5">
                 {`$${price}`}
               </Typography>
-            </Paper>
           </Grid>
 
           {/* DESCRIPCION */}
           <Grid item xs={11} md={12} >
-            <Paper className={fixedHeightPaper}>
               {descripcion}
-            </Paper>
           </Grid>
 
           <Grid item md={12} container justifyContent="center">
@@ -251,7 +237,6 @@ const Publication = ({ idProduct }) => {
             </Grid>
             {/* AGREGAR AL CARRITO */}
             <Grid item xs={11} md={6}>
-              <Paper>
                 {authenticated ?
                   stock <= 0 ? <Button variant="contained" disabled className={classes.loginButtonAndCount}>No disponible</Button> :
                     <Button
@@ -273,17 +258,14 @@ const Publication = ({ idProduct }) => {
                     Iniciar Secion
                   </Button>
                 }
-              </Paper>
             </Grid>
           </Grid>
 
           {/* CATEGORIA */}
           <Grid item xs={11} md={12} >
-            <Paper className={fixedHeightPaper}>
               <Typography variant="h5">
                 Categoria: {category.name}
               </Typography>
-            </Paper>
           </Grid>
         </Grid>
       </Grid>

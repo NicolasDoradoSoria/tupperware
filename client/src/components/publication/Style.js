@@ -3,9 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles((theme) => ({
   root: {
     marginTop: 100,
-    marginBottom: 200,
-
   },
+  rootDialog: {
+    marginTop: 50,
+    marginBottom: 59,
+  },
+
   content: {
     flexGrow: 1,
     height: "100vh",
@@ -40,48 +43,53 @@ export default makeStyles((theme) => ({
   paperColor: {
     backgroundColor: "red"
   },
+  right_img_container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
 
-  images: {
+  left_img: {
     width: "auto",
     height: 60,
-    cursor: "pointer"
+    cursor: "pointer",
+    margin: 15,
   },
-  images_2: {
-    width: "auto",
-    height: 350,
+ 
+  right_img: {
+    height: 520,
+    maxWidth: 480,
+    overflow: 'hidden',
+    display: 'blox',
+    width: '100%',
+   
+    [theme.breakpoints.down('sm')]: {
+      height: 400,
+    },
   },
+   // grid Principal izquerdo 
+  // grid interior derecho
   left_1: {
+    order: 2,
+    margin: 10,
     display: "flex",
-    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-    [theme.breakpoints.up('xs')]: {
-      order: 2,
-      marginTop: "2rem",
-      display: "flex",
-      flexDirection: "row",
-    },
-    [theme.breakpoints.up('sm')]: {
-      order: 2,
-    },
     [theme.breakpoints.up('md')]: {
       order: 1,
-      marginTop: 0,
-      display: "flex",
       flexDirection: "column",
     },
   },
-  Right_1:{
-    [theme.breakpoints.up('xs')]: {
-      order: 1
-    },
-    [theme.breakpoints.up('sm')]: {
-      order: 1
-    },
+   // grid Principal izquerdo 
+  // grid interior izquierdo
+  right_1: {
+    order: 1,
+    display: "flex",
+    justifyContent: "center",
     [theme.breakpoints.up('md')]: {
-      order: 2
+      order: 2,
     },
   },
+
   linksConteiner: {
     marginLeft: 20,
     fontSize: 20,
@@ -94,21 +102,26 @@ export default makeStyles((theme) => ({
       color: "#bdbdbd"
     }
   },
-  img_wrap: {
-    margin: 15
-  },
   carousel: {
     maxWidth: 400,
     flexGrow: 1,
   },
+  // grid principal derecho
   leftMainGrid: {
-    display: "flex",
+    [theme.breakpoints.up('md')]: {
+      display: "flex",
+      flexDirection: "column",
+    },
   },
+// grid principal izquierdo
   rightMainGrid: {
-    marginLeft: 10,
+    marginLeft: 20,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    [theme.breakpoints.up('md')]: {
+      height: "25vh"
+    },
   },
 
   gridBotones: {
@@ -122,5 +135,8 @@ export default makeStyles((theme) => ({
     width: "12rem",
     height: "3.5rem",
     border: "none"
+  },
+  MobileStepper: {
+    background: "rgb(205, 166, 194)"
   }
 }));

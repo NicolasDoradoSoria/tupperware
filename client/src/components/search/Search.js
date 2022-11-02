@@ -3,9 +3,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from "@material-ui/core/TextField";
 import { Navigate } from 'react-router-dom'
 import Style from "./Style";
-
-//context
 import ProductContext from "../../context/productsContext/ProductContext";
+
 const Search = () => {
     const classes = Style();
 
@@ -16,7 +15,7 @@ const Search = () => {
     const handleSearch = async (e, values) => {
         e.preventDefault()
         searchProducts(values)
-        return <Navigate to={"/"} replace />
+        return <Navigate to={"/"} />
     }
 
     return (
