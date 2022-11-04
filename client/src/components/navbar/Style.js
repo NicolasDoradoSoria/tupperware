@@ -31,7 +31,7 @@ export default makeStyles((theme) => ({
     color: "#fff",
   },
   dropdownItem: {
-    background: "#1888ff",
+    background: "rgb(205, 166, 194)",
     "&:hover": {
       background: "#5cabff"
     },

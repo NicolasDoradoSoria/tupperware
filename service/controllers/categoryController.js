@@ -3,13 +3,15 @@ import Category from "../models/Category"
 //crea una categoria
 export const createCategory = async (req, res) => {
     try {
+        
         const { name } = req.body
         let category = new Category({ name });
         category = await category.save();
         if (!category) return res.status(404).send("the category cannot be created!");
 
-
-        res.status(200).send("la categoria se a creado correctamente");
+        const categoryList = await Category.find()
+        
+        res.json({ categoryList, msg: "la categoria se a creado correctamente" });
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");

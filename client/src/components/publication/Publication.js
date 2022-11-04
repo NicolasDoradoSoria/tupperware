@@ -53,16 +53,13 @@ const Publication = ({ idProduct }) => {
   // cambiar cantidad 
   const changeQuantity = (e) => {
     const input = e.target.value
-    if (input > 0 && stock <= input) {
-      setQuantity(input);
-    }
+    if (input > 0 && stock <= input) setQuantity(input);
+
   }
 
   // cambiar cantidad a traves de los iconos + u - 
   const changeQuantityIcon = (quantityNew) => {
-    if (quantityNew > 0) {
-      setQuantity(quantityNew)
-    }
+    if (quantityNew > 0) setQuantity(quantityNew)
   }
 
   // agrega al carrito de compras el producto
@@ -77,9 +74,8 @@ const Publication = ({ idProduct }) => {
     generateOrder(order)
   }
 
-  const navigateToLogin = () => {
-    navigate(`/login`)
-  }
+  const navigateToLogin = () => navigate(`/login`)
+  
 
   const handleNext = () => {
     setChecked(false);
@@ -111,9 +107,8 @@ const Publication = ({ idProduct }) => {
     smallImage(0)
     !idProduct ? getProduct(id) : getProduct(idProduct)
 
-    if (msg) {
-      openSnackbar(msg.msg, msg.category)
-    }
+    if (msg) openSnackbar(msg.msg, msg.category)
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [msg])
 
@@ -167,25 +162,25 @@ const Publication = ({ idProduct }) => {
               </Grow>
             </Grid>
             <Grid item xs={8} md={12}>
-                <MobileStepper
-                  steps={images.length}
-                  position="static"
-                  variant="text"
-                  activeStep={activeStep}
-                  className={classes.MobileStepper}
-                  nextButton={
-                    <Button size="small" onClick={handleNext} disabled={activeStep === images.length - 1}>
-                      Next
-                      {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                    </Button>
-                  }
-                  backButton={
-                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                      {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                      Back
-                    </Button>
-                  }
-                />
+              <MobileStepper
+                steps={images.length}
+                position="static"
+                variant="text"
+                activeStep={activeStep}
+                className={classes.MobileStepper}
+                nextButton={
+                  <Button size="small" onClick={handleNext} disabled={activeStep === images.length - 1}>
+                    Next
+                    {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                  </Button>
+                }
+                backButton={
+                  <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                    {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                    Back
+                  </Button>
+                }
+              />
             </Grid>
           </Grid>
         </Grid>
@@ -194,19 +189,19 @@ const Publication = ({ idProduct }) => {
         <Grid item container xs={12} sm={!idProduct ? 4 : 5} spacing={4} className={classes.rightMainGrid}>
           {/* NOMBRE */}
           <Grid item xs={11} md={12} >
-              <Typography variant="h3">{name}</Typography>
+            <Typography variant="h3">{name}</Typography>
           </Grid>
 
           {/* PRECIO */}
           <Grid item xs={5} md={12}>
-              <Typography component="p" variant="h5">
-                {`$${price}`}
-              </Typography>
+            <Typography component="p" variant="h5">
+              {`$${price}`}
+            </Typography>
           </Grid>
 
           {/* DESCRIPCION */}
           <Grid item xs={11} md={12} >
-              {descripcion}
+            {descripcion}
           </Grid>
 
           <Grid item md={12} container justifyContent="center">
@@ -237,35 +232,35 @@ const Publication = ({ idProduct }) => {
             </Grid>
             {/* AGREGAR AL CARRITO */}
             <Grid item xs={11} md={6}>
-                {authenticated ?
-                  stock <= 0 ? <Button variant="contained" disabled className={classes.loginButtonAndCount}>No disponible</Button> :
-                    <Button
-                      fullWidth
-                      color="secondary"
-                      variant="contained"
-                      onClick={addCartClick}
-                      className={classes.loginButtonAndCount}>
-                      Agregar al carrito
-                    </Button> :
+              {authenticated ?
+                stock <= 0 ? <Button variant="contained" disabled className={classes.loginButtonAndCount}>No disponible</Button> :
                   <Button
-                    className={classes.loginButtonAndCount}
-                    type="submit"
                     fullWidth
-                    variant="contained"
                     color="secondary"
-                    onClick={navigateToLogin}
-                  >
-                    Iniciar Secion
-                  </Button>
-                }
+                    variant="contained"
+                    onClick={addCartClick}
+                    className={classes.loginButtonAndCount}>
+                    Agregar al carrito
+                  </Button> :
+                <Button
+                  className={classes.loginButtonAndCount}
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  onClick={navigateToLogin}
+                >
+                  Iniciar Secion
+                </Button>
+              }
             </Grid>
           </Grid>
 
           {/* CATEGORIA */}
           <Grid item xs={11} md={12} >
-              <Typography variant="h5">
-                Categoria: {category.name}
-              </Typography>
+            <Typography variant="h5">
+              Categoria: {category.name}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>

@@ -47,6 +47,11 @@ const adminUserPath = [
         path: "administrador-Carrusel-Principal",
         cName: "dropdown-link"
     },
+    {
+        name: "Agregar categoria",
+        path: "agregar-categoria",
+        cName: "dropdown-link"
+    },
 ];
 
 export default function Navbar() {
@@ -139,7 +144,7 @@ const UserPath = ({ click, setClick }) => {
 
                 {routeList(plainUserPath)}
 
-                <ListItem button className='nav-item' onMouseEnter={onMouseEnterCategory} onMouseLeave={onMouseLeaveCategory} to={"/"}>
+                <ListItem button className='nav-item' onMouseEnter={onMouseEnterCategory} onMouseLeave={onMouseLeaveCategory}>
                     <Link to={"/"} className='nav-links' onClick={closeMobileMenu}>
                         Categoria
                         <ArrowDropDownIcon className={classes.icon} />

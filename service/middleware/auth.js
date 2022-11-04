@@ -4,6 +4,7 @@ import Role from "../models/Role"
 
 const verifyToken = async (req, res, next) => {
   //leer el token del header
+  
   const token = req.header('x-auth-token')
 
   //revisar si no hay token

@@ -36,7 +36,6 @@ const Product = ({ product }) => {
   // desabilita los botones que no tengan stock
   const disableButton = () => stock === 0
 
-
   // agregamos el producto al carrito directamente por default se agrega 1
   const addCartClick = () => {
 
