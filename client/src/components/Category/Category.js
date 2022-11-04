@@ -5,7 +5,7 @@ import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import SnackbarOpen from "../snackbar/SnackBar";
 import Style from "./Style";
 
-const AddCategory = () => {
+const Category = () => {
     const classes = Style();
 
     //contextContext
@@ -94,4 +94,4 @@ const AddCategory = () => {
     );
 }
 
-export default AddCategory;
+export default Category;

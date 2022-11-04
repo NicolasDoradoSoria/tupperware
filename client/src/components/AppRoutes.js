@@ -14,7 +14,7 @@ import Publication from "./publication/Publication";
 import ShoppingCart from "./shoppingCart/ShoppingCart";
 import { useContext } from "react";
 import UserContext from "../context/userContext/UserContext";
-import AddCategory from "./addCategory/AddCategory";
+import Category from "./Category/Category";
 
 const AppRoutes = () => {
 
@@ -42,7 +42,7 @@ const AppRoutes = () => {
                     </Route>
                     <Route element={<ProtectedRoute isAllowed={!!authenticated && user.user.roles.some(rol => rol.name === "admin")} />}>
                         <Route exact path="/agregar-producto" element={<AddProduct />} />
-                        <Route exact path="/agregar-categoria" element={<AddCategory />} />
+                        <Route exact path="/agregar-categoria" element={<Category />} />
                         <Route exact path="/todos-Productos" element={<ProductListManagement />} />
                         <Route exact path="/administrador-Carrusel-Principal" element={<MainCarrouselManager />} />
                     </Route>
