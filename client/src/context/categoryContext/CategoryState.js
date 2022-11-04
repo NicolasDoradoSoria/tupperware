@@ -96,7 +96,7 @@ const CategoryState = (props) => {
         })
       }, 5000)
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response.data)
       const alert = {
         msg: error.response.data.msg,
         category: "error"

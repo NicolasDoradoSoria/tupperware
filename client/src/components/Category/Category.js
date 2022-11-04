@@ -16,7 +16,7 @@ const Category = () => {
     const snackbarContext = useContext(SnackBarContext)
     const { openSnackbar } = snackbarContext
 
-    // hoox
+    // hooks
     const [category, setCategory] = useState({ name: "" })
     const [selectCategory, setSelectCategory] = useState("")
 
