@@ -33,9 +33,9 @@ export const generateOrder = async (req, res) => {
         //product does not exists in cart, add new item
         cart.products.push({ id, quantity });
       }
-      product.stock = product.stock - quantity
+      // product.stock = product.stock - quantity
 
-      await Products.findByIdAndUpdate({ _id: id }, product, { new: true, })
+      // await Products.findByIdAndUpdate({ _id: id }, product, { new: true, })
 
       await cart.save();
       return res.json({ msg: "el producto a sido agregado correctamente" });

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import ProductState from "./context/productsContext/ProductState";
 import UserState from "./context/userContext/UserState";
 import "./App.css";
@@ -17,7 +17,7 @@ var divStyle = {
 
 // revisar si tenemos un token
 const token = localStorage.getItem("token")
-if(token){
+if (token) {
   tokenAuth(token)
 }
 function App() {
@@ -25,25 +25,23 @@ function App() {
   return (
     <div style={divStyle}>
       <SnackbarState>
-        <CategoryState>
-
-          <FileState>
-            <UserState>
-
-              <ProductState>
-                <CartState>
-                  <Router>
-                    <Theme>
-                      <Layout>
-                        <AppRoutes />
-                      </Layout>
-                    </Theme>
-                  </Router>
-                </CartState>
-              </ProductState>
-            </UserState>
-          </FileState>
-        </CategoryState>
+          <CategoryState>
+            <FileState>
+              <UserState>
+                <ProductState>
+                  <CartState>
+                    <Router>
+                      <Theme>
+                        <Layout>
+                          <AppRoutes />
+                        </Layout>
+                      </Theme>
+                    </Router>
+                  </CartState>
+                </ProductState>
+              </UserState>
+            </FileState>
+          </CategoryState>
       </SnackbarState>
     </div>
   );

@@ -1,30 +1,57 @@
 import mercadopago from 'mercadopago'
+import Cart from '../models/Cart';
+import User from '../models/User';
 
 export const createOrder = async (req, res) => {
-    mercadopago.configure({
-        access_token: 'TEST-4816854471643137-110418-711e964a660c656dc34c3f7948cc4d8d-1231977839'
-    });
 
-    var preference = {
-        items: [
-            {
-                title: 'Pelota',
-                quantity: 1,
-                currency_id: 'ARS',
-                unit_price: 10.5
-            }
-        ],
-        notification_url: "https://78b4-2800-810-458-107-d8bf-1320-f2bb-c302.sa.ngrok.io/api/payment/notificacion"
+    // devuelve el usuario logeado
+    const user = await User.findById(req.userId).select('-password')
+
+    //devuelve el carrito si es que existe si no existe crea uno
+    let cart = await Cart.findOne({ user: user._id }).populate({ path: "products.id", model: "Productos" })
+
+    let preference = {
+        items: [],
+        back_urls: {
+            "success": "http://localhost:4000/api/payment/feedback",
+            "failure": "http://localhost:4000/api/payment/feedback",
+            "pending": "http://localhost:4000/api/payment/feedback"
+        },
+        auto_return: "approved",
+        // notification_url: "https://78b4-2800-810-458-107-d8bf-1320-f2bb-c302.sa.ngrok.io/api/payment/notificacion"
     };
 
-    mercadopago.preferences.create(preference)
-        .then((r) => {
-            res.json(r)
+    cart.products.forEach(product => {
+        preference.items.push({
+            title: product.id.name,
+            quantity: product.quantity,
+            currency_id: 'ARS',
+            unit_price: product.id.price
+
         })
-        .catch((e) => {
-            console.log(e)
-        })
+    })
+
+    const response = await mercadopago.preferences.create(preference)
+    const preferenceId = response.body.id
+    res.send({ preferenceId })
+
+    // mercadopago.preferences.create(preference)
+    //     .then((r) => {
+    //         res.json(r)
+    //     })
+    //     .catch((e) => {
+    //         console.log(e)
+    //     })
 }
+
+export const feedback = (req, res) => {
+    res.json({
+        Payment: req.query.payment_id,
+        Status: req.query.status,
+        MerchantOrder: req.query.merchant_order_id
+    });
+};
+
 
 export const notificationOrder = async (req, res) => {
     console.log("funca?")

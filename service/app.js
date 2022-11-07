@@ -1,4 +1,5 @@
 import './config/db'
+import "./config/mercadoPago"
 import cors from 'cors'
 import routes from "./routes"
 import {createRoles} from './data/initialSetup'

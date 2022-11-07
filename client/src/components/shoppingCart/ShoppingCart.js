@@ -5,7 +5,8 @@ import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import MaterialTableCart from './MaterialTableCart';
-import { Box, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Paper, Typography } from '@material-ui/core';
+import MercadoPagoIntegration from '../mercadoPagoIntegration/MercadoPagoIntegration';
 
 // nombre de las columnas 
 // fild --> busca el nombre campo en el registro
@@ -43,7 +44,7 @@ const ShoppingCart = () => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { getOrder, productsInCart, msg} = cartContext
+  const { getOrder, productsInCart, msg } = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
@@ -51,23 +52,10 @@ const ShoppingCart = () => {
 
   //hook  
   const [total, setTotal] = useState(0)
-
-  useEffect(() => {
-
-    if (user) {
-      getOrder(user.user._id)
-      updateTotalToPay()
-    }
-    if(msg) {
-      openSnackbar(msg.msg, msg.category)
-    }
-
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [msg])
+  const [isBuy, setIsBoy] = useState(false)
 
 
   const updateTotalToPay = () => {
-
     if (productsInCart.length === 0) {
       setTotal(0)
       return
@@ -75,10 +63,24 @@ const ShoppingCart = () => {
 
     let newTotal = 0
     productsInCart.map(product => newTotal += (product.quantity * product.id.price))
-
     setTotal(newTotal)
   }
-  
+
+  const checkout = () => setIsBoy(true)
+
+  useEffect(() => {
+
+    if (user) {
+      getOrder(user.user._id)
+      updateTotalToPay()
+    }
+    if (msg) {
+      openSnackbar(msg.msg, msg.category)
+    }
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [msg])
+
   return (
     <Box className={classes.root}>
       <MaterialTableCart columns={columns()} options={options} />
@@ -91,6 +93,13 @@ const ShoppingCart = () => {
           </Typography>
         </Paper>
       </div>
+
+      {isBuy ? <MercadoPagoIntegration /> : <div>
+        <Button onClick={checkout}>
+          Finalizar Compra
+        </Button>
+      </div>}
+      
     </Box>
   );
 }
