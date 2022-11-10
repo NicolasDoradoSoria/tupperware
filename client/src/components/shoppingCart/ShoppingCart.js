@@ -92,14 +92,17 @@ const ShoppingCart = () => {
             Total a Pagar: <span>${total}</span>
           </Typography>
         </Paper>
+        <Paper className={classes.paper}>
+          {isBuy ? <MercadoPagoIntegration /> : <div>
+
+            <Button onClick={checkout} color="primary" variant="contained">
+              Finalizar Compra
+            </Button>
+          </div>}
+        </Paper>
+
       </div>
 
-      {isBuy ? <MercadoPagoIntegration /> : <div>
-        <Button onClick={checkout}>
-          Finalizar Compra
-        </Button>
-      </div>}
-      
     </Box>
   );
 }

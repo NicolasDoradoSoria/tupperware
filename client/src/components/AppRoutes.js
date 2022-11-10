@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router";
 import ProductListManagement from './ProductListManagement/ProductListManagement'
 import AddProduct from "./addProduct/AddProduct";
-import PaymentMethod from "./payment/paymentMethod";
 import ListOfProducts from "./listOfProducts/ListOfProducts"
 import MainCarrouselManager from "./mainCarouselManager/MainCarouselManager";
 import Main from "./main/Main";
@@ -15,6 +14,7 @@ import ShoppingCart from "./shoppingCart/ShoppingCart";
 import { useContext } from "react";
 import UserContext from "../context/userContext/UserContext";
 import Category from "./Category/Category";
+import Notification from "./notification/Notification";
 
 const AppRoutes = () => {
 
@@ -37,8 +37,7 @@ const AppRoutes = () => {
                         <Route exact path="/lista-Productos/" element={<ListOfProducts />} />
                         <Route exact path="/perfil" element={<Profile />} />
                         <Route exact path="/main/carrito" element={<ShoppingCart />} />
-                        <Route exact path="/pagar" element={<PaymentMethod />} />
-
+                        <Route exact path="/notification" element={<Notification/>} />
                     </Route>
                     <Route element={<ProtectedRoute isAllowed={!!authenticated && user.user.roles.some(rol => rol.name === "admin")} />}>
                         <Route exact path="/agregar-producto" element={<AddProduct />} />
