@@ -18,7 +18,6 @@ export const createOrder = async (req, res) => {
             "pending": "http://localhost:3000/notification"
         },
         auto_return: "approved",
-        // notification_url: "https://78b4-2800-810-458-107-d8bf-1320-f2bb-c302.sa.ngrok.io/api/payment/notificacion"
     };
 
     cart.products.forEach(product => {
@@ -33,13 +32,7 @@ export const createOrder = async (req, res) => {
 
     const response = await mercadopago.preferences.create(preference)
     const preferenceId = response.body.id
+
     res.send({ preferenceId })
 }
 
-export const feedback = (req, res) => {
-    res.json({
-        Payment: req.query.payment_id,
-        Status: req.query.status,
-        MerchantOrder: req.query.merchant_order_id
-    });
-};

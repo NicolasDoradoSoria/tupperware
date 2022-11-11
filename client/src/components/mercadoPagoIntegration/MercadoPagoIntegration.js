@@ -42,6 +42,7 @@ const MercadoPagoIntegration = () => {
       script.addEventListener('load', addCheckout)
       document.body.appendChild(script);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferenceId]);
 
   return (
