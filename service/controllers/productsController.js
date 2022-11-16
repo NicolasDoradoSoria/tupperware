@@ -2,7 +2,7 @@ import Category from "../models/Category"
 import Products from "../models/Products"
 import { getProductsfunction } from "../data/controllerFunction"
 import shortid from 'shortid'
-
+import Cart from '../models/Cart'
 // inserta productos a la MongoDB
 export const postProducts = async (req, res) => {
 
@@ -84,11 +84,25 @@ export const updateProductById = async (req, res) => {
     )
     // ----------
     // consultamos los productos disponibles 
-    res.status(200).json({msg: "se a actualizado correctamente" });
+    res.status(200).json({ msg: "se a actualizado correctamente" });
   } catch (error) {
     res.status(500).send("hubo un error");
   }
 };
+// actualiza cantidades de uno o varios productos
+export const updateProductsQuantity = async (req, res) => {
+  try {
+    // busco el arrito del usuario
+    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" })
+
+    
+    if (order.length == 0) return res.status(404).json({ msg: "no posee pedidos aun" })
+  
+    
+  } catch (error) {
+    res.status(500).send("hubo un error");
+  }
+}
 
 
 //elimina producto por id
@@ -105,7 +119,7 @@ export const deleteProductById = async (req, res) => {
     }
     await Products.findByIdAndDelete(productId);
 
-    
+
     res.json({ products, msg: "se a eliminado el producto correctamente" });
   } catch (error) {
     res.status(500).send("hubo un error");

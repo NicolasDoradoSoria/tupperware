@@ -98,7 +98,7 @@ export const updateOrder = async (req, res) => {
     res.status(500).json({ msg: 'hubo un error' })
   }
 };
-//actualiza un pedido por ID
+//elimina un producto por ID
 export const deleteProductOrder = async (req, res) => {
 
   try {
@@ -118,7 +118,7 @@ export const deleteProductOrder = async (req, res) => {
 };
 
 
-//elimina un pedido por ID
+//elimina todos los productos del carrito por ID
 export const deleteOrder = async (req, res) => {
   try {
     await Cart.findOneAndDelete({ user: req.params.idUser })
