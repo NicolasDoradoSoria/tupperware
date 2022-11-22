@@ -52,6 +52,11 @@ const adminUserPath = [
         path: "agregar-categoria",
         cName: "dropdown-link"
     },
+    {
+        name: "Pedidos",
+        path: "order",
+        cName: "dropdown-link"
+    },
 ];
 
 export default function Navbar() {

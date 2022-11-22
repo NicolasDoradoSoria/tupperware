@@ -1,16 +1,18 @@
-import Category from "../models/Category"
-import Products from "../models/Products"
-import { getProductsfunction } from "../data/controllerFunction"
 import shortid from 'shortid'
-import Cart from '../models/Cart'
+import { ProductRepo, CategoryRepo } from "../repositories/Repository"
+const productRepo = new ProductRepo()
+const categoryRepo = new CategoryRepo()
+
 // inserta productos a la MongoDB
 export const postProducts = async (req, res) => {
 
   try {
-    const { name, descripcion, date, price, stock, category } = req.body
+    let product = req.body
+    const { category } = req.body
     let images = [];
 
-    const categorySearch = await Category.findById(category);
+    const categorySearch = await categoryRepo.get({ category });
+
     if (!categorySearch) return res.status(400).send("Invalid Category");
 
     if (req.files.images.length > 0) {
@@ -20,20 +22,17 @@ export const postProducts = async (req, res) => {
           _id: shortid.generate(),
           fileName: element.filename,
           filePath: element.path,
-          lastModified: element.lastModified
         });
       });
     }
 
-    const product = new Products({ name, descripcion, date, price, stock, images, category });
+    product.images = images
+    const newProduct = await productRepo.create(product)
 
-    // guardamos el producto
-    await product.save();
-    // ----------
-    // consultamos los productos disponibles
-    const products = await getProductsfunction(req, res)
+    if (!newProduct) return res.json({ msg: "no se a podido crear el producto" });
 
-    res.json({ products, msg: "se a eliminado el producto correctamente" });
+
+    res.json({ msg: "se a agregado el producto correctamente" });
 
   } catch (error) {
     console.log(error);
@@ -41,11 +40,17 @@ export const postProducts = async (req, res) => {
   }
 };
 
-
 // devuelve todos los productos
 export const getProducts = async (req, res) => {
+
   try {
-    const products = await getProductsfunction(req, res)
+    let filter = {};
+
+    if (req.query.id) {
+      filter = { category: req.query.id.split(",") };
+    }
+
+    const products = await productRepo.getProductByCategory(filter)
     res.json({ products });
   } catch (error) {
     res.status(500).send("hubo un error");
@@ -54,10 +59,12 @@ export const getProducts = async (req, res) => {
 
 //devuelve producto por id
 export const getProductById = async (req, res) => {
-
   try {
-    const product = await Products.findById(req.params.productId).populate({ path: "imageId", model: "ProductImages" }).populate("category");
-    res.status(200).json(product);
+    const _id = req.params.productId
+
+    const product = await productRepo.getProductByCategory({ _id })
+    console.log(product)
+    res.status(200).json(product[0]);
   } catch (error) {
     res.status(500).send("hubo un error");
   }
@@ -68,42 +75,21 @@ export const updateProductById = async (req, res) => {
 
   const { productId } = req.params
   try {
-    //si el producto existe o no
-    let product = await Products.findById(productId);
+    const product = await productRepo.get({ productId });
 
+    //si el producto existe o no
     if (!product) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
+    const updatedProduct = await productRepo.update(productId, req.body)
 
-    await Products.findByIdAndUpdate(
-      { _id: productId },
-      req.body,
-      {
-        new: true,
-      }
-    )
-    // ----------
-    // consultamos los productos disponibles 
+    if (!updatedProduct) return res.status(400).send("the product cannot be updated");
+
     res.status(200).json({ msg: "se a actualizado correctamente" });
   } catch (error) {
     res.status(500).send("hubo un error");
   }
 };
-// actualiza cantidades de uno o varios productos
-export const updateProductsQuantity = async (req, res) => {
-  try {
-    // busco el arrito del usuario
-    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" })
-
-    
-    if (order.length == 0) return res.status(404).json({ msg: "no posee pedidos aun" })
-  
-    
-  } catch (error) {
-    res.status(500).send("hubo un error");
-  }
-}
-
 
 //elimina producto por id
 export const deleteProductById = async (req, res) => {
@@ -111,16 +97,20 @@ export const deleteProductById = async (req, res) => {
   try {
     const { productId } = req.params;
 
-    const products = await Products.find();
+    const product = await productRepo.get({ productId });
     //si el producto existe o no
-    let product = await Products.findById(productId);
+
     if (!product) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-    await Products.findByIdAndDelete(productId);
 
+    const deletedProduct = await productRepo.delete(productId)
 
-    res.json({ products, msg: "se a eliminado el producto correctamente" });
+    if (!deletedProduct) {
+      return res.status(404).json({ msg: "no se a podido eliminar el producto" });
+    }
+
+    res.json({ msg: "se a eliminado el producto correctamente" });
   } catch (error) {
     res.status(500).send("hubo un error");
   }
@@ -129,7 +119,8 @@ export const deleteProductById = async (req, res) => {
 // search de productos
 export const searchProducts = async (req, res) => {
   try {
-    const products = await Products.find()
+    const products = await productRepo.get();
+    
     if (!req.body.name) {
       return res.status(200).json(products);
     }

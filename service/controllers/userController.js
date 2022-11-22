@@ -1,12 +1,13 @@
-import Role from '../models/Role'
-import User from '../models/User'
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { UserRepo, RoleRepo } from "../repositories/Repository"
+const userRepo = new UserRepo()
+const roleRepo = new RoleRepo()
 
 //obtiene que usuario esta autenticado
 export const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('-password').populate("roles")
+    const user = await userRepo.get({ _id: req.userId },true)
     res.json({ user })
   } catch (error) {
     console.log(error)
@@ -18,28 +19,28 @@ export const createUser = async (req, res) => {
 
   try {
     const { password, roles } = req.body;
-
-    const rolesFound = await Role.find({ name: { $in: roles } });
-
-    //crea el nuevo usuarioz
-    let user = new User({ ...req.body, roles: rolesFound.map((role) => role._id) });
-
+    let user = req.body
+    
+    const rolesFound = await roleRepo.get({ name: { $in: roles } })
+    user.roles = rolesFound.map((role) => role._id)
+    
     //hashear el password
     const salt = await bcryptjs.genSalt(10);
     user.password = await bcryptjs.hash(password, salt);
-
-    if (req.body.roles) {
-      const foundRoles = await Role.find({ name: { $in: req.body.roles } });
+    if (roles) {
+      const foundRoles = await roleRepo.get({ name: { $in: roles } })
       user.roles = foundRoles.map((role) => role._id);
     } else {
-      const role = await Role.findOne({ name: "user" });
+      const role = await roleRepo.get({ name: "user" })
       user.roles = [role._id];
     }
 
     //guardar usuario
-    await user.save();
+    const newUser = await userRepo.create(user)
+    // confirmamos si se creo correctamente
+    if (!newUser) return res.json({ msg: "no se a podido crear el usuario" });
 
-    //crear y firmar el JWT
+    //crear el JWT
     const payload = {
       user: {
         id: user.id,

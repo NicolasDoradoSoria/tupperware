@@ -1,16 +1,14 @@
 import shortid from 'shortid'
-import CarruselImage from "../models/CarruselImage"
-import fs from 'fs-extra'
-
-
+import { CarruselImageRepo } from "../repositories/Repository"
+const carruselImageRepo = new CarruselImageRepo()
 //  ----------------------------------CARROUSEL------------------------------------
 
 // Sube una o varias imagenes
 export const multiUpload = async (req, res) => {
+    const {images} = req.files
     // TODO : correjir poner express validator
     //  TODO : hacer que devuelva un json con los productos y corregir en el fron tambien para que no haga siempre peticiones
-    if (!req.files.images) return res.status(404).json({ msg: "el producto no existe" })
-
+    if (!images) return res.status(404).json({ msg: "la imagen no existe" })
     try {
         let files = [];
         req.files.images.forEach(element => {
@@ -21,9 +19,9 @@ export const multiUpload = async (req, res) => {
             files.push(image);
         });
 
-        const images = new CarruselImage({ files });
-        await images.save();
-        // await fs.unlink(req.file.path)
+
+        const newsImages = await carruselImageRepo.create({files})
+        if (!newsImages) return res.json({ msg: "no se a podido guardar las imagenes" });
         return res.status(201).json({ msg: 'image Upsloaded Successfully' });
     } catch (error) {
         console.log(error)
@@ -34,7 +32,8 @@ export const multiUpload = async (req, res) => {
 // mostrar imagenes
 export const getAllMultipleImages = async (req, res) => {
     try {
-        const files = await CarruselImage.find()
+        const files = await carruselImageRepo.get({})
+        console.log(files)
         res.status(200).json(files)
     } catch (error) {
         console.log(error)
@@ -48,14 +47,12 @@ export const deleteFileById = async (req, res) => {
 
     try {
         // devuelve el array de la imagen que fue enviada por el params
-        const arrayImages = await CarruselImage.findById(arrayId)
-
+        const arrayImages = await carruselImageRepo.get({_id: arrayId})
         if (!arrayImages) return res.status(500).send('la imagen no existe');
-
         // si hay un solo elemento en el array o varios....
-        (arrayImages.files.length === 1) ?
-            await CarruselImage.findByIdAndDelete(arrayId) :
-            await CarruselImage.updateOne({ "_id": arrayId }, { $pull: { files: { _id: imageId } } })
+        (arrayImages.length === 1) ?
+            await carruselImageRepo.delete(arrayId) :
+            await carruselImageRepo.update({ "_id": arrayId }, { $pull: { files: { _id: imageId } } })
 
         return res.status(200).json({ msg: 'se a eliminado correctamente la imagen' });
 

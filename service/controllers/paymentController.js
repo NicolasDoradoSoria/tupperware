@@ -1,18 +1,21 @@
 import mercadopago from 'mercadopago'
-import Cart from '../models/Cart';
-import User from '../models/User';
 import Order from "../models/Order"
-import Products from "../models/Products"
 import httpProxy from 'http-proxy'
 const proxy = httpProxy.createProxyServer({});
-
+import { ProductRepo, CategoryRepo, UserRepo, CartRepo, OrderRepo } from "../repositories/Repository"
+const productRepo = new ProductRepo()
+const categoryRepo = new CategoryRepo()
+const userRepo = new UserRepo()
+const cartRepo = new CartRepo()
+const orderRepo = new OrderRepo()
 export const createOrder = async (req, res) => {
 
+    let _id = req.userId
     // devuelve el usuario logeado
-    const user = await User.findById(req.userId).select('-password')
+    const user = await userRepo.get({ _id }, true)
 
     //devuelve el carrito si es que existe si no existe crea uno
-    let cart = await Cart.findOne({ user: user._id }).populate({ path: "products.id", model: "Productos" })
+    const cart = await cartRepo.get({ user: user._id })
 
     let preference = {
         items: [],
@@ -25,7 +28,7 @@ export const createOrder = async (req, res) => {
     };
 
 
-    cart.products.forEach(product => {
+    cart[0].products.forEach(product => {
         preference.items.push({
             title: product.id.name,
             quantity: product.quantity,
@@ -47,23 +50,23 @@ export const createOrder = async (req, res) => {
 
 export const feedback = async (req, res) => {
     //  buscar el pedido
-    const order = await Order.find({ orderId: req.query.preference_id }).populate({ path: "products.id", model: "Productos" })
-    let productsInCart = order[0].products
+    const order = await orderRepo.get({ orderId: req.query.preference_id })
     // si no existe el pedido finaliza la ejecucion del controllador
     if (!order) res.json({ msg: "el pedido de compra no existe!" })
 
     // si el estado de la compra esta en aprobado ya no se puede modificar los productos
     // modifico el stock cuando el pago a sido aprobado
     if (order[0].status === "pending") {
+        let productsInCart = order[0].products
 
         productsInCart.forEach(productInCart => {
             const updateProduct = async () => {
+                let idProductInCart = productInCart.id._id
                 // busco el producto con el id con el que esta guardado productInCart
-                let product = await Products.findById(productInCart.id._id)
+                let product = await productRepo.get({ _id: idProductInCart })
                 product.stock -= productInCart.quantity
                 // actualizo el stock
-                await Products.findByIdAndUpdate({ _id: product._id }, product, { new: true, })
-
+                await productRepo.update({ _id: product._id }, product)
             }
             updateProduct()
         })
@@ -71,18 +74,13 @@ export const feedback = async (req, res) => {
         order[0].status = "approved"
 
         // actualizo el status del pedido
-        await Order.findByIdAndUpdate({ _id: order[0]._id }, order[0], { new: true, })
+        await orderRepo.update({ _id: order[0]._id }, order[0])
 
-        res.redirect("http://localhost:3000/notification");
-        // res.json({
-        //     Payment: req.query.payment_id,
-        //     Status: req.query.status,
-        //     MerchantOrder: req.query.merchant_order_id
-        // });
+        res.redirect(`http://localhost:3000/notification?status=${req.query.status}&payment=${req.query.payment_id}&merchantOrder=${req.query.merchant_order_id}`);
     }
     else {
-        
-        res.redirect("http://localhost:3000/notification");
+
+        res.redirect(`http://localhost:3000/notification?status=${req.query.status}&payment=${req.query.payment_id}&merchantOrder=${req.query.merchant_order_id}`);
     }
 
 }

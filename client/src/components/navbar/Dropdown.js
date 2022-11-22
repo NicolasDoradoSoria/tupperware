@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "./Style.css";
 import Style from "./Style";
 
-
 const Dropdown = ({ path }) => {
   const classes = Style();
   const [click, setClick] = useState(false);

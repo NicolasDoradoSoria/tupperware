@@ -10,6 +10,5 @@ router.post("/searchProducts", searchProducts);
 router.get("/", getProducts);
 router.get("/:productId", getProductById);
 router.put("/:productId",[verifyToken, isAdmin], updateProductById);
-router.put("/updateProductsQuantity/:userId",[verifyToken], updateProductsQuantity);
 router.delete("/:productId",[verifyToken,isAdmin], deleteProductById);
 module.exports = router;

@@ -15,6 +15,7 @@ import { useContext } from "react";
 import UserContext from "../context/userContext/UserContext";
 import Category from "./Category/Category";
 import Notification from "./notification/Notification";
+import Order from "./order/Order";
 
 const AppRoutes = () => {
 
@@ -44,6 +45,7 @@ const AppRoutes = () => {
                         <Route exact path="/agregar-categoria" element={<Category />} />
                         <Route exact path="/todos-Productos" element={<ProductListManagement />} />
                         <Route exact path="/administrador-Carrusel-Principal" element={<MainCarrouselManager />} />
+                        <Route exact path="/order" element={<Order />} />
                     </Route>
                 </>
                 : <></>

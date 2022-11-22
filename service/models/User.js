@@ -22,11 +22,6 @@ const userSchema = Schema(
       required: true,
       trim: true,
     },
-    confirmPassword: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     register: {
       type: Date,
       default: Date.now(),

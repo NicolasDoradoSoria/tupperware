@@ -1,24 +1,25 @@
-import User from '../models/User'
-import Cart from '../models/Cart'
-import Products from '../models/Products'
 import { matchedData } from "express-validator"
-//agrega un pedido al carrito
+import { CartRepo, UserRepo, ProductRepo } from "../repositories/Repository"
+const cartRepo = new CartRepo()
+const userRepo = new UserRepo()
+const productRepo = new ProductRepo()
 
+//agrega un pedido al carrito
 export const generateOrder = async (req, res) => {
   const body = matchedData(req)
   const { id, quantity } = body.products[0];
   try {
     // devuelve el usuario logeado
-    const user = await User.findById(req.userId).select('-password')
-
+    const userId = req.userId
+    const user = await userRepo.get({ _id: userId }, true)
     //devuelve el carrito si es que existe si no existe crea uno
-    let cart = await Cart.findOne({ user: user._id })
+    let cart = await cartRepo.get({ user: user._id })[0]
 
     //devuelve el producto que se va a agregar al carrito
-    let product = await Products.findById(id)
+    let product = await productRepo.get({ id })
+
 
     if (!product) return res.status(404).json({ msg: "el producto no existe" });
-
 
     // si existe un carrito 
     if (cart) {
@@ -33,20 +34,20 @@ export const generateOrder = async (req, res) => {
         //product does not exists in cart, add new item
         cart.products.push({ id, quantity });
       }
-      // product.stock = product.stock - quantity
 
-      // await Products.findByIdAndUpdate({ _id: id }, product, { new: true, })
 
       await cart.save();
       return res.json({ msg: "el producto a sido agregado correctamente" });
     }
     else {
       //no cart for user, create new cart
-
-      await Cart.create({
+      const newCart = cartRepo.create({
         user: user._id,
         products: [{ id, quantity }]
-      });
+      })
+
+      if (!newCart) return res.json({ msg: "no se a podido crear el producto" });
+
       return res.json({ msg: "el producto a sido agregado correctamente" });
     }
 
@@ -57,59 +58,44 @@ export const generateOrder = async (req, res) => {
 
 };
 
-//muestra todos los pedidos
-export const showAllOrders = async (req, res) => {
+//muestra un carrito por ID de usuario
+export const getCart = async (req, res) => {
   try {
-    const order = await Cart.find({}).populate("user");
-    res.json(order);
+
+    const cart = await cartRepo.get({ user: req.params.idUser })
+
+    if (cart.length == 0) return res.status(404).json({ msg: "el carrito no a sido creado" })
+    //mostrar el carrito
+    res.json(cart);
+
+  } catch (error) {
+    res.status(500).json({ msg: 'hubo un error' })
+  }
+};
+
+
+//actualiza el carrito por ID
+export const updateCart = async (req, res) => {
+  const cart = await cartRepo.get({ user: req.params.idCart })
+
+  try {
+    const updatedCart = await cartRepo.update(cart[0]._id, req, body)
+
+    res.json(updatedCart);
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: 'hubo un error' })
   }
 };
-
-//muestra un pedido por ID de usuario
-export const showOrder = async (req, res) => {
-  try {
-    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" })
-
-    if (order.length == 0) return res.status(404).json({ msg: "no posee pedidos aun" })
-    //mostrar el pedido
-    res.json(order);
-
-  } catch (error) {
-    res.status(500).json({ msg: 'hubo un error' })
-  }
-};
-
-
-//actualiza un pedido por ID
-export const updateOrder = async (req, res) => {
-  const orderUser = await Cart.find({ user: req.params.idOrder }).populate({ path: "products.id", model: "Productos" })
+//elimina un producto por ID del carrito
+export const deleteProductCart = async (req, res) => {
+  const { idUser, idCart } = req.params
 
   try {
-    const order = await Cart.findOneAndUpdate(
-      { _id: orderUser[0]._id }, req.body, { new: true }
-    )
+    const deletedcart = await cartRepo.deleteProductCart(idUser, idCart)
+    if (!deletedcart) return res.json({ msg: "el producto del carrito no se a podido eliminar" })
 
-    res.json(order);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: 'hubo un error' })
-  }
-};
-//elimina un producto por ID
-export const deleteProductOrder = async (req, res) => {
-
-  try {
-    await Cart.findOneAndUpdate({ user: req.params.idUser },
-      { $pull: { products: { _id: req.params.idOrder } } });
-
-    const order = await Cart.find({ user: req.params.idUser }).populate({ path: "products.id", model: "Productos" })
-
-    if (order.length == 0) return res.status(404).json({ msg: "no posee pedidos aun" })
-    //mostrar el pedido
-    res.json({ order, msg: "el producto se a eliminado" })
+    res.json({ msg: "el producto se a eliminado" })
 
   } catch (error) {
     console.log(error);
@@ -121,9 +107,9 @@ export const deleteProductOrder = async (req, res) => {
 //elimina todos los productos del carrito por ID
 export const deleteOrder = async (req, res) => {
   try {
-    await Cart.findOneAndDelete({ user: req.params.idUser })
-
-
+    const user = req.params.idUser
+    await cartRepo.delete(user)
+    
     res.json({ msg: "el carrito fue limpieado correctamente" })
   } catch (error) {
     console.log(error)
