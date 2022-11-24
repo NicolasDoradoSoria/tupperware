@@ -13,8 +13,7 @@ export const generateOrder = async (req, res) => {
     const userId = req.userId
     const user = await userRepo.get({ _id: userId }, true)
     //devuelve el carrito si es que existe si no existe crea uno
-    let cart = await cartRepo.get({ user: user._id })[0]
-
+    let cart = await cartRepo.get({ user: user._id })
     //devuelve el producto que se va a agregar al carrito
     let product = await productRepo.get({ id })
 
@@ -22,24 +21,25 @@ export const generateOrder = async (req, res) => {
     if (!product) return res.status(404).json({ msg: "el producto no existe" });
 
     // si existe un carrito 
-    if (cart) {
-      let itemIndex = cart.products.findIndex(product => product.id == id);
+    if (cart[0]) {
+      let itemIndex = cart[0].products.findIndex(product =>product.id._id == id);
+
       if (itemIndex > -1) {
         //product exists in the cart, update the quantity
-        let productItem = cart.products[itemIndex]
+        let productItem = cart[0].products[itemIndex]
         productItem.quantity += quantity;
-        cart.products[itemIndex] = productItem;
+        cart[0].products[itemIndex] = productItem;
       }
       else {
         //product does not exists in cart, add new item
-        cart.products.push({ id, quantity });
+        cart[0].products.push({ id, quantity });
       }
 
-
-      await cart.save();
+      await cart[0].save();
       return res.json({ msg: "el producto a sido agregado correctamente" });
     }
     else {
+      console.log("carrito CREADO!")
       //no cart for user, create new cart
       const newCart = cartRepo.create({
         user: user._id,
@@ -109,7 +109,7 @@ export const deleteOrder = async (req, res) => {
   try {
     const user = req.params.idUser
     await cartRepo.delete(user)
-    
+
     res.json({ msg: "el carrito fue limpieado correctamente" })
   } catch (error) {
     console.log(error)

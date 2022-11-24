@@ -52,6 +52,7 @@ const CartState = (props) => {
   const removeOrderProduct = async (userId, idOrder) => {
     try {
       const result = await clienteAxios.delete(`api/cart/${userId}/${idOrder}`)
+      console.log(result)
       dispatch({
         type: DELETE_PRODUCT_CART,
         payload: result.data

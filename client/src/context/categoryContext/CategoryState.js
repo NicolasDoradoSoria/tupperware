@@ -39,6 +39,7 @@ const CategoryState = (props) => {
   const categorySearch = async (id) => {
     try {
       const result = await clienteAxios.get(`/api/category?id=`+id);
+      console.log(result)
       dispatch({
         type: GET_CATEGORY_SEARCH,
         payload: result.data

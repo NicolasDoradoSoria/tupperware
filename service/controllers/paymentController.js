@@ -1,10 +1,7 @@
 import mercadopago from 'mercadopago'
 import Order from "../models/Order"
-import httpProxy from 'http-proxy'
-const proxy = httpProxy.createProxyServer({});
-import { ProductRepo, CategoryRepo, UserRepo, CartRepo, OrderRepo } from "../repositories/Repository"
+import { ProductRepo, UserRepo, CartRepo, OrderRepo } from "../repositories/Repository"
 const productRepo = new ProductRepo()
-const categoryRepo = new CategoryRepo()
 const userRepo = new UserRepo()
 const cartRepo = new CartRepo()
 const orderRepo = new OrderRepo()
@@ -14,9 +11,9 @@ export const createOrder = async (req, res) => {
     // devuelve el usuario logeado
     const user = await userRepo.get({ _id }, true)
 
-    //devuelve el carrito si es que existe si no existe crea uno
     const cart = await cartRepo.get({ user: user._id })
 
+    if (!cart) res.json({ msg: "el carrito de compra no existe!" })
     let preference = {
         items: [],
         back_urls: {
@@ -39,16 +36,18 @@ export const createOrder = async (req, res) => {
 
     const response = await mercadopago.preferences.create(preference)
     const preferenceId = response.body.id
-    await Order.create({
-        products: cart.products,
+    const repo = await orderRepo.create({
+        products: cart[0].products,
         status: "pending",
         user: { id: user._id },
         orderId: preferenceId
     });
-    res.send({ preferenceId })
+    
+    res.send({ preferenceId, repo })
 }
 
 export const feedback = async (req, res) => {
+
     //  buscar el pedido
     const order = await orderRepo.get({ orderId: req.query.preference_id })
     // si no existe el pedido finaliza la ejecucion del controllador
@@ -83,4 +82,13 @@ export const feedback = async (req, res) => {
         res.redirect(`http://localhost:3000/notification?status=${req.query.status}&payment=${req.query.payment_id}&merchantOrder=${req.query.merchant_order_id}`);
     }
 
+}
+
+export const getOrders = async (req, res) => {
+    try {
+        const order = await orderRepo.get({})
+        res.json({ order });
+    } catch (error) {
+        res.status(500).send("hubo un error");
+    }
 }

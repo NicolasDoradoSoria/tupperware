@@ -1,9 +1,10 @@
 const express = require("express");
-const { createOrder, feedback } = require("../controllers/paymentController");
-const {verifyToken}= require("../middleware/auth")
+const { createOrder, feedback, getOrders } = require("../controllers/paymentController");
+const { verifyToken, isAdmin } = require("../middleware/auth")
 
 const router = express.Router();
 
-router.post("/create-order",verifyToken, createOrder );
-router.get("/notification", feedback );
+router.post("/create-order", verifyToken, createOrder);
+router.get("/notification", feedback);
+router.get("/", [verifyToken, isAdmin], getOrders);
 module.exports = router;

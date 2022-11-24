@@ -1,5 +1,5 @@
 import {
-  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART,DELETE_MSG
+  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART, DELETE_MSG
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -12,8 +12,6 @@ export default (state, action) => {
       }
       return {
         ...state,
-        orders: action.payload.order[0],
-        productsInCart: action.payload.order[0].products,
         msg: alerts
       }
     case GET_ORDERS:

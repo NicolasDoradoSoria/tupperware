@@ -10,6 +10,8 @@ import FileState from "./context/fileContext/FileState";
 import CategoryState from "./context/categoryContext/CategoryState";
 import AppRoutes from "./components/AppRoutes";
 import tokenAuth from "./config/token";
+import OrderState from "./context/orderContext/OrderState";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 var divStyle = {
   backgroundColor: "#FEF7E4",
   marginRight: "-1rem",
@@ -20,11 +22,25 @@ const token = localStorage.getItem("token")
 if (token) {
   tokenAuth(token)
 }
+
+const theme = createTheme();
+
+theme.typography.h3 = {
+  fontSize: '1.2rem',
+  '@media (min-width:600px)': {
+    fontSize: '1.5rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '2rem',
+  },
+};
+
 function App() {
 
   return (
     <div style={divStyle}>
       <SnackbarState>
+        <OrderState>
           <CategoryState>
             <FileState>
               <UserState>
@@ -32,9 +48,11 @@ function App() {
                   <CartState>
                     <Router>
                       <Theme>
-                        <Layout>
-                          <AppRoutes />
-                        </Layout>
+                        <ThemeProvider theme={theme}>
+                          <Layout>
+                            <AppRoutes />
+                          </Layout>
+                        </ThemeProvider>
                       </Theme>
                     </Router>
                   </CartState>
@@ -42,6 +60,7 @@ function App() {
               </UserState>
             </FileState>
           </CategoryState>
+        </OrderState>
       </SnackbarState>
     </div>
   );

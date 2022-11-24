@@ -105,7 +105,7 @@ export class OrderRepo extends Repository {
         super(Order)
     }
     async get(id) {
-        return await Order.find(id).populate({ path: "products.id", model: "Productos" })
+        return await Order.find(id).populate({ path: "products.id", model: "Productos" }).populate({ path: "user.id", model: "Usuario" })
     }
 
 }

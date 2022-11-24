@@ -63,7 +63,6 @@ export const getProductById = async (req, res) => {
     const _id = req.params.productId
 
     const product = await productRepo.getProductByCategory({ _id })
-    console.log(product)
     res.status(200).json(product[0]);
   } catch (error) {
     res.status(500).send("hubo un error");
