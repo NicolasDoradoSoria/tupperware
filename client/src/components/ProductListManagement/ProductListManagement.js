@@ -82,7 +82,7 @@ const ProductListManagement = () => {
   };
 
   return (
-    <Box className={classes.rootBox}>
+    <Box className={classes.root}>
       <MaterialTable title="Lista de Productos" data={products} columns={columns()} actions={[
         {
           icon: "edit",

@@ -31,6 +31,9 @@ export default makeStyles((theme) => ({
   },
   orderContainerRoot: {
     margin: "2rem 1rem"
+  },
+  deleteOrder: {
+    marginTop: "2rem"
   }
 
 }));

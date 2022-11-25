@@ -24,8 +24,11 @@ export class Repository {
     }
 
     async delete(id) {
-        await this.model.findByIdAndDelete(id)
-        return true
+        try {
+            await this.model.findByIdAndDelete(id)
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 

@@ -84,7 +84,7 @@ const ShoppingCart = () => {
   return (
     <Box className={classes.root}>
       <MaterialTableCart columns={columns()} options={options} />
-      {msg ? <SnackbarOpen /> : null}
+      
 
       <div className={classes.paperContainer}>
         <Paper className={classes.paper}>
@@ -102,7 +102,7 @@ const ShoppingCart = () => {
         </Paper>
 
       </div>
-
+      {msg ? <SnackbarOpen /> : null}
     </Box>
   );
 }

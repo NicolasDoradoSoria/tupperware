@@ -42,7 +42,7 @@ export const createOrder = async (req, res) => {
         user: { id: user._id },
         orderId: preferenceId
     });
-    
+
     res.send({ preferenceId, repo })
 }
 
@@ -51,7 +51,7 @@ export const feedback = async (req, res) => {
     //  buscar el pedido
     const order = await orderRepo.get({ orderId: req.query.preference_id })
     // si no existe el pedido finaliza la ejecucion del controllador
-    if (!order) res.json({ msg: "el pedido de compra no existe!" })
+    if (!order) return res.json({ msg: "el pedido de compra no existe!" })
 
     // si el estado de la compra esta en aprobado ya no se puede modificar los productos
     // modifico el stock cuando el pago a sido aprobado
@@ -89,6 +89,17 @@ export const getOrders = async (req, res) => {
         const order = await orderRepo.get({})
         res.json({ order });
     } catch (error) {
-        res.status(500).send("hubo un error");
+        res.status(500).json({ msg: 'hubo un error' })
+    }
+}
+
+export const deleteOrders = async (req, res) => {
+    try {
+        if(!req.body) return res.json({ msg: "no se a seleccionado producto" })
+        req.body.forEach(async row => await orderRepo.delete(row._id))
+        
+        res.json({ msg: "el carrito fue limpieado correctamente" })
+    } catch (error) {
+        res.status(500).json({ msg: 'hubo un error' })
     }
 }

@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
 import OrderContext from '../../context/orderContext/OrderContext'
@@ -24,7 +24,6 @@ const columns = () => [
     {
         title: "fecha de compra", field: "createdAt", type: 'date'
     },
-
 ]
 
 // configuracion de material Table
@@ -52,15 +51,31 @@ const Order = () => {
 
     //context Order
     const orderContext = useContext(OrderContext)
-    const { orders, msg, getOrder } = orderContext
+    const { orders, msg, getOrder, deleteOrder } = orderContext
 
     //hooks
     const [open, setOpen] = useState(false);
     const [order, setOrder] = useState({})
-    const getProduct = (e, product) => {
+    const [selectDeleteOrders, setSelectDeleteOrders] = useState([])
+    // abre detalles de usuario
+    const openUserDetails = (e, product) => {
         setOrder(product)
         setOpen(true);
     }
+
+    const selectOrders = (rows) => setSelectDeleteOrders(rows)
+
+    // boton elimina pedidos
+    const deleteClick = () => {
+
+        let ordersId = []
+
+        selectDeleteOrders.forEach(row => ordersId.push({ _id: row._id }))
+        // le poaso solos los _id para no tener que pasar los objetos entero
+        deleteOrder(ordersId)
+    }
+    //desabilita el boton de eliminar Imagen 
+    const deleteOrderDisabled = () => selectDeleteOrders.length === 0
 
     useEffect(() => {
 
@@ -79,7 +94,7 @@ const Order = () => {
                     icon: "shoppingCart",
                     tooltip: 'ver Productos',
                     position: 'row',
-                    onClick: getProduct
+                    onClick: openUserDetails
 
                 },
             ]}
@@ -96,7 +111,13 @@ const Order = () => {
                 options={
                     options
                 }
+                onSelectionChange={(rows) => selectOrders(rows)}
             />
+            <div className={classes.deleteOrder}>
+                <Button variant="contained" color="primary" onClick={deleteClick} disabled={deleteOrderDisabled()}>
+                    Eliminar Pedidos
+                </Button>
+            </div>
             {msg ? <SnackbarOpen /> : null}
             <ReusableDialog open={open} onClose={() => setOpen(false)} >
                 <UserOrderList order={order} />

@@ -2,6 +2,7 @@ import { Grid, Typography } from "@material-ui/core"
 import MaterialTable from "material-table"
 import moment from "moment";
 import Style from "./style";
+import { PatchedPagination } from '../ProductListManagement/TablePagination'
 
 const columns = () => [
     {
@@ -34,7 +35,6 @@ const options = {
 
 const UserOrderList = ({ order }) => {
     const classes = Style();
-    console.log(order)
     return (
         <div className={classes.orderContainerRoot}>
 
@@ -48,12 +48,15 @@ const UserOrderList = ({ order }) => {
 
                 <Grid item xs={6}>
                     <Typography variant="h3">
-                   { moment(order.createdAt).format('DD/MM/YYYY')}
+                        {moment(order.createdAt).format('DD/MM/YYYY')}
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
 
                     <MaterialTable title="Pedido Usuario " data={order.products} columns={columns()}
+                        components={{
+                            Pagination: PatchedPagination,
+                        }}
                         localization={
                             {
                                 body: { emptyDataSourceMessage: "No hay pedidos" },

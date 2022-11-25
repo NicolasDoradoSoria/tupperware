@@ -43,14 +43,14 @@ const MaterialTableCart = () => {
     const deleteProduct = (e, produtSelect) => removeOrderProduct(user.user._id, produtSelect._id)
 
     // elimina todos los productos
-    const deleteAllProduct = () =>  cleanCart(user.user._id)
-    
+    const deleteAllProduct = () => cleanCart(user.user._id)
+
     return (
         <>
             {/* material table necesita el titulo, datos y los nombre de la columnas y las acciones son Opcionales*/}
             {/* ACCIONES */}
             {/* tengo la pocion de eliminar todo el carrito o si no un producto del carrito */}
-            <MaterialTable  title="Carrito de compras" data={productsInCart} columns={columns()} actions={[
+            <MaterialTable title="Carrito de compras" data={productsInCart} columns={columns()} actions={[
                 {
                     icon: "delete",
                     tooltip: 'Eliminar producto',
@@ -70,11 +70,13 @@ const MaterialTableCart = () => {
                         header: { actions: "Acciones" }
                     }
                 }
-                
+
                 options={
                     options
-                  }
-                  />
+                }
+                
+            />
+
         </>
     );
 }
