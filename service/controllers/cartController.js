@@ -19,6 +19,7 @@ export const generateOrder = async (req, res) => {
 
     if (!product[0]) return res.status(404).json({ msg: "el producto no existe" });
 
+
     // si existe un carrito 
     if (cart[0]) {
       let itemIndex = cart[0].products.findIndex(product => product.id._id == id);
@@ -26,13 +27,13 @@ export const generateOrder = async (req, res) => {
         //product exists in the cart, update the quantity
         let productItem = cart[0].products[itemIndex]
         productItem.quantity += quantity;
-        quantity === 1 ? productItem.price = productItem.id.price * productItem.quantity : productItem.price = productItem.price - productItem.id.price
+        quantity => 1 ? productItem.price = productItem.id.price * productItem.quantity : productItem.price = productItem.price - productItem.id.price
 
         cart[0].products[itemIndex] = productItem;
       }
       else {
         //product does not exists in cart, add new item
-        const price = product[0].price
+        const price = quantity * product[0].price
         cart[0].products.push({ id, quantity, price });
       }
 
@@ -41,6 +42,7 @@ export const generateOrder = async (req, res) => {
     }
     else {
       //no cart for user, create new cart
+      const price = productItem.id.price * quantity
       const newCart = cartRepo.create({
         user: user._id,
         products: [{ id, quantity }],
