@@ -113,7 +113,7 @@ const Publication = ({ idProduct }) => {
   }, [msg])
 
   if (!product) return null
-  const { descripcion, price, _id, name, stock, images, category } = product;
+  const { descripcion, price, _id, name, stock, images, category, checkedOffer, originalPrice } = product;
 
   return (
     <>
@@ -194,7 +194,12 @@ const Publication = ({ idProduct }) => {
 
           {/* PRECIO */}
           <Grid item xs={5} md={12}>
-            <Typography component="p" variant="h5">
+            {checkedOffer ?
+              <Typography component="p" variant="h5" gutterBottom className={classes.offer}>
+                {`$${originalPrice}`}
+              </Typography>
+              : null}
+          <Typography component="p" variant="h5">
               {`$${price}`}
             </Typography>
           </Grid>

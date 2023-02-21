@@ -4,14 +4,15 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Dropdown from "./Dropdown";
-import { AppBar, Button, List, ListItem, ListItemText } from "@material-ui/core";
+import { AppBar, Badge, Button, IconButton, List, ListItem, ListItemText } from "@material-ui/core";
 import UserContext from "../../context/userContext/UserContext";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
 import Search from "../search/Search";
-import Cart from "../cart/Cart";
 import "./Style.css";
 import Style from "./Style";
-
+import CartContext from "../../context/cartContext/CartContext";
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { useNavigate } from 'react-router-dom'
 
 const plainUserPath = [
 
@@ -76,10 +77,10 @@ export default function Navbar() {
 
     useEffect(() => {
         authenticatedUser()
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    
+
     return (
         <AppBar position="fixed" className={classes.root} style={{ flexDirection: "row" }}>
             <div className="menu-icon" onClick={handleClick}>
@@ -105,6 +106,7 @@ export default function Navbar() {
 
 const UserPath = ({ click, setClick }) => {
     const classes = Style();
+    const navigate = useNavigate();
     const [dropdown, setDropdown] = useState(false)
     const [dropdownAdmin, setDropdownAdmin] = useState(false)
 
@@ -116,6 +118,9 @@ const UserPath = ({ click, setClick }) => {
     const categoryContext = useContext(CategoryContext)
     const { categories } = categoryContext
 
+    //cartContext
+    const cartContext = useContext(CartContext);
+    const { productsInCart } = cartContext
 
     const closeMobileMenu = () => setClick(false)
 
@@ -124,6 +129,7 @@ const UserPath = ({ click, setClick }) => {
     const onMouseEnterAdmin = () => (window.innerWidth < 960) ? setDropdownAdmin(false) : setDropdownAdmin(true)
     const onMouseLeaveAdmin = () => (window.innerWidth < 960) ? setDropdownAdmin(false) : setDropdownAdmin(false)
 
+    const handleNavegation = () => navigate("/main/carrito")
 
     const routeList = (routes) => {
         return (
@@ -177,7 +183,11 @@ const UserPath = ({ click, setClick }) => {
                     <Search />
                 </div>
                 <div className="cartContainer">
-                    <Cart />
+                    <IconButton aria-label="cart" color="inherit" onClick={handleNavegation}>
+                        <Badge badgeContent={user ? productsInCart.length : null} color="secondary" overlap="rectangular">
+                            <ShoppingCartIcon />
+                        </Badge>
+                    </IconButton>
                 </div>
             </div>
         </>

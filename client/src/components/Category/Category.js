@@ -17,7 +17,7 @@ const Category = () => {
     const { openSnackbar } = snackbarContext
 
     // hooks
-    const [category, setCategory] = useState({ name: "" })
+    const [category, setCategory] = useState({ name: ""})
     const [selectCategory, setSelectCategory] = useState("")
 
     const categoryChange = (e) => setCategory({[e.target.name]: e.target.value,});

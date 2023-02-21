@@ -25,7 +25,7 @@ export class Repository {
 
     async delete(id) {
         try {
-            await this.model.findByIdAndDelete(id)
+            return await this.model.findByIdAndDelete(id)
         } catch (error) {
             console.log(error)
         }
@@ -63,8 +63,14 @@ export class CartRepo extends Repository {
         return true
     }
 
-    async delete(id){
-       await Cart.findOneAndDelete(id)
+    async delete(id) {
+        await Cart.findOneAndDelete(id)
+    }
+
+    async update(id, entity) {
+        return await Cart.findOneAndUpdate(
+            { _id: id, "products._id": entity.id }, { $inc: { "products.$.quantity": entity.quantity  } }, { new: true }
+        )
     }
 }
 

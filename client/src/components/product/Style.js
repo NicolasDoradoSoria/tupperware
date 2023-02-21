@@ -50,8 +50,16 @@ export default makeStyles((theme) => ({
   },
   price: {
     color: "#EC1B1B",
-    textAlign: "center",
-    marginBottom: "1rem"
+  },
+  offer: {
+    textDecoration: "line-through",
+    marginRight: "0.5rem",
+  },
+  priceContainer: {
+    marginBottom: "1rem",
+    display: "flex",
+    justifyContent: "center",
+
   },
   content: {
     display: "flex",
@@ -66,4 +74,15 @@ export default makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
+  imagePoster: {
+    backgroundColor: "red",
+    color: "white",
+    textAlign: "center",
+  },
+  imagePosterConteiner: {
+    position: "absolute",
+    left: 20,
+    top: 10,
+    width: "4rem"
+  }
 }));

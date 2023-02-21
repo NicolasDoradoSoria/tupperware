@@ -45,13 +45,15 @@ export default class Service {
     //----------------------------------------------PRODUCT--------------------------------
     async postAddProduct(productNew, images,productPercentageUpload) {
         const formData = new FormData();
-        const { name, descripcion, price, stock,category } = productNew
+        const { name, descripcion, price, stock,category, checkedOffer, originalPrice } = productNew
         for (let i = 0; i < images.length; i++) {
             formData.append('images', images[i]);
         }
         formData.append('name', name);
         formData.append('descripcion', descripcion);
         formData.append('price', price);
+        formData.append('checkedOffer', checkedOffer);
+        formData.append('originalPrice', originalPrice);
         formData.append('stock', stock);
         formData.append('category', category);
         const result = await clienteAxios.post('api/products/', formData, {

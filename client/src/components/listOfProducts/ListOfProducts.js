@@ -10,7 +10,7 @@ import Paper from "@material-ui/core/Paper";
 //context
 import ProductContext from "../../context/productsContext/ProductContext";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
-import {useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // lista de productos principal
 const ListOfProducts = () => {
@@ -18,24 +18,23 @@ const ListOfProducts = () => {
 
   // context products
   const productsContext = useContext(ProductContext)
-  const { products, getFilterProductByCategory, getProducts } = productsContext
+  const { products, getFilterProductByCategory, getProducts, msg } = productsContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
-  const { msg } = snackbarContext
+  const { openSnackbar } = snackbarContext
 
-   //CategoryContext
-   const categoryContext = useContext(CategoryContext)
-   const { categorySearch, selectedCategory, cleanCategory} = categoryContext
- 
- 
+  //CategoryContext
+  const categoryContext = useContext(CategoryContext)
+  const { categorySearch, selectedCategory, cleanCategory } = categoryContext
+  
   //hooks
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
   const { id } = useParams();
 
   useEffect(() => {
-    if(id){
+    if (id) {
       categorySearch(id)
       getFilterProductByCategory(id)
     }
@@ -44,12 +43,12 @@ const ListOfProducts = () => {
       getProducts()
       localStorage.setItem("Products", JSON.stringify(products))
     }
-
+    if (msg) openSnackbar(msg.msg, msg.category)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [msg])
 
   const handleChangePage = (event, newPage) => setPage(newPage);
-  
+
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -62,7 +61,7 @@ const ListOfProducts = () => {
       <div className={classes.root}>
         <Box>
           <Typography variant="h2" className={classes.title}>
-           { selectedCategory ? selectedCategory.name : <p>Productos</p>}
+            {selectedCategory ? selectedCategory.name : <p>Productos</p>}
           </Typography>
         </Box>
         <div className={classes.gridProducts}>

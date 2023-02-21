@@ -26,7 +26,6 @@ export default (state, action) => {
         }
         return {
           ...state,
-          categories: action.payload.categoryList,
           msg: alert
         }
     case GET_CATEGORY_SEARCH:

@@ -3,7 +3,7 @@ import { ProductRepo, CategoryRepo } from "../repositories/Repository"
 const productRepo = new ProductRepo()
 const categoryRepo = new CategoryRepo()
 
-// inserta productos a la MongoDB
+// agrega un producto
 export const postProducts = async (req, res) => {
 
   try {
@@ -25,6 +25,8 @@ export const postProducts = async (req, res) => {
         });
       });
     }
+    if (product.checkedOffer === "false") product.originalPrice = product.price
+    
 
     product.images = images
     const newProduct = await productRepo.create(product)
@@ -94,16 +96,13 @@ export const updateProductById = async (req, res) => {
 export const deleteProductById = async (req, res) => {
 
   try {
-    const { productId } = req.params;
-
-    const product = await productRepo.get({ productId });
+    const _id = req.params.productId
+    const product = await productRepo.get({ _id });
     //si el producto existe o no
-
-    if (!product) {
+    if (!product[0]) {
       return res.status(404).json({ msg: "no existe ese producto" });
     }
-
-    const deletedProduct = await productRepo.delete(productId)
+    const deletedProduct = await productRepo.delete(_id)
 
     if (!deletedProduct) {
       return res.status(404).json({ msg: "no se a podido eliminar el producto" });
@@ -119,7 +118,7 @@ export const deleteProductById = async (req, res) => {
 export const searchProducts = async (req, res) => {
   try {
     const products = await productRepo.get();
-    
+
     if (!req.body.name) {
       return res.status(200).json(products);
     }

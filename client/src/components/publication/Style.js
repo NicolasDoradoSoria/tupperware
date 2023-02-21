@@ -138,5 +138,8 @@ export default makeStyles((theme) => ({
   },
   MobileStepper: {
     background: "rgb(205, 166, 194)"
+  },
+  offer: {
+    textDecoration: "line-through",
   }
 }));

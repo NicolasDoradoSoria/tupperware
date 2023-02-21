@@ -19,7 +19,7 @@ const Product = ({ product }) => {
   const cartContext = useContext(CartContext);
   const { generateOrder } = cartContext
 
-  const { name, images, price, _id, stock } = product;
+  const { name, images, price, _id, stock, checkedOffer, originalPrice } = product;
 
   // progres material ui
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,10 @@ const Product = ({ product }) => {
       const order = {
         "user": user.user._id,
         "products": [
-          { "id": _id },
+          {
+            "id": _id,
+            "quantity" : 1
+          },
         ],
         "total": 133,
       }
@@ -95,7 +98,6 @@ const Product = ({ product }) => {
           onClick={navigatePublication}
         />
         <Grow in={checked} timeout={1000}>
-
           <Button
             className={classes.quickViewButton}
             type="submit"
@@ -105,6 +107,14 @@ const Product = ({ product }) => {
             onClick={handleButtonClick}
           >Vista Previa</Button>
         </Grow>
+        {/* CARTEL DE OFERTA! */}
+        {checkedOffer ?
+          <div className={classes.imagePosterConteiner}>
+            <Typography variant="subtitle1" gutterBottom className={classes.imagePoster}>
+              Oferta!
+            </Typography>
+          </div>
+          : null}
       </div>
       {/* NOMBRE */}
       <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
@@ -113,10 +123,18 @@ const Product = ({ product }) => {
       {/* </Link> */}
 
       <CardContent className={classes.content} >
-        {/* PRECIO */}
-        <Typography variant="h5" component="h2" className={classes.price}>
-          ${price}
-        </Typography>
+        <div className={classes.priceContainer}>
+          {/* PRECIO ORIGINAL SIN OFERTA */}
+          {checkedOffer ?
+            <Typography variant="subtitle1" gutterBottom className={classes.offer}>
+              ${originalPrice}
+            </Typography>
+            : null}
+          {/* PRECIO */}
+          <Typography variant="h5" component="h2" className={classes.price}>
+            ${price}
+          </Typography>
+        </div>
         {/* BOTON AGREGAR */}
         <Button
           className={classes.button}

@@ -10,7 +10,7 @@ import Login from "./Login/Login";
 import Profile from "./profile/Profile";
 import SignUp from "./signUp/SignUp";
 import Publication from "./publication/Publication";
-import ShoppingCart from "./shoppingCart/ShoppingCart";
+import Cart from "./cart/Cart";
 import { useContext } from "react";
 import UserContext from "../context/userContext/UserContext";
 import Category from "./Category/Category";
@@ -31,15 +31,15 @@ const AppRoutes = () => {
             <Route exact path="/main/descripcion-producto/:id" element={<Publication />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/nueva-cuenta" element={<SignUp />} />
-            
+            <Route exact path="/lista-Productos/:id" element={<ListOfProducts />} />
+            <Route exact path="/lista-Productos/" element={<ListOfProducts />} />
             {(loading) ?
                 <>
                     <Route element={<ProtectedRoute isAllowed={!!authenticated} />}>
-                        <Route exact path="/lista-Productos/:id" element={<ListOfProducts />} />
-                        <Route exact path="/lista-Productos/" element={<ListOfProducts />} />
+
                         <Route exact path="/perfil" element={<Profile />} />
-                        <Route exact path="/main/carrito" element={<ShoppingCart />} />
-                        <Route exact path="/notification" element={<Notification/>} />
+                        <Route exact path="/main/carrito" element={<Cart />} />
+                        <Route exact path="/notification" element={<Notification />} />
                     </Route>
                     <Route element={<ProtectedRoute isAllowed={!!authenticated && user.user.roles.some(rol => rol.name === "admin")} />}>
                         <Route exact path="/agregar-producto" element={<AddProduct />} />

@@ -1,73 +1,60 @@
-import React, { useState, useContext } from 'react';
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { IconButton, MenuItem, Menu, Badge, Box, Button } from "@material-ui/core";
+import { useEffect, useContext} from 'react';
+import Style from "./Style";
+import SnackbarOpen from "../snackbar/SnackBar";
+import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
-import Style from "./Style";
-import MaterialTableCart from '../shoppingCart/MaterialTableCart';
-import { Link } from "react-router-dom";
+import ProductCart from './ProductCart';
+import { Box, Grid } from '@material-ui/core';
+import PaymentSummary from './PaymentSummary';
 
-// icono del carrito 
+//en esta funcion se calcula el total del carrito y se llama a MaterialTableCart
 const Cart = () => {
-    const classes = Style();
-    const [anchorEl, setAnchorEl] = useState(null)
-    const open = Boolean(anchorEl)
+  const classes = Style();
 
-    //userContext
-    const userContext = useContext(UserContext);
-    const { user } = userContext;
+  //userContext
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
 
-    //cartContext
-    const cartContext = useContext(CartContext);
-    const { productsInCart } = cartContext
+  //cartContext
+  const cartContext = useContext(CartContext);
+  const { getOrder, productsInCart, msg, orders } = cartContext
 
-    const handleMenu = (e) => setAnchorEl(e.currentTarget)
+  // context Snakbar
+  const snackbarContext = useContext(SnackBarContext)
+  const { openSnackbar } = snackbarContext
 
-    const handleClose = () => setAnchorEl(null)
+  useEffect(() => {
 
-    return (
-        <>
-            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
-                <Badge badgeContent={user ? productsInCart.length : null} color="secondary" overlap="rectangular">
-                    <ShoppingCartIcon />
-                </Badge>
-            </IconButton>
-            
-                <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={
-                    {
-                        vertical: "top",
-                        horizontal: "right"
-                    }
-                }
-                    keepMounted
-                    transformOrigin={
-                        {
-                            vertical: "top",
-                            horizontal: "right"
-                        }
-                    }
-                    open={open}
-                    onClose={handleClose}>
-                    <MenuItem >
-                        <Box className={classes.CartMenu}>
-                            <MaterialTableCart />
-                        </Box>
-                    </MenuItem>
-                    <MenuItem >
-                        <Link to={"/main/carrito"}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                >
-                                Ir Al carrito
-                            </Button>
-                        </Link>
-                    </MenuItem>
-                </Menu>
-        </>
-    );
+    if (user) {
+      getOrder(user.user._id)
+    }
+    if (msg) {
+      openSnackbar(msg.msg, msg.category)
+    }
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [msg])
+
+  return (
+    <Box className={classes.root}>
+      <div className={classes.shoppingCartContainer}>
+        <Grid container spacing={4}>
+          <Grid container item xs={10} md={9}>
+            <Grid container spacing={3} className={classes.containerGrid}>
+              {productsInCart.map((product, index) =>
+                <ProductCart key={index} product={product} />
+              )}
+            </Grid>
+          </Grid>
+          <Grid item xs={9} md={2} className={classes.abstract}>
+            <PaymentSummary productsInCart={productsInCart} orders={orders} />
+          </Grid>
+        </Grid>
+      </div>
+      {msg ? <SnackbarOpen /> : null}
+    </Box>
+  );
 }
 
-export default Cart;
+export default Cart

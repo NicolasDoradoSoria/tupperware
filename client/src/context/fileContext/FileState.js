@@ -29,6 +29,7 @@ const FileState = (props) => {
         try {
             const result = await service.multiUpdatFiles(file)
             openSnackbar(result.data, "success")
+            getMultipleImages()
         } catch (error) {
             console.log(error.response.data.msg)
         }

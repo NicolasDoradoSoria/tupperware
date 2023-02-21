@@ -14,16 +14,21 @@ const cartSchema = Schema({
       quantity: {
         type: Number,
         default: 1
+      },
+      price: {
+        type: Number,
       }
     }
   ],
   total: {
     type: Number,
+    default: 0,
   },
+
 
 }, {
   versionKey: false
-  
+
 });
 
 export default model("Cart", cartSchema);

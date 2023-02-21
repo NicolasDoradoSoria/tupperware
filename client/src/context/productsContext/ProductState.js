@@ -64,6 +64,7 @@ const ProductState = (props) => {
           type: DELETE_MSG,
         })
       }, 5000)
+      getProducts()
     } catch (error) {
       console.log(error.response.data.msg)
       const alert = {

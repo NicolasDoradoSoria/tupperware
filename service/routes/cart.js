@@ -6,7 +6,7 @@ const { validateGenerateOrder } = require("../validators/cart");
 
 router.post("/", verifyToken, validateGenerateOrder , generateOrder);
 router.get("/:idUser", verifyToken, getCart);
-router.put("/:idCart",verifyToken, updateCart);
+router.put("/:_id",verifyToken, updateCart);
 router.delete("/:idUser",verifyToken, deleteOrder);
 router.delete("/:idUser/:idCart",verifyToken, deleteProductCart);
 module.exports = router;

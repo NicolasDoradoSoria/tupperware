@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     width: "100%",
   },
   root: {
-    margin: "0 auto",
+    margin: "2rem auto",
     padding: "3rem", 
     maxWidth: "100%",
  

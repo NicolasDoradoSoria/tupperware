@@ -1,0 +1,89 @@
+[33mcommit 0d05e56cab7354da84af08be8c532871cb64d60a[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Fri Nov 25 20:56:07 2022 -0300
+
+    delete requests in node and react
+
+[33mcommit 6441f9ced48934415deec6a03ae4987de6b69a53[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Wed Nov 23 21:44:30 2022 -0300
+
+    implementing orders in react
+
+[33mcommit 1e5251a8a70d48132f2a838cbc05a96ef85a493a[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Mon Nov 21 21:13:44 2022 -0300
+
+    implementation of notifications when paying
+
+[33mcommit 96c2f0ef89648763529822678b561c199e6bc6c0[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Wed Nov 16 01:09:50 2022 -0300
+
+    create order model in node and the payment route
+
+[33mcommit 84ad18dfe0c9562844b98194944ce437c97c2e5c[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Fri Nov 11 20:37:38 2022 -0300
+
+    notification component implement
+
+[33mcommit 4087632df7b211aa9fe9a166a4ccddf4813706ab[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Thu Nov 10 18:59:19 2022 -0300
+
+    component mercadoPago implementation in react
+
+[33mcommit e8e5f1a066dc5cb9de41aabb2a3837e1b862b4ec[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Mon Nov 7 20:37:18 2022 -0300
+
+    mercado pago implement
+
+[33mcommit 32e86997e6256f11cb544570837b1ef05b557dd7[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Fri Nov 4 20:56:12 2022 -0300
+
+    api MercadoPago Implement in service
+
+[33mcommit 63c440afbd51e4153fee24119c7414a597aa8305[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Thu Nov 3 21:57:18 2022 -0300
+
+    renamed the category component in react
+
+[33mcommit e5a7cac8db1b5fb8c91b8c59b26bce46e016fd92[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Thu Nov 3 21:43:46 2022 -0300
+
+    se agrega el componente categoria en react
+
+[33mcommit 06ce0c5a0e5d0f770d2ce7208ab79f05530920c4[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Wed Nov 2 19:50:52 2022 -0300
+
+    change in the publication component
+
+[33mcommit 6592c14d7b712562a05f975738036eddd0e5ec5e[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Sun Oct 30 20:18:10 2022 -0300
+
+    snacbard fuxes
+
+[33mcommit b79cf16fdc60ac5517c30a1333991cf3d099a077[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Fri Oct 28 21:53:01 2022 -0300
+
+    fixes in product controller
+
+[33mcommit 07ad586d5bceccc7ba98f821eb87f3badcbc9951[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Fri Oct 28 20:49:05 2022 -0300
+
+    snackbar fix in react
+
+[33mcommit c82b928be62104aeaae3afa68c90135549f8e422[m
+Author: kirinico <kirinico@gmail.com>
+Date:   Thu Oct 27 19:21:47 2022 -0300
+
+    delete Header and Drawer component

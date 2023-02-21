@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import Style from "./Style";
-import { Grid, Card, CardActions, CardContent, Button, Typography, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import { Grid, Card, CardActions, CardContent, Button, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Checkbox, FormGroup, FormControlLabel } from "@material-ui/core";
 import ProductContext from "../../context/productsContext/ProductContext";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
 import { useNavigate } from 'react-router-dom'
@@ -31,10 +31,12 @@ const AddProduct = ({ open, setOpen }) => {
     price: 0,
     descripcion: "",
     stock: 0,
-    category: null
+    category: null,
+    checkedOffer: false,
+    originalPrice: 0,
   });
 
-  const { name, price, descripcion, category } = productNew;
+  const { name, price, descripcion, category, checkedOffer, originalPrice } = productNew;
 
   //hook de imagen seleccionada 
   const [selectImage, setSelectImage] = useState("")
@@ -90,9 +92,7 @@ const AddProduct = ({ open, setOpen }) => {
 
   // guarda la lista de imagenes en el state de producto 
   const productImagesChange = (e) => {
-    setImagesToUpload(
-      e.target.files[0],
-    );
+    setImagesToUpload(e.target.files[0]);
   }
 
   //desabilita el boton de eliminar Imagen 
@@ -100,12 +100,13 @@ const AddProduct = ({ open, setOpen }) => {
 
   // seleecciona una categoria 
   const handleChange = (event) => {
-    setProductNew({
-      ...productNew,
-      [event.target.name]: event.target.value,
-    });
+    setProductNew({...productNew,[event.target.name]: event.target.value});
   };
 
+  // checkbox
+  const checkedOffertChange = (e) => {
+    setProductNew({ ...productNew, [e.target.name]: e.target.checked });
+  }
   return (
     <>
       <Card className={classes.root}>
@@ -117,7 +118,7 @@ const AddProduct = ({ open, setOpen }) => {
 
             {/* NOMBRE */}
             <Grid container spacing={3} >
-              <Grid item xs={12} sm={6} >
+              <Grid item xs={12} sm={3} >
                 <TextField
                   id="name"
                   label="Nombre Del Producto"
@@ -130,9 +131,8 @@ const AddProduct = ({ open, setOpen }) => {
                   onChange={productChange}
                 />
               </Grid>
-
               {/* PRECIO */}
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   id="outlined-number"
                   label="Precio"
@@ -146,6 +146,31 @@ const AddProduct = ({ open, setOpen }) => {
                   name="price"
                   onChange={productChange}
                 />
+              </Grid>
+              {/* CHECKBOX OFERTA */}
+              <Grid item xs={12} sm={2}>
+                <FormGroup row>
+                  <FormControlLabel control={<Checkbox checked={checkedOffer} onChange={checkedOffertChange} name="checkedOffer"/>}
+                    label="Oferta" />
+                </FormGroup>
+              </Grid>
+
+              {/* OFERTA */}
+              <Grid item xs={12} sm={3}>
+                {checkedOffer ?
+                  <TextField
+                    id="outlined-number"
+                    label="Precio Original"
+                    type="number"
+                    InputProps={{ inputProps: { min: 0, max: 10 } }}
+                    variant="outlined"
+                    placeholder="ingrese precio"
+                    fullWidth
+                    value={originalPrice}
+                    name="originalPrice"
+                    onChange={productChange}
+                  />
+                  : null}
               </Grid>
               {/* STOCK */}
               <Grid item xs={6} sm={2} className={`${classes.gridElements} ${classes.stockGrid}`}>
@@ -171,13 +196,13 @@ const AddProduct = ({ open, setOpen }) => {
                       <InputLabel id="Category">Categoria</InputLabel>
                       <Select
                         onChange={handleChange}
-                        defaultValue="" 
+                        defaultValue=""
                         id="grouped-native-select"
                         name="category"
                       >
                         {categories.map((category) => (
                           <MenuItem value={category._id} key={category._id} >{category.name}</MenuItem>
-                        ))} 
+                        ))}
                       </Select>
                     </FormControl>
                   </Grid> : null

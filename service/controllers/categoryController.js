@@ -6,7 +6,7 @@ export const createCategory = async (req, res) => {
     try {
 
         const newCategory = await categoryRepo.create(req.body)
-     
+
         if (!newCategory) return res.status(404).send("the category cannot be created!");
 
         const categories = await categoryRepo.get({})
@@ -22,9 +22,11 @@ export const createCategory = async (req, res) => {
 //devuelve todas las categorias o filtra una categoria
 export const getCategories = async (req, res) => {
     try {
-        
-        const categories = await categoryRepo.get({})
 
+        let categories = await categoryRepo.get({})
+        categories.forEach(category => {
+            category.path = "lista-Productos/" +category._id
+        });
         // si no mandamos id devuelve todas las categorias
         if (!req.query.id) return res.status(200).json(categories);
 
@@ -57,18 +59,18 @@ export const deleteCategory = async (req, res) => {
     const { categoryId } = req.params
 
     try {
-        const category = await categoryRepo.get({categoryId})
+        const category = await categoryRepo.get({ categoryId })
 
         if (!category) {
             return res.status(404).json({ msg: "no existe esa categoria" });
         }
         const deletedCategory = await categoryRepo.delete(categoryId)
 
-        if(!deletedCategory){
+        if (!deletedCategory) {
             return res.status(404).json({ msg: "no se a podido eliminar la categoria" });
         }
 
-        res.json({msg: "se a eliminado el producto correctamente" });
+        res.json({ msg: "se a eliminado el producto correctamente" });
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: "hubo un error" });

@@ -33,7 +33,6 @@ export const multiUpload = async (req, res) => {
 export const getAllMultipleImages = async (req, res) => {
     try {
         const files = await carruselImageRepo.get({})
-        console.log(files)
         res.status(200).json(files)
     } catch (error) {
         console.log(error)

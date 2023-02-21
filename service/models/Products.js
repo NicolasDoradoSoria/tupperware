@@ -19,6 +19,13 @@ const productSchema = Schema({
         type: Number,
         required: true,
     },
+    checkedOffer: {
+        type: Boolean,
+        required: true,
+    },
+    originalPrice: {
+        type: Number,
+    },
     stock: {
         type: Number,
         required: true,
