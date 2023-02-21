@@ -75,7 +75,7 @@ const Publication = ({ idProduct }) => {
   }
 
   const navigateToLogin = () => navigate(`/login`)
-  
+
 
   const handleNext = () => {
     setChecked(false);
@@ -108,7 +108,7 @@ const Publication = ({ idProduct }) => {
     !idProduct ? getProduct(id) : getProduct(idProduct)
 
     if (msg) openSnackbar(msg.msg, msg.category)
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [msg])
 
@@ -129,8 +129,8 @@ const Publication = ({ idProduct }) => {
             </Paper>
           </Grid> : null
         }
-        {/* Grid Izquierdo */}
-        <Grid container item xs={11} sm={5} className={classes.leftMainGrid}>
+        {/* Grid IZQUIERDO */}
+        <Grid container item xs={12} sm={5} className={classes.leftMainGrid}>
 
           {/* VISTA PREVIA */}
           <Grid item className={classes.left_1} xs={12} md={9}>
@@ -146,21 +146,22 @@ const Publication = ({ idProduct }) => {
             ))}
           </Grid>
 
-          {/* CAROUSEL */}
+          {/* CAROUSEL y SLEPPER*/}
           <Grid item container className={classes.right_1} xs={12} md={9}>
-            <Grid item xs={8} md={12}>
 
+            <Grid item xs={8} md={12}>
               <Grow in={checked} timeout={1000}>
                 <div className={classes.right_img_container}>
-
                   <img
-                    className={classes.right_img}
+                    className={!idProduct ? classes.right_img : classes.right_img_Dialog}
                     src={`http://localhost:4000/${images[activeStep].fileName}`}
                     alt="funcionaaa"
                   />
                 </div>
               </Grow>
             </Grid>
+
+            {/* SLEPPER */}
             <Grid item xs={8} md={12}>
               <MobileStepper
                 steps={images.length}
@@ -185,8 +186,8 @@ const Publication = ({ idProduct }) => {
           </Grid>
         </Grid>
 
-        {/* Grid Derecho */}
-        <Grid item container xs={12} sm={!idProduct ? 4 : 5} spacing={4} className={classes.rightMainGrid}>
+        {/* Grid DERECHO */}
+        <Grid item container xs={12} sm={4} spacing={4} className={classes.rightMainGrid}>
           {/* NOMBRE */}
           <Grid item xs={11} md={12} >
             <Typography variant="h3">{name}</Typography>
@@ -199,7 +200,7 @@ const Publication = ({ idProduct }) => {
                 {`$${originalPrice}`}
               </Typography>
               : null}
-          <Typography component="p" variant="h5">
+            <Typography component="p" variant="h5">
               {`$${price}`}
             </Typography>
           </Grid>
@@ -209,9 +210,10 @@ const Publication = ({ idProduct }) => {
             {descripcion}
           </Grid>
 
+          {/* GRID DE STOCK Y BOTON AGREGAR CARRITO */}
           <Grid item md={12} container justifyContent="center">
             {/* STOCK */}
-            <Grid item xs={11} md={6} >
+            <Grid item xs={11} md={6}>
               <CssTextField
                 label="cantidad"
                 id="outlined-basic"
@@ -235,8 +237,8 @@ const Publication = ({ idProduct }) => {
                 }}
               />
             </Grid>
-            {/* AGREGAR AL CARRITO */}
-            <Grid item xs={11} md={6}>
+            {/* BOTON AGREGAR AL CARRITO */}
+            <Grid item xs={11} md={6} >
               {authenticated ?
                 stock <= 0 ? <Button variant="contained" disabled className={classes.loginButtonAndCount}>No disponible</Button> :
                   <Button

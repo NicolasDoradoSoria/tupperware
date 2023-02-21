@@ -5,8 +5,10 @@ export default makeStyles((theme) => ({
     marginTop: 100,
   },
   rootDialog: {
-    marginTop: 50,
-    marginBottom: 59,
+    marginTop: 10,
+    marginBottom: 10,
+    margin: "-35px",
+    backgroundColor: "#FEF7E4",
   },
 
   content: {
@@ -55,19 +57,36 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
     margin: 15,
   },
- 
+
   right_img: {
     height: 520,
     maxWidth: 480,
     overflow: 'hidden',
     display: 'blox',
     width: '100%',
-   
+
+    [theme.breakpoints.down('sm')]: {
+      height: 400,
+    },
+    [theme.breakpoints.down('xs')]: {
+      height: 200,
+      maxWidth: 300,
+    },
+  },
+
+  right_img_Dialog: {
+    height: 300,
+    maxWidth: 480,
+    overflow: 'hidden',
+    display: 'blox',
+    width: '100%',
+
     [theme.breakpoints.down('sm')]: {
       height: 400,
     },
   },
-   // grid Principal izquerdo 
+
+  // grid Principal izquerdo 
   // grid interior derecho
   left_1: {
     order: 2,
@@ -79,7 +98,7 @@ export default makeStyles((theme) => ({
       flexDirection: "column",
     },
   },
-   // grid Principal izquerdo 
+  // grid Principal izquerdo 
   // grid interior izquierdo
   right_1: {
     order: 1,
@@ -113,7 +132,7 @@ export default makeStyles((theme) => ({
       flexDirection: "column",
     },
   },
-// grid principal izquierdo
+  // grid principal izquierdo
   rightMainGrid: {
     marginLeft: 20,
     display: "flex",
