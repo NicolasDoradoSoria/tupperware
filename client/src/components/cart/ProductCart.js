@@ -14,20 +14,23 @@ const ProductCart = ({ product }) => {
 
     //cartContext
     const cartContext = useContext(CartContext);
-    const { removeOrderProduct, updateCart } = cartContext
+    const { removeOrderProduct, generateOrder } = cartContext
 
     //eliminar un producto de la lista
     const deleteProduct = () => removeOrderProduct(user.user._id, product._id)
 
-    // restar la cantidad
     const changeQuantity = (changeQuantity) => {
-        const updateProduct = {
-            id: product._id,
-            quantity: changeQuantity
+        const order = {
+            "user": user.user._id,
+            "products": [
+                { "id": _id, "quantity": changeQuantity },
+            ],
+            "total": 133,
         }
-        updateCart(updateProduct)
+        generateOrder(order)
     }
-    const { name, descripcion, images, price } = product.id
+
+    const { name, descripcion, images, price, _id } = product.id
     return (
         <>
             <Grid item xs={12} md={4} className={classes.leftGridContainer}>
@@ -66,14 +69,14 @@ const ProductCart = ({ product }) => {
 
                     <ButtonGroup size="large" variant="contained" color="primary" aria-label="contained primary button group">
                         <Button disabled={product.quantity >= product['countInStock']} onClick={() => { changeQuantity(1) }}>+</Button>
-                            <Button disabled>{product.quantity}</Button>
+                        <Button disabled>{product.quantity}</Button>
                         <Button disabled={product.quantity <= 0} onClick={() => { changeQuantity(- 1) }}>-</Button>
 
                     </ButtonGroup>
                     <div>
                         {/* muestra el precio  */}
                         <Typography variant="h5" component="h2" >
-                            ${price}
+                            ${product.price}
                         </Typography>
                     </div>
                 </div>

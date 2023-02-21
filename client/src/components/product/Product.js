@@ -154,10 +154,9 @@ const Product = ({ product }) => {
         </Backdrop>
       )}
       <ReusableDialog open={open} onClose={() => setOpen(false)} >
-        {success ? <Publication idProduct={_id} dialogFlag={true} /> : null}
+        {success ? <Publication idProduct={_id}  /> : null}
       </ReusableDialog>
     </Card>
   );
 };
-
 export default Product

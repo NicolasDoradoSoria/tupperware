@@ -68,6 +68,7 @@ export class CartRepo extends Repository {
     }
 
     async update(id, entity) {
+        console.log(entity)
         return await Cart.findOneAndUpdate(
             { _id: id, "products._id": entity.id }, { $inc: { "products.$.quantity": entity.quantity  } }, { new: true }
         )

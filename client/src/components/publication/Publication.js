@@ -54,7 +54,6 @@ const Publication = ({ idProduct }) => {
   const changeQuantity = (e) => {
     const input = e.target.value
     if (input > 0 && stock <= input) setQuantity(input);
-
   }
 
   // cambiar cantidad a traves de los iconos + u - 

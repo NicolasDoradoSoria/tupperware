@@ -92,16 +92,6 @@ const CartState = (props) => {
     }
   }
 
-  // actuaiza la cantidad del producto en el carrito
-  const updateCart = async (updateProduct) =>{
-      try {
-        const result = await clienteAxios.put(`api/cart/${state.orders._id}`, updateProduct)
-        console.log(result)
-      } catch (error) {
-        console.log(error)
-      }
-  }
-
   return (
     <CartContext.Provider
       value={{
@@ -113,7 +103,7 @@ const CartState = (props) => {
         generateOrder,
         removeOrderProduct,
         cleanCart,
-        updateCart
+        
       }}
     >
       {props.children}

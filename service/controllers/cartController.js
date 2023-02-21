@@ -26,15 +26,14 @@ export const generateOrder = async (req, res) => {
         //product exists in the cart, update the quantity
         let productItem = cart[0].products[itemIndex]
         productItem.quantity += quantity;
-        productItem.price =  productItem.price * quantity
-        
+        quantity === 1 ? productItem.price = productItem.id.price * productItem.quantity : productItem.price = productItem.price - productItem.id.price
+
         cart[0].products[itemIndex] = productItem;
       }
       else {
         //product does not exists in cart, add new item
-
         const price = product[0].price
-        cart[0].products.push({ id, quantity, price});
+        cart[0].products.push({ id, quantity, price });
       }
 
       await cart[0].save();
@@ -73,21 +72,9 @@ export const getCart = async (req, res) => {
   }
 };
 
-//actualiza el carrito por ID
-export const updateCart = async (req, res) => {
-  try {
-    const { _id} = req.params
-    const updatedCart = await cartRepo.update(_id, req.body)
-    res.json(updatedCart);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: 'hubo un error' })
-  }
-};
 //elimina un producto por ID del carrito
 export const deleteProductCart = async (req, res) => {
   const { idUser, idCart } = req.params
-  console.log(idCart)
   try {
     const deletedcart = await cartRepo.deleteProductCart(idUser, idCart)
     if (!deletedcart) return res.json({ msg: "el producto del carrito no se a podido eliminar" })
