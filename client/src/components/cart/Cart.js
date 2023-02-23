@@ -26,12 +26,8 @@ const Cart = () => {
 
   useEffect(() => {
 
-    if (user) {
-      getOrder(user.user._id)
-    }
-    if (msg) {
-      openSnackbar(msg.msg, msg.category)
-    }
+    if (user) getOrder(user.user._id)
+    if (msg) openSnackbar(msg.msg, msg.category)
 
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [msg])

@@ -24,7 +24,14 @@ const cartSchema = Schema({
     type: Number,
     default: 0,
   },
-
+  subtotal: {
+    type: Number,
+    default: 0,
+  },
+  discount: {
+    type: Number,
+    default: 0,
+  }
 
 }, {
   versionKey: false
