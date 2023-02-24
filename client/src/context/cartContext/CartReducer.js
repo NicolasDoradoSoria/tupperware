@@ -18,7 +18,6 @@ export default (state, action) => {
       return {
         ...state,
         orders: action.payload,
-        productsInCart: action.payload.products
       }
     case GENERATE_ORDER:
       const alert = {
@@ -33,7 +32,6 @@ export default (state, action) => {
     case CLEAN_CART:
       return {
         ...state,
-        productsInCart: [],
         orders: null,
         msg: action.payload,
       }

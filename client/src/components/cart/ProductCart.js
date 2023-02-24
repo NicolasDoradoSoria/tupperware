@@ -30,7 +30,7 @@ const ProductCart = ({ product }) => {
         generateOrder(order)
     }
 
-    const { name, descripcion, images, price, _id } = product.id
+    const { name, descripcion, images, _id } = product.id
     return (
         <>
             <Grid item xs={12} md={4} className={classes.leftGridContainer}>

@@ -3,13 +3,12 @@ import clienteAxios from "../../config/axios";
 import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
 import {
-  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART, DELETE_MSG
+  GET_ORDERS, GENERATE_ORDER, CLEAN_CART, DELETE_PRODUCT_CART, DELETE_MSG, POST_SUMMARY
 } from "../../types";
 
 const CartState = (props) => {
   const initialState = {
     orders: null,
-    productsInCart: [],
     ordersAvailable: false,
     msg: null
   };
@@ -30,6 +29,18 @@ const CartState = (props) => {
     }
   };
 
+  // actualiza el resumen del carrito
+  const postSummary = async () => {
+    try {
+      await clienteAxios.post(`/api/cart/summary`);
+      dispatch({
+        type: POST_SUMMARY,
+      });
+
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
   // genera un pedido
   const generateOrder = async (data) => {
     try {
@@ -52,7 +63,6 @@ const CartState = (props) => {
   const removeOrderProduct = async (userId, idOrder) => {
     try {
       const result = await clienteAxios.delete(`api/cart/${userId}/${idOrder}`)
-      console.log(result)
       dispatch({
         type: DELETE_PRODUCT_CART,
         payload: result.data
@@ -96,14 +106,13 @@ const CartState = (props) => {
     <CartContext.Provider
       value={{
         orders: state.orders,
-        productsInCart: state.productsInCart,
         ordersAvailable: state.ordersAvailable,
         msg: state.msg,
         getOrder,
         generateOrder,
         removeOrderProduct,
         cleanCart,
-        
+        postSummary
       }}
     >
       {props.children}

@@ -134,7 +134,8 @@ export const summary = async (req, res) => {
     cart[0].total = cart[0].subtotal + cart[0].discount
     await cart[0].save();
 
-    return res.json({ msg: "el resumen se actualizo correctamente" });
+    return res.json( {msg: "el resumen se actualizo correctamente"});
+    
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: 'hubo un error' })

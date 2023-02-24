@@ -35,3 +35,6 @@ export const DELETE_CATEGORY = "DELETE_CATEGORY"
 export const CREATE_ORDER = "CREATE_ORDER"
 export const GET_PAYMENT = "GET_PAYMENT"
 export const DELETE_ORDER = "DELETE_ORDER"
+export const POST_SUMMARY = "POST_SUMMARY"
+
+

@@ -120,7 +120,7 @@ const UserPath = ({ click, setClick }) => {
 
     //cartContext
     const cartContext = useContext(CartContext);
-    const { productsInCart } = cartContext
+    const { orders } = cartContext
 
     const closeMobileMenu = () => setClick(false)
 
@@ -146,6 +146,7 @@ const UserPath = ({ click, setClick }) => {
     }
 
     if (!loading) return null;
+    if(!orders) return null
     const isAdmin = user.user.roles.some(rol => rol.name === "admin")
 
     return (
@@ -184,7 +185,7 @@ const UserPath = ({ click, setClick }) => {
                 </div>
                 <div className="cartContainer">
                     <IconButton aria-label="cart" color="inherit" onClick={handleNavegation}>
-                        <Badge badgeContent={user ? productsInCart.length : null} color="secondary" overlap="rectangular">
+                        <Badge badgeContent={user ? orders.products.length : null} color="secondary" overlap="rectangular">
                             <ShoppingCartIcon />
                         </Badge>
                     </IconButton>

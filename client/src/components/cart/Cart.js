@@ -18,7 +18,7 @@ const Cart = () => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { getOrder, productsInCart, msg, orders } = cartContext
+  const { getOrder, msg, orders } = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
@@ -38,13 +38,13 @@ const Cart = () => {
         <Grid container spacing={4}>
           <Grid container item xs={10} md={9}>
             <Grid container spacing={3} className={classes.containerGrid}>
-              {productsInCart.map((product, index) =>
+              {orders.products.map((product, index) =>
                 <ProductCart key={index} product={product} />
               )}
             </Grid>
           </Grid>
           <Grid item xs={9} md={2} className={classes.abstract}>
-            <PaymentSummary productsInCart={productsInCart} orders={orders} />
+            <PaymentSummary />
           </Grid>
         </Grid>
       </div>

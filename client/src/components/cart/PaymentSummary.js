@@ -1,16 +1,24 @@
 import { Button, Divider, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@material-ui/core";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import CartContext from "../../context/cartContext/CartContext";
 import MercadoPagoIntegration from "../mercadoPagoIntegration/MercadoPagoIntegration";
-// import Style from "./Style";
 
-
-const PaymentSummary = ({orders}) => {
-    // const classes = Style();
+const PaymentSummary = () => {
     const [isBuy, setIsBoy] = useState(false)
+
+    //cartContext
+    const cartContext = useContext(CartContext);
+    const { postSummary, orders } = cartContext
 
     const checkout = () => setIsBoy(true)
 
-    if(!orders) return null
+    useEffect(() => {
+
+        postSummary()
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [orders])
+    if (!orders) return null
     return (
         <>
             <Typography variant="h5" gutterBottom >
@@ -29,7 +37,7 @@ const PaymentSummary = ({orders}) => {
                     </ListItemText>
                     <ListItemSecondaryAction>
                         <Typography variant="body1" gutterBottom>
-                        ${orders.subtotal}
+                            ${orders.subtotal}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
                             ${orders.discount}
