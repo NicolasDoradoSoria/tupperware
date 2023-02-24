@@ -1,12 +1,12 @@
-import { useEffect, useContext} from 'react';
+import { useEffect, useContext } from 'react';
 import Style from "./Style";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
 import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import ProductCart from './ProductCart';
-import { Box, Grid } from '@material-ui/core';
 import PaymentSummary from './PaymentSummary';
+import {Box, Grid } from '@material-ui/core';
 
 //en esta funcion se calcula el total del carrito y se llama a MaterialTableCart
 const Cart = () => {
@@ -18,7 +18,7 @@ const Cart = () => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { getOrder, msg, orders } = cartContext
+  const { getOrder, msg, orders} = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
@@ -32,6 +32,7 @@ const Cart = () => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [msg])
 
+  if (!orders) return null
   return (
     <Box className={classes.root}>
       <div className={classes.shoppingCartContainer}>
@@ -48,6 +49,7 @@ const Cart = () => {
           </Grid>
         </Grid>
       </div>
+      
       {msg ? <SnackbarOpen /> : null}
     </Box>
   );

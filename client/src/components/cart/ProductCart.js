@@ -1,7 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useState, useRef } from 'react';
 import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
-import { Button, ButtonGroup, Divider, Grid, Typography } from '@material-ui/core';
+import { Backdrop, Button, ButtonGroup, CircularProgress, Divider, Grid, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Style from "./Style";
 
@@ -14,11 +14,20 @@ const ProductCart = ({ product }) => {
 
     //cartContext
     const cartContext = useContext(CartContext);
-    const { removeOrderProduct, generateOrder } = cartContext
+    const { removeOrderProduct, generateOrder, ordersAvailable } = cartContext
+
+    const timer = useRef();
+
+    // progress
+    const [open, setOpen] = useState(false);
 
     //eliminar un producto de la lista
-    const deleteProduct = () => removeOrderProduct(user.user._id, product._id)
+    const deleteProduct = () => {
+        removeOrderProduct(user.user._id, product._id)
+        handleProgress()
+    }
 
+    // actualiza la cantidad del producto y habilita el progress
     const changeQuantity = (changeQuantity) => {
         const order = {
             "user": user.user._id,
@@ -28,6 +37,16 @@ const ProductCart = ({ product }) => {
             "total": 133,
         }
         generateOrder(order)
+        handleProgress()
+    }
+
+    const handleProgress = () => {
+        setOpen(true)
+        if (!ordersAvailable) {
+            timer.current = window.setTimeout(() => {
+                setOpen(false)
+            }, 2000);
+        }
     }
 
     const { name, descripcion, images, _id } = product.id
@@ -80,10 +99,12 @@ const ProductCart = ({ product }) => {
                         </Typography>
                     </div>
                 </div>
-                {/*  boton de sumar cantidad */}
-
             </Grid>
             <Divider style={{ width: '100%' }} />
+            {/* progress */}
+            <Backdrop className={classes.backdrop} open={open} size={50}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </>
     );
 }

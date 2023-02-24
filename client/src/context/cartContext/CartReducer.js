@@ -39,6 +39,7 @@ export default (state, action) => {
       return {
         ...state,
         msg: null,
+        ordersAvailable: false,
       }
     default:
       return state

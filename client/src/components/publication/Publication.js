@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTheme } from '@material-ui/core/styles';
 import clsx from "clsx";
 import Style from "./Style";
@@ -8,7 +8,7 @@ import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/userContext/UserContext'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
-import { Grow, Grid, Paper, Button, TextField, Typography, withStyles, InputAdornment } from "@material-ui/core";
+import { Grow, Grid, Paper, Button, TextField, Typography, withStyles, InputAdornment, CircularProgress, Backdrop } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -28,7 +28,7 @@ const Publication = ({ idProduct }) => {
 
   //cartContext
   const cartContext = useContext(CartContext);
-  const { generateOrder, msg } = cartContext
+  const { generateOrder, msg, ordersAvailable } = cartContext
 
   // context Snakbar
   const snackbarContext = useContext(SnackBarContext)
@@ -44,11 +44,16 @@ const Publication = ({ idProduct }) => {
   // contador de imagen
   const [activeStep, setActiveStep] = useState(0);
 
-  // trancicion de botono vista previa
+  // trancicion de boton vista previa
   const [checked, setChecked] = useState(false);
 
   // agrega opacidad pasando el mouse por la imagen
   const [cardMediaStyle, setCardMediaStyle] = useState({ opacity: 1 })
+
+  // progress
+  const [open, setOpen] = useState(false);
+
+  const timer = useRef();
 
   // cambiar cantidad 
   const changeQuantity = (e) => {
@@ -71,24 +76,17 @@ const Publication = ({ idProduct }) => {
       "total": 133,
     }
     generateOrder(order)
+    handleProgress()
   }
 
   const navigateToLogin = () => navigate(`/login`)
 
 
-  const handleNext = () => {
+  const handleNextAndBack = (num) => {
     setChecked(false);
     setTimeout(() => {
       setChecked(true);
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }, "1000")
-  };
-
-  const handleBack = () => {
-    setChecked(false);
-    setTimeout(() => {
-      setChecked(true);
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      setActiveStep((prevActiveStep) => prevActiveStep + num);
     }, "1000")
   };
 
@@ -101,6 +99,14 @@ const Publication = ({ idProduct }) => {
     }, "1000")
   }
 
+  const handleProgress = () => {
+    setOpen(true)
+    if (!ordersAvailable) {
+      timer.current = window.setTimeout(() => {
+        setOpen(false)
+      }, 2000);
+    }
+  }
 
   useEffect(() => {
     smallImage(0)
@@ -169,13 +175,13 @@ const Publication = ({ idProduct }) => {
                 activeStep={activeStep}
                 className={classes.MobileStepper}
                 nextButton={
-                  <Button size="small" onClick={handleNext} disabled={activeStep === images.length - 1}>
+                  <Button size="small" onClick={() => handleNextAndBack(1)} disabled={activeStep === images.length - 1}>
                     Next
                     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                   </Button>
                 }
                 backButton={
-                  <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                  <Button size="small" onClick={() => handleNextAndBack(-1)} disabled={activeStep === 0}>
                     {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
                     Back
                   </Button>
@@ -270,7 +276,11 @@ const Publication = ({ idProduct }) => {
           </Grid>
         </Grid>
       </Grid>
-
+      {/* progress */}
+      <Backdrop className={classes.backdrop} open={open} size={50}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      
       {msg ? <SnackbarOpen /> : null}
     </>
   );

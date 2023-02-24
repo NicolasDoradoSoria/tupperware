@@ -10,7 +10,7 @@ const CartState = (props) => {
   const initialState = {
     orders: null,
     ordersAvailable: false,
-    msg: null
+    msg: null,
   };
 
   const [state, dispatch] = useReducer(CartReducer, initialState);
@@ -106,6 +106,7 @@ const CartState = (props) => {
     <CartContext.Provider
       value={{
         orders: state.orders,
+        loading: state.loading,
         ordersAvailable: state.ordersAvailable,
         msg: state.msg,
         getOrder,

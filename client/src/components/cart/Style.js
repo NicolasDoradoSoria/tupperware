@@ -83,5 +83,9 @@ export default makeStyles((theme) => ({
   },
   disabledButton: {
     backgroundColor: theme.palette.secondary || 'red'
-  }
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
