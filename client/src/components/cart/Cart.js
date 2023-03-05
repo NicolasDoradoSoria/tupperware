@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState, useRef } from 'react';
 import Style from "./Style";
 import SnackbarOpen from "../snackbar/SnackBar";
 import SnackBarContext from '../../context/snackbarContext/SnackbarContext';
@@ -6,7 +6,7 @@ import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import ProductCart from './ProductCart';
 import PaymentSummary from './PaymentSummary';
-import {Box, Grid } from '@material-ui/core';
+import { Box, Grid, CircularProgress, Backdrop } from '@material-ui/core';
 
 //en esta funcion se calcula el total del carrito y se llama a MaterialTableCart
 const Cart = () => {
@@ -24,6 +24,25 @@ const Cart = () => {
   const snackbarContext = useContext(SnackBarContext)
   const { openSnackbar } = snackbarContext
 
+  // progres material ui
+  const [loading, setLoading] = useState(false);
+
+  // progress
+  const [open, setOpen] = useState(false);
+
+  const timer = useRef();
+
+  const handleProgress = () => {
+    setOpen(true)
+    if (!loading) {
+      setLoading(true);
+        timer.current = window.setTimeout(() => {
+            setOpen(false)
+            setLoading(false);
+        }, 2000);
+    }
+}
+
   useEffect(() => {
 
     if (user) getOrder(user.user._id)
@@ -40,7 +59,7 @@ const Cart = () => {
           <Grid container item xs={10} md={9}>
             <Grid container spacing={3} className={classes.containerGrid}>
               {orders.products.map((product, index) =>
-                <ProductCart key={index} product={product} />
+                <ProductCart key={index} product={product} handleProgress={handleProgress} />
               )}
             </Grid>
           </Grid>
@@ -49,7 +68,10 @@ const Cart = () => {
           </Grid>
         </Grid>
       </div>
-      
+      {/* progress */}
+      {loading && ( <Backdrop className={classes.backdrop} open={open} size={50}>
+        <CircularProgress color="inherit" />
+      </Backdrop>)}
       {msg ? <SnackbarOpen /> : null}
     </Box>
   );

@@ -1,12 +1,11 @@
-import { useContext, useState, useRef } from 'react';
+import { useContext} from 'react';
 import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
-import { Backdrop, Button, ButtonGroup, CircularProgress, Divider, Grid, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, Divider, Grid, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Style from "./Style";
 
-
-const ProductCart = ({ product }) => {
+const ProductCart = ({ product, handleProgress }) => {
     const classes = Style();
     //userContext
     const userContext = useContext(UserContext);
@@ -14,12 +13,8 @@ const ProductCart = ({ product }) => {
 
     //cartContext
     const cartContext = useContext(CartContext);
-    const { removeOrderProduct, generateOrder, ordersAvailable } = cartContext
+    const { removeOrderProduct, generateOrder } = cartContext
 
-    const timer = useRef();
-
-    // progress
-    const [open, setOpen] = useState(false);
 
     //eliminar un producto de la lista
     const deleteProduct = () => {
@@ -38,15 +33,6 @@ const ProductCart = ({ product }) => {
         }
         generateOrder(order)
         handleProgress()
-    }
-
-    const handleProgress = () => {
-        setOpen(true)
-        if (!ordersAvailable) {
-            timer.current = window.setTimeout(() => {
-                setOpen(false)
-            }, 2000);
-        }
     }
 
     const { name, descripcion, images, _id } = product.id
@@ -101,10 +87,7 @@ const ProductCart = ({ product }) => {
                 </div>
             </Grid>
             <Divider style={{ width: '100%' }} />
-            {/* progress */}
-            <Backdrop className={classes.backdrop} open={open} size={50}>
-                <CircularProgress color="inherit" />
-            </Backdrop>
+            
         </>
     );
 }
