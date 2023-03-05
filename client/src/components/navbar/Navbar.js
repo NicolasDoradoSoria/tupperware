@@ -4,7 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Dropdown from "./Dropdown";
-import { AppBar, Badge, Button, IconButton, List, ListItem, ListItemText } from "@material-ui/core";
+import { AppBar, Badge, Button, IconButton, Toolbar } from "@material-ui/core";
 import UserContext from "../../context/userContext/UserContext";
 import CategoryContext from "../../context/categoryContext/CategoryContext";
 import Search from "../search/Search";
@@ -16,18 +16,14 @@ import { useNavigate } from 'react-router-dom'
 
 const plainUserPath = [
 
+
     {
         id: 1,
-        name: "Inicio",
-        path: "/",
-    },
-    {
-        id: 2,
         name: "perfil",
         path: "/perfil",
     },
     {
-        id: 3,
+        id: 2,
         name: "carrito",
         path: "/main/carrito",
     },
@@ -59,21 +55,32 @@ const adminUserPath = [
         cName: "dropdown-link"
     },
 ];
-
+// barra de navegacion
 export default function Navbar() {
     const classes = Style();
+
+    // click en modo mobile para desplegar la barra de navegacion
     const [click, setClick] = useState(false)
 
+    // hook de barra desplegable de la categoria
+    const [dropdownCategory, setDropdownCategory] = useState(false)
 
     //userContext
     const userContext = useContext(UserContext);
     const { authenticated, authenticatedUser } = userContext;
+
+    //CategoryContext
+    const categoryContext = useContext(CategoryContext)
+    const { categories } = categoryContext
 
 
     const handleClick = () => setClick(!click)
 
     const closeMobileMenu = () => setClick(false)
 
+    // sirve para cuando paso el mouse por la categoria se despliegue el menu
+    const onMouseEnterCategory = () => (window.innerWidth < 960) ? setDropdownCategory(false) : setDropdownCategory(true)
+    const onMouseLeaveCategory = () => (window.innerWidth < 960) ? setDropdownCategory(false) : setDropdownCategory(false)
 
     useEffect(() => {
         authenticatedUser()
@@ -82,41 +89,56 @@ export default function Navbar() {
     }, [])
 
     return (
-        <AppBar position="fixed" className={classes.root} style={{ flexDirection: "row" }}>
-            <div className="menu-icon" onClick={handleClick}>
-                {click ? <CloseIcon /> : <MenuIcon />}
-            </div>
+        <div className={classes.grow}>
 
-            {authenticated ? <UserPath click={click} setClick={setClick} /> : (
 
-                <List className={click ? "nav-menu active" : "nav-menu"} disablePadding>
-                    <ListItem button className='nav-item seccion' component={Link} to={"/"}>
-                        <ListItemText primary={"Inicio"} className='nav-links' onClick={closeMobileMenu} />
-                    </ListItem>
-                    <ListItem button className='nav-item seccion' component={Link} to={"/login"}>
-                        <ListItemText primary={"iniciar Secion"} className='nav-links' onClick={closeMobileMenu} />
-                    </ListItem>
-                </List>
-            )
-            }
+            <AppBar position="fixed" className={classes.root}>
+                {/* si no esta despleglado en modo mobile muestra MenuIcon si esta desplegablo muesta el CloseIcon esto solo sirve para modo mobile */}
+                <div className="menu-icon" onClick={handleClick}>
+                    {click ? <CloseIcon /> : <MenuIcon />}
+                </div>
 
-        </AppBar>
+                <Toolbar className={click ? "nav-menu active" : "nav-menu"}>
+                    {/* inicio */}
+                    <div className="nav-item seccion">
+                        <Link to={"/"} className='nav-links' onClick={closeMobileMenu}>Inicio</Link>
+                    </div>
+                    {/* categorias */}
+                    {/* cuenta con un icono mostrar que tiene un subMenu al pasar el mouse se despliega*/}
+                    <div className="nav-item seccion category" onMouseEnter={onMouseEnterCategory} onMouseLeave={onMouseLeaveCategory}>
+                        <Link to={"/"} className='nav-links' onClick={closeMobileMenu}>Categoria</Link>
+                        <IconButton aria-label="show 4 new mails" edge="start">
+                            <Badge>
+                                <ArrowDropDownIcon className={classes.icon} />
+                            </Badge>
+                        </IconButton>
+                        {dropdownCategory && <Dropdown path={categories} />}
+                    </div>
+                    {/* si no esta Autenticado dira que se logee si no directamente desplegaria todas las opciones disponible en USERPARTH */}
+                    {authenticated ?
+                        <UserPath setClick={setClick} /> : (
+                            <div className='nav-item'>
+                                <Link to={"/login"} className='nav-links' onClick={closeMobileMenu}>iniciar Secion</Link>
+                            </div>
+                        )
+                    }
+                </Toolbar>
+            </AppBar>
+        </div>
     )
 }
 
-const UserPath = ({ click, setClick }) => {
+// componente para las opciones del usuario logeado
+const UserPath = ({ setClick }) => {
     const classes = Style();
     const navigate = useNavigate();
-    const [dropdown, setDropdown] = useState(false)
+
+    // hook de barra desplegable del admistrador
     const [dropdownAdmin, setDropdownAdmin] = useState(false)
 
     //userContext
     const userContext = useContext(UserContext);
     const { user, signOff, loading } = userContext;
-
-    //CategoryContext
-    const categoryContext = useContext(CategoryContext)
-    const { categories } = categoryContext
 
     //cartContext
     const cartContext = useContext(CartContext);
@@ -124,8 +146,7 @@ const UserPath = ({ click, setClick }) => {
 
     const closeMobileMenu = () => setClick(false)
 
-    const onMouseEnterCategory = () => (window.innerWidth < 960) ? setDropdown(false) : setDropdown(true)
-    const onMouseLeaveCategory = () => (window.innerWidth < 960) ? setDropdown(false) : setDropdown(false)
+    // sirve para cuando paso el mouse por el menu despliegue administrador
     const onMouseEnterAdmin = () => (window.innerWidth < 960) ? setDropdownAdmin(false) : setDropdownAdmin(true)
     const onMouseLeaveAdmin = () => (window.innerWidth < 960) ? setDropdownAdmin(false) : setDropdownAdmin(false)
 
@@ -136,9 +157,9 @@ const UserPath = ({ click, setClick }) => {
             <>
                 {routes.map((route, key) => {
                     return (
-                        <ListItem button component={Link} className="nav-item" key={key} to={route.path}>
-                            <ListItemText className='nav-links' onClick={closeMobileMenu} primary={route.name} />
-                        </ListItem>
+                        <div className="nav-item seccion" key={key}>
+                            <Link to={route.path} className='nav-links' onClick={closeMobileMenu}>{route.name}</Link>
+                        </div>
                     )
                 })}
             </>
@@ -146,50 +167,42 @@ const UserPath = ({ click, setClick }) => {
     }
 
     if (!loading) return null;
-    if(!orders) return null
+    if (!orders) return null
     const isAdmin = user.user.roles.some(rol => rol.name === "admin")
 
     return (
         <>
-
-            <List className={click ? "nav-menu active" : "nav-menu"} disablePadding>
-
+            <div className="left_conteiner">
                 {routeList(plainUserPath)}
 
-                <ListItem button className='nav-item' onMouseEnter={onMouseEnterCategory} onMouseLeave={onMouseLeaveCategory}>
-                    <Link to={"/"} className='nav-links' onClick={closeMobileMenu}>
-                        Categoria
-                        <ArrowDropDownIcon className={classes.icon} />
-                    </Link>
-                    {dropdown && <Dropdown path={categories} />}
-                </ListItem>
-
+                {/* este menu solo aparaecera si el usario tiene privilegios de admin */}
                 {isAdmin ?
-                    <ListItem button className='nav-item' onMouseEnter={onMouseEnterAdmin} onMouseLeave={onMouseLeaveAdmin} >
-                        <Link to={"/"} className='nav-links' onClick={closeMobileMenu}>
-                            Administrador
-                            <ArrowDropDownIcon className={classes.icon} />
-                        </Link>
+                    <div className="nav-item" onMouseEnter={onMouseEnterAdmin} onMouseLeave={onMouseLeaveAdmin}>
+                        <Link to={"/"} className='nav-links' onClick={closeMobileMenu}>Administrador</Link>
+                        <IconButton aria-label="show 4 new mails" edge="start">
+                            <Badge>
+                                <ArrowDropDownIcon className={classes.icon} />
+                            </Badge>
+                        </IconButton>
                         {dropdownAdmin && <Dropdown path={adminUserPath} />}
-                    </ListItem>
+                    </div>
                     : null}
-            </List>
-            <div className="rightContainer">
-                <div className="buttonContainer" >
-                    <Button className={classes.signOffButton} variant="contained" color="primary" onClick={() => signOff()}>
-                        cerrar secion
-                    </Button>
-                </div>
-                <div className="searchContainer">
-                    <Search />
-                </div>
-                <div className="cartContainer">
-                    <IconButton aria-label="cart" color="inherit" onClick={handleNavegation}>
-                        <Badge badgeContent={user ? orders.products.length : null} color="secondary" overlap="rectangular">
-                            <ShoppingCartIcon />
-                        </Badge>
-                    </IconButton>
-                </div>
+            </div>
+            <div className="nav-item">
+                <Button className={classes.signOffButton} variant="contained" color="primary" onClick={() => signOff()}>
+                    cerrar secion
+                </Button>
+            </div>
+            {/* </div> */}
+            <div className="nav-item mobile">
+                <Search />
+            </div>
+            <div className="nav-item mobile">
+                <IconButton aria-label="cart" color="inherit" onClick={handleNavegation}>
+                    <Badge badgeContent={user ? orders.products.length : null} color="secondary" overlap="rectangular">
+                        <ShoppingCartIcon />
+                    </Badge>
+                </IconButton>
             </div>
         </>
     )

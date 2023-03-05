@@ -36,4 +36,8 @@ export default makeStyles((theme) => ({
       background: "#5cabff"
     },
   },
+  grow: {
+    flexGrow: 1,
+  },
+  
 }))
