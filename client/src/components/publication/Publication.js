@@ -8,12 +8,13 @@ import CartContext from "../../context/cartContext/CartContext";
 import UserContext from '../../context/userContext/UserContext'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import SnackBarContext from "../../context/snackbarContext/SnackbarContext";
-import { Grow, Grid, Paper, Button, TextField, Typography, withStyles, InputAdornment, CircularProgress, Backdrop } from "@material-ui/core";
+import { Grow, Grid, Paper, Button, TextField, Typography, withStyles, InputAdornment, CircularProgress, Backdrop, IconButton } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const Publication = ({ idProduct }) => {
   const navigate = useNavigate()
@@ -268,6 +269,14 @@ const Publication = ({ idProduct }) => {
             </Grid>
           </Grid>
 
+
+          {/* Fovoritos */}
+          <Grid item md={12} >
+          <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+          </Grid>
+
           {/* CATEGORIA */}
           <Grid item xs={11} md={12} >
             <Typography variant="h5">
@@ -280,7 +289,7 @@ const Publication = ({ idProduct }) => {
       <Backdrop className={classes.backdrop} open={open} size={50}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      
+
       {msg ? <SnackbarOpen /> : null}
     </>
   );

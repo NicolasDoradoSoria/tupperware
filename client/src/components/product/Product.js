@@ -1,11 +1,12 @@
 import React, { useContext, useState, useRef } from "react";
 import Style from "./Style";
 import { useNavigate } from "react-router-dom";
-import { CardMedia, CardContent, Typography, Button, Card, Grow, CircularProgress, Backdrop } from "@material-ui/core";
+import { CardMedia, CardContent, Typography, Button, Card, Grow, CircularProgress, Backdrop} from "@material-ui/core";
 import UserContext from "../../context/userContext/UserContext";
 import CartContext from "../../context/cartContext/CartContext";
 import Publication from "../publication/Publication"
 import ReusableDialog from "../reusableDialog/ReusableDialog"
+
 const Product = ({ product }) => {
   const classes = Style();
   const navigate = useNavigate()
@@ -46,7 +47,7 @@ const Product = ({ product }) => {
         "products": [
           {
             "id": _id,
-            "quantity" : 1
+            "quantity": 1
           },
         ],
         "total": 133,
@@ -123,6 +124,7 @@ const Product = ({ product }) => {
       {/* </Link> */}
 
       <CardContent className={classes.content} >
+        
         <div className={classes.priceContainer}>
           {/* PRECIO ORIGINAL SIN OFERTA */}
           {checkedOffer ?
@@ -154,7 +156,7 @@ const Product = ({ product }) => {
         </Backdrop>
       )}
       <ReusableDialog open={open} onClose={() => setOpen(false)} >
-        {success ? <Publication idProduct={_id}  /> : null}
+        {success ? <Publication idProduct={_id} /> : null}
       </ReusableDialog>
     </Card>
   );

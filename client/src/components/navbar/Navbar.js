@@ -27,6 +27,11 @@ const plainUserPath = [
         name: "carrito",
         path: "/main/carrito",
     },
+    {
+        id: 3,
+        name: "Favoritos",
+        path: "/main/favoritos",
+    },
 ];
 const adminUserPath = [
     {

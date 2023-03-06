@@ -17,6 +17,7 @@ import Category from "./Category/Category";
 import Notification from "./notification/Notification";
 import Order from "./order/Order";
 import UserOrderList from "./order/UserOrderList";
+import Favorite from "./favorite/Favorite";
 
 const AppRoutes = () => {
 
@@ -39,6 +40,7 @@ const AppRoutes = () => {
 
                         <Route exact path="/perfil" element={<Profile />} />
                         <Route exact path="/main/carrito" element={<Cart />} />
+                        <Route exact path="/main/favoritos" element={<Favorite />} />
                         <Route exact path="/notification" element={<Notification />} />
                     </Route>
                     <Route element={<ProtectedRoute isAllowed={!!authenticated && user.user.roles.some(rol => rol.name === "admin")} />}>
