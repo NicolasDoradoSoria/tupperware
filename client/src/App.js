@@ -12,6 +12,7 @@ import AppRoutes from "./components/AppRoutes";
 import tokenAuth from "./config/token";
 import OrderState from "./context/orderContext/OrderState";
 import { createTheme, ThemeProvider } from "@material-ui/core";
+import FavoriteState from "./context/favoriteContext/FavoriteState";
 var divStyle = {
   backgroundColor: "#FEF7E4",
   marginRight: "-1rem",
@@ -40,27 +41,29 @@ function App() {
   return (
     <div style={divStyle}>
       <SnackbarState>
-        <OrderState>
-          <CategoryState>
-            <FileState>
-              <UserState>
-                <ProductState>
-                  <CartState>
-                    <Router>
-                      <Theme>
-                        <ThemeProvider theme={theme}>
-                          <Layout>
-                            <AppRoutes />
-                          </Layout>
-                        </ThemeProvider>
-                      </Theme>
-                    </Router>
-                  </CartState>
-                </ProductState>
-              </UserState>
-            </FileState>
-          </CategoryState>
-        </OrderState>
+        <FavoriteState>
+          <OrderState>
+            <CategoryState>
+              <FileState>
+                <UserState>
+                  <ProductState>
+                    <CartState>
+                      <Router>
+                        <Theme>
+                          <ThemeProvider theme={theme}>
+                            <Layout>
+                              <AppRoutes />
+                            </Layout>
+                          </ThemeProvider>
+                        </Theme>
+                      </Router>
+                    </CartState>
+                  </ProductState>
+                </UserState>
+              </FileState>
+            </CategoryState>
+          </OrderState>
+        </FavoriteState>
       </SnackbarState>
     </div>
   );

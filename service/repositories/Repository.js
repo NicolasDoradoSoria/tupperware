@@ -56,7 +56,7 @@ export class FavoriteRepo extends Repository {
     }
 
     async get(id) {
-        return await Favorite.find(id).populate({ path: "favoriteProducts.id", model: "Productos" })
+        return await Favorite.find(id).populate({ path: "favoriteProducts", model: "Productos" })
     }
 }
 

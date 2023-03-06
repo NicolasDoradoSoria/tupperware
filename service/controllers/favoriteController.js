@@ -14,7 +14,7 @@ export const postFavoriteProduct = async (req, res) => {
 
         if (favorite[0]) {
 
-            favorite[0].favoriteProducts.push({ id });
+            favorite[0].favoriteProducts.push(id);
             await favorite[0].save();
             return res.json({ msg: "el producto a sido agregado correctamente a la lista de favoritos" });
         }
@@ -22,7 +22,7 @@ export const postFavoriteProduct = async (req, res) => {
             //     //no cart for user, create new cart
             const newFavorite = await favoriteRepo.create({
                 user: userId,
-                favoriteProducts: [{ id }],
+                favoriteProducts: [id],
             })
 
             if (!newFavorite) return res.json({ msg: "no se a podido agregar a la lista de favoritos" });
@@ -41,10 +41,12 @@ export const getFavoriteProduct = async (req, res) => {
     try {
         const userId = req.userId
         const favorite = await favoriteRepo.get({ user: userId })
+        console.log(favorite)
         if (favorite.length == 0) return res.status(404).json({ msg: "no hay favoritos agregados" })
         //mostrar el carrito
         res.json(favorite);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ msg: 'hubo un error' })
     }
 }

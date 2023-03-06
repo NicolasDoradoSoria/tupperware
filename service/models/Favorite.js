@@ -7,13 +7,11 @@ const favoriteSchema = Schema({
   },
   favoriteProducts: [
     {
-      id: {
-        type: Schema.ObjectId,
-        ref: "Productos",
-      }
+      type: Schema.ObjectId,
+      ref: "Productos",
     }
+
   ],
-  
 }, {
   versionKey: false
 

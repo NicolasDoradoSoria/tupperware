@@ -3,6 +3,7 @@ import React, { useEffect, useContext} from "react";
 import Box from "@material-ui/core/Box";
 
 import Style from "./Style";
+import FavoritesContext from "../../context/favoriteContext/FavoriteContext";
 import ProductContext from "../../context/productsContext/ProductContext";
 
 import SnackbarOpen from "../snackbar/SnackBar";
@@ -20,9 +21,6 @@ const columns = () => [
       title: "Descripcion", field: "descripcion"
     },
     {
-      title: "Stock Disponible", field: "stock", type: 'numeric'
-    },
-    {
       title: "Categoria", field: "category.name"
     },
     {
@@ -38,18 +36,24 @@ const Favorite = () =>  {
     //context de products
     const productsContext = useContext(ProductContext);
     const {
-      products,
       deleteProduct,
       msg
     } = productsContext;
   
+
+    //  context de favoritos
+    const favoritesContext = useContext(FavoritesContext)
+    const {
+      products,
+      getFavorites
+    } = favoritesContext
     // context Snakbar
     const snackbarContext = useContext(SnackBarContext)
     const {openSnackbar } = snackbarContext
   
     useEffect(() => {
-      // getProducts();
-  
+      getFavorites();
+      
       if(msg) {
         openSnackbar(msg.msg, msg.category)
       }
@@ -72,7 +76,7 @@ const Favorite = () =>  {
   
     return (
       <Box className={classes.root}>
-        <MaterialTable title="Mis Favoritos" data={products} columns={columns()} actions={[
+        {/* <MaterialTable title="Mis Favoritos" data={products} columns={columns()} actions={[
           {
             icon: "delete",
             tooltip: 'eliminar producto',
@@ -92,7 +96,7 @@ const Favorite = () =>  {
           options={
             options
           }
-        />
+        /> */}
         {msg ? <SnackbarOpen /> : null}
       </Box>
     );
