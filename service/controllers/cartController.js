@@ -11,10 +11,8 @@ export const generateOrder = async (req, res) => {
   try {
     // devuelve el usuario logeado
     const userId = req.userId
-    // MEJORAR AQUI SE PUEDE QUITAR EL USER y MANDAR DIRECTAMENTE EL
-    const user = await userRepo.get({ _id: userId }, true)
     //devuelve el carrito si es que existe si no existe crea uno
-    let cart = await cartRepo.get({ user: user._id })
+    let cart = await cartRepo.get({ user: userId })
     //devuelve el producto que se va a agregar al carrito
     let product = await productRepo.get({ _id: id })
 
@@ -50,7 +48,7 @@ export const generateOrder = async (req, res) => {
       const price = productItem.id.price * quantity
       // es el precio unitario por la cantidad
       const newCart = cartRepo.create({
-        user: user._id,
+        user: userId,
         products: [{ id, quantity, price }],
       })
 
@@ -70,8 +68,8 @@ export const generateOrder = async (req, res) => {
 //muestra un carrito por ID de usuario
 export const getCart = async (req, res) => {
   try {
-
-    const cart = await cartRepo.get({ user: req.params.idUser })
+    const userId = req.userId
+    const cart = await cartRepo.get({ user: userId })
 
     if (cart.length == 0) return res.status(404).json({ msg: "el carrito no a sido creado" })
     //mostrar el carrito
