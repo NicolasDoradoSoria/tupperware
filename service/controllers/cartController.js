@@ -11,6 +11,7 @@ export const generateOrder = async (req, res) => {
   try {
     // devuelve el usuario logeado
     const userId = req.userId
+    // MEJORAR AQUI SE PUEDE QUITAR EL USER y MANDAR DIRECTAMENTE EL
     const user = await userRepo.get({ _id: userId }, true)
     //devuelve el carrito si es que existe si no existe crea uno
     let cart = await cartRepo.get({ user: user._id })

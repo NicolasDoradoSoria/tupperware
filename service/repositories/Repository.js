@@ -5,6 +5,7 @@ import User from '../models/User'
 import Role from '../models/Role'
 import CarruselImage from '../models/CarruselImage'
 import Order from '../models/Order'
+import Favorite from "../models/Favorite"
 
 export class Repository {
     constructor(model) {
@@ -47,6 +48,18 @@ export class CategoryRepo extends Repository {
         super(Category)
     }
 }
+
+
+export class FavoriteRepo extends Repository {
+    constructor() {
+        super(Favorite)
+    }
+
+    async get(id) {
+        return await Favorite.find(id).populate({ path: "favoriteProducts.id", model: "Productos" })
+    }
+}
+
 
 export class CartRepo extends Repository {
     constructor() {
