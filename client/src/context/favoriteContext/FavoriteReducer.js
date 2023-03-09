@@ -9,7 +9,7 @@ export default (state, action) => {
     case GET_FAVORITES:
       return {
         ...state,
-        products: action.payload,
+        favoritesProducts: action.payload,
       }
 
     default:

@@ -15,6 +15,7 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteContext from "../../context/favoriteContext/FavoriteContext";
 
 const Publication = ({ idProduct }) => {
   const navigate = useNavigate()
@@ -39,6 +40,10 @@ const Publication = ({ idProduct }) => {
   const userContext = useContext(UserContext);
   const { user, authenticated } = userContext;
 
+  // favoriteContext
+  const favoriteContext = useContext(FavoriteContext);
+  const { getFavorites, getFavoriteById } = favoriteContext;
+
   //hooks 
   const [quantity, setQuantity] = useState(1)
 
@@ -53,6 +58,9 @@ const Publication = ({ idProduct }) => {
 
   // progress
   const [open, setOpen] = useState(false);
+
+  // esta el producto en favorito?
+  const [favorite, setFavorite] = useState(false)
 
   const timer = useRef();
 
@@ -110,17 +118,26 @@ const Publication = ({ idProduct }) => {
   }
 
   useEffect(() => {
+    // carga favoritos al front, el backend save que productos tiene agregado a favorito cada usuario 
+    getFavorites()
+
+    // le mando el id del producto y el back me responde con true o false si este producto esta agregado o no en la lista de favoritos
+    setFavorite(getFavoriteById(_id))
+    
     smallImage(0)
     !idProduct ? getProduct(id) : getProduct(idProduct)
-
     if (msg) openSnackbar(msg.msg, msg.category)
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [msg])
 
+  // TODO: problema con agregar a favorito:
+  //  debido a que no logra a cargar bien los datos en el el state, a la hora de mandar id a favoriteState manda cualquier otro id de un 
+  // producto visitado anteriormente
+
+
+  // sirve para que no renderize antes de cargar los state...
   if (!product) return null
   const { descripcion, price, _id, name, stock, images, category, checkedOffer, originalPrice } = product;
-
   return (
     <>
       <Grid container spacing={4} justifyContent="center" className={!idProduct ? classes.root : classes.rootDialog} >
@@ -272,9 +289,9 @@ const Publication = ({ idProduct }) => {
 
           {/* Fovoritos */}
           <Grid item md={12} >
-          <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon style={favorite ? { color: 'red' } : null} />
+            </IconButton>
           </Grid>
 
           {/* CATEGORIA */}

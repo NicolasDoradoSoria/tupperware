@@ -8,18 +8,16 @@ import {
 
 const FavoriteState = (props) => {
   const initialState = {
-    products: null,
+    favoritesProducts: [],
     msg: null,
   };
 
   const [state, dispatch] = useReducer(FavoriteReducer, initialState);
 
-  // obtener los pedido del user
+  // obtener la lista de favoritos
   const getFavorites = async (userId) => {
     try {
       const result = await clienteAxios.get(`/api/favorite`);
-      console.log(result.data[0].favoriteProducts
-        )
       dispatch({
         type: GET_FAVORITES,
         payload: result.data[0].favoriteProducts
@@ -29,12 +27,26 @@ const FavoriteState = (props) => {
     }
   };
   
+  // pregunto al back si esta el producto incluido en el carrito o no
+  const getFavoriteById = async (productId) => {
+    try {
+      const result = await clienteAxios.get(`/api/favorite/${productId}`);
+      console.log(result)
+      
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+  
+  
+  
   return (
     <FavoriteContext.Provider
       value={{
-        products: state.products,
+        favoritesProducts: state.favoritesProducts,
         msg: state.msg,
-        getFavorites
+        getFavorites,
+        getFavoriteById
       }}
     >
       {props.children}

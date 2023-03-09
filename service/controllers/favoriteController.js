@@ -41,7 +41,6 @@ export const getFavoriteProduct = async (req, res) => {
     try {
         const userId = req.userId
         const favorite = await favoriteRepo.get({ user: userId })
-        console.log(favorite)
         if (favorite.length == 0) return res.status(404).json({ msg: "no hay favoritos agregados" })
         //mostrar el carrito
         res.json(favorite);
@@ -49,4 +48,33 @@ export const getFavoriteProduct = async (req, res) => {
         console.log(error);
         res.status(500).json({ msg: 'hubo un error' })
     }
+}
+
+export const deleteFavoriteProduct = async (req, res) => {
+    const { idUser, productId } = req.params
+    try {
+
+        const deletedFavorite = await favoriteRepo.removeProductFromFavorite(idUser, productId)
+        console.log(deletedFavorite)
+        if (!deletedFavorite) return res.json({ msg: "el producto de favoritos no se a podido eliminar" })
+
+        res.json({ msg: "el producto de favoritos se a eliminado" })
+
+    } catch (error) {
+        res.status(500).send("hubo un error");
+    }
+}
+// responde con true o false si el producto esta incluido en favoritos
+export const getFavoriteProductById = async (req, res) => {
+    try {
+        const productId = req.params.productId
+        const userId = req.userId
+        const favorites = await favoriteRepo.get({ user: userId })
+        const isContained = favorites[0].favoriteProducts.some(favoriteProduct => favoriteProduct._id == productId)
+        res.json({isContained})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'hubo un error' })
+    }
+
 }

@@ -58,13 +58,18 @@ export class FavoriteRepo extends Repository {
     async get(id) {
         return await Favorite.find(id).populate({ path: "favoriteProducts", model: "Productos" })
     }
+
+    async removeProductFromFavorite(idUser, idfavorite) {
+       return await Favorite.findOneAndUpdate({ user: idUser },
+            { $pull: { favoriteProducts: { _id: idfavorite } } });
+    }
 }
 
 
 export class CartRepo extends Repository {
     constructor() {
         super(Cart)
-    }
+    }   
 
     async get(id) {
         return await Cart.find(id).populate({ path: "products.id", model: "Productos" })
@@ -83,7 +88,7 @@ export class CartRepo extends Repository {
     async update(id, entity) {
         console.log(entity)
         return await Cart.findOneAndUpdate(
-            { _id: id, "products._id": entity.id }, { $inc: { "products.$.quantity": entity.quantity  } }, { new: true }
+            { _id: id, "products._id": entity.id }, { $inc: { "products.$.quantity": entity.quantity } }, { new: true }
         )
     }
 }
