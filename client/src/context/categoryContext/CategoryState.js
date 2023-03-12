@@ -20,8 +20,7 @@ const CategoryState = (props) => {
   };
 
   const [state, dispatch] = useReducer(CategoryReducer, initialState);
-
-
+  
   // obtiene todas las categorias
   const getCategory = async () => {
     try {

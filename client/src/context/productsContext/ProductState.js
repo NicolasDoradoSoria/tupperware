@@ -16,7 +16,7 @@ import {
   FILTER_PRODUCT_BY_CATEGORY,
   PRODUCT_ERROR,
   PRODUCT_SUCCESSFUL,
-  DELETE_MSG
+  DELETE_MSG,
 } from "../../types";
 
 const ProductState = (props) => {
@@ -28,7 +28,6 @@ const ProductState = (props) => {
     errorProducts: false,
     product: null,
     uploadPorcentage: 0,
-    loading: true,
     imagesToUpload: [],
     msg: null
   };
@@ -53,7 +52,7 @@ const ProductState = (props) => {
   const deleteProduct = async (e, product) => {
     try {
       const result = await clienteAxios.delete(`/api/products/${product._id}`);
-      
+
       dispatch({
         type: DELETE_PRODUCT,
         payload: result.data,
@@ -83,7 +82,7 @@ const ProductState = (props) => {
 
     try {
       const result = await service.postAddProduct(productNew, state.imagesToUpload, productPercentageUpload)
-      
+
       dispatch({
         type: PRODUCT_SUCCESSFUL,
         payload: result.data
@@ -162,7 +161,7 @@ const ProductState = (props) => {
       console.log(error)
     }
   }
-
+// filtra por categoria
   const getFilterProductByCategory = async (id) => {
     try {
       const product = await clienteAxios.get(`api/products?id=` + id)
@@ -213,7 +212,6 @@ const ProductState = (props) => {
         productsAll: state.productsAll,
         product: state.product,
         uploadPorcentage: state.product,
-        loading: state.loading,
         imagesToUpload: state.imagesToUpload,
         msg: state.msg,
         setImagesToUpload,

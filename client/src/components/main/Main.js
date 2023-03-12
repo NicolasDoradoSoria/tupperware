@@ -22,7 +22,6 @@ const Main = () => {
     const categoryContext = useContext(CategoryContext)
     const { getCategory } = categoryContext
 
-
     useEffect(() => {
         getCategory()
         if (user) {

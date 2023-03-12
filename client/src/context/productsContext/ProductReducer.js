@@ -10,7 +10,7 @@ import {
   FILTER_PRODUCT_BY_CATEGORY,
   PRODUCT_ERROR,
   PRODUCT_SUCCESSFUL,
-  DELETE_MSG
+  DELETE_MSG,
 } from "../../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -24,6 +24,7 @@ export default (state, action) => {
         products: action.payload,
         productsAll: action.payload,
       };
+
     case PRODUCT_ERROR:
       return {
         ...state,

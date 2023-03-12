@@ -42,7 +42,7 @@ const Publication = ({ idProduct }) => {
 
   // favoriteContext
   const favoriteContext = useContext(FavoriteContext);
-  const { getFavorites, getFavoriteById } = favoriteContext;
+  const { getFavorites, getFavoriteById, isFavorite } = favoriteContext;
 
   //hooks 
   const [quantity, setQuantity] = useState(1)
@@ -122,17 +122,13 @@ const Publication = ({ idProduct }) => {
     getFavorites()
 
     // le mando el id del producto y el back me responde con true o false si este producto esta agregado o no en la lista de favoritos
-    setFavorite(getFavoriteById(_id))
+    !idProduct ? setFavorite(getFavoriteById(id)) : setFavorite(getFavoriteById(idProduct))
     
     smallImage(0)
     !idProduct ? getProduct(id) : getProduct(idProduct)
     if (msg) openSnackbar(msg.msg, msg.category)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [msg])
-
-  // TODO: problema con agregar a favorito:
-  //  debido a que no logra a cargar bien los datos en el el state, a la hora de mandar id a favoriteState manda cualquier otro id de un 
-  // producto visitado anteriormente
 
 
   // sirve para que no renderize antes de cargar los state...
@@ -290,7 +286,7 @@ const Publication = ({ idProduct }) => {
           {/* Fovoritos */}
           <Grid item md={12} >
             <IconButton aria-label="add to favorites">
-              <FavoriteIcon style={favorite ? { color: 'red' } : null} />
+              <FavoriteIcon style={isFavorite ? { color: 'red' } : null} />
             </IconButton>
           </Grid>
 
